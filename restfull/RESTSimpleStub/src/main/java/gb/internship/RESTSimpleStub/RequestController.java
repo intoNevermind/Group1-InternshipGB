@@ -6,6 +6,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Простой REST контроллер.
  *
@@ -14,10 +18,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RequestController {
 
+    // Переменная для работы с логами
     private Log LOG = LogFactory.getLog(RequestController.class);
+
+    // Default response для метода echo.
     public static final String DEFAULT_RESPONSE = "You see default string." +
             "<br>Use: http://localhost:8080/echo?echoString=myString" +
             "<br>to see your string.";
+
+    // Переменная для рбаоты с базой.
+    DbOperations dbOperations;
+
+    public RequestController() throws SQLException {
+        dbOperations = new DbOperations();
+    }
 
     /**
      * Обслуживает это-запросы.
@@ -26,20 +40,50 @@ public class RequestController {
      * @return полученный echoString или значение по умолчанию.
      */
     @RequestMapping("/echo")
-    public String echo(
-            @RequestParam(value = "echoString", defaultValue = DEFAULT_RESPONSE) String echoString) {
+    public String echo(@RequestParam(value = "echoString", defaultValue = DEFAULT_RESPONSE) String echoString) {
         return echoString;
+    }
+
+    /**
+     * Делает запрос в базу.
+     *
+     * @return список всех строк из базы.
+     */
+    @RequestMapping("/getAll")
+    public List<String> getAllStrings() {
+        List<String> resultList = new ArrayList<>();
+        try {
+            resultList = dbOperations.getAllStringsFromTable();
+        } catch (SQLException ex) {
+            LOG.warn("Error in receipt data.");
+            ex.printStackTrace();
+        }
+
+        return resultList;
     }
 
 
     /**
-     * Выводит сообщения в лог, если if(true)
+     * Делает запрос в базу.
      *
-     * @param msg сообщения для лога.
+     * @param stringToInsert строка для вставки в базу.
+     * @return OK, если сработалшо как задумано. Иначе ERROR.
      */
-    private void printToLog(String msg) {
-        if (true) {
-            LOG.info(msg);
+    @RequestMapping("/insertString")
+    public String insertStringInTable(@RequestParam(value = "stringToInsert", defaultValue = "") String stringToInsert) {
+
+        if ("".equals(stringToInsert)) {
+            LOG.warn("Trying to insert empty string. Skipping.");
+            return "ERROR";
+        }
+
+        try {
+            dbOperations.insertStringInTable(stringToInsert);
+            return "OK";
+        } catch (SQLException e) {
+            LOG.warn("Data inserrtion error.");
+            e.printStackTrace();
+            return "ERROR";
         }
     }
 }
