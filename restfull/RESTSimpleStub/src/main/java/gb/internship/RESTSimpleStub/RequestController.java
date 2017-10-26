@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RequestController {
 
-    public static final String DEFAULT_RESPONCE = "You see default string. <br> " +
-            "Use: http://localhost:8080/echo?echoString=myString" +
+    public static final String DEFAULT_RESPONSE = "You see default string." +
+            "<br>Use: http://localhost:8080/echo?echoString=myString" +
             "<br>to see your string.";
 
     /**
@@ -24,7 +24,7 @@ public class RequestController {
      */
     @RequestMapping("/echo")
     public String echo(
-            @RequestParam(value = "echoString", defaultValue = DEFAULT_RESPONCE) String echoString) {
+            @RequestParam(value = "echoString", defaultValue = DEFAULT_RESPONSE) String echoString) {
         return echoString;
     }
 }
