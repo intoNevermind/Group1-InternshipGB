@@ -26,7 +26,7 @@ public class RequestController {
             "<br>Use: http://localhost:8080/echo?echoString=myString" +
             "<br>to see your string.";
 
-    // Переменная для рбаоты с базой.
+    // Переменная для работы с базой.
     DbOperations dbOperations;
 
     public RequestController() throws SQLException {
