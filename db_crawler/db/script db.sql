@@ -57,3 +57,12 @@ CREATE TABLE `persons_statistics`.`personpagerank` (
     REFERENCES `persons_statistics`.`pages` (`ID`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION);
+	
+CREATE USER IF NOT EXISTS 'read_stats'@'localhost' IDENTIFIED BY 'Qwerty123';
+GRANT SELECT ON persons_statistics.* TO 'read_stats'@'localhost';
+
+CREATE USER IF NOT EXISTS 'write_stats'@'localhost' IDENTIFIED BY 'Asdfgh123';
+GRANT SELECT, INSERT, UPDATE, DELETE ON persons_statistics.* TO 'write_stats'@'localhost';
+
+FLUSH PRIVILEGES;
+
