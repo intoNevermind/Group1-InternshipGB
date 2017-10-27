@@ -2,7 +2,8 @@ CREATE SCHEMA `persons_statistics`;
 
 CREATE TABLE `persons_statistics`.`persons` (
   `ID` INT NOT NULL AUTO_INCREMENT,
-  `Name` NVARCHAR(2048) NULL,
+  `Name` NVARCHAR(2048) NOT NULL,
+  `Active` BOOLEAN DEFAULT TRUE NOT NULL,
   PRIMARY KEY (`ID`))
 COMMENT = 'Таблица базы данных, отвечающая за хранение имен личностей. Каждой личности соответствует от 0 до бесконечности ключевых слов.';
 
@@ -21,8 +22,9 @@ COMMENT = 'Tаблица базы данных, отвечающая за хра
 
 CREATE TABLE `persons_statistics`.`sites` (
   `ID` INT NOT NULL AUTO_INCREMENT,
-  `Name` NVARCHAR(2048) NULL,
+  `Name` NVARCHAR(2048) NOT NULL,
   `URL` NVARCHAR(2048) NOT NULL,
+  `Active` BOOLEAN DEFAULT TRUE NOT NULL,
   PRIMARY KEY (`ID`))
 COMMENT = 'Tаблица базы данных, содержит названия сайтов для анализа на упоминания.';
 
