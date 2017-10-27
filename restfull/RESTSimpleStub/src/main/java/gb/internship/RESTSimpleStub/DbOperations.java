@@ -1,5 +1,6 @@
 package gb.internship.RESTSimpleStub;
 
+import gb.internship.RESTSimpleStub.db.SqLiteInitialization;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -19,21 +20,12 @@ import java.util.List;
  */
 public class DbOperations {
 
-    // Переменная для работы с логами
     private Log LOG = LogFactory.getLog(DbOperations.class);
 
-
-    // Переменная с коннектом к базе.
     private Connection connection;
 
-    /**
-     * @throws SQLException пока не обрабатываем.
-     */
-    public DbOperations() throws SQLException {
-        // Инициализируем коннект к базе.
-        this.connection = DriverManager.getConnection("jdbc:h2:mem:");
-
-        createTable();
+    public DbOperations() {
+        this.connection = new SqLiteInitialization().getConnection();
     }
 
     /**
@@ -44,14 +36,14 @@ public class DbOperations {
     }
 
     /**
-     * Делаем INSERT полученной строки в таблицу some_lines.
+     * Делаем INSERT полученной строки в таблицу test.
      *
      * @param str строка для вставки в таблицу.
      * @throws SQLException
      */
     public void insertStringInTable(String str) throws SQLException {
         LOG.info("INSERT string: " + str);
-        String sqlQuery = "INSERT INTO some_lines VALUES((?))";
+        String sqlQuery = "INSERT INTO test VALUES((?))";
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
         preparedStatement.setString(1, str);
         preparedStatement.execute();
@@ -69,7 +61,7 @@ public class DbOperations {
         List<String> resultList = new ArrayList<>();
 
         LOG.info("SELECT all lines.");
-        String sqlQuery = "SELECT * FROM some_lines";
+        String sqlQuery = "SELECT * FROM test";
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sqlQuery);
 
@@ -79,16 +71,5 @@ public class DbOperations {
         }
 
         return resultList;
-    }
-
-    /**
-     * Создаём таблицы в базе.
-     *
-     * @throws SQLException пока не обрабатываем.
-     */
-    private void createTable() throws SQLException {
-        Statement statement = connection.createStatement();
-        statement.execute("CREATE TABLE some_lines(someline VARCHAR(2048))");
-        statement.close();
     }
 }
