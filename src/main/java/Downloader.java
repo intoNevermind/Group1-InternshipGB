@@ -27,8 +27,15 @@ public class Downloader {
         //Создаю объект ответа, в него помещаю ответ сервера на запрос.
         HttpResponse response = client.execute(request);
 
+        //Отлавливаю ошибки возвращаемые сервером.
+        if (response.getStatusLine().getStatusCode() != 200) {
+            throw new DownloadException(url, response.getStatusLine().getStatusCode());
+        }
+
         //Обертываю содержимое ответа читателем входящего потока, а потом - буферизованным читателем.
         BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+
+
 
         StringBuffer result = new StringBuffer();
         String line = "";
