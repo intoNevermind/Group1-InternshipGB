@@ -15,9 +15,28 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from main_app import views as main_app_views
 
 admin.autodiscover()  #функция автоматического обнаружения файлов admin.py в наших приложения
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    url(
+        r'^admin/',
+        admin.site.urls
+    ),
+    url(
+        r'^$',
+        main_app_views.main,
+        name='main'
+    ),
+    url(
+        r'^statglobal/',
+        main_app_views.statistics_global,
+        name='statistics_global'
+    ),
+    url(
+        r'^statbydays/',
+        main_app_views.statistics_by_days,
+        name='statistics_by_days'
+    ),
 ]

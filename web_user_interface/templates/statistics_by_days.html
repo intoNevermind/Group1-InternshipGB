@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}
+Главная
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Меню переключения статистик -->
+    <div class="col-md-4">
+        <p><a href="/statglobal">Общая статистика</a></p>
+        <p><b>Ежедневная статистика</b></p>
+    </div>
+
+    <!-- Тело статистики -->
+    <div class="col-md-8">
+        <form name="site" action="#">
+            <p>
+                <label>Сайт:</label>
+                <select>
+                    <option selected>lenta.ru</option>
+                    <option>kommersant.ru</option>
+                    <option>kp.ru</option>
+                </select>
+            </p>
+            <p>
+                <label>Персона:</label>
+                <select>
+                    <option selected>Чебурашка</option>
+                    <option>Крокодил Гена</option>
+                    <option>Старуха Шапокляк</option>
+                </select>
+            </p>
+            <p>
+                <label>Период&nbsp;с</label>
+                <input type="date">
+                <label>по</label>
+                <input type="date">
+                <input type="submit" value="Применить">
+            </p>
+        </form>
+        <table class="table">
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">Дата</th>
+                <th scope="col">Количество новых страниц</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>15.02.2015</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>16.02.2015</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>17.02.2015</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>18.02.2015</td>
+                <td>4</td>
+            </tr>
+            <tr>
+                <td>18.02.2015</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>19.02.2015</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td>20.02.2015</td>
+                <td>2</td>
+            </tr>
+            </tbody>
+        </table>
+        <p>Всего за период: 19</p>
+    </div>
+</div>
+{% endblock %}
