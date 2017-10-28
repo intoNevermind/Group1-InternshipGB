@@ -27,10 +27,9 @@ public class SelectionOfStatistics  {
         listStatistic.add(generalStat);
         listStatistic.add(dailyStat);
         window.add(listStatistic, BorderLayout.WEST);
-
     }
 
     public void showGeneralStatistic(){
-        listStatistic.setVisible(false);
+
     }
 }
