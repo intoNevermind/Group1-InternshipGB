@@ -10,14 +10,15 @@ import java.awt.*;
 
 public class SelectionOfStatistics  {
 
-    private static final int SIZE_WIDTH = 600;
+    private static final int SIZE_WIDTH = 700;
     private static final int SIZE_HEIGHT = 400;
     private static final String WINDOW_TITLE = "Выбор статистики";
     private static final JFrame window = new JFrame();
     private static final JPanel listStatistic = new JPanel();
     private static final JTabbedPane listOfTabs = new JTabbedPane();
-    private DailyStatistic dailyStatistics = new DailyStatistic();
-    private GeneralStatistic generalStatistics = new GeneralStatistic();
+
+    private static final DailyStatistic DAILY_STATISTIC = new DailyStatistic();
+    private static final GeneralStatistic GENERAL_STATISTIC = new GeneralStatistic();
 
 
     public SelectionOfStatistics()  {
@@ -26,14 +27,14 @@ public class SelectionOfStatistics  {
         showDailyStatistic();
         listStatistic.setLayout(new BorderLayout());
         listStatistic.add(listOfTabs);
-        window.getContentPane().add(listStatistic);
+        window.add(listStatistic);
     }
 
     public void showGeneralStatistic(){
-        listOfTabs.addTab(generalStatistics.tabName, generalStatistics.panelStat);
+        listOfTabs.addTab(GENERAL_STATISTIC.tabName, GENERAL_STATISTIC.panelStat);
     }
 
     public void showDailyStatistic(){
-        listOfTabs.addTab(dailyStatistics.tabName, dailyStatistics.panelStat);
+        listOfTabs.addTab(DAILY_STATISTIC.tabName, DAILY_STATISTIC.panelStat);
     }
 }
