@@ -87,7 +87,47 @@ CREATE TABLE public.personpagerank
 COMMENT ON TABLE public.personpagerank
     IS 'Таблица базы данных, отвечающая за хранение количества упоминаний каждой личности на обработанной странице.';
 
+CREATE TABLE public.users (
+  "login" text PRIMARY KEY NOT NULL,
+  "role" BOOLEAN NOT NULL,
+  "password" text NOT NULL
+);
 
+CREATE OR REPLACE FUNCTION change_password() RETURNS trigger AS $BODY$
+BEGIN	
+ IF (TG_OP = 'INSERT') THEN
+ NEW.password = crypt(NEW.password, gen_salt('bf', 8));
+ return NEW;
+END IF;
+ IF (TG_OP = 'UPDATE') AND (OLD.password != NEW.password) THEN
+ NEW.password = crypt(NEW.password, gen_salt('bf', 8));
+ return NEW;
+end IF;
+return NEW;
+END;
+$BODY$
+language 'plpgsql';
+
+DROP TRIGGER IF EXISTS users_password ON public.users;
+CREATE TRIGGER users_password
+   BEFORE INSERT OR UPDATE
+   ON users FOR EACH ROW
+   EXECUTE PROCEDURE change_password();
+
+CREATE OR REPLACE FUNCTION leaner_logon(text, text) RETURNS bool AS $BODY$
+DECLARE res bool;
+BEGIN
+   SELECT 1 INTO res FROM learners WHERE "login" = $1 AND pwdhash = crypt($2, password);
+    IF FOUND THEN    
+       return true;
+   ELSE
+       return false;
+   END IF;
+END; $BODY$
+language 'plpgsql';
+COMMENT ON FUNCTION leaner_logon(text, text) IS
+   'Check true if has leaner with given login and password';
+   
 CREATE USER read_stats WITH password 'Qwerty123';
 GRANT CONNECT ON DATABASE persons_statistics TO read_stats;
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO read_stats;
