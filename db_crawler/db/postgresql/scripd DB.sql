@@ -13,7 +13,7 @@ CREATE DATABASE persons_statistics
 CREATE TABLE public.persons
 (
   "ID" integer NOT NULL,
-  "Name" character varying(2048)[] NOT NULL,
+  "Name" character varying(2048)[] NOT NULL UNIQUE,
   "Active" boolean NOT NULL DEFAULT true,
   CONSTRAINT persons_pkey PRIMARY KEY ("ID")
 );
@@ -40,7 +40,7 @@ COMMENT ON TABLE public.keywords
 CREATE TABLE public.sites
 (
   "ID" integer NOT NULL,
-  "Name" character varying(2048)[] NOT NULL,
+  "Name" character varying(2048)[] NOT NULL UNIQUE,
   "URL" character varying(2048)[] NOT NULL,
   "Active" boolean NOT NULL DEFAULT true,
   CONSTRAINT sites_pkey PRIMARY KEY ("ID")
