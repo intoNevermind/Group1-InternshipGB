@@ -121,11 +121,39 @@ public class DbOperations {
         preparedStatement.close();
     }
 
+    /**
+     * @param id уникальный идентификатор в таблице sites.
+     * @return количество удалённых строк.
+     * @throws SQLException
+     */
     public int delSite(Integer id) throws SQLException {
         LOG.info("DELETE FROM sites WHERE id = " + id);
         String sqlQuery = "DELETE FROM sites WHERE id = (?);";
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
         preparedStatement.setInt(1, id);
+        int updateResult = preparedStatement.executeUpdate();
+        preparedStatement.close();
+
+        return updateResult;
+    }
+
+    /**
+     * @param id     уникальный идентификатор в таблице sites.
+     * @param name   имя сайта.
+     * @param url    адрес сайта.
+     * @param active активен.
+     * @return количество удалённых строк.
+     * @throws SQLException
+     */
+    public int modifySite(Integer id, String name, String url, Boolean active) throws SQLException {
+        LOG.info("UPDATE sites SET name = " + name + ", url = " + url + ", active = " + active +
+                " WHERE id = " + id);
+        String sqlQuery = "UPDATE sites SET name = (?), url = (?), active = (?) WHERE id = (?);";
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setString(1, name);
+        preparedStatement.setString(2, url);
+        preparedStatement.setBoolean(3, active);
+        preparedStatement.setInt(4, id);
         int updateResult = preparedStatement.executeUpdate();
         preparedStatement.close();
 

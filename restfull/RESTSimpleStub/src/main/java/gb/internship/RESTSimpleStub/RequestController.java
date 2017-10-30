@@ -152,12 +152,19 @@ public class RequestController {
                 .body("OK");
     }
 
+    /**
+     * Работа с элементами справичника (сайтами). Удаление элемента справочника.
+     *
+     * @param id уникальный идентификатор в таблице sites.
+     * @return сообщение о статусе выполнения.
+     * В случае корректного выполнения в теле ответа возвращается количество удалёных записей.
+     */
     @RequestMapping("/admin/ui/delSite")
     public ResponseEntity delSite(@RequestParam(value = "id") Integer id) {
         int deletedRows = 0;
 
         if (id == null) {
-            LOG.warn("Error. id == null");
+            LOG.warn("Error in /admin/ui/delSite. id == null");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Error. id == null");
         }
@@ -172,5 +179,58 @@ public class RequestController {
         }
         return ResponseEntity.status(HttpStatus.OK)
                 .body(deletedRows);
+    }
+
+    /**
+     * Работа с элементами справичника (сайтами). Редактирование элемента справочника.
+     *
+     * @param id     уникальный идентификатор в таблице sites.
+     * @param name   имя сайта.
+     * @param url    адрес сайта.
+     * @param active активен.
+     * @return сообщение о статусе выполнения.
+     */
+    @RequestMapping("/admin/ui/modifySite")
+    public ResponseEntity modifySite(@RequestParam(value = "id") Integer id,
+                                     @RequestParam(value = "name") String name,
+                                     @RequestParam(value = "url") String url,
+                                     @RequestParam(value = "active") String active) {
+
+        int updatedRows = 0;
+
+        if (id == null) {
+            LOG.warn("Error in /admin/ui/modifySite. id == null");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error in /admin/ui/modifySite. id == null");
+        }
+        if ("".equals(name)) {
+            LOG.warn("Error in /admin/ui/modifySite. name is empty.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error in /admin/ui/modifySite. name is empty.");
+        }
+        if ("".equals(url)) {
+            LOG.warn("Error in /admin/ui/modifySite. url is empty.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error in /admin/ui/modifySite. url is empty.");
+        }
+        if ("".equals(active)) {
+            LOG.warn("Error in /admin/ui/modifySite. active is empty.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error in /admin/ui/modifySite. active is empty.");
+        }
+
+        Boolean activeBooleanValue = Boolean.parseBoolean(active);
+
+        try {
+            updatedRows = dbOperations.modifySite(id, name, url, activeBooleanValue);
+        } catch (SQLException ex) {
+            LOG.warn("Error at run modify site.");
+            ex.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error at run modify site.");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(updatedRows);
     }
 }
