@@ -23,8 +23,9 @@ public class DbOperations {
     private Log LOG = LogFactory.getLog(DbOperations.class);
 
     private Connection connection;
+    private static volatile DbOperations instance;
 
-    public DbOperations() {
+    private DbOperations() {
         this.connection = new SqLiteInitialization().getConnection();
     }
 
@@ -33,6 +34,21 @@ public class DbOperations {
      */
     public Connection getConnection() {
         return connection;
+    }
+
+    /**
+     * Используем паттерн Singletone.
+     * @return экземпляр объекта.
+     */
+    public static DbOperations getInstance() {
+        if (instance == null) {
+            synchronized (DbOperations.class) {
+                if (instance == null) {
+                    instance = new DbOperations();
+                }
+            }
+        }
+        return instance;
     }
 
     /**

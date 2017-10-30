@@ -33,7 +33,7 @@ public class RequestController {
     DbOperations dbOperations;
 
     public RequestController() throws SQLException {
-        dbOperations = new DbOperations();
+        dbOperations = DbOperations.getInstance();
     }
 
     /**
