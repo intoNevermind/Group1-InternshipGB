@@ -12,7 +12,7 @@ public class ConfigurationsWindowGUI {
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         window.setTitle(windowTitle);
         window.setBounds(locationX, locationY, sizeWidth, sizeHeight);
-//        window.setResizable(false);
+        window.setResizable(false);
         window.setVisible(true);
 
     }

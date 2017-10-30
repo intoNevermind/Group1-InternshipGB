@@ -11,8 +11,6 @@ public class GeneralStatistic extends Statistics{
 
     private static final String[] sitesList = new String[10];
 
-    private static int countRows = 0;
-    private static int countCols = 0;
 
     public GeneralStatistic() {
         setTabName("Общая статистика");
@@ -20,9 +18,16 @@ public class GeneralStatistic extends Statistics{
         fillList();
         listSite = new JComboBox(sitesList);
 
-        fillOptionsPanel();
-        optionsPanel.setLayout(new GridLayout(countRows,countCols));
+        data = new String[][]{{"Путин", "1.00.500"}, {"Медведев", "50.000"}, {"Навальный", "50.000"}};
+        columnNames = new String[]{"Дата", "Количество новых страниц"};
+        dataTable = new JTable(data,columnNames);
+        dataScrollPane = new JScrollPane(dataTable);
 
+        fillOptionsPanel();
+
+        optionsPanel.setLayout(new GridBagLayout());
+
+        panelStat.add(dataScrollPane, BorderLayout.CENTER);
         panelStat.add(optionsPanel, BorderLayout.NORTH);
     }
 
@@ -37,10 +42,10 @@ public class GeneralStatistic extends Statistics{
     @Override
     public void fillOptionsPanel() {
         optionsPanel.add(headlineComboBoxSite);
-        countRows++;
+
         optionsPanel.add(listSite);
-        countCols++;
+
         optionsPanel.add(btnConfirm);
-        countCols++;
+
     }
 }

@@ -7,6 +7,10 @@ public class Statistics {
     public String tabName ;
     public JPanel panelStat = new JPanel();
     public JPanel optionsPanel = new JPanel();
+    public JTable dataTable;
+    public JScrollPane dataScrollPane;
+    public Object[][] data;
+    public String[] columnNames;
 
 
     public Statistics() {
