@@ -148,7 +148,7 @@ public class RequestController {
                     .body("Error at run add site.");
         }
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        return ResponseEntity.status(HttpStatus.OK)
                 .body("OK");
     }
 }
