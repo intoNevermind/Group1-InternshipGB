@@ -30,13 +30,6 @@ public class DbOperations {
     }
 
     /**
-     * @return коннект к базе.
-     */
-    public Connection getConnection() {
-        return connection;
-    }
-
-    /**
      * Используем паттерн Singletone.
      * @return экземпляр объекта.
      */

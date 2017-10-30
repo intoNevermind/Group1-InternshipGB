@@ -1,5 +1,6 @@
-package gb.internship.RESTSimpleStub;
+package gb.internship.RESTSimpleStub.requestcontrollers;
 
+import gb.internship.RESTSimpleStub.DbOperations;
 import gb.internship.RESTSimpleStub.dataobjects.TableClassSites;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -14,80 +15,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Простой REST контроллер.
+ * REST контроллер интерфейса администратора для работа с элементами справичника (сайтами).
  *
  * @author Aleksandr Vvedensky
  */
 @RestController
-public class RequestController {
+public class AdminUiSitesController {
+    private Log LOG = LogFactory.getLog(AdminUiSitesController.class);
 
-    // Переменная для работы с логами
-    private Log LOG = LogFactory.getLog(RequestController.class);
+    private DbOperations dbOperations;
 
-    // Default response для метода echo.
-    public static final String DEFAULT_RESPONSE = "You see default string." +
-            "<br>Use: http://localhost:8080/echo?echoString=myString" +
-            "<br>to see your string.";
-
-    // Переменная для работы с базой.
-    DbOperations dbOperations;
-
-    public RequestController() throws SQLException {
+    public AdminUiSitesController() throws SQLException {
         dbOperations = DbOperations.getInstance();
-    }
-
-    /**
-     * Обслуживает это-запросы.
-     *
-     * @param echoString строка аргумент из запроса.
-     * @return полученный echoString или значение по умолчанию.
-     */
-    @RequestMapping("/echo")
-    public String echo(@RequestParam(value = "echoString", defaultValue = DEFAULT_RESPONSE) String echoString) {
-        return echoString;
-    }
-
-    /**
-     * Делает запрос в базу.
-     *
-     * @return список всех строк из базы.
-     */
-    @RequestMapping("/getAll")
-    public List<String> getAllStrings() {
-        List<String> resultList = new ArrayList<>();
-        try {
-            resultList = dbOperations.getAllStringsFromTable();
-        } catch (SQLException ex) {
-            LOG.warn("Error in receipt data.");
-            ex.printStackTrace();
-        }
-
-        return resultList;
-    }
-
-
-    /**
-     * Делает запрос в базу.
-     *
-     * @param stringToInsert строка для вставки в базу.
-     * @return OK, если сработалшо как задумано. Иначе ERROR.
-     */
-    @RequestMapping("/insertString")
-    public String insertStringInTable(@RequestParam(value = "stringToInsert", defaultValue = "") String stringToInsert) {
-
-        if ("".equals(stringToInsert)) {
-            LOG.warn("Trying to insert empty string. Skipping.");
-            return "ERROR";
-        }
-
-        try {
-            dbOperations.insertStringInTable(stringToInsert);
-            return "OK";
-        } catch (SQLException e) {
-            LOG.warn("Data inserrtion error.");
-            e.printStackTrace();
-            return "ERROR";
-        }
     }
 
     /**
@@ -161,7 +100,7 @@ public class RequestController {
      */
     @RequestMapping("/admin/ui/delSite")
     public ResponseEntity delSite(@RequestParam(value = "id") Integer id) {
-        int deletedRows = 0;
+        int deletedRows;
 
         if (id == null) {
             LOG.warn("Error in /admin/ui/delSite. id == null");
@@ -196,7 +135,7 @@ public class RequestController {
                                      @RequestParam(value = "url") String url,
                                      @RequestParam(value = "active") String active) {
 
-        int updatedRows = 0;
+        int updatedRows;
 
         if (id == null) {
             LOG.warn("Error in /admin/ui/modifySite. id == null");

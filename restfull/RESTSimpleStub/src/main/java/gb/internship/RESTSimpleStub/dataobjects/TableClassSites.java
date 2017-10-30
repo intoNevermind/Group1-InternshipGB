@@ -3,12 +3,14 @@ package gb.internship.RESTSimpleStub.dataobjects;
 
 /**
  * Класс для рбаоты с таблицей sites.
+ *
+ * @author Aleksandr Vvedensky
  */
 public class TableClassSites {
-    Integer id;
-    String name;
-    String url;
-    Boolean active;
+    private Integer id;
+    private String name;
+    private String url;
+    private Boolean active;
 
     public TableClassSites(Integer id, String name, String url, Boolean active) {
         this.id = id;
