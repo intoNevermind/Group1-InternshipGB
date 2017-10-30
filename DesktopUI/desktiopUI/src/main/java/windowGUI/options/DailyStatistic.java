@@ -1,53 +1,55 @@
 package windowGUI.options;
 
+import com.toedter.calendar.JDateChooser;
+import windowGUI.Calendar;
+
 import javax.swing.*;
-import javax.swing.text.DateFormatter;
 
 import java.awt.*;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class DailyStatistic extends Statistics{
 
-    private static final JLabel headlineComboBoxSite = new JLabel(" Сайты: ");
-    private static final JLabel headlineComboBoxPersons = new JLabel(" Личности: ");
-    private static final JLabel headlineComboBoxPeriod = new JLabel(" Период c: ");
-    private static final JLabel headlineComboBoxPeriod1 = new JLabel(" по: ");
-    private static final JButton btnConfirm = new JButton(" Подтвердить");
+    private static final GridBagLayout GBL = new GridBagLayout();
+
+    private static final JLabel headlineSite = new JLabel(" Сайты: ");
+    private static final JLabel headlinePersons = new JLabel(" Личности: ");
+    private static final JLabel headlineStartPeriod = new JLabel(" Период c: ");
+    private static final JLabel headlineFinishPeriod = new JLabel(" по: ");
+
     private final JComboBox listSite;
     private final JComboBox listPersons;
-    private static JLabel totalNumberPages;
 
-    private static final DateFormat date = new SimpleDateFormat("dd.MM.yyyy");
-    private static final DateFormatter dateFormatter = new DateFormatter(date);
-    private static final JFormattedTextField startDate = new JFormattedTextField(dateFormatter);
-    private static final JFormattedTextField finalDate = new JFormattedTextField(dateFormatter);
+    private static final Calendar startCalendar = new Calendar();
+    private static final Calendar finishCalendar = new Calendar();
+    private static final JDateChooser dateChooser = new JDateChooser();
+
+    private static final JButton btnConfirm = new JButton(" Подтвердить");
+
+    private static JLabel totalNumberPages;
 
     private static String[] sitesList = new String[10];
     private static String[] personsList = new String[10];
 
     public DailyStatistic() {
         setTabName("Ежедневная статистика");
+        optionsPanel.setLayout(GBL);
 
         fillList();
         listSite = new JComboBox(sitesList);
         listPersons = new JComboBox(personsList);
 
-        configDate();
+        activateCalendar();
+
+        fillOptionsPanel();
+        panelStat.add(optionsPanel, BorderLayout.NORTH);
 
         data = new Object[][]{{"21.21.2012", 1}, {"21.21.2010", 2}, {"21.21.2011", 3}};
         columnNames = new String[]{"Дата", "Количество новых страниц"};
         dataTable = new JTable(data,columnNames);
         dataScrollPane = new JScrollPane(dataTable);
+        panelStat.add(dataScrollPane, BorderLayout.CENTER);
 
         totalNumberPages = new JLabel("Всего новых страниц за период: " + countTotalNumberPages());
-        fillOptionsPanel();
-        optionsPanel.setLayout(new GridBagLayout());
-
-        panelStat.add(dataScrollPane, BorderLayout.CENTER);
-        panelStat.add(optionsPanel, BorderLayout.NORTH);
         panelStat.add(totalNumberPages, BorderLayout.SOUTH);
     }
 
@@ -63,29 +65,74 @@ public class DailyStatistic extends Statistics{
 
     @Override
     public void fillOptionsPanel() {
-        optionsPanel.add(headlineComboBoxSite);
+        GridBagConstraints headersStr1 =  new GridBagConstraints();
+        headersStr1.gridx = GridBagConstraints.RELATIVE;
+        headersStr1.gridy = 0;
+        headersStr1.gridwidth  = 1;
+        headersStr1.anchor = GridBagConstraints.EAST;
+        headersStr1.weightx = 0.0;
+
+        GridBagConstraints comboBoxStr1 =  new GridBagConstraints();
+        comboBoxStr1.gridx = GridBagConstraints.RELATIVE;
+        comboBoxStr1.gridy = 0;
+        comboBoxStr1.gridwidth  = 2;
+        comboBoxStr1.fill = GridBagConstraints.BOTH;
+        comboBoxStr1.weightx = 1.0;
+
+        GridBagConstraints headersStr2 =  new GridBagConstraints();
+        headersStr2.gridx = GridBagConstraints.RELATIVE;
+        headersStr2.gridy = 1;
+        headersStr2.gridwidth  = 1;
+        headersStr1.anchor = GridBagConstraints.EAST;
+        headersStr2.weightx = 0.0;
+
+        GridBagConstraints calendarStr2 =  new GridBagConstraints();
+        calendarStr2.gridx = GridBagConstraints.RELATIVE;
+        calendarStr2.gridy = 1;
+        calendarStr2.gridwidth  = 2;
+        calendarStr2.fill = GridBagConstraints.BOTH;
+        calendarStr2.weightx = 1.0;
+
+        GridBagConstraints btnStr3 =  new GridBagConstraints();
+        btnStr3.gridx = GridBagConstraints.RELATIVE;
+        btnStr3.gridy = 2;
+        btnStr3.gridwidth  = GridBagConstraints.REMAINDER ;
+        btnStr3.fill = GridBagConstraints.BOTH;
+        btnStr3.weightx = 1.0;
+
+        GBL.setConstraints(headlineSite, headersStr1);
+        optionsPanel.add(headlineSite);
+        GBL.setConstraints(listSite, comboBoxStr1);
         optionsPanel.add(listSite);
-        optionsPanel.add(headlineComboBoxPersons);
+        GBL.setConstraints(headlinePersons, headersStr1);
+        optionsPanel.add(headlinePersons);
+        GBL.setConstraints(listPersons, comboBoxStr1);
         optionsPanel.add(listPersons);
 
+        GBL.setConstraints(headlineStartPeriod, headersStr2);
+        optionsPanel.add(headlineStartPeriod);
+        GBL.setConstraints(startCalendar, calendarStr2);
+        optionsPanel.add(startCalendar);
+        GBL.setConstraints(headlineFinishPeriod, headersStr2);
+        optionsPanel.add(headlineFinishPeriod);
+        GBL.setConstraints(finishCalendar, calendarStr2);
+        optionsPanel.add(finishCalendar);
 
-
-        optionsPanel.add(headlineComboBoxPeriod);
-        optionsPanel.add(startDate);
-        optionsPanel.add(headlineComboBoxPeriod1);
-        optionsPanel.add(finalDate);
+        GBL.setConstraints(btnConfirm, btnStr3);
         optionsPanel.add(btnConfirm);
+
     }
 
-    private void configDate(){
-        dateFormatter.setAllowsInvalid(false);
-        dateFormatter.setOverwriteMode(false);
-        finalDate.setColumns(7);
-        finalDate.setValue(new Date());
-        startDate.setColumns(7);
-        startDate.setValue(new Date());
+    private void activateCalendar(){
+        dateChooser.setBounds(20, 20, 200, 20);
+        EventQueue.invokeLater(() ->{
+            try {
+                dateChooser.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
-
     private long countTotalNumberPages(){
         int count = 0;
         for (int i = 0; i < data.length; i++) {

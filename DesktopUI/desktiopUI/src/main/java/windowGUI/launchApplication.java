@@ -10,7 +10,7 @@ public class launchApplication {
 
     private static void setStyleLookAndFeel(){
         try {
-            UIManager.setLookAndFeel(MyLookAndFeel.class.getCanonicalName());
+            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
         } catch (ClassNotFoundException |
                  InstantiationException |
                  IllegalAccessException |

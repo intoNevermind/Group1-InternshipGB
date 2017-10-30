@@ -10,7 +10,7 @@ import java.awt.*;
 
 public class SelectionOfStatistics  {
 
-    private static final int SIZE_WIDTH = 700;
+    private static final int SIZE_WIDTH = 600;
     private static final int SIZE_HEIGHT = 400;
     private static final String WINDOW_TITLE = "Выбор статистики";
     private static final JFrame window = new JFrame();
