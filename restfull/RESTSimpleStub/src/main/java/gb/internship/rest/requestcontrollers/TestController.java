@@ -1,6 +1,6 @@
-package gb.internship.RESTSimpleStub.requestcontrollers;
+package gb.internship.rest.requestcontrollers;
 
-import gb.internship.RESTSimpleStub.DbOperations;
+import gb.internship.rest.db.operations.DbOperations;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * Простой REST контроллер.
+ *
+ * @author Aleksandr Vvedensky
+ */
 
 @RestController
 public class TestController {

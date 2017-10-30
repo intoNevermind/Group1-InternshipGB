@@ -1,7 +1,7 @@
-package gb.internship.RESTSimpleStub;
+package gb.internship.rest.db.operations;
 
-import gb.internship.RESTSimpleStub.dataobjects.TableClassSites;
-import gb.internship.RESTSimpleStub.db.SqLiteInitialization;
+import gb.internship.rest.dataobjects.TableClassSites;
+import gb.internship.rest.db.initialization.SqLiteInitialization;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -31,6 +31,7 @@ public class DbOperations {
 
     /**
      * Используем паттерн Singletone.
+     *
      * @return экземпляр объекта.
      */
     public static DbOperations getInstance() {

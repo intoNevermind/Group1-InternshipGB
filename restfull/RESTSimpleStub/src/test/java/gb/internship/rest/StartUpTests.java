@@ -1,4 +1,4 @@
-package gb.internship.RESTSimpleStub;
+package gb.internship.rest;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

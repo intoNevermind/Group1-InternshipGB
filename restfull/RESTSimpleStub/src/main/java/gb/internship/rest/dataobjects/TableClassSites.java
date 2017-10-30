@@ -1,4 +1,4 @@
-package gb.internship.RESTSimpleStub.dataobjects;
+package gb.internship.rest.dataobjects;
 
 
 /**

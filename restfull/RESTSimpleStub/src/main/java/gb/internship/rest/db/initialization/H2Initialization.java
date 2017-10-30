@@ -1,4 +1,4 @@
-package gb.internship.RESTSimpleStub.db;
+package gb.internship.rest.db.initialization;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

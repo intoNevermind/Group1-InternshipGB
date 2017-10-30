@@ -1,7 +1,7 @@
-package gb.internship.RESTSimpleStub.requestcontrollers;
+package gb.internship.rest.requestcontrollers;
 
-import gb.internship.RESTSimpleStub.DbOperations;
-import gb.internship.RESTSimpleStub.dataobjects.TableClassSites;
+import gb.internship.rest.db.operations.DbOperations;
+import gb.internship.rest.dataobjects.TableClassSites;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.http.HttpStatus;
