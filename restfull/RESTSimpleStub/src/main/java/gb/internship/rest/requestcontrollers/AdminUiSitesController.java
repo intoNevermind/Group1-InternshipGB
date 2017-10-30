@@ -1,6 +1,6 @@
 package gb.internship.rest.requestcontrollers;
 
-import gb.internship.rest.db.operations.DbOperations;
+import gb.internship.rest.db.operations.AdminUiSitesDbOperations;
 import gb.internship.rest.dataobjects.TableClassSites;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -23,10 +23,10 @@ import java.util.List;
 public class AdminUiSitesController {
     private Log LOG = LogFactory.getLog(AdminUiSitesController.class);
 
-    private DbOperations dbOperations;
+    private AdminUiSitesDbOperations adminUiSitesDbOperations;
 
     public AdminUiSitesController() throws SQLException {
-        dbOperations = DbOperations.getInstance();
+        adminUiSitesDbOperations = new AdminUiSitesDbOperations();
     }
 
     /**
@@ -38,7 +38,7 @@ public class AdminUiSitesController {
     public List<TableClassSites> getAllSites() {
         List<TableClassSites> resultList = new ArrayList<>();
         try {
-            resultList = dbOperations.getAllSites();
+            resultList = adminUiSitesDbOperations.getAllSites();
         } catch (Exception ex) {
             LOG.warn("Error getting all sites data.");
             ex.printStackTrace();
@@ -79,7 +79,7 @@ public class AdminUiSitesController {
 
         Boolean activeBooleanValue = Boolean.parseBoolean(active);
         try {
-            dbOperations.addSite(name, url, activeBooleanValue);
+            adminUiSitesDbOperations.addSite(name, url, activeBooleanValue);
         } catch (Exception ex) {
             LOG.warn("Error at run add site.");
             ex.printStackTrace();
@@ -109,7 +109,7 @@ public class AdminUiSitesController {
         }
 
         try {
-            deletedRows = dbOperations.delSite(id);
+            deletedRows = adminUiSitesDbOperations.delSite(id);
         } catch (SQLException ex) {
             LOG.warn("Error at run del site.");
             ex.printStackTrace();
@@ -161,7 +161,7 @@ public class AdminUiSitesController {
         Boolean activeBooleanValue = Boolean.parseBoolean(active);
 
         try {
-            updatedRows = dbOperations.modifySite(id, name, url, activeBooleanValue);
+            updatedRows = adminUiSitesDbOperations.modifySite(id, name, url, activeBooleanValue);
         } catch (SQLException ex) {
             LOG.warn("Error at run modify site.");
             ex.printStackTrace();

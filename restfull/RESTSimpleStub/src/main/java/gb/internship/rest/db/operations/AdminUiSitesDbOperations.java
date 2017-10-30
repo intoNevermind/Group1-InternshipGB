@@ -1,7 +1,7 @@
 package gb.internship.rest.db.operations;
 
 import gb.internship.rest.dataobjects.TableClassSites;
-import gb.internship.rest.db.initialization.SqLiteInitialization;
+import gb.internship.rest.db.DbWrapper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -18,73 +18,15 @@ import java.util.List;
  *
  * @author Aleksandr Vvedensky
  */
-public class DbOperations {
+public class AdminUiSitesDbOperations {
 
-    private Log LOG = LogFactory.getLog(DbOperations.class);
+    private Log LOG = LogFactory.getLog(AdminUiSitesDbOperations.class);
 
     private Connection connection;
-    private static volatile DbOperations instance;
 
-    private DbOperations() {
-        this.connection = new SqLiteInitialization().getConnection();
+    public AdminUiSitesDbOperations() {
+        this.connection = DbWrapper.getInstance().getConnection();
     }
-
-    /**
-     * Используем паттерн Singletone.
-     *
-     * @return экземпляр объекта.
-     */
-    public static DbOperations getInstance() {
-        if (instance == null) {
-            synchronized (DbOperations.class) {
-                if (instance == null) {
-                    instance = new DbOperations();
-                }
-            }
-        }
-        return instance;
-    }
-
-    /**
-     * Делаем INSERT полученной строки в таблицу test.
-     *
-     * @param str строка для вставки в таблицу.
-     * @throws SQLException
-     */
-    public void insertStringInTable(String str) throws SQLException {
-        LOG.info("INSERT string: " + str);
-        String sqlQuery = "INSERT INTO test VALUES((?));";
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-        preparedStatement.setString(1, str);
-        preparedStatement.execute();
-        preparedStatement.close();
-    }
-
-
-    /**
-     * SELECT ALL
-     *
-     * @return список всех строк из базы.
-     * @throws SQLException
-     */
-    public List<String> getAllStringsFromTable() throws SQLException {
-        List<String> resultList = new ArrayList<>();
-
-        LOG.info("SELECT all lines.");
-        String sqlQuery = "SELECT * FROM test;";
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(sqlQuery);
-
-        // Кладём полученные данные в список.
-        while (resultSet.next()) {
-            resultList.add(resultSet.getString("someline"));
-        }
-
-        statement.close();
-
-        return resultList;
-    }
-
 
     /**
      * Получение всех сайтов из таблицы sites.

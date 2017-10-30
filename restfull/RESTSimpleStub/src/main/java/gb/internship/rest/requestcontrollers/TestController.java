@@ -1,6 +1,6 @@
 package gb.internship.rest.requestcontrollers;
 
-import gb.internship.rest.db.operations.DbOperations;
+import gb.internship.rest.db.operations.TestDbOperations;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,10 +28,10 @@ public class TestController {
             "<br>to see your string.";
 
     // Переменная для работы с базой.
-    private DbOperations dbOperations;
+    private TestDbOperations dbOperations;
 
     public TestController() throws SQLException {
-        dbOperations = DbOperations.getInstance();
+        dbOperations = new TestDbOperations();
     }
 
     /**
