@@ -1,7 +1,10 @@
 package gb.internship.RESTSimpleStub;
 
+import gb.internship.RESTSimpleStub.dataobjects.TableClassSites;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -85,5 +88,67 @@ public class RequestController {
             e.printStackTrace();
             return "ERROR";
         }
+    }
+
+    /**
+     * Работа с элементами справичника (сайтами). Отображение всех элементов.
+     *
+     * @return список всех сайтов.
+     */
+    @RequestMapping("/admin/ui/getAllSites")
+    public List<TableClassSites> getAllSites() {
+        List<TableClassSites> resultList = new ArrayList<>();
+        try {
+            resultList = dbOperations.getAllSites();
+        } catch (Exception ex) {
+            LOG.warn("Error getting all sites data.");
+            ex.printStackTrace();
+        }
+
+        return resultList;
+    }
+
+
+    /**
+     * Работа с элементами справичника (сайтами). Добавление элемента справочника.
+     *
+     * @param name   имя сайта.
+     * @param url    адрес сайта.
+     * @param active активен.
+     * @return сообщение о статусе выполнения.
+     */
+    @RequestMapping("/admin/ui/addSite")
+    public ResponseEntity addSite(@RequestParam(value = "name") String name,
+                                  @RequestParam(value = "url") String url,
+                                  @RequestParam(value = "active") String active) {
+
+        if ("".equals(name)) {
+            LOG.warn("Error in /admin/ui/addSite. name is empty.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error in /admin/ui/addSite. name is empty.");
+        }
+        if ("".equals(url)) {
+            LOG.warn("Error in /admin/ui/addSite. url is empty.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error in /admin/ui/addSite. url is empty.");
+        }
+        if ("".equals(active)) {
+            LOG.warn("Error in /admin/ui/addSite. active is empty.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error in /admin/ui/addSite. active is empty.");
+        }
+
+        Boolean activeBooleanValue = Boolean.parseBoolean(active);
+        try {
+            dbOperations.addSite(name, url, activeBooleanValue);
+        } catch (Exception ex) {
+            LOG.warn("Error at run add site.");
+            ex.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error at run add site.");
+        }
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body("OK");
     }
 }
