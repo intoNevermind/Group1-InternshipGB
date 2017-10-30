@@ -151,4 +151,26 @@ public class RequestController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body("OK");
     }
+
+    @RequestMapping("/admin/ui/delSite")
+    public ResponseEntity delSite(@RequestParam(value = "id") Integer id) {
+        int deletedRows = 0;
+
+        if (id == null) {
+            LOG.warn("Error. id == null");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error. id == null");
+        }
+
+        try {
+            deletedRows = dbOperations.delSite(id);
+        } catch (SQLException ex) {
+            LOG.warn("Error at run del site.");
+            ex.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error at run del site.");
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(deletedRows);
+    }
 }

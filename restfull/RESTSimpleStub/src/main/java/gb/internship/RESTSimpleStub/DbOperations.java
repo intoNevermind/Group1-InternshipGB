@@ -120,4 +120,15 @@ public class DbOperations {
         preparedStatement.execute();
         preparedStatement.close();
     }
+
+    public int delSite(Integer id) throws SQLException {
+        LOG.info("DELETE FROM sites WHERE id = " + id);
+        String sqlQuery = "DELETE FROM sites WHERE id = (?);";
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setInt(1, id);
+        int updateResult = preparedStatement.executeUpdate();
+        preparedStatement.close();
+
+        return updateResult;
+    }
 }
