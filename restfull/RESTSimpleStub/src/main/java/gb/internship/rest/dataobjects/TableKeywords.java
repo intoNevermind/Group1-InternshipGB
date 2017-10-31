@@ -1,21 +1,14 @@
 package gb.internship.rest.dataobjects;
 
 /**
- * Класс для работы с Keywords
+ * Класс для работы с таблицей Keywords
  *
- * @author Aleksandr Vvedensky
+ * @author Баранов, Aleksandr Vvedensky
  */
 public class TableKeywords {
     private Integer id;
     private Integer personId;
-    private String Keyword;
-
-    public TableKeywords(Integer id, Integer personId, String keyword) {
-
-        this.id = id;
-        this.personId = personId;
-        Keyword = keyword;
-    }
+    private String name;
 
     public Integer getId() {
         return id;
@@ -33,13 +26,17 @@ public class TableKeywords {
         this.personId = personId;
     }
 
-    public String getKeyword() {
-        return Keyword;
+    public String getName() {
+        return name;
     }
 
-    public void setKeyword(String keyword) {
-        Keyword = keyword;
+    public void setName(String name) {
+        this.name = name;
     }
 
-
+    public TableKeywords(Integer id, Integer personId, String name) {
+        this.id = id;
+        this.personId = personId;
+        this.name = name;
+    }
 }

@@ -28,7 +28,7 @@ public class TestDbOperations {
     }
 
     /**
-     * Делаем INSERT полученной строки в таблицу test.
+     * Делаем INSERT полученной строки в таблицу test. у
      *
      * @param str строка для вставки в таблицу.
      * @throws SQLException
@@ -83,7 +83,7 @@ public class TestDbOperations {
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery(dataQuery);
                 while (resultSet.next()){
-                    data.add(resultSet.getString("Json ответ... "));
+                    data.add(resultSet.getString("Json ответ."));
 
                 }
             } catch (SQLException e) {
