@@ -13,7 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Работа с базой примеров и тестов.
  *
+ * @author Aleksandr Vvedensky
  */
 public class TestDbOperations {
 
