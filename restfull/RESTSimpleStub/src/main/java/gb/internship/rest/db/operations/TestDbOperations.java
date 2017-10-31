@@ -26,7 +26,7 @@ public class TestDbOperations {
     }
 
     /**
-     * Делаем INSERT полученной строки в таблицу test.
+     * Делаем INSERT полученной строки в таблицу test. у
      *
      * @param str строка для вставки в таблицу.
      * @throws SQLException
