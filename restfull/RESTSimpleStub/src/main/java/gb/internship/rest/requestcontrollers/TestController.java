@@ -1,5 +1,6 @@
-package gb.internship.RESTSimpleStub;
+package gb.internship.rest.requestcontrollers;
 
+import gb.internship.rest.db.operations.TestDbOperations;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,22 +16,22 @@ import java.util.List;
  *
  * @author Aleksandr Vvedensky
  */
-@RestController
-public class RequestController {
 
-    // Переменная для работы с логами
-    private Log LOG = LogFactory.getLog(RequestController.class);
+@RestController
+public class TestController {
+
+    private Log LOG = LogFactory.getLog(TestController.class);
 
     // Default response для метода echo.
-    public static final String DEFAULT_RESPONSE = "You see default string." +
+    private static final String DEFAULT_RESPONSE = "You see default string." +
             "<br>Use: http://localhost:8080/echo?echoString=myString" +
             "<br>to see your string.";
 
     // Переменная для работы с базой.
-    DbOperations dbOperations;
+    private TestDbOperations dbOperations;
 
-    public RequestController() throws SQLException {
-        dbOperations = new DbOperations();
+    public TestController() throws SQLException {
+        dbOperations = new TestDbOperations();
     }
 
     /**
@@ -81,7 +82,7 @@ public class RequestController {
             dbOperations.insertStringInTable(stringToInsert);
             return "OK";
         } catch (SQLException e) {
-            LOG.warn("Data inserrtion error.");
+            LOG.warn("Data insertion error.");
             e.printStackTrace();
             return "ERROR";
         }

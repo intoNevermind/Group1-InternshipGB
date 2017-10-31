@@ -1,6 +1,6 @@
-package gb.internship.RESTSimpleStub;
+package gb.internship.rest.db.operations;
 
-import gb.internship.RESTSimpleStub.db.SqLiteInitialization;
+import gb.internship.rest.db.DbWrapper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -13,25 +13,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Работа с базой.
+ * Работа с базой примеров и тестов.
  *
  * @author Aleksandr Vvedensky
  */
-public class DbOperations {
+public class TestDbOperations {
 
-    private Log LOG = LogFactory.getLog(DbOperations.class);
+    private Log LOG = LogFactory.getLog(TestDbOperations.class);
 
     private Connection connection;
 
-    public DbOperations() {
-        this.connection = new SqLiteInitialization().getConnection();
-    }
-
-    /**
-     * @return коннект к базе.
-     */
-    public Connection getConnection() {
-        return connection;
+    public TestDbOperations() {
+        this.connection = DbWrapper.getInstance().getConnection();
     }
 
     /**
@@ -42,7 +35,7 @@ public class DbOperations {
      */
     public void insertStringInTable(String str) throws SQLException {
         LOG.info("INSERT string: " + str);
-        String sqlQuery = "INSERT INTO test VALUES((?))";
+        String sqlQuery = "INSERT INTO test VALUES((?));";
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
         preparedStatement.setString(1, str);
         preparedStatement.execute();
@@ -60,7 +53,7 @@ public class DbOperations {
         List<String> resultList = new ArrayList<>();
 
         LOG.info("SELECT all lines.");
-        String sqlQuery = "SELECT * FROM test";
+        String sqlQuery = "SELECT * FROM test;";
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sqlQuery);
 
@@ -68,6 +61,8 @@ public class DbOperations {
         while (resultSet.next()) {
             resultList.add(resultSet.getString("someline"));
         }
+
+        statement.close();
 
         return resultList;
     }
