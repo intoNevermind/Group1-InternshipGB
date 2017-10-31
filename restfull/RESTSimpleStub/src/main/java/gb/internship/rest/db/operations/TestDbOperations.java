@@ -64,4 +64,30 @@ public class TestDbOperations {
 
         return resultList;
     }
+
+    /**
+     * @author Баранов
+     *
+     * Делаем Запрос на выбор по параметрам.
+     *
+     * Прошу прошения если это не то.....:)
+     *
+     */
+        public List <String> getDataUser(){
+             List<String> data = new ArrayList<>();
+
+         String dataQuery = "SELECT URL, SiteID, FoundDataTime, LastScanDate FROM pages";
+            try {
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(dataQuery);
+                while (resultSet.next()){
+                    data.add(resultSet.getString("Json ответ... "));
+
+                }
+            } catch (SQLException e) {
+                LOG.info("Connection error");
+            }
+
+            return data ;
+        }
 }
