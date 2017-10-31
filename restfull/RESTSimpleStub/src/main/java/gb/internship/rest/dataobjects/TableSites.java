@@ -2,17 +2,17 @@ package gb.internship.rest.dataobjects;
 
 
 /**
- * Класс для рбаоты с таблицей sites.
+ * Класс для работы с таблицей sites.
  *
  * @author Aleksandr Vvedensky
  */
-public class TableClassSites {
+public class TableSites {
     private Integer id;
     private String name;
     private String url;
     private Boolean active;
 
-    public TableClassSites(Integer id, String name, String url, Boolean active) {
+    public TableSites(Integer id, String name, String url, Boolean active) {
         this.id = id;
         this.name = name;
         this.url = url;
