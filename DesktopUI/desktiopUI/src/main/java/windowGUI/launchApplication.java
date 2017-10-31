@@ -6,6 +6,7 @@ public class launchApplication {
     public static void main(String[] args) {
         setStyleLookAndFeel();
         new SelectionOfStatistics();
+        new TestRepository();
     }
 
     private static void setStyleLookAndFeel(){
