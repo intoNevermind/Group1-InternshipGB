@@ -1,5 +1,6 @@
 package gb.internship.rest.db.operations;
 
+import gb.internship.rest.dataobjects.TableKeywords;
 import gb.internship.rest.dataobjects.TablePersons;
 import gb.internship.rest.dataobjects.TableSites;
 import gb.internship.rest.db.DbWrapper;
@@ -188,6 +189,88 @@ public class AdminUiSitesDbOperations {
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
         preparedStatement.setString(1, name);
         preparedStatement.setBoolean(2, active);
+        preparedStatement.setInt(3, id);
+        int updateResult = preparedStatement.executeUpdate();
+        preparedStatement.close();
+
+        return updateResult;
+    }
+
+    /**
+     * Получение содержимого таблицы keywords.
+     *
+     * @return список всех ключевых слов, обёрнутых в объекты.
+     * @throws SQLException
+     */
+    public List<TableKeywords> getAllKeywords() throws SQLException {
+        List<TableKeywords> resultList = new ArrayList<>();
+
+        LOG.info("SELECT id, name, personid FROM keywords;");
+        String sqlQuery = "SELECT id, personid, name FROM keywords;";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sqlQuery);
+
+        while (resultSet.next()) {
+            resultList.add(new TableKeywords(resultSet.getInt("id"),
+                    resultSet.getInt("personid"),
+                    resultSet.getString("name")));
+        }
+        statement.close();
+
+        return resultList;
+    }
+
+    /**
+     * Добавление ключевого слова.
+     *
+     * @param name     ключевое слово.
+     * @param personId идентификатор личности.
+     * @throws SQLException
+     */
+    public void addKeyword(String name, Integer personId) throws SQLException {
+        LOG.info("INSERT INTO keywords (name, personid) VALUES (" + name + ", " + personId + ");");
+        String sqlQuery = "INSERT INTO keywords (name, personid) VALUES ((?), (?));";
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setString(1, name);
+        preparedStatement.setInt(2, personId);
+        preparedStatement.execute();
+        preparedStatement.close();
+    }
+
+    /**
+     * Удаление ключевого слова.
+     *
+     * @param id идентификатор ключавого слова.
+     * @return количество удалённых строк.
+     * @throws SQLException
+     */
+    public int delKeyword(Integer id) throws SQLException {
+        LOG.info("DELETE FROM keywords WHERE id = " + id);
+        String sqlQuery = "DELETE FROM keywords WHERE id = (?);";
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setInt(1, id);
+        int updateResult = preparedStatement.executeUpdate();
+        preparedStatement.close();
+
+        return updateResult;
+    }
+
+    /**
+     * Изменение ключевого слова.
+     *
+     * @param id       идентификатор ключевого слова.
+     * @param personId идентификатор пользователя.
+     * @param name     ключевое слово.
+     * @return количество удалённых строк.
+     * @throws SQLException
+     */
+    public int modifyKeyword(Integer id, Integer personId, String name) throws SQLException {
+        LOG.info("UPDATE keywords SET name " + name + ", personid = " + personId +
+                " WHERE id = " + id);
+        String sqlQuery = "UPDATE keywords SET name = (?), personid = (?) WHERE id = (?);";
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setString(1, name);
+        preparedStatement.setInt(2, personId);
         preparedStatement.setInt(3, id);
         int updateResult = preparedStatement.executeUpdate();
         preparedStatement.close();
