@@ -6,8 +6,6 @@ import windowGUI.options.GeneralStatistic;
 import javax.swing.*;
 import java.awt.*;
 
-
-
 public class SelectionOfStatistics  {
 
     private static final int SIZE_WIDTH = 600;
@@ -20,7 +18,6 @@ public class SelectionOfStatistics  {
     private static final DailyStatistic DAILY_STATISTIC = new DailyStatistic();
     private static final GeneralStatistic GENERAL_STATISTIC = new GeneralStatistic();
 
-
     public SelectionOfStatistics()  {
         new ConfigurationsWindowGUI().setConfigWindow(window, WINDOW_TITLE,SIZE_WIDTH, SIZE_HEIGHT);
         showGeneralStatistic();
@@ -31,10 +28,10 @@ public class SelectionOfStatistics  {
     }
 
     public void showGeneralStatistic(){
-        listOfTabs.addTab(GENERAL_STATISTIC.tabName, GENERAL_STATISTIC.panelStat);
+        listOfTabs.addTab(GENERAL_STATISTIC.getTabName(), GENERAL_STATISTIC.getPanelStat());
     }
 
     public void showDailyStatistic(){
-        listOfTabs.addTab(DAILY_STATISTIC.tabName, DAILY_STATISTIC.panelStat);
+        listOfTabs.addTab(DAILY_STATISTIC.getTabName(), DAILY_STATISTIC.getPanelStat());
     }
 }

@@ -2,12 +2,16 @@ package windowGUI.options;
 
 import com.toedter.calendar.JDateChooser;
 import windowGUI.Calendar;
+import windowGUI.options.workSQL.PersonTable;
+import windowGUI.options.workSQL.SQLAnfrage;
+import windowGUI.options.workSQL.SitesTable;
 
 import javax.swing.*;
 
 import java.awt.*;
 
 public class DailyStatistic extends Statistics{
+    private static final String TAB_NAME = "Ежедневная статистика";
 
     private static final GridBagLayout GBL = new GridBagLayout();
 
@@ -16,78 +20,63 @@ public class DailyStatistic extends Statistics{
     private static final JLabel headlineStartPeriod = new JLabel(" Период c: ");
     private static final JLabel headlineFinishPeriod = new JLabel(" по: ");
 
-    private final JComboBox listSite;
-    private final JComboBox listPersons;
+    private static final JButton btnConfirm = new JButton(" Подтвердить");
+
+    private static final JLabel totalNumberPages = new JLabel();
+
+    private static final SQLAnfrage anfrPersonName = new SQLAnfrage(PersonTable.getTableName());
+    private static final SQLAnfrage anfrSiteName = new SQLAnfrage(SitesTable.getTableName());
+    private final JComboBox<Object> listSite = new JComboBox<>(anfrSiteName.fillList());
+    private final JComboBox<Object> listPersons = new JComboBox<>(anfrPersonName.fillList());
 
     private static final Calendar startCalendar = new Calendar();
     private static final Calendar finishCalendar = new Calendar();
     private static final JDateChooser dateChooser = new JDateChooser();
 
-    private static final JButton btnConfirm = new JButton(" Подтвердить");
-
-    private static JLabel totalNumberPages;
-
-    private static String[] sitesList = new String[10];
-    private static String[] personsList = new String[10];
-
-
     public DailyStatistic() {
-        setTabName("Ежедневная статистика");
-        optionsPanel.setLayout(GBL);
-
-        fillList();
-        listSite = new JComboBox(sitesList);
-        listPersons = new JComboBox(personsList);
+        super();
+        setTabName(TAB_NAME);
+        getOptionsPanel().setLayout(GBL);
 
         activateCalendar();
 
         fillOptionsPanel();
-        panelStat.add(optionsPanel, BorderLayout.NORTH);
+        getPanelStat().add(getOptionsPanel(), BorderLayout.NORTH);
 
         data = new Object[][]{{"21.21.2012", 1}, {"21.21.2010", 2}, {"21.21.2011", 3}};
         columnNames = new String[]{"Дата", "Количество новых страниц"};
         dataTable = new JTable(data,columnNames);
         dataScrollPane = new JScrollPane(dataTable);
-        panelStat.add(dataScrollPane, BorderLayout.CENTER);
+        getPanelStat().add(dataScrollPane, BorderLayout.CENTER);
 
-        totalNumberPages = new JLabel("Всего новых страниц за период: " + countTotalNumberPages());
-        panelStat.add(totalNumberPages, BorderLayout.SOUTH);
-    }
-
-    @Override
-    public void fillList() {
-        for (int i = 0; i < 10; i++) {
-            sitesList[i] = "Сайт " + (i + 1);
-        }
-        for (int i = 0; i < 10; i++) {
-            personsList[i] = "Личность " + (i + 1);
-        }
+        totalNumberPages.setText("Всего новых страниц за период: " + countTotalNumberPages());
+        getPanelStat().add(totalNumberPages, BorderLayout.SOUTH);
     }
 
     @Override
     public void fillOptionsPanel() {
         GBL.setConstraints(headlineSite, configGBC(headlineSite,false));
-        optionsPanel.add(headlineSite);
+        getOptionsPanel().add(headlineSite);
         GBL.setConstraints(listSite, configGBC(listSite,false));
-        optionsPanel.add(listSite);
+        getOptionsPanel().add(listSite);
 
         GBL.setConstraints(headlinePersons, configGBC(headlineSite,true));
-        optionsPanel.add(headlinePersons);
+        getOptionsPanel().add(headlinePersons);
         GBL.setConstraints(listPersons, configGBC(listSite,false));
-        optionsPanel.add(listPersons);
+        getOptionsPanel().add(listPersons);
 
         GBL.setConstraints(headlineStartPeriod, configGBC(headlineSite, true));
-        optionsPanel.add(headlineStartPeriod);
+        getOptionsPanel().add(headlineStartPeriod);
         GBL.setConstraints(startCalendar, configGBC(startCalendar,false));
-        optionsPanel.add(startCalendar);
+        getOptionsPanel().add(startCalendar);
 
         GBL.setConstraints(headlineFinishPeriod, configGBC(headlineSite,true));
-        optionsPanel.add(headlineFinishPeriod);
+        getOptionsPanel().add(headlineFinishPeriod);
         GBL.setConstraints(finishCalendar, configGBC(finishCalendar,false));
-        optionsPanel.add(finishCalendar);
+        getOptionsPanel().add(finishCalendar);
 
         GBL.setConstraints(btnConfirm, configGBC(btnConfirm, true));
-        optionsPanel.add(btnConfirm);
+        getOptionsPanel().add(btnConfirm);
     }
 
     private void activateCalendar(){
@@ -100,7 +89,6 @@ public class DailyStatistic extends Statistics{
             }
         });
     }
-
 
     private long countTotalNumberPages(){
         int count = 0;

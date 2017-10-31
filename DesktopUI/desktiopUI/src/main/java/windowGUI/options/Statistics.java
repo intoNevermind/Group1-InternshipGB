@@ -5,35 +5,23 @@ import windowGUI.Calendar;
 import javax.swing.*;
 import java.awt.*;
 
-public class Statistics {
-    public String tabName ;
-    public JPanel panelStat = new JPanel();
-    public JPanel optionsPanel = new JPanel();
-    public JTable dataTable;
-    public JScrollPane dataScrollPane;
-    public Object[][] data;
-    public String[] columnNames;
+public abstract class Statistics {
+    private String tabName ;
+    private JPanel panelStat = new JPanel();
+    private JPanel optionsPanel = new JPanel();
+    JTable dataTable;
+    JScrollPane dataScrollPane;
+    Object[][] data;
+    String[] columnNames;
     private int numberStr = 0;
 
-
-    public Statistics() {
+    Statistics() {
         panelStat.setLayout(new BorderLayout());
     }
 
-    public void fillList(){
-        String[] list = new String[10];
-        for (int i = 0; i < 10; i++) {
-            list[i] = "Элемент: " + (i + 1);
-        }
-    }
+    public abstract void fillOptionsPanel();
 
-    public void setTabName(String tabName) {
-        this.tabName = tabName;
-    }
-
-    public void fillOptionsPanel(){}
-
-    public GridBagConstraints configGBC(Component component, boolean moveToNewLine){
+    GridBagConstraints configGBC(Component component, boolean moveToNewLine){
         GridBagConstraints gbc =  new GridBagConstraints();
         if(component instanceof JLabel){
             if(moveToNewLine){
@@ -65,5 +53,21 @@ public class Statistics {
             return gbc;
         }
         return gbc;
+    }
+
+     void setTabName(String tabName) {
+        this.tabName = tabName;
+    }
+
+    public String getTabName() {
+        return tabName;
+    }
+
+    public JPanel getPanelStat() {
+        return panelStat;
+    }
+
+    JPanel getOptionsPanel() {
+        return optionsPanel;
     }
 }

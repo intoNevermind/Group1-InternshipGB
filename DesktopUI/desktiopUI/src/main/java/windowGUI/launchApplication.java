@@ -1,12 +1,14 @@
 package windowGUI;
 
+import windowGUI.options.workSQL.ConnectionRepository;
+
 import javax.swing.*;
 
 public class launchApplication {
     public static void main(String[] args) {
         setStyleLookAndFeel();
         new SelectionOfStatistics();
-        new TestRepository();
+        new ConnectionRepository();
     }
 
     private static void setStyleLookAndFeel(){
