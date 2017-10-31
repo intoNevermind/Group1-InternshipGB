@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Работа с базой.
+ * Работа с базой для админского интерфейса.
  *
  * @author Aleksandr Vvedensky
  */
