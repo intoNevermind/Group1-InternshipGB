@@ -30,6 +30,7 @@ public class DailyStatistic extends Statistics{
     private static String[] sitesList = new String[10];
     private static String[] personsList = new String[10];
 
+
     public DailyStatistic() {
         setTabName("Ежедневная статистика");
         optionsPanel.setLayout(GBL);
@@ -65,62 +66,28 @@ public class DailyStatistic extends Statistics{
 
     @Override
     public void fillOptionsPanel() {
-        GridBagConstraints headersStr1 =  new GridBagConstraints();
-        headersStr1.gridx = GridBagConstraints.RELATIVE;
-        headersStr1.gridy = 0;
-        headersStr1.gridwidth  = 1;
-        headersStr1.anchor = GridBagConstraints.EAST;
-        headersStr1.weightx = 0.0;
-
-        GridBagConstraints comboBoxStr1 =  new GridBagConstraints();
-        comboBoxStr1.gridx = GridBagConstraints.RELATIVE;
-        comboBoxStr1.gridy = 0;
-        comboBoxStr1.gridwidth  = 2;
-        comboBoxStr1.fill = GridBagConstraints.BOTH;
-        comboBoxStr1.weightx = 1.0;
-
-        GridBagConstraints headersStr2 =  new GridBagConstraints();
-        headersStr2.gridx = GridBagConstraints.RELATIVE;
-        headersStr2.gridy = 1;
-        headersStr2.gridwidth  = 1;
-        headersStr1.anchor = GridBagConstraints.EAST;
-        headersStr2.weightx = 0.0;
-
-        GridBagConstraints calendarStr2 =  new GridBagConstraints();
-        calendarStr2.gridx = GridBagConstraints.RELATIVE;
-        calendarStr2.gridy = 1;
-        calendarStr2.gridwidth  = 2;
-        calendarStr2.fill = GridBagConstraints.BOTH;
-        calendarStr2.weightx = 1.0;
-
-        GridBagConstraints btnStr3 =  new GridBagConstraints();
-        btnStr3.gridx = GridBagConstraints.RELATIVE;
-        btnStr3.gridy = 2;
-        btnStr3.gridwidth  = GridBagConstraints.REMAINDER ;
-        btnStr3.fill = GridBagConstraints.BOTH;
-        btnStr3.weightx = 1.0;
-
-        GBL.setConstraints(headlineSite, headersStr1);
+        GBL.setConstraints(headlineSite, configGBC(headlineSite,false));
         optionsPanel.add(headlineSite);
-        GBL.setConstraints(listSite, comboBoxStr1);
+        GBL.setConstraints(listSite, configGBC(listSite,false));
         optionsPanel.add(listSite);
-        GBL.setConstraints(headlinePersons, headersStr1);
+
+        GBL.setConstraints(headlinePersons, configGBC(headlineSite,true));
         optionsPanel.add(headlinePersons);
-        GBL.setConstraints(listPersons, comboBoxStr1);
+        GBL.setConstraints(listPersons, configGBC(listSite,false));
         optionsPanel.add(listPersons);
 
-        GBL.setConstraints(headlineStartPeriod, headersStr2);
+        GBL.setConstraints(headlineStartPeriod, configGBC(headlineSite, true));
         optionsPanel.add(headlineStartPeriod);
-        GBL.setConstraints(startCalendar, calendarStr2);
+        GBL.setConstraints(startCalendar, configGBC(startCalendar,false));
         optionsPanel.add(startCalendar);
-        GBL.setConstraints(headlineFinishPeriod, headersStr2);
+
+        GBL.setConstraints(headlineFinishPeriod, configGBC(headlineSite,true));
         optionsPanel.add(headlineFinishPeriod);
-        GBL.setConstraints(finishCalendar, calendarStr2);
+        GBL.setConstraints(finishCalendar, configGBC(finishCalendar,false));
         optionsPanel.add(finishCalendar);
 
-        GBL.setConstraints(btnConfirm, btnStr3);
+        GBL.setConstraints(btnConfirm, configGBC(btnConfirm, true));
         optionsPanel.add(btnConfirm);
-
     }
 
     private void activateCalendar(){
@@ -133,6 +100,8 @@ public class DailyStatistic extends Statistics{
             }
         });
     }
+
+
     private long countTotalNumberPages(){
         int count = 0;
         for (int i = 0; i < data.length; i++) {
