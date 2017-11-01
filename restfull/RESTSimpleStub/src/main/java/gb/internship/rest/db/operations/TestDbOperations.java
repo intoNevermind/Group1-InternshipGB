@@ -78,7 +78,7 @@ public class TestDbOperations {
         public List <String> getDataUser(){
              List<String> data = new ArrayList<>();
 
-         String dataQuery = "SELECT URL, SiteID, FoundDataTime, LastScanDate FROM pages";
+         String dataQuery = "SELECT URL, SiteID, FoundDateTime, LastScanDate FROM pages";
             try {
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery(dataQuery);
