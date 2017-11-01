@@ -7,26 +7,32 @@ package gb.internship.rest.dataobjects;
  */
 
 public class TablePersonPageRank {
-    private Integer PersnoID;
-    private Integer PageID;
-    private Integer Rank;
+
+    private Integer persnoID;
+    private Integer pageID;
+    private Integer rank;
+
+    public Integer getPersnoID() { return persnoID; }
+
+    public void setPersnoID(Integer persnoID) { this.persnoID = persnoID;    }
+
+    public Integer getPageID() {        return pageID;    }
+
+    public void setPageID(Integer pageID) {        this.pageID = pageID;    }
+
+    public Integer getRank() {        return rank;    }
+
+    public void setRank(Integer rank) {        this.rank = rank;    }
 
 
-    public Integer getPersnoID() { return  PersnoID;   }
 
-    public void setPersnoID(Integer persnoID) {   this.PersnoID = persnoID;  }
-
-    public Integer getPageID() { return PageID; }
-
-    public void setPageID(Integer pageID) {this.PageID = pageID;}
-
-    public Integer getRank() {return Rank;}
-
-    public void setRank(Integer rank) { this.Rank = rank;}
-
-    public TablePersonPageRank (Integer PersnoID, Integer PageID, Integer Rank) {
-        this.PersnoID = PersnoID;
-        this.PageID = PageID;
-        this.Rank = Rank;
+    public TablePersonPageRank(Integer persnoID, Integer pageID, Integer rank) {
+        this.persnoID = persnoID;
+        this.pageID = pageID;
+        this.rank = rank;
     }
+
+
+
+
 }
