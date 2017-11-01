@@ -83,7 +83,7 @@ public class TestDbOperations {
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery(dataQuery);
                 while (resultSet.next()){
-                    data.add(resultSet.getString("Json ответ."));
+                    data.add(resultSet.getString("URL"));
 
                 }
             } catch (SQLException e) {
