@@ -1,5 +1,6 @@
 package gb.internship.rest.requestcontrollers;
 
+import gb.internship.rest.dataobjects.TableKeywords;
 import gb.internship.rest.dataobjects.TablePersons;
 import gb.internship.rest.db.operations.AdminUiSitesDbOperations;
 import gb.internship.rest.dataobjects.TableSites;
@@ -293,4 +294,132 @@ public class AdminUiSitesController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(updatedRows);
     }
+
+    /**
+     * Получение всех ключевых слов.
+     *
+     * @return список всех ключевых слов.
+     */
+    @RequestMapping("/admin/ui/getAllKeywords")
+    public List<TableKeywords> getAllKeywords() {
+        List<TableKeywords> resultList = new ArrayList<>();
+        try {
+            resultList = adminUiSitesDbOperations.getAllKeywords();
+        } catch (Exception ex) {
+            LOG.warn("Error getting all Keywords data.");
+            ex.printStackTrace();
+        }
+
+        return resultList;
+    }
+
+    /**
+     * Добавление ключевого слова.
+     *
+     * @param name     ключевое слово.
+     * @param personId идентификатор личности.
+     * @return сообщение о статусе выполнения.
+     */
+    @RequestMapping("/admin/ui/addKeyword")
+    public ResponseEntity addKeyword(@RequestParam(value = "name") String name,
+                                     @RequestParam(value = "personId") Integer personId) {
+
+        if ("".equals(name)) {
+            LOG.warn("Error in /admin/ui/addKeyword. name is empty.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error in /admin/ui/addKeyword. name is empty.");
+        }
+        if (personId == null) {
+            LOG.warn("Error in /admin/ui/modifyKeyword. personId == null");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error in /admin/ui/modifyKeyword. personId == null");
+        }
+
+        try {
+            adminUiSitesDbOperations.addKeyword(name, personId);
+        } catch (Exception ex) {
+            LOG.warn("Error at run add Keyword.");
+            ex.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error at run add Keyword.");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body("OK");
+    }
+
+    /**
+     * Удаление ключевог ослова.
+     *
+     * @param id идентификатор ключавого слова.
+     * @return сообщение о статусе выполнения.
+     * В случае корректного выполнения в теле ответа возвращается количество удалёных записей.
+     */
+    @RequestMapping("/admin/ui/delKeyword")
+    public ResponseEntity delKeyword(@RequestParam(value = "id") Integer id) {
+        int deletedRows;
+
+        if (id == null) {
+            LOG.warn("Error in /admin/ui/delKeyword. id == null");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error. id == null");
+        }
+
+        try {
+            deletedRows = adminUiSitesDbOperations.delKeyword(id);
+        } catch (SQLException ex) {
+            LOG.warn("Error at run del Keyword.");
+            ex.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error at run del Keyword.");
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(deletedRows);
+    }
+
+    /**
+     * Изменение ключевогослова.
+     *
+     * @param id       идентификатор ключавого слова.
+     * @param name     ключевое слово.
+     * @param personId идентификатор личности.
+     * @return сообщение о статусе выполнения.
+     * В случае корректного выполнения в теле ответа возвращается количество удалёных записей.
+     */
+    @RequestMapping("/admin/ui/modifyKeyword")
+    public ResponseEntity modifySite(@RequestParam(value = "id") Integer id,
+                                     @RequestParam(value = "name") String name,
+                                     @RequestParam(value = "personId") Integer personId) {
+
+        int updatedRows;
+
+        if (id == null) {
+            LOG.warn("Error in /admin/ui/modifyKeyword. id == null");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error in /admin/ui/modifyKeyword. id == null");
+        }
+        if ("".equals(name)) {
+            LOG.warn("Error in /admin/ui/modifyKeyword. name is empty.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error in /admin/ui/modifyKeyword. name is empty.");
+        }
+        if (personId == null) {
+            LOG.warn("Error in /admin/ui/modifyKeyword. personId == null");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error in /admin/ui/modifyKeyword. personId == null");
+        }
+
+        try {
+            updatedRows = adminUiSitesDbOperations.modifyKeyword(id, personId, name);
+        } catch (SQLException ex) {
+            LOG.warn("Error at run modify Keyword.");
+            ex.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error at run modify Keyword.");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(updatedRows);
+    }
+
 }

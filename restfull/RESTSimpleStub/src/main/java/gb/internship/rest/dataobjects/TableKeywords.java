@@ -1,37 +1,42 @@
 package gb.internship.rest.dataobjects;
 
-
 /**
- * @author баранов
  * Класс для работы с таблицей Keywords
+ *
+ * @author Баранов, Aleksandr Vvedensky
  */
-
 public class TableKeywords {
+    private Integer id;
+    private Integer personId;
+    private String name;
 
-    Integer id;
-    String name;
-    Integer PersonID;
+    public Integer getId() {
+        return id;
+    }
 
-
-
-    public Integer getId() {return id;}
-
-    public void setId(Integer id) {this.id = id;}
-
-    public String getName() {return name;}
-
-    public void setName(String name) {this.name = name;}
-
-    public Integer getPersonID() {return PersonID;}
-
-    public void setPersonID(Integer personID) {PersonID = personID;}
-
-
-
-
-    public TableKeywords(Integer id, String name, Integer personID) {
+    public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(Integer personId) {
+        this.personId = personId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
         this.name = name;
-        PersonID = personID;
+    }
+
+    public TableKeywords(Integer id, Integer personId, String name) {
+        this.id = id;
+        this.personId = personId;
+        this.name = name;
     }
 }
