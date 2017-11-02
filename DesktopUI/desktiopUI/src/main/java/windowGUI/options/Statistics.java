@@ -55,7 +55,7 @@ public abstract class Statistics {
         return gbc;
     }
 
-     void setTabName(String tabName) {
+    void setTabName(String tabName) {
         this.tabName = tabName;
     }
 

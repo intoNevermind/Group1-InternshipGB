@@ -2,11 +2,12 @@ package windowGUI;
 
 import windowGUI.options.DailyStatistic;
 import windowGUI.options.GeneralStatistic;
+import windowGUI.options.workSQL.PersonTable;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class SelectionOfStatistics  {
+class SelectionOfStatistics  {
 
     private static final int SIZE_WIDTH = 600;
     private static final int SIZE_HEIGHT = 400;
@@ -18,7 +19,7 @@ public class SelectionOfStatistics  {
     private static final DailyStatistic DAILY_STATISTIC = new DailyStatistic();
     private static final GeneralStatistic GENERAL_STATISTIC = new GeneralStatistic();
 
-    public SelectionOfStatistics()  {
+    SelectionOfStatistics() {
         new ConfigurationsWindowGUI().setConfigWindow(window, WINDOW_TITLE,SIZE_WIDTH, SIZE_HEIGHT);
         showGeneralStatistic();
         showDailyStatistic();
@@ -27,11 +28,11 @@ public class SelectionOfStatistics  {
         window.add(listStatistic);
     }
 
-    public void showGeneralStatistic(){
+    private static void showGeneralStatistic(){
         listOfTabs.addTab(GENERAL_STATISTIC.getTabName(), GENERAL_STATISTIC.getPanelStat());
     }
 
-    public void showDailyStatistic(){
+    private static void showDailyStatistic(){
         listOfTabs.addTab(DAILY_STATISTIC.getTabName(), DAILY_STATISTIC.getPanelStat());
     }
 }
