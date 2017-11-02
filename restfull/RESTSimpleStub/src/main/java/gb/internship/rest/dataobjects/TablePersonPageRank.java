@@ -1,6 +1,6 @@
 package gb.internship.rest.dataobjects;
 
-<<<<<<< HEAD
+
 
 /**
  * @author баранов
