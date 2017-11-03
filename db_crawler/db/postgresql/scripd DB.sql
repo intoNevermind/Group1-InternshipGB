@@ -91,12 +91,29 @@ COMMENT ON TABLE public.personpagerank
     IS 'Таблица базы данных, отвечающая за хранение количества упоминаний каждой личности на обработанной странице.';
 
 -- Table users
+-- Table users
 CREATE TABLE public.users (
-  "login" text PRIMARY KEY NOT NULL,
-  "role" BOOLEAN NOT NULL,
-  "password" text NOT NULL
+  "ID" SERIAL PRIMARY KEY NOT NULL,
+  "Login" text NOT NULL UNIQUE,
+  "Admin" BOOLEAN NOT NULL,
+  "Password" text NOT NULL,
+  "Active" BOOLEAN NOT NULL
 );
 
+-- FK UserID for table Sites
+ALTER TABLE public.sites
+   ADD COLUMN "UserID" integer ;
+ALTER TABLE public.sites
+  ADD CONSTRAINT fk_user_sites FOREIGN KEY ("UserID") REFERENCES public.users ("ID")
+   ON UPDATE NO ACTION ON DELETE CASCADE;
+  
+-- FK UserID for table Persons
+ALTER TABLE public.persons
+   ADD COLUMN "UserID" integer;
+ALTER TABLE public.persons
+  ADD CONSTRAINT fk_user_persons FOREIGN KEY ("UserID") REFERENCES public.users ("ID")
+   ON UPDATE NO ACTION ON DELETE CASCADE;
+  
 -- Trigger function change_password (crypt password user before insert or update)
 CREATE OR REPLACE FUNCTION change_password() RETURNS trigger AS $BODY$
 BEGIN	
