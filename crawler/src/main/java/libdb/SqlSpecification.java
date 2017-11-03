@@ -1,4 +1,4 @@
-package libdb.repository;
+package libdb;
 
 public interface SqlSpecification {
     String toSqlQuery();

@@ -1,4 +1,4 @@
-package libdb.entity;
+package libdb.entities;
 
 public interface PersistenceEntity {
     public Integer getId();

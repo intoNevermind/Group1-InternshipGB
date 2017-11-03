@@ -1,4 +1,4 @@
-package libdb.entity;
+package libdb.entities;
 
 import java.util.Date;
 

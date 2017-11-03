@@ -1,6 +1,9 @@
-package libdb.entity;
+package libdb.entities;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  *  Класс описывает объект Личность, соответствующий сущности БД Persons
@@ -9,17 +12,29 @@ public class Person implements PersistenceEntity {
     private Integer id;
     private String name;
     private Boolean active;
-    private ArrayList<String> keywords;
+    private User user;
+    private Map<Integer, String> keywords = new HashMap<Integer, String>();
+    private Map<Integer, Integer> ranks = new HashMap<Integer, Integer>();
 
-    public Person(){};
+    public Person(){
 
-    public Person(String name, Boolean active) {
+    };
+
+    public Person(Integer id, String name, Boolean active, User user) {
+        this.id = id;
         this.name = name;
         this.active = active;
+        this.user = user;
     }
 
-    public Person(String name) {
-        this(name, true);
+    public Person(String name, Boolean active, User user) {
+        this.name = name;
+        this.active = active;
+        this.user = user;
+    }
+
+    public Person(String name, User user) {
+        this(name, true, user);
     }
 
     public Integer getId() {
@@ -42,11 +57,11 @@ public class Person implements PersistenceEntity {
         this.active = active;
     }
 
-    public ArrayList<String> getKeywords() {
+    public Map<Integer, String> getKeywords() {
         return keywords;
     }
 
-    public void setKeywords(ArrayList<String> keywords) {
+    public void setKeywords(Map<Integer, String> keywords) {
         this.keywords = keywords;
     }
 

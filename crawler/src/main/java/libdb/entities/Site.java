@@ -1,4 +1,7 @@
-package libdb.entity;
+package libdb.entities;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *  Класс описывает объект Сайт, соответствующий сущности БД Sites
@@ -8,17 +11,20 @@ public class Site implements PersistenceEntity {
     private String name;
     private String url;
     private Boolean active;
+    private Integer UserId;
+    private Map<Integer, String> pages = new HashMap<Integer, String>();
 
     public Site() {};
 
-    public Site(String name, String url, Boolean active) {
+    public Site(String name, String url, Boolean active, Integer UserID) {
         this.name = name;
         this.url = url;
         this.active = active;
+        this.UserId = UserId;
     }
 
-    public Site(String name, String url) {
-        this(name, url, true);
+    public Site(String name, String url, Integer UserID) {
+        this(name, url, true, UserID);
     }
 
     public Integer getId() {
@@ -31,6 +37,30 @@ public class Site implements PersistenceEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public Integer getUserId() {
+        return UserId;
+    }
+
+    public void setUserId(Integer userId) {
+        UserId = userId;
     }
 
     @Override
