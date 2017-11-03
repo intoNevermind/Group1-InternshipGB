@@ -118,11 +118,11 @@ ALTER TABLE public.persons
 CREATE OR REPLACE FUNCTION change_password() RETURNS trigger AS $BODY$
 BEGIN	
     IF (TG_OP = 'INSERT') THEN
-        NEW.password = crypt(NEW.password, gen_salt('bf', 8));
+        NEW."Password" = crypt(NEW."Password", gen_salt('bf', 8));
         return NEW;
     END IF;
-    IF (TG_OP = 'UPDATE') AND (OLD.password != NEW.password) THEN
-        NEW.password = crypt(NEW.password, gen_salt('bf', 8));
+    IF (TG_OP = 'UPDATE') AND (OLD."Password" != NEW."Password") THEN
+        NEW."Password" = crypt(NEW."Password", gen_salt('bf', 8));
         return NEW;
     END IF;
     return NEW;
@@ -138,10 +138,10 @@ CREATE TRIGGER users_password
    EXECUTE PROCEDURE change_password();
 
 -- Function check login and password user
-CREATE OR REPLACE FUNCTION leaner_logon(text, text) RETURNS bool AS $BODY$
+CREATE OR REPLACE FUNCTION user_logon(text, text) RETURNS bool AS $BODY$
 DECLARE res bool;
 BEGIN
-    SELECT 1 INTO res FROM learners WHERE "login" = $1 AND pwdhash = crypt($2, password);
+    SELECT 1 INTO res FROM users WHERE "Login" = $1 AND "Password" = crypt($2, "Password");
     IF FOUND THEN    
         return true;
     ELSE
@@ -150,7 +150,7 @@ BEGIN
 END;
 $BODY$
 language 'plpgsql';
-COMMENT ON FUNCTION leaner_logon(text, text) IS
+COMMENT ON FUNCTION user_logon(text, text) IS
    'Check true if has leaner with given login and password';
  
 -- User db with role only read
