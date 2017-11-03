@@ -1,0 +1,37 @@
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.util.Properties;
+
+/**
+ * Created by zarodov on 02.11.2017.
+ */
+public class TestWorkDB {
+    static Properties prop = new Properties();
+    static Connection connectDB;
+    public static void main(String[] args) {
+        InputStream input = null;
+        try {
+            // Load properties from file
+            input = new FileInputStream("connection.properties");
+            prop.load(input);
+            // Create connecion DB
+            Class.forName("org.postgresql.Driver");
+            connectDB = DriverManager.getConnection("jdbc:postgresql://" + prop.getProperty("server") + "/" + prop.getProperty("database"), prop.getProperty("dbuser"), prop.getProperty("dbpassword"));
+
+            System.out.println(connectDB.getClientInfo());
+            connectDB.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (input != null) {
+                try {
+                    input.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+}
