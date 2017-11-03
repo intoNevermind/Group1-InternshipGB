@@ -68,13 +68,7 @@ public class Keyword implements PersistenceEntity {
         } else if (!id.equals(other.id)) {
             return false;
         }
-        if (url == null) {
-            if (other.url != null) {
-                return false;
-            }
-        } else if (!url.equals(other.url)) {
-            return false;
-        }
+
         return true;
     }
 }

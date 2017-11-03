@@ -39,13 +39,13 @@ public class PersonRepository extends AbstractModelRepository<Person> {
     }
 
     public static Person map(ResultSet rs) throws SQLException {
-        Person person = new Person(
-                rs.getInt(PersonRepository.getNameFieldDB("id")),
-                rs.getString(PersonRepository.getNameFieldDB("name")),
-                rs.getBoolean(PersonRepository.getNameFieldDB("active")),
-                rs.getInt(PersonRepository.getNameFieldDB("userId"))
-        );
-        return person;
+//        Person person = new Person(
+//                rs.getInt(PersonRepository.getNameFieldDB("id")),
+//                rs.getString(PersonRepository.getNameFieldDB("name")),
+//                rs.getBoolean(PersonRepository.getNameFieldDB("active")),
+//                rs.getInt(PersonRepository.getNameFieldDB("userId"))
+//        );
+        return null;
     }
 
     public static String getTableName() {

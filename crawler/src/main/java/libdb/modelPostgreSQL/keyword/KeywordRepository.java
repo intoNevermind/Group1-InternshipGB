@@ -40,13 +40,13 @@ public class KeywordRepository extends AbstractModelRepository<Keyword> {
     }
 
     public static Keyword map(ResultSet rs) throws SQLException {
-        Keyword keyword = new Keyword(
-                rs.getInt(KeywordRepository.getNameFieldDB("id")),
-                rs.getString(KeywordRepository.getNameFieldDB("name")),
-                rs.getBoolean(KeywordRepository.getNameFieldDB("active")),
-                rs.getInt(KeywordRepository.getNameFieldDB("userId"))
-        );
-        return person;
+//        Keyword keyword = new Keyword(
+//                rs.getInt(KeywordRepository.getNameFieldDB("id")),
+//                rs.getString(KeywordRepository.getNameFieldDB("name")),
+//                rs.getBoolean(KeywordRepository.getNameFieldDB("active")),
+//                rs.getInt(KeywordRepository.getNameFieldDB("userId"))
+//        );
+        return null;
     }
 
     public static String getTableName() {
