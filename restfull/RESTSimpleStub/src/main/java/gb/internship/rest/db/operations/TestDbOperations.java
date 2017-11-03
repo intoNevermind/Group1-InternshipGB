@@ -28,7 +28,7 @@ public class TestDbOperations {
     }
 
     /**
-     * Делаем INSERT полученной строки в таблицу test.
+     * Делаем INSERT полученной строки в таблицу test. у
      *
      * @param str строка для вставки в таблицу.
      * @throws SQLException
@@ -78,12 +78,12 @@ public class TestDbOperations {
         public List <String> getDataUser(){
              List<String> data = new ArrayList<>();
 
-         String dataQuery = "SELECT URL, SiteID, FoundDataTime, LastScanDate FROM pages";
+         String dataQuery = "SELECT URL, SiteID, FoundDateTime, LastScanDate FROM pages";
             try {
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery(dataQuery);
                 while (resultSet.next()){
-                    data.add(resultSet.getString("Json ответ... "));
+                    data.add(resultSet.getString("URL"));
 
                 }
             } catch (SQLException e) {

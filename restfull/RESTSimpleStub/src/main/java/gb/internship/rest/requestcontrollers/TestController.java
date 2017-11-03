@@ -67,6 +67,17 @@ public class TestController {
 
 
     /**
+     * @author баранов
+     * Делает запрос в базу по параметрам пользователя
+     */
+    @RequestMapping("/getStatic")
+    public List<String> getPersonStatic(){
+        List<String> data = new ArrayList<>();
+        data = dbOperations.getDataUser();
+        return  data;
+    }
+
+    /**
      * Делает запрос в базу.
      *
      * @param stringToInsert строка для вставки в базу.

@@ -1,5 +1,6 @@
 package gb.internship.rest.db.operations;
 
+import gb.internship.rest.dataobjects.TableKeywords;
 import gb.internship.rest.dataobjects.TablePersons;
 import gb.internship.rest.dataobjects.TableSites;
 import gb.internship.rest.db.DbWrapper;
@@ -38,8 +39,8 @@ public class AdminUiSitesDbOperations {
     public List<TableSites> getAllSites() throws SQLException {
         List<TableSites> resultList = new ArrayList<>();
 
-        LOG.info("SELECT id, name, url, active FROM sites");
-        String sqlQuery = "SELECT id, name, url, active FROM sites;";
+        LOG.info("SELECT \"ID\", \"Name\", \"URL\", \"Active\" FROM sites;");
+        String sqlQuery = "SELECT \"ID\", \"Name\", \"URL\", \"Active\" FROM sites;";
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sqlQuery);
 
@@ -64,8 +65,8 @@ public class AdminUiSitesDbOperations {
      * @throws SQLException
      */
     public void addSite(String name, String url, Boolean active) throws SQLException {
-        LOG.info("INSERT INTO sites: name = " + name + ", url = " + url + ", active = " + active);
-        String sqlQuery = "INSERT INTO sites (name, url,active) VALUES ((?), (?), (?));";
+        LOG.info("INSERT INTO sites: \"Name\" = " + name + ", url = " + url + ", \"Active\" = " + active);
+        String sqlQuery = "INSERT INTO \"sites\" (\"Name\", \"URL\",\"Active\") VALUES ((?), (?), (?));";
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
         preparedStatement.setString(1, name);
         preparedStatement.setString(2, url);
@@ -80,8 +81,8 @@ public class AdminUiSitesDbOperations {
      * @throws SQLException
      */
     public int delSite(Integer id) throws SQLException {
-        LOG.info("DELETE FROM sites WHERE id = " + id);
-        String sqlQuery = "DELETE FROM sites WHERE id = (?);";
+        LOG.info("DELETE FROM sites WHERE \"ID\" = " + id);
+        String sqlQuery = "DELETE FROM \"sites\" WHERE \"ID\" = (?);";
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
         preparedStatement.setInt(1, id);
         int updateResult = preparedStatement.executeUpdate();
@@ -99,9 +100,9 @@ public class AdminUiSitesDbOperations {
      * @throws SQLException
      */
     public int modifySite(Integer id, String name, String url, Boolean active) throws SQLException {
-        LOG.info("UPDATE sites SET name = " + name + ", url = " + url + ", active = " + active +
-                " WHERE id = " + id);
-        String sqlQuery = "UPDATE sites SET name = (?), url = (?), active = (?) WHERE id = (?);";
+        LOG.info("UPDATE sites SET \"Name\" = " + name + ", url = " + url + ", \"Active\" = " + active +
+                " WHERE \"ID\" = " + id);
+        String sqlQuery = "UPDATE \"sites\" SET \"Name\" = (?), \"URL\" = (?), \"Active\" = (?) WHERE \"ID\" = (?);";
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
         preparedStatement.setString(1, name);
         preparedStatement.setString(2, url);
@@ -122,8 +123,8 @@ public class AdminUiSitesDbOperations {
     public List<TablePersons> getAllPersons() throws SQLException {
         List<TablePersons> resultList = new ArrayList<>();
 
-        LOG.info("SELECT id, name, active FROM persons;");
-        String sqlQuery = "SELECT id, name, active FROM persons;";
+        LOG.info("SELECT \"ID\", \"Name\", \"Active\" FROM persons;");
+        String sqlQuery = "SELECT \"ID\", \"Name\", \"Active\" FROM persons;";
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sqlQuery);
 
@@ -145,8 +146,8 @@ public class AdminUiSitesDbOperations {
      * @throws SQLException
      */
     public void addPerson(String name, Boolean active) throws SQLException {
-        LOG.info("INSERT INTO persons (name, active) VALUES (" + name + ", " + active + ");");
-        String sqlQuery = "INSERT INTO persons (name, active) VALUES ((?), (?));";
+        LOG.info("INSERT INTO \"persons\" (\"Name\", \"Active\") VALUES (" + name + ", " + active + ");");
+        String sqlQuery = "INSERT INTO \"persons\" (\"Name\", \"Active\") VALUES ((?), (?));";
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
         preparedStatement.setString(1, name);
         preparedStatement.setBoolean(2, active);
@@ -162,8 +163,8 @@ public class AdminUiSitesDbOperations {
      * @throws SQLException
      */
     public int delPerson(Integer id) throws SQLException {
-        LOG.info("DELETE FROM persons WHERE id = " + id);
-        String sqlQuery = "DELETE FROM persons WHERE id = (?);";
+        LOG.info("DELETE FROM \"persons\" WHERE \"ID\" = " + id);
+        String sqlQuery = "DELETE FROM \"persons\" WHERE \"ID\" = (?);";
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
         preparedStatement.setInt(1, id);
         int updateResult = preparedStatement.executeUpdate();
@@ -182,12 +183,94 @@ public class AdminUiSitesDbOperations {
      * @throws SQLException
      */
     public int modifyPerson(Integer id, String name, Boolean active) throws SQLException {
-        LOG.info("UPDATE persons SET name = " + name + ", active = " + active +
-                " WHERE id = " + id);
-        String sqlQuery = "UPDATE persons SET name = (?), active = (?) WHERE id = (?);";
+        LOG.info("UPDATE \"persons\" SET \"Name\" = " + name + ", \"Active\" = " + active +
+                " WHERE \"ID\" = " + id);
+        String sqlQuery = "UPDATE \"persons\" SET \"Name\" = (?), \"Active\" = (?) WHERE \"ID\" = (?);";
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
         preparedStatement.setString(1, name);
         preparedStatement.setBoolean(2, active);
+        preparedStatement.setInt(3, id);
+        int updateResult = preparedStatement.executeUpdate();
+        preparedStatement.close();
+
+        return updateResult;
+    }
+
+    /**
+     * Получение содержимого таблицы keywords.
+     *
+     * @return список всех ключевых слов, обёрнутых в объекты.
+     * @throws SQLException
+     */
+    public List<TableKeywords> getAllKeywords() throws SQLException {
+        List<TableKeywords> resultList = new ArrayList<>();
+
+        LOG.info("SELECT \"ID\", \"Name\", \"PersonID\" FROM keywords;");
+        String sqlQuery = "SELECT \"ID\", \"PersonID\", \"Name\" FROM keywords;";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sqlQuery);
+
+        while (resultSet.next()) {
+            resultList.add(new TableKeywords(resultSet.getInt("id"),
+                    resultSet.getInt("personid"),
+                    resultSet.getString("name")));
+        }
+        statement.close();
+
+        return resultList;
+    }
+
+    /**
+     * Добавление ключевого слова.
+     *
+     * @param name     ключевое слово.
+     * @param personId идентификатор личности.
+     * @throws SQLException
+     */
+    public void addKeyword(String name, Integer personId) throws SQLException {
+        LOG.info("INSERT INTO \"keywords\" (\"Name\", \"PersonID\") VALUES (" + name + ", " + personId + ");");
+        String sqlQuery = "INSERT INTO \"keywords\" (\"Name\", \"PersonID\") VALUES ((?), (?));";
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setString(1, name);
+        preparedStatement.setInt(2, personId);
+        preparedStatement.execute();
+        preparedStatement.close();
+    }
+
+    /**
+     * Удаление ключевого слова.
+     *
+     * @param id идентификатор ключавого слова.
+     * @return количество удалённых строк.
+     * @throws SQLException
+     */
+    public int delKeyword(Integer id) throws SQLException {
+        LOG.info("DELETE FROM \"keywords\" WHERE \"ID\" = " + id);
+        String sqlQuery = "DELETE FROM \"keywords\" WHERE \"ID\" = (?);";
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setInt(1, id);
+        int updateResult = preparedStatement.executeUpdate();
+        preparedStatement.close();
+
+        return updateResult;
+    }
+
+    /**
+     * Изменение ключевого слова.
+     *
+     * @param id       идентификатор ключевого слова.
+     * @param personId идентификатор пользователя.
+     * @param name     ключевое слово.
+     * @return количество удалённых строк.
+     * @throws SQLException
+     */
+    public int modifyKeyword(Integer id, Integer personId, String name) throws SQLException {
+        LOG.info("UPDATE \"keywords\" SET \"Name\" " + name + ", \"PersonID\" = " + personId +
+                " WHERE \"ID\" = " + id);
+        String sqlQuery = "UPDATE \"keywords\" SET \"Name\" = (?), \"PersonID\" = (?) WHERE \"ID\" = (?);";
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setString(1, name);
+        preparedStatement.setInt(2, personId);
         preparedStatement.setInt(3, id);
         int updateResult = preparedStatement.executeUpdate();
         preparedStatement.close();
