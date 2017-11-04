@@ -11,11 +11,11 @@ public class SitesTable {
     private static final String URL_COLUMN = "URL";
     private static final String ACTIVE_COLUMN = "Active";
 
-
     private static final ArrayList<Integer> listID = new ArrayList<>();
     private static final ArrayList<String> listName = new ArrayList<>();
     private static final ArrayList<String> listURL = new ArrayList<>();
     private static final ArrayList<Integer> listActive = new ArrayList<>();
+    private static final HashMap<Integer,String> listIDAndName = new HashMap<>();
 
     public ArrayList<Integer> getListID(){
         listID.add(1);
@@ -41,6 +41,14 @@ public class SitesTable {
         return listActive;
     }
 
+    public HashMap<Integer, String> getListIDAndName() {
+        getListID();
+        getListName();
+        for (int i = 0; i < listID.size(); i++) {
+            listIDAndName.put(listID.get(i),listName.get(i));
+        }
+        return listIDAndName;
+    }
     public static String getTableName() {
         return TABLE_NAME;
     }

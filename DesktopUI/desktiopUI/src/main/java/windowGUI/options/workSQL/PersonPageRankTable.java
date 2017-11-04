@@ -13,7 +13,7 @@ public class PersonPageRankTable {
     private static final ArrayList<Integer> listPageID = new ArrayList<>();
     private static final ArrayList<Integer> listRank = new ArrayList<>();
 
-    public static ArrayList<Integer> getListPersonID() {
+    public ArrayList<Integer> getListPersonID() {
         listPersonID.add(1);
         listPersonID.add(1);
         listPersonID.add(1);
@@ -35,7 +35,7 @@ public class PersonPageRankTable {
         return listPersonID;
     }
 
-    public static ArrayList<Integer> getListPageID() {
+    public ArrayList<Integer> getListPageID() {
         listPageID.add(1);
         listPageID.add(2);
         listPageID.add(3);
@@ -57,7 +57,7 @@ public class PersonPageRankTable {
         return listPageID;
     }
 
-    public static ArrayList<Integer> getListRank() {
+    public ArrayList<Integer> getListRank() {
         listRank.add(9);
         listRank.add(7);
         listRank.add(6);

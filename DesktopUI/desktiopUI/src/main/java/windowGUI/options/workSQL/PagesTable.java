@@ -20,7 +20,6 @@ public class PagesTable {
     private static final ArrayList<String> listFoundDateTime = new ArrayList<>();
     private static final ArrayList<String> listLastScanDate = new ArrayList<>();
 
-
     public ArrayList<Integer> getListID(){
         listID.add(1);
         listID.add(2);
