@@ -41,7 +41,7 @@ public class Downloader {
         String line = "";
 
         while ((line = rd.readLine()) != null) {
-            result.append(line + "\n");
+            result.append(line);
         }
 
         return result.toString();
