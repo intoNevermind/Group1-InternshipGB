@@ -138,14 +138,14 @@ CREATE TRIGGER users_password
    EXECUTE PROCEDURE change_password();
 
 -- Function check login and password user
-CREATE OR REPLACE FUNCTION user_logon(text, text) RETURNS bool AS $BODY$
-DECLARE res bool;
+CREATE OR REPLACE FUNCTION user_logon(text, text) RETURNS integer AS $BODY$
+DECLARE res integer;
 BEGIN
-    SELECT 1 INTO res FROM users WHERE "Login" = $1 AND "Password" = crypt($2, "Password");
+    SELECT CASE WHEN "Admin" THEN 2 ELSE 1 END INTO res FROM users WHERE "Login" = $1 AND "Password" = crypt($2, "Password") AND "Active";
     IF FOUND THEN    
-        return true;
+        return res;
     ELSE
-        return false;
+        return 0;
     END IF;
 END;
 $BODY$
