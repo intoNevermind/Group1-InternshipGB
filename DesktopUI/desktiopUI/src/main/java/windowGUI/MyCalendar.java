@@ -1,12 +1,14 @@
 package windowGUI;
+
 import java.awt.EventQueue;
 import com.toedter.calendar.JDateChooser;
 
-public class Calendar extends JDateChooser{
+public class MyCalendar extends JDateChooser{
 
-        public Calendar() {
+        public MyCalendar() {
             setBounds(20, 20, 200, 20);
-            setDateFormatString("dd MMMM yyyy, EEEE ");
+            setDateFormatString("yyyy-MM-dd- HH:mm:ss");
+
             EventQueue.invokeLater(() ->{
                 try {
                     setVisible(true);

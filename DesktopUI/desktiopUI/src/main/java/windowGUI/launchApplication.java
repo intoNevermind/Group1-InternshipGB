@@ -9,7 +9,7 @@ public class launchApplication {
         setStyleLookAndFeel();
         new SelectionOfStatistics();
         ProcessingPersonPageRankTable PPPRT = new ProcessingPersonPageRankTable();
-//        PPPRT.fillGeneralTable("РБК", "Путин");
+        PPPRT.fillDailyTable("Лента.ру", "Путин", "2017-10-02", "2017-10-00");
     }
 
     private static void setStyleLookAndFeel(){

@@ -1,6 +1,6 @@
 package windowGUI.options;
 
-import windowGUI.Calendar;
+import windowGUI.MyCalendar;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,7 +32,7 @@ public abstract class Statistics {
             gbc.anchor = GridBagConstraints.EAST;
             return gbc;
         }
-        if(component instanceof JComboBox || component instanceof Calendar){
+        if(component instanceof JComboBox || component instanceof MyCalendar){
             if(moveToNewLine){
                 numberStr++;
             }

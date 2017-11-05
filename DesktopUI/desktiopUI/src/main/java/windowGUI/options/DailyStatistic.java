@@ -1,9 +1,12 @@
 package windowGUI.options;
 
-import windowGUI.Calendar;
+import windowGUI.MyCalendar;
 import windowGUI.options.workSQL.*;
 import javax.swing.*;
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.text.SimpleDateFormat;
 
 public class DailyStatistic extends Statistics{
     private static final String TAB_NAME = "Ежедневная статистика";
@@ -24,18 +27,26 @@ public class DailyStatistic extends Statistics{
     private static final JComboBox<Object> listSite = new JComboBox<>(PST.getColumnName());
     private static final JComboBox<Object> listPersons = new JComboBox<>(PPT.getColumnName());
 
-    private static final Calendar startCalendar = new Calendar();
-    private static final Calendar finishCalendar = new Calendar();
+    private static final MyCalendar startCalendar = new MyCalendar();
+    private static final MyCalendar finishCalendar = new MyCalendar();
 
     public DailyStatistic() {
-        super();
+
         setTabName(TAB_NAME);
         getOptionsPanel().setLayout(GBL);
 
         fillOptionsPanel();
         getPanelStat().add(getOptionsPanel(), BorderLayout.NORTH);
+        startCalendar.getDateEditor().addPropertyChangeListener("date", new PropertyChangeListener() {
+                    @Override
+                    public void propertyChange(PropertyChangeEvent evt) {
+                        String str = new SimpleDateFormat("yyyy-MM-dd").format(startCalendar.getDate());
+                        System.out.println(str);
+                    }
+                });
 
-        data = new Object[][]{{"21.21.2012", 1}, {"21.21.2010", 2}, {"21.21.2011", 3}};
+
+                data = new Object[][]{{"21.21.2012", 1}, {"21.21.2010", 2}, {"21.21.2011", 3}};
         columnNames = new String[]{"Дата", "Количество новых страниц"};
         dataTable = new JTable(data,columnNames);
         dataScrollPane = new JScrollPane(dataTable);

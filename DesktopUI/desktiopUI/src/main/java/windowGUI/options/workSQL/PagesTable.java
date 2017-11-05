@@ -1,6 +1,8 @@
 package windowGUI.options.workSQL;
 
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -17,8 +19,8 @@ public class PagesTable {
     private static final ArrayList<Integer> listID = new ArrayList<>();
     private static final ArrayList<String> listURL = new ArrayList<>();
     private static final ArrayList<Integer> listSiteID = new ArrayList<>();
-    private static final ArrayList<String> listFoundDateTime = new ArrayList<>();
-    private static final ArrayList<String> listLastScanDate = new ArrayList<>();
+    private static final ArrayList<Date> listFoundDateTime = new ArrayList<>();
+    private static final ArrayList<Date> listLastScanDate = new ArrayList<>();
 
     public ArrayList<Integer> getListID(){
         listID.add(1);
@@ -50,25 +52,52 @@ public class PagesTable {
         return listSiteID;
     }
 
-    public  ArrayList<String> getListFoundDateTime(){
-        listFoundDateTime.add("2025-10-17 09:43:00");
-        listFoundDateTime.add("2026-10-17 09:43:00");
-        listFoundDateTime.add("2027-10-17 09:43:00");
-        listFoundDateTime.add("2028-10-17 09:43:00");
-        listFoundDateTime.add("2029-10-17 09:43:00");
-        listFoundDateTime.add("2030-10-17 09:43:00");
+    public  ArrayList<Date> getListFoundDateTime(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date date = sdf.parse("2017-10-01 09:43:00");
+            Date date1 = sdf.parse("2017-10-02 09:43:00");
+            Date date2 = sdf.parse("2017-10-03 09:43:00");
+            Date date3 = sdf.parse("2017-10-04 09:43:00");
+            Date date4 = sdf.parse("2017-10-05 09:43:00");
+            Date date5 = sdf.parse("2017-10-06 09:43:00");
+
+
+            listFoundDateTime.add(date);
+            listFoundDateTime.add(date1);
+            listFoundDateTime.add(date2);
+            listFoundDateTime.add(date3);
+            listFoundDateTime.add(date4);
+            listFoundDateTime.add(date5);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         return listFoundDateTime;
     }
 
-    public  ArrayList<String> getListLastScanDate(){
-        listFoundDateTime.add("2030-10-17 09:43:00");
-        listFoundDateTime.add("2030-10-17 09:43:00");
-        listFoundDateTime.add("2030-10-17 09:43:00");
-        listFoundDateTime.add("2030-10-17 09:43:00");
-        listFoundDateTime.add("2030-10-17 09:43:00");
-        listFoundDateTime.add("2030-10-17 09:43:00");
+    public  ArrayList<Date> getListLastScanDate(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date date = sdf.parse("2017-10-06 09:43:00");
+            Date date1 = sdf.parse("2017-10-06 09:43:00");
+            Date date2 = sdf.parse("2017-10-06 09:43:00");
+            Date date3 = sdf.parse("2017-10-06 09:43:00");
+            Date date4 = sdf.parse("2017-10-06 09:43:00");
+            Date date5 = sdf.parse("2017-10-06 09:43:00");
+
+
+            listLastScanDate.add(date);
+            listLastScanDate.add(date1);
+            listLastScanDate.add(date2);
+            listLastScanDate.add(date3);
+            listLastScanDate.add(date4);
+            listLastScanDate.add(date5);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         return listLastScanDate;
     }
+
     public static String getPagesName() {
         return PAGES_NAME;
     }
