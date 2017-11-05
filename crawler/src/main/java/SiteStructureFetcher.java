@@ -1,3 +1,5 @@
+import org.jsoup.Jsoup;
+import org.jsoup.select.Elements;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -19,10 +21,12 @@ public class SiteStructureFetcher {
     public static final String SITEMAP = "Sitemap: ";
 
     public static void updateSiteStructure(String url){
+        String host = url.trim().replaceAll("(https|http)://", "");
+
         Set<String> sitemapUrls = fetchSitemaps(url);
 
         if (sitemapUrls.isEmpty()){
-            crawlPage(url);
+            crawlPage(url, host);
         }
         else crawlSitemaps(sitemapUrls);
 
@@ -95,7 +99,7 @@ public class SiteStructureFetcher {
                             e.getElementsByTagName("loc");
                     Element titleElem = (Element) locList.item(0);
 
-                    // get the "text node" in the loc (only one)
+                    // Get the "text node" in the loc (only one)
                     Node titleNode = titleElem.getChildNodes().item(0);
                     System.out.println(titleNode.getNodeValue());
 
@@ -107,12 +111,34 @@ public class SiteStructureFetcher {
         }
     }
 
-    private static void crawlPage(String url){
+    private static void crawlPage(String url, String host){
         //находим все ссылки на странице
         //запускаем для каждой crawlPage
         //записываем в базу адрес страницы
         //вопрос oграничивать ли глубину и проверять ли повторы
-        System.out.println("Sitemap not found!");
+        //System.out.println("Sitemap not found!");
+
+        try {
+            org.jsoup.nodes.Document doc = Jsoup.connect(url).get();
+
+            // Extract all href links from url
+            Elements links = doc.select("a[href]");
+
+            for (org.jsoup.nodes.Element link : links) {
+                String linkUrl = link.attr("abs:href");
+
+                if (linkUrl.contains(host))
+                System.out.println("Crawling " + linkUrl);
+
+                // Crawl deep inside;
+                // crawlPage(link.attr("abs:href"));
+
+                // TODO Save urls`s to database
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     //TODO классы обертки для базы - добавление страницы, проверка на наличие страницы
