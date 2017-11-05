@@ -1,6 +1,6 @@
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by ferney on 01.11.17.
@@ -12,7 +12,7 @@ public class SiteStructureFetcher {
     public static final String SITEMAP = "Sitemap: ";
 
     public static void updateSiteStructure(String url){
-        List<String> sitemapUrls = fetchSitemaps(url);
+        Set<String> sitemapUrls = fetchSitemaps(url);
 
         if (sitemapUrls.isEmpty()){
             crawlPage(url);
@@ -21,7 +21,7 @@ public class SiteStructureFetcher {
 
     }
 
-    private static List<String> fetchSitemaps(String url){
+    private static Set<String> fetchSitemaps(String url){
         //проверяет есть ли robots.txt и если он есть, то есть ли ссылки на sitemap
         //если нет sitemap то возвращает пустой массив, иначе записывает в массив все найденные ссылки
         //нет robots.txt возвращаем так же пустой массив
@@ -32,12 +32,12 @@ public class SiteStructureFetcher {
             String robotsString = downloader.download(url + "/" + ROBOTS_TXT);
             // If file exists and no empty
             if (robotsString != null) {
-                List<String> arrayOfSitemaps = new ArrayList<String>();
+                Set<String> arrayOfSitemaps = new HashSet<String>();
 
                 System.out.println(robotsString);
 
                 // If "Sitemap:" found, parsing url.
-                for (String str : robotsString.split("\n")) {
+                for (String str : robotsString.split(System.getProperty("line.separator"))) {
                     System.out.println(str);
                     str.trim();
                     if (str.startsWith(SITEMAP)) {
@@ -49,16 +49,16 @@ public class SiteStructureFetcher {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            return new ArrayList<String>();
+            return new HashSet<String>();
         }
 
-        return new ArrayList<String>();
+        return new HashSet<String>();
     }
 
     //2 разных метода, потому что у некоорых сайтов есть sitemap и все ссылки можно получить из него, а у некоторых нет :(
     //и все ссылки придется получать разбирая HTML страниц
 
-    private static void crawlSitemaps(List<String> urls){
+    private static void crawlSitemaps(Set<String> urls){
         //находим все ссылки на странице
         //запускаем для каждой crawlSitemap
         //записываем в базу страницу с ссылкой на текущий sitemap
