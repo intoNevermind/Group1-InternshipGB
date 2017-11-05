@@ -1,2 +1,3 @@
 /kotlinc.xml
 *.xml
+*.name

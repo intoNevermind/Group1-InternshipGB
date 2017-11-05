@@ -1,3 +1,10 @@
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
@@ -32,7 +39,7 @@ public class SiteStructureFetcher {
             String robotsString = downloader.download(url + "/" + ROBOTS_TXT);
             // If file exists and no empty
             if (robotsString != null) {
-                Set<String> arrayOfSitemaps = new HashSet<String>();
+                Set<String> setOfSitemaps = new HashSet<String>();
 
                 System.out.println(robotsString);
 
@@ -42,10 +49,10 @@ public class SiteStructureFetcher {
                     str.trim();
                     if (str.startsWith(SITEMAP)) {
                         str = str.replaceAll(SITEMAP, "");
-                        arrayOfSitemaps.add(str);
+                        setOfSitemaps.add(str);
                     }
                 }
-                return arrayOfSitemaps;
+                return setOfSitemaps;
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -65,6 +72,39 @@ public class SiteStructureFetcher {
         //вопрос oграничивать ли глубину и проверять ли повторы
         System.out.println("Crawling sitemap!..");
         System.out.println("Sitemap list: " + urls.toString());
+
+        try {
+            for (String url : urls) {
+                DocumentBuilderFactory f =
+                        DocumentBuilderFactory.newInstance();
+                DocumentBuilder b = f.newDocumentBuilder();
+                Document doc = b.parse(url);
+                doc.getDocumentElement().normalize();
+
+                // Loop through each item
+                NodeList items = doc.getElementsByTagName("url");
+                for (int i = 0; i < items.getLength(); i++)
+                {
+                    Node n = items.item(i);
+                    if (n.getNodeType() != Node.ELEMENT_NODE)
+                        continue;
+                    Element e = (Element) n;
+
+                    // Get the "loc elem" in this url (only one)
+                    NodeList locList =
+                            e.getElementsByTagName("loc");
+                    Element titleElem = (Element) locList.item(0);
+
+                    // get the "text node" in the loc (only one)
+                    Node titleNode = titleElem.getChildNodes().item(0);
+                    System.out.println(titleNode.getNodeValue());
+
+                    // TODO Save urls`s to database
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private static void crawlPage(String url){
