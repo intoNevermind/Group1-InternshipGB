@@ -1,7 +1,7 @@
 package windowGUI.options.workSQL;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class SitesTable {
     private static final String TABLE_NAME = "sites";
@@ -15,7 +15,7 @@ public class SitesTable {
     private static final ArrayList<String> listName = new ArrayList<>();
     private static final ArrayList<String> listURL = new ArrayList<>();
     private static final ArrayList<Integer> listActive = new ArrayList<>();
-    private static final HashMap<Integer,String> listIDAndName = new HashMap<>();
+    private static final LinkedHashMap<Integer,String> listIDAndName = new LinkedHashMap<>();
 
     public ArrayList<Integer> getListID(){
         listID.add(1);
@@ -41,14 +41,12 @@ public class SitesTable {
         return listActive;
     }
 
-    public HashMap<Integer, String> getListIDAndName() {
-        getListID();
-        getListName();
-        for (int i = 0; i < listID.size(); i++) {
-            listIDAndName.put(listID.get(i),listName.get(i));
-        }
+    public LinkedHashMap<Integer, String> getListIDAndName() {
+        listIDAndName.put(1,"Лента.ру");
+        listIDAndName.put(2,"РБК");
         return listIDAndName;
     }
+
     public static String getTableName() {
         return TABLE_NAME;
     }

@@ -1,7 +1,8 @@
 package windowGUI.options.workSQL;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+
 
 public class PersonTable {
     private static final String TABLE_NAME = "persons";
@@ -13,7 +14,8 @@ public class PersonTable {
     private static final ArrayList<Integer> listID = new ArrayList<>();
     private static final ArrayList<String> listName = new ArrayList<>();
     private static final ArrayList<Integer> listActive = new ArrayList<>();
-    private static final HashMap<Integer,String> listIDAndName = new HashMap<>();
+    private static final LinkedHashMap<Integer,String> listIDAndName = new LinkedHashMap<>();
+
 
 
 
@@ -23,6 +25,7 @@ public class PersonTable {
         listID.add(3);
         return listID;
     }
+
 
     public ArrayList<String> getListName(){
         listName.add("Путин");
@@ -37,12 +40,10 @@ public class PersonTable {
         return listActive;
     }
 
-    public HashMap<Integer, String> getListIDAndName() {
-        getListID();
-        getListName();
-        for (int i = 0; i < listID.size(); i++) {
-            listIDAndName.put(listID.get(i),listName.get(i));
-        }
+    public LinkedHashMap<Integer, String> getListIDAndName() {
+        listIDAndName.put(1,"Путин");
+        listIDAndName.put(2,"Навальный");
+        listIDAndName.put(3,"Собчак");
         return listIDAndName;
     }
 

@@ -9,8 +9,8 @@ import java.awt.*;
 
 class SelectionOfStatistics  {
 
-    private static final int SIZE_WIDTH = 1000;
-    private static final int SIZE_HEIGHT = 1000;
+    private static final int SIZE_WIDTH = 600;
+    private static final int SIZE_HEIGHT = 400;
     private static final String WINDOW_TITLE = "Выбор статистики";
     private static final JFrame window = new JFrame();
     private static final JPanel listStatistic = new JPanel();

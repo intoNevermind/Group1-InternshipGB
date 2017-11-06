@@ -1,11 +1,10 @@
 package windowGUI.options.workSQL;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class PagesTable {
     private static final String PAGES_NAME = "pages";
@@ -21,6 +20,30 @@ public class PagesTable {
     private static final ArrayList<Integer> listSiteID = new ArrayList<>();
     private static final ArrayList<Date> listFoundDateTime = new ArrayList<>();
     private static final ArrayList<Date> listLastScanDate = new ArrayList<>();
+    private static final LinkedHashMap<Date,Integer> listIDAndFoundDateTime = new LinkedHashMap<>();
+
+    public  LinkedHashMap<Date,Integer > getListFoundDateTimeAndID() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date date = sdf.parse("2017-10-01 09:43:00");
+            Date date1 = sdf.parse("2017-10-02 09:43:00");
+            Date date2 = sdf.parse("2017-10-03 09:43:00");
+            Date date3 = sdf.parse("2017-10-04 09:43:00");
+            Date date4 = sdf.parse("2017-10-05 09:43:00");
+            Date date5 = sdf.parse("2017-10-06 09:43:00");
+
+            listIDAndFoundDateTime.put(date, 1);
+            listIDAndFoundDateTime.put(date1, 2);
+            listIDAndFoundDateTime.put(date2, 3);
+            listIDAndFoundDateTime.put(date3, 4);
+            listIDAndFoundDateTime.put(date4, 5);
+            listIDAndFoundDateTime.put(date5, 6);
+        }catch (ParseException e) {
+            e.printStackTrace();
+        }
+        System.out.println("getListIDAndFoundDateTime " + listIDAndFoundDateTime);
+        return listIDAndFoundDateTime;
+    }
 
     public ArrayList<Integer> getListID(){
         listID.add(1);

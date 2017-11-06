@@ -21,11 +21,11 @@ public class DailyStatistic extends Statistics{
 
     private static final JButton btnConfirm = new JButton(" Подтвердить");
 
-    private static final ProcessingPersonTable PPT = new ProcessingPersonTable();
-    private static final ProcessingSitesTable PST = new ProcessingSitesTable();
+    private static final ProcessingPersonTable PPersonT = new ProcessingPersonTable();
+    private static final ProcessingSitesTable PSitesT = new ProcessingSitesTable();
 
-    private static final JComboBox<Object> listSite = new JComboBox<>(PST.getColumnName());
-    private static final JComboBox<Object> listPersons = new JComboBox<>(PPT.getColumnName());
+    private static final JComboBox<Object> listSite = new JComboBox<>(PSitesT.getColumnName());
+    private static final JComboBox<Object> listPersons = new JComboBox<>(PPersonT.getColumnName());
 
     private static final MyCalendar startCalendar = new MyCalendar();
     private static final MyCalendar finishCalendar = new MyCalendar();
