@@ -118,6 +118,8 @@ public class SiteStructureFetcher {
         //вопрос oграничивать ли глубину и проверять ли повторы
         //System.out.println("Sitemap not found!");
 
+        Set<String> linkSet = new HashSet<String>();
+
         try {
             org.jsoup.nodes.Document doc = Jsoup.connect(url).get();
 
@@ -127,11 +129,12 @@ public class SiteStructureFetcher {
             for (org.jsoup.nodes.Element link : links) {
                 String linkUrl = link.attr("abs:href");
 
-                if (linkUrl.contains(host))
+                if (linkUrl.contains(host)) {
                     System.out.println("Crawling " + linkUrl);
+                    linkSet.add(linkUrl);
+                }
 
-                // Crawl deep inside;
-                // crawlPage(link.attr("abs:href"));
+                // Save linkSet to database
 
                 // TODO Save urls`s to database
             }
