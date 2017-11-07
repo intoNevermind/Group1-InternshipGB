@@ -71,10 +71,10 @@ public class TestController {
      * Делает запрос в базу по параметрам пользователя
      */
     @RequestMapping("/getStatic")
-    public List<String> getPersonStatic(){
-        List<String> data = new ArrayList<>();
-        data = dbOperations.getDataUser();
-        return  data;
+    public List<String> getPersonStatic() throws SQLException {
+        List<String> datalist = new ArrayList<>();
+        datalist = dbOperations.getDataUser();
+        return  datalist;
     }
 
     /**
