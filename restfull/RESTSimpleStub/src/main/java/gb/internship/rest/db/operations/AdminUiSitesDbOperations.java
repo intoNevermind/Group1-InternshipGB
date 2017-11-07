@@ -3,6 +3,7 @@ package gb.internship.rest.db.operations;
 import gb.internship.rest.dataobjects.TableKeywords;
 import gb.internship.rest.dataobjects.TablePersons;
 import gb.internship.rest.dataobjects.TableSites;
+import gb.internship.rest.dataobjects.TableUsers;
 import gb.internship.rest.db.DbWrapper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -272,6 +273,101 @@ public class AdminUiSitesDbOperations {
         preparedStatement.setString(1, name);
         preparedStatement.setInt(2, personId);
         preparedStatement.setInt(3, id);
+        int updateResult = preparedStatement.executeUpdate();
+        preparedStatement.close();
+
+        return updateResult;
+    }
+
+    /**
+     * Получение списка всех пользователей.
+     *
+     * @return список всех пользователей.
+     * @throws SQLException
+     */
+    public List<TableUsers> getAllUsers() throws SQLException {
+        List<TableUsers> resultList = new ArrayList<>();
+
+        LOG.info("SELECT \"ID\", \"Login\", \"Admin\", \"Password\", \"Active\" FROM users;");
+        String sqlQuery = "SELECT \"ID\", \"Login\", \"Admin\", \"Password\", \"Active\" FROM users;";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sqlQuery);
+
+        while (resultSet.next()) {
+            resultList.add(new TableUsers(resultSet.getInt("ID"),
+                    resultSet.getString("Login"),
+                    resultSet.getBoolean("Admin"),
+                    resultSet.getString("Password"),
+                    resultSet.getBoolean("Active")));
+        }
+        statement.close();
+
+        return resultList;
+    }
+
+    /**
+     * Добавление пользователя.
+     *
+     * @param login    логин.
+     * @param admin    является администратором.
+     * @param password пароль.
+     * @param active   активен.
+     * @throws SQLException
+     */
+    public void addUser(String login, boolean admin, String password, boolean active) throws SQLException {
+        LOG.info("INSERT INTO users: \"Login\" = " + login +
+                ", Admin = " + admin + ", \"Password\" = " + password + ", \"Active\" = " + active);
+        String sqlQuery = "INSERT INTO \"users\" (\"Login\", \"Admin\", \"Password\", \"Active\") " +
+                "VALUES ((?), (?), (?), (?));";
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setString(1, login);
+        preparedStatement.setBoolean(2, admin);
+        preparedStatement.setString(3, password);
+        preparedStatement.setBoolean(4, active);
+        preparedStatement.execute();
+        preparedStatement.close();
+    }
+
+    /**
+     * Удаление пользователя.
+     *
+     * @param id идентификатор пользователя.
+     * @return количество удалённых строк.
+     * @throws SQLException
+     */
+    public int delUser(Integer id) throws SQLException {
+        LOG.info("DELETE FROM users WHERE \"ID\" = " + id);
+        String sqlQuery = "DELETE FROM users WHERE \"ID\" = (?);";
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setInt(1, id);
+        int updateResult = preparedStatement.executeUpdate();
+        preparedStatement.close();
+
+        return updateResult;
+    }
+
+    /**
+     * Изменение пользователя.
+     *
+     * @param id       идентификатор.
+     * @param login    логин.
+     * @param admin    является администратором.
+     * @param password пароль.
+     * @param active   активен.
+     * @return
+     * @throws SQLException
+     */
+    public int modifyUser(Integer id, String login, boolean admin, String password, boolean active) throws SQLException {
+        LOG.info("UPDATE users SET \"Login\" = " + login + ", Admin = " + admin + ", \"Password\" = " + password +
+                ", \"Active\" = " + active + " WHERE \"ID\" = " + id);
+        String sqlQuery = "UPDATE users SET " +
+                "\"Login\" = (?), \"Admin\" = (?), \"Password\" = (?), \"Active\" = (?) WHERE \"ID\" = (?);";
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setString(1, login);
+        preparedStatement.setBoolean(2, admin);
+        preparedStatement.setString(3, password);
+        preparedStatement.setBoolean(4, active);
+        preparedStatement.setInt(5, id);
         int updateResult = preparedStatement.executeUpdate();
         preparedStatement.close();
 
