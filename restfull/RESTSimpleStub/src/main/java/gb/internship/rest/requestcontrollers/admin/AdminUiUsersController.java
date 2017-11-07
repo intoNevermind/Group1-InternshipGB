@@ -1,6 +1,5 @@
-package gb.internship.rest.requestcontrollers;
+package gb.internship.rest.requestcontrollers.admin;
 
-import gb.internship.rest.dataobjects.TableSites;
 import gb.internship.rest.dataobjects.TableUsers;
 import gb.internship.rest.db.operations.AdminUiSitesDbOperations;
 import org.apache.commons.logging.Log;
@@ -9,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -19,6 +19,7 @@ import java.util.List;
  *
  * @author Aleksandr Vvedensky
  */
+@RestController
 public class AdminUiUsersController {
     private Log LOG = LogFactory.getLog(AdminUiSitesController.class);
     private AdminUiSitesDbOperations adminUiSitesDbOperations;
