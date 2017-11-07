@@ -83,24 +83,20 @@ public class SiteStructureFetcher {
                         DocumentBuilderFactory.newInstance();
                 DocumentBuilder b = f.newDocumentBuilder();
                 Document doc = b.parse(url);
+                System.out.println(doc.getDocumentURI());
                 doc.getDocumentElement().normalize();
 
                 // Loop through each item
-                NodeList items = doc.getElementsByTagName("url");
+                NodeList items = doc.getElementsByTagName("loc");
                 for (int i = 0; i < items.getLength(); i++)
                 {
                     Node n = items.item(i);
                     if (n.getNodeType() != Node.ELEMENT_NODE)
                         continue;
                     Element e = (Element) n;
-
-                    // Get the "loc elem" in this url (only one)
-                    NodeList locList =
-                            e.getElementsByTagName("loc");
-                    Element titleElem = (Element) locList.item(0);
-
+                    
                     // Get the "text node" in the loc (only one)
-                    Node titleNode = titleElem.getChildNodes().item(0);
+                    Node titleNode = e.getChildNodes().item(0);
                     System.out.println(titleNode.getNodeValue());
 
                     // TODO Save urls`s to database
