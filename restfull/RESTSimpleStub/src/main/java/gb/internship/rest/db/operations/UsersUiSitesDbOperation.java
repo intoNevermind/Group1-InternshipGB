@@ -36,24 +36,27 @@ public class UsersUiSitesDbOperation {
         List<PersonGeneralStatistic> resultList = new ArrayList<>();
 
         List<TablePersons> persons = getAllPersons();
+
         List<Integer> idPages = getAllPagesIDOfSite(getSiteID(site));
 
-
-        LOG.info("SELECT \"ID\", \"Name\", \"URL\", \"Active\" FROM sites;");
-        String sqlQuery = "SELECT \"ID\", \"Name\", \"URL\", \"Active\" FROM sites;";
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(sqlQuery);
-
-//        while (resultSet.next()) {
-//            resultList.add(new PersonGeneralStatistic(resultSet.getInt("id"),
-//                    resultSet.getString("name"),
-//                    resultSet.getString("url"),
-//                    resultSet.getInt("active")));
-//        }
-
-        statement.close();
-
-        return resultList;
+        for (TablePersons person: persons) {
+            Integer rank = 0;
+            Integer personID = person.getId();
+            for (Integer pageID:idPages) {
+                LOG.info("SELECT \"RANK\" FROM PersonPageRank WHERE siteId = " + pageID + "AND personId =" + personID + ";");
+                String sqlQuery = "SELECT \"RANK\" FROM pages WHERE siteId = ? AND personId = ?";
+                PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+                preparedStatement.setInt(1,pageID);
+                preparedStatement.setInt(2,personID);
+                ResultSet resultSet = preparedStatement.executeQuery();
+                while (resultSet.next()){
+                    rank += resultSet.getInt("RANK");
+                }
+                preparedStatement.close();
+            }
+            resultList.add(new PersonGeneralStatistic(personID,person.getName(),rank));
+        }
+    return resultList;
     }
 
     /**
@@ -104,6 +107,15 @@ public class UsersUiSitesDbOperation {
 
         return resultList;
     }
+
+
+    /**
+     * Получение всех id сайта по его имени.
+     *
+     * @param site  - имя сайта, по которому просматривается статистика
+     * @return id сайта, обернутый в Integer
+     * @throws SQLException
+     */
 
     private Integer getSiteID(String site) throws SQLException {
         Integer result = null;
