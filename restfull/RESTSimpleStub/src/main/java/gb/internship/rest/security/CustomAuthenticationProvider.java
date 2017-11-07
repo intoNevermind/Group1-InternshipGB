@@ -20,6 +20,8 @@ import java.util.List;
 /**
  * Custom Authentication Provider
  * http://www.baeldung.com/spring-security-multiple-auth-providers
+ *
+ * @author Aleksandr Vvedensky
  */
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {

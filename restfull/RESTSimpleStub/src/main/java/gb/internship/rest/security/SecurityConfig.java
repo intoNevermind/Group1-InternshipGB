@@ -16,6 +16,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  * https://spring.io/blog/2013/07/03/spring-security-java-config-preview-web-security/
  * <p>
  * https://docs.spring.io/spring-security/site/docs/3.2.0.RELEASE/guides/form.html
+ *
+ * @author Aleksandr Vvedensky
  */
 @EnableWebSecurity
 @Configuration

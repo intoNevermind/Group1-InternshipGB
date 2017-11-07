@@ -10,6 +10,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  * https://docs.spring.io/spring-security/site/docs/3.2.0.RELEASE/guides/form.html
  * <p>
  * Configuring a login view controller.
+ *
+ * @author Aleksandr Vvedensky
  */
 @Configuration
 public class WebMvcConfiguration extends WebMvcConfigurerAdapter {
