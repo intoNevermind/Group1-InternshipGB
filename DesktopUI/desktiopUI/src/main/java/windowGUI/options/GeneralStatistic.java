@@ -49,7 +49,7 @@ public class GeneralStatistic extends Statistics{
     }
 
     private void getListenerVisibleDataTable(ActionEvent actionEvent){
-        dataTable = new JTable(PPersonPageRankT.fillGeneralTable(item), columnNames);
+        dataTable = new JTable(PPersonPageRankT.getArrayFillGeneralTable(item), columnNames);
         dataScrollPane = new JScrollPane(dataTable);
         dataScrollPane.setVisible(false);
         getPanelStat().add(dataScrollPane, BorderLayout.CENTER);

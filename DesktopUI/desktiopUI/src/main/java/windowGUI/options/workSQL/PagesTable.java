@@ -20,9 +20,9 @@ public class PagesTable {
     private static final ArrayList<Integer> listSiteID = new ArrayList<>();
     private static final ArrayList<Date> listFoundDateTime = new ArrayList<>();
     private static final ArrayList<Date> listLastScanDate = new ArrayList<>();
-    private static final LinkedHashMap<Date,Integer> listIDAndFoundDateTime = new LinkedHashMap<>();
+    private static final LinkedHashMap<Integer,Date> listIDAndFoundDateTime = new LinkedHashMap<>();
 
-    public  LinkedHashMap<Date,Integer > getListFoundDateTimeAndID() {
+    public  LinkedHashMap<Integer,Date> getListIDAndFoundDateTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Date date = sdf.parse("2017-10-01 09:43:00");
@@ -32,16 +32,15 @@ public class PagesTable {
             Date date4 = sdf.parse("2017-10-05 09:43:00");
             Date date5 = sdf.parse("2017-10-06 09:43:00");
 
-            listIDAndFoundDateTime.put(date, 1);
-            listIDAndFoundDateTime.put(date1, 2);
-            listIDAndFoundDateTime.put(date2, 3);
-            listIDAndFoundDateTime.put(date3, 4);
-            listIDAndFoundDateTime.put(date4, 5);
-            listIDAndFoundDateTime.put(date5, 6);
+            listIDAndFoundDateTime.put(1, date);
+            listIDAndFoundDateTime.put(2, date1);
+            listIDAndFoundDateTime.put(3, date2);
+            listIDAndFoundDateTime.put(4, date3);
+            listIDAndFoundDateTime.put(5, date4);
+            listIDAndFoundDateTime.put(6, date5);
         }catch (ParseException e) {
             e.printStackTrace();
         }
-        System.out.println("getListIDAndFoundDateTime " + listIDAndFoundDateTime);
         return listIDAndFoundDateTime;
     }
 

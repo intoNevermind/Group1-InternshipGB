@@ -20,12 +20,14 @@ public class PersonPageRankTable {
         listPersonID.add(1);
         listPersonID.add(1);
         listPersonID.add(1);
+
         listPersonID.add(2);
         listPersonID.add(2);
         listPersonID.add(2);
         listPersonID.add(2);
         listPersonID.add(2);
         listPersonID.add(2);
+
         listPersonID.add(3);
         listPersonID.add(3);
         listPersonID.add(3);
