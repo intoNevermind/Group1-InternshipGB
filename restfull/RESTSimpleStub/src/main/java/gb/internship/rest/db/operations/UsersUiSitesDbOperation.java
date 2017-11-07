@@ -105,7 +105,19 @@ public class UsersUiSitesDbOperation {
         return resultList;
     }
 
-    private Integer getSiteID(String site){
-        return null;
+    private Integer getSiteID(String site) throws SQLException {
+        Integer result = null;
+        LOG.info("SELECT \"ID\" FROM pages WHERE site = " + site + ";");
+        String sqlQuery = "SELECT \"ID\" FROM pages WHERE site = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setString(1,site);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        while (resultSet.next()) {
+            result = resultSet.getInt("ID");
+        }
+        preparedStatement.close();
+
+        return result;
     }
 }
