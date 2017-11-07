@@ -8,10 +8,13 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.sql.SQLException;
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -22,25 +25,49 @@ import java.util.Collections;
 public class CustomAuthenticationProvider implements AuthenticationProvider {
     private Log LOG = LogFactory.getLog(CustomAuthenticationProvider.class);
 
-    @Override
-    public Authentication authenticate(Authentication auth) throws AuthenticationException {
-        String username = auth.getName();
-        String password = auth.getCredentials().toString();
+    /**
+     * Проверяет корерктность логина/пароля и выдаёт права.
+     *
+     * @param username имя пользователя.
+     * @param password пароль.
+     */
+    private List<GrantedAuthority> initGrantedAuthority(String username, String password) {
         UserAuthentication userAuthentication = new UserAuthentication();
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
 
         try {
-            if (userAuthentication.isUserCorrect(username, password)) {
-                return new UsernamePasswordAuthenticationToken(username, password, Collections.emptyList());
-            } else {
-                throw new BadCredentialsException("External system authentication failed");
+            switch (userAuthentication.getUserAuthorityId(username, password)) {
+                case 1:
+                    grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+                    break;
+                case 2:
+                    grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+                    break;
+                default:
+                    throw new BadCredentialsException("External system authentication failed");
             }
         } catch (SQLException ex) {
             LOG.warn("Error during validating user in DB.");
             ex.printStackTrace();
             throw new BadCredentialsException("External system authentication failed");
         }
+        return grantedAuthorities;
+    }
 
+    /**
+     * Аутентификация и авторизация пользователя.
+     *
+     * @param auth AuthenticationManagerBuilder.
+     * @return UsernamePasswordAuthenticationToken.
+     * @throws AuthenticationException
+     */
+    @Override
+    public Authentication authenticate(Authentication auth) throws AuthenticationException {
+        String username = auth.getName();
+        String password = auth.getCredentials().toString();
 
+        return new UsernamePasswordAuthenticationToken(username, password,
+                initGrantedAuthority(username, password));
     }
 
     @Override

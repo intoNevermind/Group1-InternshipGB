@@ -30,11 +30,11 @@ public class UserAuthentication {
      *
      * @param username логин.
      * @param password пароль.
-     * @return true, если пара логин/пароль найдена. Иначе false.
+     * @return 2 - admin, 1 - user, 0 - incorrect user.
      * @throws SQLException
      */
-    public boolean isUserCorrect(String username, String password) throws SQLException {
-        boolean result = false;
+    public int getUserAuthorityId(String username, String password) throws SQLException {
+        int result = 0;
 
         LOG.info("Validate user: " + username);
         String sqlQuery = "SELECT user_logon((?), (?));";
@@ -44,7 +44,7 @@ public class UserAuthentication {
         ResultSet resultSet = preparedStatement.executeQuery();
 
         while (resultSet.next()) {
-            result = resultSet.getBoolean("user_logon");
+            result = resultSet.getInt("user_logon");
         }
         preparedStatement.close();
 
