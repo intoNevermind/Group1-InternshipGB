@@ -151,7 +151,8 @@ public class UsersUiSitesDbOperation {
         LOG.info("SELECT * FROM (SELECT * FROM pages WHERE lastscandate = " +lastscandate +  " SELECT * FROM persons WHERE name = " + name + ";");
         String sqlQuery = "SELECT * FROM (SELECT * FROM pages WHERE lastscandate = ? SELECT * FROM persons WHERE name =?)";
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-        preparedStatement.setString(1,name);
+        preparedStatement.setDate(1, (Date) lastscandate);
+        preparedStatement.setString(2,name);
         ResultSet resultSet = preparedStatement.executeQuery();
 
         while (resultSet.next()) {
