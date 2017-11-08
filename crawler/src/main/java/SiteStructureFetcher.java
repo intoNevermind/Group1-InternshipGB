@@ -94,7 +94,7 @@ public class SiteStructureFetcher {
                     if (n.getNodeType() != Node.ELEMENT_NODE)
                         continue;
                     Element e = (Element) n;
-                    
+
                     // Get the "text node" in the loc (only one)
                     Node titleNode = e.getChildNodes().item(0);
                     System.out.println(titleNode.getNodeValue());

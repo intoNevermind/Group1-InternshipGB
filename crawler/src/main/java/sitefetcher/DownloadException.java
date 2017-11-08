@@ -1,3 +1,5 @@
+package sitefetcher;
+
 /**
  * Created by ferney on 26.10.17.
  */
