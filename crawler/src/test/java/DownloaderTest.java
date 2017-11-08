@@ -17,7 +17,7 @@ public class DownloaderTest {
     @Test
     public void download() throws Exception {
         String keyWord = "Яндекс";
-        Assert.assertTrue(downloader.download("http://ya.ru").matches(".*" + keyWord + ".*"));
+        Assert.assertTrue(downloader.download("http://ya.ru").replace(System.getProperty("line.separator"),"").matches(".*" + keyWord + ".*"));
     }
 
 }
