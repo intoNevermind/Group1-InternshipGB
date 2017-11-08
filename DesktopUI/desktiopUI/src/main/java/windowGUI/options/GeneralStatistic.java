@@ -43,7 +43,6 @@ public class GeneralStatistic extends Statistics{
         dataTable = new JTable(getPPersonPageRankT().getArrayFillGeneralTable(nameSite), columnNames);
         dataScrollPane = new JScrollPane(dataTable);
         getPanelStat().add(dataScrollPane, BorderLayout.CENTER);
-
         dataScrollPane.setVisible(true);
         getPanelStat().updateUI();
     }
@@ -56,6 +55,4 @@ public class GeneralStatistic extends Statistics{
         }
         getPanelStat().updateUI();
     }
-
-
 }

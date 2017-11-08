@@ -3,7 +3,6 @@ package windowGUI.options;
 import windowGUI.MyCalendar;
 import windowGUI.options.workSQL.ProcessingPersonPageRankTable;
 import windowGUI.options.workSQL.ProcessingSitesTable;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -40,18 +39,14 @@ public abstract class Statistics {
     GridBagConstraints configGBC(Component component, boolean moveToNewLine){
         GridBagConstraints gbc =  new GridBagConstraints();
         if(component instanceof JLabel){
-            if(moveToNewLine){
-                numberStr++;
-            }
+            if(moveToNewLine) numberStr++;
             gbc.gridy = numberStr;
             gbc.gridwidth  = 1;
             gbc.anchor = GridBagConstraints.EAST;
             return gbc;
         }
         if(component instanceof JComboBox || component instanceof MyCalendar){
-            if(moveToNewLine){
-                numberStr++;
-            }
+            if(moveToNewLine) numberStr++;
             gbc.gridy = numberStr;
             gbc.gridwidth  = 2;
             gbc.fill = GridBagConstraints.BOTH;
@@ -59,9 +54,7 @@ public abstract class Statistics {
             return gbc;
         }
         if(component instanceof JButton){
-            if(moveToNewLine){
-                numberStr++;
-            }
+            if(moveToNewLine) numberStr++;
             gbc.gridy = numberStr;
             gbc.gridwidth  = GridBagConstraints.REMAINDER ;
             gbc.fill = GridBagConstraints.BOTH;
@@ -79,6 +72,10 @@ public abstract class Statistics {
         return tabName;
     }
 
+    GridBagLayout getGBL() {
+        return GBL;
+    }
+
     public JPanel getPanelStat() {
         return panelStat;
     }
@@ -91,23 +88,15 @@ public abstract class Statistics {
         return headlineSite;
     }
 
-    public ProcessingSitesTable getPSitesT() {
-        return PSitesT;
-    }
-
-    JComboBox<Object> getListSite() {
-        return listSite;
+    JButton getBtnConfirm() {
+        return btnConfirm;
     }
 
     ProcessingPersonPageRankTable getPPersonPageRankT() {
         return PPersonPageRankT;
     }
 
-    JButton getBtnConfirm() {
-        return btnConfirm;
-    }
-
-    GridBagLayout getGBL() {
-        return GBL;
+    JComboBox<Object> getListSite() {
+        return listSite;
     }
 }

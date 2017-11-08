@@ -104,11 +104,8 @@ public class DailyStatistic extends Statistics{
         dataTable = new JTable(getPPersonPageRankT().getArrayFillDailyTable(nameSite,namePerson,startDate,finishDate), columnNames);
         dataScrollPane = new JScrollPane(dataTable);
         getPanelStat().add(dataScrollPane, BorderLayout.CENTER);
-
         dataScrollPane.setVisible(true);
-
         getPanelStat().updateUI();
-        System.out.println(startDate + " ," + finishDate + " ," + namePerson + " ," + nameSite);
     }
 
     private void listenerRemoveDataTable(ActionEvent actionEvent){

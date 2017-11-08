@@ -14,7 +14,6 @@ public class PersonPageRankTable {
     private static final ArrayList<Integer> listRank = new ArrayList<>();
 
     public ArrayList<Integer> getListPersonID() {
-
         listPersonID.add(1);
         listPersonID.add(1);
         listPersonID.add(1);
@@ -35,7 +34,6 @@ public class PersonPageRankTable {
         listPersonID.add(3);
         listPersonID.add(3);
         listPersonID.add(3);
-
         return listPersonID;
     }
 
