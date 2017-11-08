@@ -2,9 +2,7 @@ package windowGUI.options.workSQL;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
+import java.util.*;
 
 public class ProcessingPersonPageRankTable {
 
@@ -32,93 +30,115 @@ public class ProcessingPersonPageRankTable {
         LinkedHashMap<String, Integer> listPersonNameAndRank = getListPersonNameAndRank(strNameSite);
         return convertingListToArray(listPersonNameAndRank);
     }
-
     /*
      * Метод, возвращающий двумерный массив для передачи в конструктор таблицы ежедневной статистики
      * */
     public Object[][] getArrayFillDailyTable(String strNameSite, String strNamePerson, String strStartDate, String strFinishDate){
-        System.out.println(strStartDate + " ," + strFinishDate + " ," + strNamePerson + " ," + strNameSite);
         LinkedHashMap<String, Integer> listFoundDateTimeAndCountPages = getListFoundDateTimeAndCountPages(strNameSite, strNamePerson, strStartDate, strFinishDate);
         return convertingListToArray(listFoundDateTimeAndCountPages);
     }
     /*
      * Метод, преобразующий список в двумерный массив
      * */
-    public Object[][] convertingListToArray(LinkedHashMap<String, Integer> list){
+    private Object[][] convertingListToArray(LinkedHashMap list){
         Object[] keyList = list.keySet().toArray();
         Object[][] arr = new Object[list.size()][2];
 
-        for (int i = 0; i < list.size(); i++) {
-            for (int j = 0; j < 2; j++) {
-                if(j == 0){
-                    arr[i][j] = keyList[i];
-                }else {
-                    arr[i][j] = list.get(keyList[i]);
-                }
+        for(int i = 0; i < list.size(); i++) {
+            for(int j = 0; j < 2; j++) {
+                if(j == 0) arr[i][j] = keyList[i];
+                else arr[i][j] = list.get(keyList[i]);
             }
         }
         return arr;
     }
     /*
-     * Метод, возвращающий пару Дату(String) и Кол-во страниц(int) из таблицы PersonPageRank, работает криво, еще не доделан
+     * Метод, возвращающий пару Дату(String) и Кол-во страниц(int) из таблицы PersonPageRank
      * */
-    public LinkedHashMap<String, Integer> getListFoundDateTimeAndCountPages(String strNameSite, String strNamePerson, String strStartDate, String strFinishDate){
+    private LinkedHashMap<String, Integer> getListFoundDateTimeAndCountPages(String strNameSite, String strNamePerson, String strStartDate, String strFinishDate){
+        ArrayList<String> listIntervalFoundDateTime = getListIntervalFoundDateTime(strNameSite, strNamePerson, strStartDate, strFinishDate);
+
         LinkedHashMap<String, Integer> listFoundDateTimeAndCountPages = new LinkedHashMap<>();
+        Integer countPages;
+        for(String i : listIntervalFoundDateTime) {
+            countPages = listFoundDateTimeAndCountPages.get(i);
+            listFoundDateTimeAndCountPages.put(i, countPages == null ? 1 : countPages + 1);
+        }
+        return listFoundDateTimeAndCountPages;
+    }
+
+    private Date convertingStrToDate(String strDate){
         try {
             SimpleDateFormat format = new SimpleDateFormat();
             format.applyPattern("yyyy-MM-dd");
-            Date dateStartDate= format.parse(strStartDate);
-            Date dateFinishDate= format.parse(strFinishDate);
+            return format.parse(strDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    /*
+     * Метод, возвращающий список Дат(String) из интервата времени, нужно поколдовать !!
+     * */
+    private ArrayList<String> getListIntervalFoundDateTime(String strNameSite, String strNamePerson, String strStartDate, String strFinishDate){
+        Date dateStartDate = convertingStrToDate(strStartDate);
+        Date dateFinishDate = convertingStrToDate(strFinishDate);
 
-            int count = 0;
-            for (int i = 0; i < getListAbbreviatedFoundDateTime().size(); i++) {
-                if(dateStartDate.before(LIST_FOUND_DATE_TIME_PAGES.get(0))){
-                    strStartDate = getListAbbreviatedFoundDateTime().get(0);
-                }
-                if(dateFinishDate.before(dateStartDate)){
-                    strFinishDate = strStartDate;
-                }
-                if(dateFinishDate.after(LIST_FOUND_DATE_TIME_PAGES.get(LIST_FOUND_DATE_TIME_PAGES.size()-1))){
-                    strFinishDate = new SimpleDateFormat("yyyy-MM-dd").format(LIST_FOUND_DATE_TIME_PAGES.get(LIST_FOUND_DATE_TIME_PAGES.size()-1));
-                }
-                if(strStartDate.equals(getListAbbreviatedFoundDateTime().get(i))){// нашли стартовую дату в списке всех дат
-                    count++;// нужно посчитать сколько страниу было за одну дату
-                    for (int j = i; j < getListAbbreviatedFoundDateTime().size(); j++) {
-                        if((!strFinishDate.equals(getListAbbreviatedFoundDateTime().get(j)))){
-                            if(strNamePerson.equals(getListNamePerson().get(j))){
-                                if(strNameSite.equals(getListNameSites().get(j))){
-                                    listFoundDateTimeAndCountPages.put(getListAbbreviatedFoundDateTime().get(j), count);
-                                }
+        if(dateStartDate == null || dateFinishDate == null) throw new AssertionError();
+
+        if(dateStartDate.before(LIST_FOUND_DATE_TIME_PAGES.get(0))) strStartDate = getListAbbreviatedFoundDateTime().get(0);
+
+        if(dateFinishDate.before(dateStartDate)) strFinishDate = strStartDate;
+
+        if(dateFinishDate.after(LIST_FOUND_DATE_TIME_PAGES.get(LIST_FOUND_DATE_TIME_PAGES.size()-1))){
+            strFinishDate = new SimpleDateFormat("yyyy-MM-dd").format(LIST_FOUND_DATE_TIME_PAGES.get(LIST_FOUND_DATE_TIME_PAGES.size()-1));
+        }
+
+        ArrayList<String> listIntervalFoundDateTime = new ArrayList<>();
+
+        for(int i = 0; i < getListAbbreviatedFoundDateTime().size(); i++) {
+            if(strStartDate.equals(getListAbbreviatedFoundDateTime().get(i))){
+                for(int j = i; j < getListAbbreviatedFoundDateTime().size(); j++) {
+                    //додумать я почти у цели!
+//                    Date date = convertingStrToDate(getListAbbreviatedFoundDateTime().get(j));
+//                    if (date == null) throw new AssertionError();
+//                    if((date.after(dateStartDate) && date.before(dateFinishDate)) ||
+//                            date.equals(dateStartDate) || date.equals(dateFinishDate)){
+//                        if(strNamePerson.equals(getListNamePerson().get(j))){
+//                            if(strNameSite.equals(getListNameSites().get(j))){
+//                                listIntervalFoundDateTime.add(getListAbbreviatedFoundDateTime().get(j));
+//                            }
+//                        }
+                    if(!strFinishDate.equals(getListAbbreviatedFoundDateTime().get(j))){
+                        if(strNamePerson.equals(getListNamePerson().get(j))){
+                            if(strNameSite.equals(getListNameSites().get(j))){
+                                listIntervalFoundDateTime.add(getListAbbreviatedFoundDateTime().get(j));
                             }
-                        }else {
-                            if(strNamePerson.equals(getListNamePerson().get(j))){
-                                if(strNameSite.equals(getListNameSites().get(j))){
-                                    listFoundDateTimeAndCountPages.put(getListAbbreviatedFoundDateTime().get(j), count);
-                                }
-                            }
-                            break;
                         }
+                    }else {
+                        if(strNamePerson.equals(getListNamePerson().get(j))){
+                            if(strNameSite.equals(getListNameSites().get(j))){
+                                listIntervalFoundDateTime.add(getListAbbreviatedFoundDateTime().get(j));
+                            }
+                        }
+                        break;
                     }
                 }
             }
-            System.out.println(listFoundDateTimeAndCountPages);
-        } catch (ParseException e) {
-            e.printStackTrace();
         }
-        return listFoundDateTimeAndCountPages;
+        return listIntervalFoundDateTime;
     }
     /*
      * Метод, возвращающий пару NamePerson(String) и Rank(int) из таблицы PersonPageRank
      * */
-    public LinkedHashMap<String, Integer> getListPersonNameAndRank(String nameSite){
+    private LinkedHashMap<String, Integer> getListPersonNameAndRank(String nameSite){
         LinkedHashMap<String, Integer> listPersonNameAndRank = new LinkedHashMap<>();
 
         int count = 0;
-        for (int i = 0; i < getListNameSites().size(); i++) {
-            if(i > 0 && (!getListNamePerson().get(i - 1).equals(getListNamePerson().get(i)))){
-                count = 0;
-            }
-            for (int j = 0; j < getListDistinctNamePerson().size(); j++) {
+        for(int i = 0; i < getListNameSites().size(); i++) {
+            if(!listPersonNameAndRank.containsKey(getListNamePerson().get(i))) count = 0;
+
+            for(int j = 0; j < getListDistinctNamePerson().size(); j++) {
                 if(nameSite.equals(getListNameSites().get(i)) && getListDistinctNamePerson().get(j).equals(getListNamePerson().get(i))){
                     count += LIST_RANK_PERSON_PAGE_RANK.get(i);
                     listPersonNameAndRank.put(getListDistinctNamePerson().get(j), count);
@@ -130,9 +150,9 @@ public class ProcessingPersonPageRankTable {
     /*
      * Метод, возвращающий список сокращенных Дат(String) из таблицы PersonPageRank
      * */
-    public  ArrayList<String> getListAbbreviatedFoundDateTime(){
-        ArrayList<String> listAbbreviatedFoundDateTime = new ArrayList<>();// с этим листом будут сравниваться даты str
-        for (int i = 0; i < getListFoundDateTime().size(); i++) {
+    private ArrayList<String> getListAbbreviatedFoundDateTime(){
+        ArrayList<String> listAbbreviatedFoundDateTime = new ArrayList<>();
+        for(int i = 0; i < getListFoundDateTime().size(); i++) {
             String strAbbreviatedFoundDateTime = new SimpleDateFormat("yyyy-MM-dd").format(getListFoundDateTime().get(i));
             listAbbreviatedFoundDateTime.add(strAbbreviatedFoundDateTime.substring(0,10));
         }
@@ -141,12 +161,12 @@ public class ProcessingPersonPageRankTable {
     /*
      * Метод, возвращающий список Дат(Date) из таблицы PersonPageRank
      * */
-    public ArrayList<Date> getListFoundDateTime(){
+    private ArrayList<Date> getListFoundDateTime(){
         ArrayList<Date> listFoundDateTime = new ArrayList<>();
         Object[] keyListIDAndFoundDateTime = LIST_ID_AND_FOUND_DATE_TIME_PAGES.keySet().toArray();
 
-        for (int i = 0; i < LIST_PAGE_ID_PERSON_PAGE_RANK.size(); i++) {
-            for (int j = 0; j < LIST_ID_AND_FOUND_DATE_TIME_PAGES.size(); j++) {
+        for(int i = 0; i < LIST_PAGE_ID_PERSON_PAGE_RANK.size(); i++) {
+            for(int j = 0; j < LIST_ID_AND_FOUND_DATE_TIME_PAGES.size(); j++) {
                 if(LIST_PAGE_ID_PERSON_PAGE_RANK.get(i) == keyListIDAndFoundDateTime[j]){
                     listFoundDateTime.add(LIST_ID_AND_FOUND_DATE_TIME_PAGES.get(j+1));
                 }
@@ -157,12 +177,12 @@ public class ProcessingPersonPageRankTable {
     /*
      * Метод, возвращающий список Имен личностей(String) из таблицы PersonPageRank
      * */
-    public ArrayList<String> getListNamePerson(){
+    private ArrayList<String> getListNamePerson(){
         ArrayList<String> listNamePerson = new ArrayList<>();
         Object[] keyListNamePerson = LIST_ID_AND_NAME.keySet().toArray();
 
-        for (int i = 0; i < LIST_PERSON_ID_PERSON_PAGE_RANK.size(); i++) {
-            for (int j = 0; j < keyListNamePerson.length; j++) {
+        for(int i = 0; i < LIST_PERSON_ID_PERSON_PAGE_RANK.size(); i++) {
+            for(int j = 0; j < keyListNamePerson.length; j++) {
                 if(keyListNamePerson[j] == LIST_PERSON_ID_PERSON_PAGE_RANK.get(i)){
                     listNamePerson.add(LIST_ID_AND_NAME.get(j+1));
                 }
@@ -173,10 +193,10 @@ public class ProcessingPersonPageRankTable {
     /*
      * Метод, возвращающий список уникальных Имен личностей(String) из таблицы PersonPageRank
      * */
-    public ArrayList<String> getListDistinctNamePerson(){
+    private ArrayList<String> getListDistinctNamePerson(){
         ArrayList<String> listDistinctNamePerson = new ArrayList<>();
 
-        for (int i = 0; i < getListNamePerson().size(); i++) {
+        for(int i = 0; i < getListNamePerson().size(); i++) {
             if(!listDistinctNamePerson.contains(getListNamePerson().get(i))){
                 listDistinctNamePerson.add(getListNamePerson().get(i));
             }
@@ -187,12 +207,12 @@ public class ProcessingPersonPageRankTable {
     /*
      * Метод, возвращающий список Имен(String) сайтов из таблицы PersonPageRank
      * */
-    public ArrayList<String> getListNameSites(){
+    private ArrayList<String> getListNameSites(){
         ArrayList<String> listNameSites = new ArrayList<>();
 
         Object[] keyListNameSites = LIST_ID_AND_NAME_SITES.keySet().toArray();
-        for (int i = 0; i < getListSitesID().size(); i++) {
-            for (int j = 0; j < keyListNameSites.length; j++) {
+        for(int i = 0; i < getListSitesID().size(); i++) {
+            for(int j = 0; j < keyListNameSites.length; j++) {
                 if(keyListNameSites[j] == getListSitesID().get(i)){
                     listNameSites.add(LIST_ID_AND_NAME_SITES.get(j+1));
                 }
@@ -203,10 +223,10 @@ public class ProcessingPersonPageRankTable {
     /*
      * Метод, возвращающий список уникальных Имен сайтов(String) по SitesID(int) из таблицы PersonPageRank
      * */
-    public ArrayList<String> getListDistinctNameSites(){
+    private ArrayList<String> getListDistinctNameSites(){
         ArrayList<String> listDistinctNameSites = new ArrayList<>();
 
-        for (int i = 0; i < getListNameSites().size(); i++) {
+        for(int i = 0; i < getListNameSites().size(); i++) {
             if(!listDistinctNameSites.contains(getListNameSites().get(i))){
                 listDistinctNameSites.add(getListNameSites().get(i));
             }
@@ -216,11 +236,11 @@ public class ProcessingPersonPageRankTable {
     /*
      * Метод, возвращающий список ID сайтов(int) сайтов из таблицы PersonPageRank
      * */
-    public ArrayList<Integer> getListSitesID(){
+    private ArrayList<Integer> getListSitesID(){
         ArrayList<Integer> listSitesID = new ArrayList<>();
 
-        for (int i = 0; i < LIST_PAGE_ID_PERSON_PAGE_RANK.size(); i++) {
-            for (int j = 0; j < LIST_ID_PAGES.size(); j++) {
+        for(int i = 0; i < LIST_PAGE_ID_PERSON_PAGE_RANK.size(); i++) {
+            for(int j = 0; j < LIST_ID_PAGES.size(); j++) {
                 if(LIST_PAGE_ID_PERSON_PAGE_RANK.get(i).equals(LIST_ID_PAGES.get(j))){
                     listSitesID.add(LIST_SITES_ID_PAGES.get(j));
                 }
@@ -228,25 +248,4 @@ public class ProcessingPersonPageRankTable {
         }
         return listSitesID;
     }
-    /*
-     * Метод, возвращающий пару FoundDateTime(date) и количество её повторений в PersonPageRank из выбранного интервала времени
-     * */
-//    public LinkedHashMap<String,Integer> getListIntervalDateAndCountRepetitionPersonPageRank(String strStartDate, String strFinishDate){
-//        Object[] keyListFoundDateTimeAndIDPages = LIST_ID_AND_FOUND_DATE_TIME_PAGES.keySet().toArray();
-//        ArrayList<Integer> listIntervalPageIDFoundDateTime = getListIntervalPageIDFoundDateTime(strStartDate,strFinishDate);
-//        LinkedHashMap<String,Integer> listIntervalDateAndCountRepetitionPersonPageRank = new LinkedHashMap<>();
-//
-//        for (int i = 0; i < listIntervalPageIDFoundDateTime.size(); i++) {
-//            int count = 0;
-//            for (int j = 0; j < LIST_PAGE_ID_PERSON_PAGE_RANK.size(); j++) {
-//                if(listIntervalPageIDFoundDateTime.get(i).equals(LIST_PAGE_ID_PERSON_PAGE_RANK.get(j))){
-//                    count ++;
-//                }
-//            }
-//            String str = new SimpleDateFormat("yyyy-MM-dd").format(keyListFoundDateTimeAndIDPages[i]);
-//            listIntervalDateAndCountRepetitionPersonPageRank.put(str, count);
-//        }
-//        return  listIntervalDateAndCountRepetitionPersonPageRank;
-//
-//    }
 }

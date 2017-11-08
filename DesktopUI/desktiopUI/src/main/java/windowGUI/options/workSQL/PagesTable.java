@@ -25,12 +25,12 @@ public class PagesTable {
     public  LinkedHashMap<Integer,Date> getListIDAndFoundDateTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            Date date = sdf.parse("2017-10-01 09:43:00");
-            Date date1 = sdf.parse("2017-10-02 09:43:00");
-            Date date2 = sdf.parse("2017-10-03 09:43:00");
-            Date date3 = sdf.parse("2017-10-04 09:43:00");
-            Date date4 = sdf.parse("2017-10-05 09:43:00");
-            Date date5 = sdf.parse("2017-10-06 09:43:00");
+            Date date = sdf.parse("2017-11-01 09:43:00");
+            Date date1 = sdf.parse("2017-11-02 09:43:00");
+            Date date2 = sdf.parse("2017-11-03 09:43:00");
+            Date date3 = sdf.parse("2017-11-04 09:43:00");
+            Date date4 = sdf.parse("2017-11-05 09:43:00");
+            Date date5 = sdf.parse("2017-11-06 09:43:00");
 
             listIDAndFoundDateTime.put(1, date);
             listIDAndFoundDateTime.put(2, date1);
@@ -77,12 +77,12 @@ public class PagesTable {
     public  ArrayList<Date> getListFoundDateTime(){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            Date date = sdf.parse("2017-10-01 09:43:00");
-            Date date1 = sdf.parse("2017-10-02 09:43:00");
-            Date date2 = sdf.parse("2017-10-03 09:43:00");
-            Date date3 = sdf.parse("2017-10-04 09:43:00");
-            Date date4 = sdf.parse("2017-10-05 09:43:00");
-            Date date5 = sdf.parse("2017-10-06 09:43:00");
+            Date date = sdf.parse("2017-11-01 09:43:00");
+            Date date1 = sdf.parse("2017-11-02 09:43:00");
+            Date date2 = sdf.parse("2017-11-03 09:43:00");
+            Date date3 = sdf.parse("2017-11-04 09:43:00");
+            Date date4 = sdf.parse("2017-11-05 09:43:00");
+            Date date5 = sdf.parse("2017-11-06 09:43:00");
 
 
             listFoundDateTime.add(date);
@@ -100,12 +100,12 @@ public class PagesTable {
     public  ArrayList<Date> getListLastScanDate(){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            Date date = sdf.parse("2017-10-06 09:43:00");
-            Date date1 = sdf.parse("2017-10-06 09:43:00");
-            Date date2 = sdf.parse("2017-10-06 09:43:00");
-            Date date3 = sdf.parse("2017-10-06 09:43:00");
-            Date date4 = sdf.parse("2017-10-06 09:43:00");
-            Date date5 = sdf.parse("2017-10-06 09:43:00");
+            Date date = sdf.parse("2017-11-06 09:43:00");
+            Date date1 = sdf.parse("2017-11-06 09:43:00");
+            Date date2 = sdf.parse("2017-11-06 09:43:00");
+            Date date3 = sdf.parse("2017-11-06 09:43:00");
+            Date date4 = sdf.parse("2017-11-06 09:43:00");
+            Date date5 = sdf.parse("2017-11-06 09:43:00");
 
 
             listLastScanDate.add(date);
