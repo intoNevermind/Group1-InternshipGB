@@ -30,27 +30,40 @@ public class ProcessingPersonPageRankTable {
     * */
     public Object[][] getArrayFillGeneralTable(String strNameSite){
         LinkedHashMap<String, Integer> listPersonNameAndRank = getListPersonNameAndRank(strNameSite);
-        Object[] keyListPersonNameAndRank = listPersonNameAndRank.keySet().toArray();
-        Object[][] arrPersonNameAndRank = new Object[listPersonNameAndRank.size()][2];//количество столбцов таблицы Имя и Кол-во упоминаний
-
-        for (int i = 0; i < listPersonNameAndRank.size(); i++) {
-            for (int j = 0; j < 2; j++) {
-                if(j == 0){
-                    arrPersonNameAndRank[i][j] = keyListPersonNameAndRank[i];// имя
-                }else {
-                    arrPersonNameAndRank[i][j] = listPersonNameAndRank.get(keyListPersonNameAndRank[i]);//значение rank
-                }
-            }
-        }
-        return arrPersonNameAndRank;
+        return convertingListToArray(listPersonNameAndRank);
     }
+
     /*
      * Метод, возвращающий двумерный массив для передачи в конструктор таблицы ежедневной статистики
      * */
     public Object[][] getArrayFillDailyTable(String strNameSite, String strNamePerson, String strStartDate, String strFinishDate){
-        LinkedHashMap<String, Integer> listFoundDateTimeAndCountPages = new LinkedHashMap<>();
-        Object[][] arrDateAndCountPages = new Object[100][100];
+        System.out.println(strStartDate + " ," + strFinishDate + " ," + strNamePerson + " ," + strNameSite);
+        LinkedHashMap<String, Integer> listFoundDateTimeAndCountPages = getListFoundDateTimeAndCountPages(strNameSite, strNamePerson, strStartDate, strFinishDate);
+        return convertingListToArray(listFoundDateTimeAndCountPages);
+    }
+    /*
+     * Метод, преобразующий список в двумерный массив
+     * */
+    public Object[][] convertingListToArray(LinkedHashMap<String, Integer> list){
+        Object[] keyList = list.keySet().toArray();
+        Object[][] arr = new Object[list.size()][2];
 
+        for (int i = 0; i < list.size(); i++) {
+            for (int j = 0; j < 2; j++) {
+                if(j == 0){
+                    arr[i][j] = keyList[i];
+                }else {
+                    arr[i][j] = list.get(keyList[i]);
+                }
+            }
+        }
+        return arr;
+    }
+    /*
+     * Метод, возвращающий пару Дату(String) и Кол-во страниц(int) из таблицы PersonPageRank, работает криво, еще не доделан
+     * */
+    public LinkedHashMap<String, Integer> getListFoundDateTimeAndCountPages(String strNameSite, String strNamePerson, String strStartDate, String strFinishDate){
+        LinkedHashMap<String, Integer> listFoundDateTimeAndCountPages = new LinkedHashMap<>();
         try {
             SimpleDateFormat format = new SimpleDateFormat();
             format.applyPattern("yyyy-MM-dd");
@@ -68,17 +81,21 @@ public class ProcessingPersonPageRankTable {
                 if(dateFinishDate.after(LIST_FOUND_DATE_TIME_PAGES.get(LIST_FOUND_DATE_TIME_PAGES.size()-1))){
                     strFinishDate = new SimpleDateFormat("yyyy-MM-dd").format(LIST_FOUND_DATE_TIME_PAGES.get(LIST_FOUND_DATE_TIME_PAGES.size()-1));
                 }
-                if(strStartDate.equals(getListAbbreviatedFoundDateTime().get(i))){
+                if(strStartDate.equals(getListAbbreviatedFoundDateTime().get(i))){// нашли стартовую дату в списке всех дат
+                    count++;// нужно посчитать сколько страниу было за одну дату
                     for (int j = i; j < getListAbbreviatedFoundDateTime().size(); j++) {
-                        if(!strFinishDate.equals(getListAbbreviatedFoundDateTime().get(j)) &&
-                                strNamePerson.equals(getListNamePerson().get(j))&&
-                                strNameSite.equals(getListNameSites().get(j))){
-                            // если pageID принадлежит ID сайта, нужно сделать каунт ++
-                            listFoundDateTimeAndCountPages.put(getListAbbreviatedFoundDateTime().get(j), count);
-                        }else if(strNamePerson.equals(getListNamePerson().get(j))&& strNameSite.equals(getListNameSites().get(j))){
-                            listFoundDateTimeAndCountPages.put(getListAbbreviatedFoundDateTime().get(j), count);
-                            break;
+                        if((!strFinishDate.equals(getListAbbreviatedFoundDateTime().get(j)))){
+                            if(strNamePerson.equals(getListNamePerson().get(j))){
+                                if(strNameSite.equals(getListNameSites().get(j))){
+                                    listFoundDateTimeAndCountPages.put(getListAbbreviatedFoundDateTime().get(j), count);
+                                }
+                            }
                         }else {
+                            if(strNamePerson.equals(getListNamePerson().get(j))){
+                                if(strNameSite.equals(getListNameSites().get(j))){
+                                    listFoundDateTimeAndCountPages.put(getListAbbreviatedFoundDateTime().get(j), count);
+                                }
+                            }
                             break;
                         }
                     }
@@ -88,7 +105,27 @@ public class ProcessingPersonPageRankTable {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return arrDateAndCountPages;
+        return listFoundDateTimeAndCountPages;
+    }
+    /*
+     * Метод, возвращающий пару NamePerson(String) и Rank(int) из таблицы PersonPageRank
+     * */
+    public LinkedHashMap<String, Integer> getListPersonNameAndRank(String nameSite){
+        LinkedHashMap<String, Integer> listPersonNameAndRank = new LinkedHashMap<>();
+
+        int count = 0;
+        for (int i = 0; i < getListNameSites().size(); i++) {
+            if(i > 0 && (!getListNamePerson().get(i - 1).equals(getListNamePerson().get(i)))){
+                count = 0;
+            }
+            for (int j = 0; j < getListDistinctNamePerson().size(); j++) {
+                if(nameSite.equals(getListNameSites().get(i)) && getListDistinctNamePerson().get(j).equals(getListNamePerson().get(i))){
+                    count += LIST_RANK_PERSON_PAGE_RANK.get(i);
+                    listPersonNameAndRank.put(getListDistinctNamePerson().get(j), count);
+                }
+            }
+        }
+        return listPersonNameAndRank;
     }
     /*
      * Метод, возвращающий список сокращенных Дат(String) из таблицы PersonPageRank
@@ -116,26 +153,6 @@ public class ProcessingPersonPageRankTable {
             }
         }
         return listFoundDateTime;
-    }
-    /*
-     * Метод, возвращающий пару NamePerson(String) и Rank(int) из таблицы PersonPageRank
-     * */
-    public LinkedHashMap<String, Integer> getListPersonNameAndRank(String nameSite){
-        LinkedHashMap<String, Integer> listPersonNameAndRank = new LinkedHashMap<>();
-
-        int count = 0;
-        for (int i = 0; i < getListNameSites().size(); i++) {
-            if(i > 0 && (!getListNamePerson().get(i - 1).equals(getListNamePerson().get(i)))){
-                count = 0;
-            }
-            for (int j = 0; j < getListDistinctNamePerson().size(); j++) {
-                if(nameSite.equals(getListNameSites().get(i)) && getListDistinctNamePerson().get(j).equals(getListNamePerson().get(i))){
-                    count += LIST_RANK_PERSON_PAGE_RANK.get(i);
-                    listPersonNameAndRank.put(getListDistinctNamePerson().get(j), count);
-                }
-            }
-        }
-        return listPersonNameAndRank;
     }
     /*
      * Метод, возвращающий список Имен личностей(String) из таблицы PersonPageRank

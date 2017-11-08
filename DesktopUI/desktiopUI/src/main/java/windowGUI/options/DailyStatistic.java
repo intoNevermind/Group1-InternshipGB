@@ -4,89 +4,135 @@ import windowGUI.MyCalendar;
 import windowGUI.options.workSQL.*;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
 
 public class DailyStatistic extends Statistics{
     private static final String TAB_NAME = "Ежедневная статистика";
 
-    private static final GridBagLayout GBL = new GridBagLayout();
-
-    private static final JLabel headlineSite = new JLabel(" Сайты: ");
     private static final JLabel headlinePersons = new JLabel(" Личности: ");
     private static final JLabel headlineStartPeriod = new JLabel(" Период c: ");
     private static final JLabel headlineFinishPeriod = new JLabel(" по: ");
     private static final JLabel totalNumberPages = new JLabel();
 
-    private static final JButton btnConfirm = new JButton(" Подтвердить");
-
     private static final ProcessingPersonTable PPersonT = new ProcessingPersonTable();
-    private static final ProcessingSitesTable PSitesT = new ProcessingSitesTable();
 
-    private static final JComboBox<Object> listSite = new JComboBox<>(PSitesT.getColumnName());
     private static final JComboBox<Object> listPersons = new JComboBox<>(PPersonT.getColumnName());
 
     private static final MyCalendar startCalendar = new MyCalendar();
     private static final MyCalendar finishCalendar = new MyCalendar();
 
-    public DailyStatistic() {
+    private static String nameSite;
+    private static String namePerson;
+    private static String startDate;
+    private static String finishDate;
 
+    public DailyStatistic() {
         setTabName(TAB_NAME);
-        getOptionsPanel().setLayout(GBL);
+        getOptionsPanel().setLayout(getGBL());
 
         fillOptionsPanel();
         getPanelStat().add(getOptionsPanel(), BorderLayout.NORTH);
-        startCalendar.getDateEditor().addPropertyChangeListener("date", new PropertyChangeListener() {
-                    @Override
-                    public void propertyChange(PropertyChangeEvent evt) {
-                        String str = new SimpleDateFormat("yyyy-MM-dd").format(startCalendar.getDate());
-                        System.out.println(str);
-                    }
-                });
 
-
-                data = new Object[][]{{"21.21.2012", 1}, {"21.21.2010", 2}, {"21.21.2011", 3}};
         columnNames = new String[]{"Дата", "Количество новых страниц"};
-        dataTable = new JTable(data,columnNames);
-        dataScrollPane = new JScrollPane(dataTable);
-        getPanelStat().add(dataScrollPane, BorderLayout.CENTER);
 
-        totalNumberPages.setText("Всего новых страниц за период: " + countTotalNumberPages());
-        getPanelStat().add(totalNumberPages, BorderLayout.SOUTH);
+        getListSite().addActionListener(this::initNameSites);
+        getListSite().addActionListener(this::listenerRemoveDataTable);
+
+        listPersons.addActionListener(this::initNamePerson);
+        listPersons.addActionListener(this::listenerRemoveDataTable);
+
+        startCalendar.getDateEditor().addPropertyChangeListener("date",this::initStartDate);
+        startCalendar.getDateEditor().addPropertyChangeListener("date",this::listenerRemoveDataTable);
+
+        finishCalendar.getDateEditor().addPropertyChangeListener("date", this::initFinishDate);
+        finishCalendar.getDateEditor().addPropertyChangeListener("date",this::listenerRemoveDataTable);
+
+        getBtnConfirm().addActionListener(this::getListenerVisibleDataTable);
+
     }
 
     @Override
     public void fillOptionsPanel() {
-        GBL.setConstraints(headlineSite, configGBC(headlineSite,false));
-        getOptionsPanel().add(headlineSite);
-        GBL.setConstraints(listSite, configGBC(listSite,false));
-        getOptionsPanel().add(listSite);
+        getGBL().setConstraints(getHeadlineSite(), configGBC(getHeadlineSite(),false));
+        getOptionsPanel().add(getHeadlineSite());
+        getGBL().setConstraints(getListSite(), configGBC(getListSite(),false));
+        getOptionsPanel().add(getListSite());
 
-        GBL.setConstraints(headlinePersons, configGBC(headlineSite,true));
+        getGBL().setConstraints(headlinePersons, configGBC(headlinePersons,true));
         getOptionsPanel().add(headlinePersons);
-        GBL.setConstraints(listPersons, configGBC(listSite,false));
+        getGBL().setConstraints(listPersons, configGBC(getListSite(),false));
         getOptionsPanel().add(listPersons);
 
-        GBL.setConstraints(headlineStartPeriod, configGBC(headlineSite, true));
+        getGBL().setConstraints(headlineStartPeriod, configGBC(headlineStartPeriod, true));
         getOptionsPanel().add(headlineStartPeriod);
-        GBL.setConstraints(startCalendar, configGBC(startCalendar,false));
+        getGBL().setConstraints(startCalendar, configGBC(startCalendar,false));
         getOptionsPanel().add(startCalendar);
 
-        GBL.setConstraints(headlineFinishPeriod, configGBC(headlineSite,true));
+        getGBL().setConstraints(headlineFinishPeriod, configGBC(headlineFinishPeriod,true));
         getOptionsPanel().add(headlineFinishPeriod);
-        GBL.setConstraints(finishCalendar, configGBC(finishCalendar,false));
+        getGBL().setConstraints(finishCalendar, configGBC(finishCalendar,false));
         getOptionsPanel().add(finishCalendar);
 
-        GBL.setConstraints(btnConfirm, configGBC(btnConfirm, true));
-        getOptionsPanel().add(btnConfirm);
+        getGBL().setConstraints(getBtnConfirm(), configGBC(getBtnConfirm(), true));
+        getOptionsPanel().add(getBtnConfirm());
     }
 
-    private long countTotalNumberPages(){
-        int count = 0;
-        for (int i = 0; i < data.length; i++) {
-            count += (int)data[i][1];
-        }
-        return count;
+    @Override
+    public void initNameSites(ActionEvent actionEvent){
+        JComboBox box = (JComboBox)actionEvent.getSource();
+        nameSite = (String)box.getSelectedItem();
     }
+
+    private void initNamePerson(ActionEvent actionEvent){
+        JComboBox box = (JComboBox)actionEvent.getSource();
+        namePerson = (String)box.getSelectedItem();
+    }
+
+
+
+    private void initStartDate(PropertyChangeEvent evt){
+        startDate = new SimpleDateFormat("yyyy-MM-dd").format(startCalendar.getDate());
+    }
+
+    private void initFinishDate(PropertyChangeEvent evt){
+        finishDate = new SimpleDateFormat("yyyy-MM-dd").format(finishCalendar.getDate());
+    }
+
+    private void getListenerVisibleDataTable(ActionEvent actionEvent){
+        dataTable = new JTable(getPPersonPageRankT().getArrayFillDailyTable(nameSite,namePerson,startDate,finishDate), columnNames);
+        dataScrollPane = new JScrollPane(dataTable);
+        getPanelStat().add(dataScrollPane, BorderLayout.CENTER);
+
+        dataScrollPane.setVisible(true);
+
+        getPanelStat().updateUI();
+        System.out.println(startDate + " ," + finishDate + " ," + namePerson + " ," + nameSite);
+    }
+
+    private void listenerRemoveDataTable(ActionEvent actionEvent){
+        for (int i = 0; i < getPanelStat().getComponents().length; i++) {
+            if(getPanelStat().getComponents()[i].equals(dataScrollPane)){
+                getPanelStat().remove(dataScrollPane);
+            }
+        }
+        getPanelStat().updateUI();
+    }
+    private void listenerRemoveDataTable(PropertyChangeEvent evt){
+        for (int i = 0; i < getPanelStat().getComponents().length; i++) {
+            if(getPanelStat().getComponents()[i].equals(dataScrollPane)){
+                getPanelStat().remove(dataScrollPane);
+            }
+        }
+        getPanelStat().updateUI();
+    }
+
+//    private long countTotalNumberPages(){
+//        int count = 0;
+//        for (int i = 0; i < data.length; i++) {
+//            count += (int)data[i][1];
+//        }
+//        return count;
+//    }
 }

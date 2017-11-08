@@ -1,8 +1,5 @@
 package windowGUI.options;
 
-import windowGUI.options.workSQL.ProcessingPersonPageRankTable;
-import windowGUI.options.workSQL.ProcessingSitesTable;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -10,56 +7,48 @@ import java.awt.event.*;
 public class GeneralStatistic extends Statistics{
     private static final String TAB_NAME = "Общая статистика";
 
-    private static final GridBagLayout GBL = new GridBagLayout();
+    private static String nameSite;
 
-    private static final JLabel headlineComboBoxSite = new JLabel("Сайты: ");
-
-    private final JButton btnConfirm = new JButton("Подтвердить");
-
-    private static final ProcessingSitesTable PST = new ProcessingSitesTable();
-    private static final JComboBox listSite = new JComboBox<>(PST.getColumnName());
-
-    private static final ProcessingPersonPageRankTable PPersonPageRankT = new ProcessingPersonPageRankTable();
-
-    private static String item;
     public GeneralStatistic() {
-
         setTabName(TAB_NAME);
-        getOptionsPanel().setLayout(GBL);
+        getOptionsPanel().setLayout(getGBL());
 
         fillOptionsPanel();
         getPanelStat().add(getOptionsPanel(), BorderLayout.NORTH);
 
         columnNames = new String[]{"Имя", "Количество новых страниц"};
 
-        listSite.addActionListener(this::getListenerFillDataTable);
-        listSite.addActionListener(this::getListenerRemoveDataTable);
-        btnConfirm.addActionListener(this::getListenerVisibleDataTable);
+        getListSite().addActionListener(this::initNameSites);
+        getListSite().addActionListener(this::listenerRemoveDataTable);
+        getBtnConfirm().addActionListener(this::listenerVisibleDataTable);
     }
-
 
     @Override
     public void fillOptionsPanel() {
-        GBL.setConstraints(headlineComboBoxSite,configGBC(headlineComboBoxSite,false));
-        getOptionsPanel().add(headlineComboBoxSite);
-        GBL.setConstraints(listSite,configGBC(listSite,false));
-        getOptionsPanel().add(listSite);
-        GBL.setConstraints(btnConfirm,configGBC(btnConfirm,true));
-        getOptionsPanel().add(btnConfirm);
+        getGBL().setConstraints(getHeadlineSite(),configGBC(getHeadlineSite(),false));
+        getOptionsPanel().add(getHeadlineSite());
+        getGBL().setConstraints(getListSite(),configGBC(getListSite(),false));
+        getOptionsPanel().add(getListSite());
+        getGBL().setConstraints(getBtnConfirm(),configGBC(getBtnConfirm(),true));
+        getOptionsPanel().add(getBtnConfirm());
     }
 
-    private void getListenerVisibleDataTable(ActionEvent actionEvent){
-        dataTable = new JTable(PPersonPageRankT.getArrayFillGeneralTable(item), columnNames);
+    @Override
+    public void initNameSites(ActionEvent actionEvent){
+        JComboBox box = (JComboBox)actionEvent.getSource();
+        nameSite = (String)box.getSelectedItem();
+    }
+
+    private void listenerVisibleDataTable(ActionEvent actionEvent){
+        dataTable = new JTable(getPPersonPageRankT().getArrayFillGeneralTable(nameSite), columnNames);
         dataScrollPane = new JScrollPane(dataTable);
-        dataScrollPane.setVisible(false);
         getPanelStat().add(dataScrollPane, BorderLayout.CENTER);
-        if(dataScrollPane != null){
-            dataScrollPane.setVisible(true);
-        }
+
+        dataScrollPane.setVisible(true);
         getPanelStat().updateUI();
     }
 
-    private void getListenerRemoveDataTable(ActionEvent actionEvent){
+    private void listenerRemoveDataTable(ActionEvent actionEvent){
         for (int i = 0; i < getPanelStat().getComponents().length; i++) {
             if(getPanelStat().getComponents()[i].equals(dataScrollPane)){
                 getPanelStat().remove(dataScrollPane);
@@ -68,8 +57,5 @@ public class GeneralStatistic extends Statistics{
         getPanelStat().updateUI();
     }
 
-    private void getListenerFillDataTable(ActionEvent actionEvent){
-        JComboBox box = (JComboBox)actionEvent.getSource();
-        item = (String)box.getSelectedItem();
-    }
+
 }
