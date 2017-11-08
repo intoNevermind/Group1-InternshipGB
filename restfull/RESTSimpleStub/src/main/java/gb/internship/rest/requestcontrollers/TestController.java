@@ -5,6 +5,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.SQLException;
@@ -40,7 +41,8 @@ public class TestController {
      * @param echoString строка аргумент из запроса.
      * @return полученный echoString или значение по умолчанию.
      */
-    @RequestMapping("/echo")
+//    @RequestMapping("/echo")
+    @RequestMapping(value = {"/echo", "/unauthorized/echo"})
     public String echo(@RequestParam(value = "echoString", defaultValue = DEFAULT_RESPONSE) String echoString) {
         return echoString;
     }
@@ -69,10 +71,10 @@ public class TestController {
      * Делает запрос в базу по параметрам пользователя
      */
     @RequestMapping("/getStatic")
-    public List<String> getPersonStatic(){
-        List<String> data = new ArrayList<>();
-        data = dbOperations.getDataUser();
-        return  data;
+    public List<String> getPersonStatic() throws SQLException {
+        List<String> datalist = new ArrayList<>();
+        datalist = dbOperations.getDataUser();
+        return  datalist;
     }
 
     /**
