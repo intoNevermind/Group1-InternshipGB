@@ -7,8 +7,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Date;
+import java.util.*;
 
 /**
  * @author баранов
@@ -129,11 +129,33 @@ public class UsersUiSitesDbOperation {
         LOG.info("SELECT \"ID\" FROM pages WHERE site = " + site + ";");
         String sqlQuery = "SELECT \"ID\" FROM pages WHERE site = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-        preparedStatement.setString(1,site);
+        preparedStatement.setString(1, site);
         ResultSet resultSet = preparedStatement.executeQuery();
 
         while (resultSet.next()) {
             result = resultSet.getInt("ID");
+        }
+        preparedStatement.close();
+
+        return result;
+    }
+
+
+/**
+ * @author Баранов
+ * Получаем ежедневную статистику
+ */
+
+    private Date getPersonsOfLastScanDate(java.util.Date lastscandate, String name) throws SQLException {
+        Date result = null;
+        LOG.info("SELECT * FROM (SELECT * FROM pages WHERE lastscandate = " +lastscandate +  " SELECT * FROM persons WHERE name = " + name + ";");
+        String sqlQuery = "SELECT * FROM (SELECT * FROM pages WHERE lastscandate = ? SELECT * FROM persons WHERE name =?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setString(1,name);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        while (resultSet.next()) {
+            result = resultSet.getDate("lastscandate");
         }
         preparedStatement.close();
 
