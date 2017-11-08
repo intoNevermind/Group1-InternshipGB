@@ -9,7 +9,7 @@ import java.util.Map;
  *  Класс описывает объект Личность, соответствующий сущности БД Persons
  */
 public class Person implements PersistenceEntity {
-    private Integer id;
+    private Long id;
     private String name;
     private Boolean active;
     private User user;
@@ -20,11 +20,17 @@ public class Person implements PersistenceEntity {
 
     };
 
-    public Person(Integer id, String name, Boolean active, User user) {
+    public Person(Long id, String name, Boolean active, User user) {
         this.id = id;
         this.name = name;
         this.active = active;
         this.user = user;
+    }
+
+    public Person(Long id, String name, Boolean active) {
+        this.id = id;
+        this.name = name;
+        this.active = active;
     }
 
     public Person(String name, Boolean active, User user) {
@@ -37,8 +43,12 @@ public class Person implements PersistenceEntity {
         this(name, true, user);
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -55,6 +65,14 @@ public class Person implements PersistenceEntity {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Map<Integer, String> getKeywords() {
@@ -79,6 +97,7 @@ public class Person implements PersistenceEntity {
         final int prime = 31;
         int result = 1;
         result = prime * result + (name == null ? 0 : name.hashCode());
+        result = prime * result + (user == null ? 0 : user.hashCode());
         return result;
     }
 
@@ -99,6 +118,13 @@ public class Person implements PersistenceEntity {
                 return false;
             }
         } else if (!id.equals(other.id)) {
+            return false;
+        }
+        if (user == null) {
+            if (other.getUser() != null) {
+                return false;
+            }
+        } else if (!user.equals(other.getUser())) {
             return false;
         }
         if (name == null) {

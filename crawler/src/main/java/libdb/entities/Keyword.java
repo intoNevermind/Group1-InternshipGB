@@ -6,13 +6,13 @@ import java.util.Date;
  *  Класс описывает объект Ключевое слово, соответствующий сущности БД Keywords
  */
 public class Keyword implements PersistenceEntity {
-    private Integer id;
+    private Long id;
     private Person person;
     private String name;
 
     public Keyword() {};
 
-    public Keyword(Integer id, String name, Person person) {
+    public Keyword(Long id, String name, Person person) {
         this.id = id;
         this.name = name;
         this.person = person;
@@ -23,7 +23,7 @@ public class Keyword implements PersistenceEntity {
         this.person = person;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 

@@ -1,11 +1,10 @@
-package libdb.modelPostgreSQL.keyword;
+package libdb.modelPostgreSQL.rank;
 
 import libdb.SqlSpecification;
 import libdb.entities.Keyword;
 import libdb.entities.Person;
-import libdb.modelPostgreSQL.person.PersonRepository;
 
-public class KeywordSpecifications implements SqlSpecification {
+public class RankSpecifications implements SqlSpecification {
     /**
      * UserId specification
      *
@@ -20,10 +19,10 @@ public class KeywordSpecifications implements SqlSpecification {
         public String toSqlQuery() {
             return String.format(
                     "SELECT * FROM %1$s WHERE \"%2$s\" = %3$d ORDER BY \"%4$s\";",
-                    KeywordRepository.getTableName(),
-                    KeywordRepository.getNameFieldDB("userId"),
+                    RankRepository.getTableName(),
+                    RankRepository.getNameFieldDB("userId"),
                     userId,
-                    KeywordRepository.getNameFieldDB("name")
+                    RankRepository.getNameFieldDB("name")
             );
         }
     }
@@ -44,12 +43,12 @@ public class KeywordSpecifications implements SqlSpecification {
         public String toSqlQuery() {
             return String.format(
                     "SELECT * FROM %1$s WHERE \"%2$s\" = %3$d AND \"%4$s\" = %5$d ORDER BY \"%4$s\";",
-                    KeywordRepository.getTableName(),
-                    KeywordRepository.getNameFieldDB("personId"),
+                    RankRepository.getTableName(),
+                    RankRepository.getNameFieldDB("personId"),
                     personId,
-                    KeywordRepository.getNameFieldDB("userId"),
+                    RankRepository.getNameFieldDB("userId"),
                     userId,
-                    KeywordRepository.getNameFieldDB("name")
+                    RankRepository.getNameFieldDB("name")
             );
         }
     }
@@ -58,18 +57,18 @@ public class KeywordSpecifications implements SqlSpecification {
      * DELETE specification
      *
      */
-    public static class DeleteKeyword implements SqlSpecification {
+    public static class DeleteRank implements SqlSpecification {
         private Keyword keyword;
 
-        public DeleteKeyword(final Keyword keyword) {
+        public DeleteRank(final Keyword keyword) {
             this.keyword = keyword;
         }
 
         public String toSqlQuery() {
             return String.format(
                     "DELETE FROM %1$s WHERE \"%2$s\" = %3$d;",
-                    PersonRepository.getTableName(),
-                    PersonRepository.getNameFieldDB("id"),
+                    RankRepository.getTableName(),
+                    RankRepository.getNameFieldDB("id"),
                     keyword.getId()
             );
         }
@@ -79,18 +78,18 @@ public class KeywordSpecifications implements SqlSpecification {
      * DELETE PersonId specification
      *
      */
-    public static class DeleteKeywordsByPersonId implements SqlSpecification {
+    public static class DeleteRanksByPersonId implements SqlSpecification {
         private Person person;
 
-        public DeleteKeywordsByPersonId(final Person person) {
+        public DeleteRanksByPersonId(final Person person) {
             this.person = person;
         }
 
         public String toSqlQuery() {
             return String.format(
                     "DELETE FROM %1$s WHERE \"%2$s\" = %3$d;",
-                    KeywordRepository.getTableName(),
-                    KeywordRepository.getNameFieldDB("personId"),
+                    RankRepository.getTableName(),
+                    RankRepository.getNameFieldDB("personId"),
                     person.getId()
             );
         }

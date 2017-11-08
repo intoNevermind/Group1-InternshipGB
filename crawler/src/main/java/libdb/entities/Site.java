@@ -7,7 +7,7 @@ import java.util.Map;
  *  Класс описывает объект Сайт, соответствующий сущности БД Sites
  */
 public class Site implements PersistenceEntity {
-    private Integer id;
+    private Long id;
     private String name;
     private String url;
     private Boolean active;
@@ -16,19 +16,23 @@ public class Site implements PersistenceEntity {
 
     public Site() {};
 
-    public Site(String name, String url, Boolean active, Integer UserID) {
+    public Site(String name, String url, Boolean active, Long UserID) {
         this.name = name;
         this.url = url;
         this.active = active;
         this.UserId = UserId;
     }
 
-    public Site(String name, String url, Integer UserID) {
+    public Site(String name, String url, Long UserID) {
         this(name, url, true, UserID);
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

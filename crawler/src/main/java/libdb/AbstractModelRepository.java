@@ -1,5 +1,6 @@
 package libdb;
 
+import libdb.entities.User;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,50 +11,30 @@ public abstract class AbstractModelRepository<T> implements Repository<T> {
     private List<T> items = null;
 
     public AbstractModelRepository() {
-        this(new ArrayList<T>());
+        items = new ArrayList<T>();
     }
 
-    public AbstractModelRepository(List<T> itemsList) {
-        this.items = itemsList;
-    }
-
-    public void add(T item) {
+    public void add(T item) throws SQLException {
         items.add(item);
     }
 
-    public void add(Iterable<T> items) {
+    public void update(T item) throws SQLException {
 
     }
 
-    public T select(Specification specification) {
-        return null;
-    }
-
-    public void update(T entity) {
-
-    }
-
-    public void delete(T item) {
+    public void delete(T item) throws SQLException {
         items.remove(item);
     }
 
-    public void delete(Specification specification) {
-
+    public void deleteCascade(T item) throws SQLException {
+        items.remove(item);
     }
 
-    public Collection<T> getAll() {
+    public Collection<T> getAll() throws SQLException {
         return items;
     }
 
-    public Collection<T> getAllByUser(Integer UserId) throws SQLException {
+    public Collection<T> getAllByUser(final User user) throws SQLException {
         return items;
-    }
-
-    public T findById(int id) {
-        return items.get(id);
-    }
-
-    public void removeAll() {
-        items.clear();
     }
 }

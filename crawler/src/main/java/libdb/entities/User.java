@@ -1,10 +1,7 @@
 package libdb.entities;
 
-/**
- * Created by zarodov on 02.11.2017.
- */
 public class User {
-    private Integer id;
+    private Long id;
     private String name;
     private Boolean active;
 
@@ -12,7 +9,7 @@ public class User {
 
     };
 
-    public User(Integer id, String name, Boolean active) {
+    public User(Long id, String name, Boolean active) {
         this.id = id;
         this.name = name;
         this.active = active;
@@ -23,8 +20,32 @@ public class User {
         this.active = active;
     }
 
-    public User(String name, Integer UserID) {
+    public User(String name, Long UserID) {
         this(name, true);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     @Override

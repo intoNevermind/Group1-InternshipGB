@@ -1,7 +1,12 @@
+import libdb.Repository;
+import libdb.entities.Person;
+import libdb.modelPostgreSQL.person.PersonRepository;
+
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -19,8 +24,12 @@ public class TestWorkDB {
             // Create connecion DB
             Class.forName("org.postgresql.Driver");
             connectDB = DriverManager.getConnection("jdbc:postgresql://" + prop.getProperty("server") + "/" + prop.getProperty("database"), prop.getProperty("dbuser"), prop.getProperty("dbpassword"));
-
             System.out.println(connectDB.getClientInfo());
+            Repository<Person> repository = new PersonRepository(connectDB);
+            List<Person> list = (List<Person>) repository.getAll();
+            for(Person person : list) {
+                System.out.println(person);
+            }
             connectDB.close();
         } catch (Exception ex) {
             ex.printStackTrace();

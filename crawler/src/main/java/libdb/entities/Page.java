@@ -6,7 +6,7 @@ import java.util.Date;
  *  Класс описывает объект Страница, соответствующий сущности БД Pages
  */
 public class Page implements PersistenceEntity {
-    private Integer id;
+    private Long id;
     private String url;
     private Site site;
     private Date foundDateTime;
@@ -20,11 +20,11 @@ public class Page implements PersistenceEntity {
         this.foundDateTime = foundDateTime;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
