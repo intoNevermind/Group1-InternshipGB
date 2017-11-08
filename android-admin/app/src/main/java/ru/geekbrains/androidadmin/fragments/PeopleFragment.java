@@ -49,4 +49,10 @@ public class PeopleFragment extends Fragment {
         persons.add(new PersonInfo("Мудведев", 50));
         persons.add(new PersonInfo("Навальный", 200));
     }
+
+    private void addUsers() {
+        persons.add(new PersonInfo("User1", 1));
+        persons.add(new PersonInfo("User2", 2));
+        persons.add(new PersonInfo("User3", 3));
+    }
 }

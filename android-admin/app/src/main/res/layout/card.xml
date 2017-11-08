@@ -15,7 +15,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/Base.TextAppearance.AppCompat.Title"
-                tools:hint="Василий Пупкин"
+                tools:text="Василий Пупкин"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true" />
 
@@ -24,7 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/Base.TextAppearance.AppCompat.Title"
-                tools:hint="100500"
+                tools:text="100500"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 />
