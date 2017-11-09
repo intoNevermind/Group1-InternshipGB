@@ -30,11 +30,28 @@ public abstract class Statistics {
 
     Statistics() {
         panelStat.setLayout(new BorderLayout());
+        optionsPanel.setLayout(GBL);
+        panelStat.add(optionsPanel, BorderLayout.NORTH);
     }
 
     public abstract void fillOptionsPanel();
-
     public abstract void initNameSites(ActionEvent actionEvent);
+    public abstract void listenerVisibleDataTable(ActionEvent actionEvent);
+
+    void addActionListenerForListSiteAndBtnConfirm(){
+       listSite.addActionListener(this::initNameSites);
+       listSite.addActionListener(this::listenerRemoveDataTable);
+       btnConfirm.addActionListener(this::listenerVisibleDataTable);
+    }
+
+    void listenerRemoveDataTable(ActionEvent actionEvent) {
+        for (int i = 0; i < getPanelStat().getComponents().length; i++) {
+            if(getPanelStat().getComponents()[i].equals(dataScrollPane)){
+                getPanelStat().remove(dataScrollPane);
+            }
+        }
+        getPanelStat().updateUI();
+    }
 
     GridBagConstraints configGBC(Component component, boolean moveToNewLine){
         GridBagConstraints gbc =  new GridBagConstraints();
@@ -99,4 +116,5 @@ public abstract class Statistics {
     JComboBox<Object> getListSite() {
         return listSite;
     }
+
 }

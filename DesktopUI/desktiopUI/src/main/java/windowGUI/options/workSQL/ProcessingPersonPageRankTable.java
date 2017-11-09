@@ -27,6 +27,7 @@ public class ProcessingPersonPageRankTable {
     * Метод, возвращающий двумерный массив для передачи в конструктор таблицы общей статистики
     * */
     public Object[][] getArrayFillGeneralTable(String strNameSite){
+        if(strNameSite == null) return new Object[0][0];
         LinkedHashMap<String, Integer> listPersonNameAndRank = getListPersonNameAndRank(strNameSite);
         return convertingListToArray(listPersonNameAndRank);
     }
@@ -34,6 +35,7 @@ public class ProcessingPersonPageRankTable {
      * Метод, возвращающий двумерный массив для передачи в конструктор таблицы ежедневной статистики
      * */
     public Object[][] getArrayFillDailyTable(String strNameSite, String strNamePerson, String strStartDate, String strFinishDate){
+        if(strNameSite == null || strNamePerson == null || strStartDate == null || strFinishDate == null) return new Object[0][0];
         LinkedHashMap<String, Integer> listFoundDateTimeAndCountPages = getListFoundDateTimeAndCountPages(strNameSite, strNamePerson, strStartDate, strFinishDate);
         return convertingListToArray(listFoundDateTimeAndCountPages);
     }

@@ -30,15 +30,10 @@ public class DailyStatistic extends Statistics{
 
     public DailyStatistic() {
         setTabName(TAB_NAME);
-        getOptionsPanel().setLayout(getGBL());
 
         fillOptionsPanel();
-        getPanelStat().add(getOptionsPanel(), BorderLayout.NORTH);
 
-        columnNames = new String[]{"Дата", "Количество новых страниц"};
-
-        getListSite().addActionListener(this::initNameSites);
-        getListSite().addActionListener(this::listenerRemoveDataTable);
+        addActionListenerForListSiteAndBtnConfirm();
 
         listPersons.addActionListener(this::initNamePerson);
         listPersons.addActionListener(this::listenerRemoveDataTable);
@@ -49,8 +44,7 @@ public class DailyStatistic extends Statistics{
         finishCalendar.getDateEditor().addPropertyChangeListener("date", this::initFinishDate);
         finishCalendar.getDateEditor().addPropertyChangeListener("date",this::listenerRemoveDataTable);
 
-        getBtnConfirm().addActionListener(this::getListenerVisibleDataTable);
-
+        columnNames = new String[]{"Дата", "Количество новых страниц"};
     }
 
     @Override
@@ -91,7 +85,6 @@ public class DailyStatistic extends Statistics{
     }
 
 
-
     private void initStartDate(PropertyChangeEvent evt){
         startDate = new SimpleDateFormat("yyyy-MM-dd").format(startCalendar.getDate());
     }
@@ -100,7 +93,15 @@ public class DailyStatistic extends Statistics{
         finishDate = new SimpleDateFormat("yyyy-MM-dd").format(finishCalendar.getDate());
     }
 
-    private void getListenerVisibleDataTable(ActionEvent actionEvent){
+    @Override
+    public void listenerVisibleDataTable(ActionEvent actionEvent){
+        String str = "";
+        if(nameSite == null) str += " \"" + getHeadlineSite().getText() + "\" ";
+        if(namePerson == null) str += " \"" + headlinePersons.getText() + "\" ";
+        if(startDate == null) str += " \"" + headlineStartPeriod.getText() + "\" ";
+        if(finishDate == null) str += " \"" + headlineFinishPeriod.getText() + "\" ";
+        if(!str.equals("")) JOptionPane.showMessageDialog(null, "Для просмотра ежедневной статистики необходимо выбрать " + str);
+
         dataTable = new JTable(getPPersonPageRankT().getArrayFillDailyTable(nameSite,namePerson,startDate,finishDate), columnNames);
         dataScrollPane = new JScrollPane(dataTable);
         getPanelStat().add(dataScrollPane, BorderLayout.CENTER);
@@ -108,14 +109,6 @@ public class DailyStatistic extends Statistics{
         getPanelStat().updateUI();
     }
 
-    private void listenerRemoveDataTable(ActionEvent actionEvent){
-        for (int i = 0; i < getPanelStat().getComponents().length; i++) {
-            if(getPanelStat().getComponents()[i].equals(dataScrollPane)){
-                getPanelStat().remove(dataScrollPane);
-            }
-        }
-        getPanelStat().updateUI();
-    }
     private void listenerRemoveDataTable(PropertyChangeEvent evt){
         for (int i = 0; i < getPanelStat().getComponents().length; i++) {
             if(getPanelStat().getComponents()[i].equals(dataScrollPane)){
@@ -124,6 +117,8 @@ public class DailyStatistic extends Statistics{
         }
         getPanelStat().updateUI();
     }
+
+
 
 //    private long countTotalNumberPages(){
 //        int count = 0;
