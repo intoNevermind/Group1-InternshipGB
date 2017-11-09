@@ -78,7 +78,7 @@ public class ProcessingPersonPageRankTable {
         }
     }
     /*
-     * Метод, возвращающий список Дат(String) из интервата времени, нужно поколдовать !!
+     * Метод, возвращающий список Дат(String) из интервата времени
      * */
     private ArrayList<String> getListIntervalFoundDateTime(String strNameSite, String strNamePerson, String strStartDate, String strFinishDate){
         Date dateStartDate = convertingStrToDate(strStartDate);
@@ -86,42 +86,16 @@ public class ProcessingPersonPageRankTable {
 
         if(dateStartDate == null || dateFinishDate == null) throw new AssertionError();
 
-        if(dateStartDate.before(LIST_FOUND_DATE_TIME_PAGES.get(0))) strStartDate = getListAbbreviatedFoundDateTime().get(0);
-
-        if(dateFinishDate.before(dateStartDate)) strFinishDate = strStartDate;
-
-        if(dateFinishDate.after(LIST_FOUND_DATE_TIME_PAGES.get(LIST_FOUND_DATE_TIME_PAGES.size()-1))){
-            strFinishDate = new SimpleDateFormat("yyyy-MM-dd").format(LIST_FOUND_DATE_TIME_PAGES.get(LIST_FOUND_DATE_TIME_PAGES.size()-1));
-        }
-
         ArrayList<String> listIntervalFoundDateTime = new ArrayList<>();
 
-        for(int i = 0; i < getListAbbreviatedFoundDateTime().size(); i++) {
-            if(strStartDate.equals(getListAbbreviatedFoundDateTime().get(i))){
-                for(int j = i; j < getListAbbreviatedFoundDateTime().size(); j++) {
-                    //додумать я почти у цели!
-//                    Date date = convertingStrToDate(getListAbbreviatedFoundDateTime().get(j));
-//                    if (date == null) throw new AssertionError();
-//                    if((date.after(dateStartDate) && date.before(dateFinishDate)) ||
-//                            date.equals(dateStartDate) || date.equals(dateFinishDate)){
-//                        if(strNamePerson.equals(getListNamePerson().get(j))){
-//                            if(strNameSite.equals(getListNameSites().get(j))){
-//                                listIntervalFoundDateTime.add(getListAbbreviatedFoundDateTime().get(j));
-//                            }
-//                        }
-                    if(!strFinishDate.equals(getListAbbreviatedFoundDateTime().get(j))){
-                        if(strNamePerson.equals(getListNamePerson().get(j))){
-                            if(strNameSite.equals(getListNameSites().get(j))){
-                                listIntervalFoundDateTime.add(getListAbbreviatedFoundDateTime().get(j));
-                            }
-                        }
-                    }else {
-                        if(strNamePerson.equals(getListNamePerson().get(j))){
-                            if(strNameSite.equals(getListNameSites().get(j))){
-                                listIntervalFoundDateTime.add(getListAbbreviatedFoundDateTime().get(j));
-                            }
-                        }
-                        break;
+        for(int j = 0; j < getListAbbreviatedFoundDateTime().size(); j++) {
+            Date date = convertingStrToDate(getListAbbreviatedFoundDateTime().get(j));
+            if (date == null) throw new AssertionError();
+            if((date.after(dateStartDate) && date.before(dateFinishDate)) ||
+                    date.equals(dateStartDate) || date.equals(dateFinishDate)) {
+                if (strNamePerson.equals(getListNamePerson().get(j))) {
+                    if (strNameSite.equals(getListNameSites().get(j))) {
+                        listIntervalFoundDateTime.add(getListAbbreviatedFoundDateTime().get(j));
                     }
                 }
             }
