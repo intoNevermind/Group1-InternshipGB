@@ -10,7 +10,6 @@ public class TableUsers {
     private Integer id;
     private String login;
     private boolean admin;
-    private String password;
     private boolean active;
 
     public Integer getId() {
@@ -37,14 +36,6 @@ public class TableUsers {
         this.admin = admin;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public boolean isActive() {
         return active;
     }
@@ -53,11 +44,10 @@ public class TableUsers {
         this.active = active;
     }
 
-    public TableUsers(Integer id, String login, boolean admin, String password, boolean active) {
+    public TableUsers(Integer id, String login, boolean admin, boolean active) {
         this.id = id;
         this.login = login;
         this.admin = admin;
-        this.password = password;
         this.active = active;
     }
 }

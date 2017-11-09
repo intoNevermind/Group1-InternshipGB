@@ -288,8 +288,9 @@ public class AdminUiSitesDbOperations {
     public List<TableUsers> getAllUsers() throws SQLException {
         List<TableUsers> resultList = new ArrayList<>();
 
-        LOG.info("SELECT \"ID\", \"Login\", \"Admin\", \"Password\", \"Active\" FROM users;");
-        String sqlQuery = "SELECT \"ID\", \"Login\", \"Admin\", \"Password\", \"Active\" FROM users;";
+        LOG.info("SELECT \"ID\", \"Login\", \"Admin\", \"Active\" FROM users;");
+        String sqlQuery = "SELECT \"ID\", \"Login\", \"Admin\", \"Active\" FROM users;";
+
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sqlQuery);
 
@@ -297,7 +298,6 @@ public class AdminUiSitesDbOperations {
             resultList.add(new TableUsers(resultSet.getInt("ID"),
                     resultSet.getString("Login"),
                     resultSet.getBoolean("Admin"),
-                    resultSet.getString("Password"),
                     resultSet.getBoolean("Active")));
         }
         statement.close();
