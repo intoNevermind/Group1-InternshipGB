@@ -33,7 +33,7 @@ public class AdminUiPersonController {
      *
      * @return список всех личностей.
      */
-    @RequestMapping("/admin/ui/getAllPersons")
+    @RequestMapping(value = {"/admin/ui/getAllPersons", "/unauthorized/admin/ui/getAllPersons"})
     public List<TablePersons> getAllPersons() {
         List<TablePersons> resultList = new ArrayList<>();
         try {
@@ -51,7 +51,7 @@ public class AdminUiPersonController {
      * @param active активен.
      * @return сообщение о статусе выполнения.
      */
-    @RequestMapping("/admin/ui/addPerson")
+    @RequestMapping(value = {"/admin/ui/addPerson", "/unauthorized/admin/ui/addPerson"})
     public ResponseEntity addPerson(@RequestParam(value = "name") String name,
                                     @RequestParam(value = "active") String active) {
 
@@ -88,7 +88,7 @@ public class AdminUiPersonController {
      * @return сообщение о статусе выполнения.
      * В случае корректного выполнения в теле ответа возвращается количество удалёных записей.
      */
-    @RequestMapping("/admin/ui/delPerson")
+    @RequestMapping(value = {"/admin/ui/delPerson", "/unauthorized/admin/ui/delPerson"})
     public ResponseEntity delPerson(@RequestParam(value = "id") Integer id) {
         int deletedRows;
 
@@ -110,7 +110,7 @@ public class AdminUiPersonController {
                 .body(deletedRows);
     }
 
-    @RequestMapping("/admin/ui/modifyPerson")
+    @RequestMapping(value = {"/admin/ui/modifyPerson", "/unauthorized/admin/ui/modifyPerson"})
     public ResponseEntity modifySite(@RequestParam(value = "id") Integer id,
                                      @RequestParam(value = "name") String name,
                                      @RequestParam(value = "active") String active) {

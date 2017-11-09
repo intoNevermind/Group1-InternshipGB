@@ -33,7 +33,7 @@ public class AdminUiKeywordController {
      *
      * @return список всех ключевых слов.
      */
-    @RequestMapping("/admin/ui/getAllKeywords")
+    @RequestMapping(value = {"/admin/ui/getAllKeywords", "/unauthorized/admin/ui/getAllKeywords"})
     public List<TableKeywords> getAllKeywords() {
         List<TableKeywords> resultList = new ArrayList<>();
         try {
@@ -53,7 +53,7 @@ public class AdminUiKeywordController {
      * @param personId идентификатор личности.
      * @return сообщение о статусе выполнения.
      */
-    @RequestMapping("/admin/ui/addKeyword")
+    @RequestMapping(value = {"/admin/ui/addKeyword", "/unauthorized/admin/ui/addKeyword"})
     public ResponseEntity addKeyword(@RequestParam(value = "name") String name,
                                      @RequestParam(value = "personId") Integer personId) {
 
@@ -88,7 +88,7 @@ public class AdminUiKeywordController {
      * @return сообщение о статусе выполнения.
      * В случае корректного выполнения в теле ответа возвращается количество удалёных записей.
      */
-    @RequestMapping("/admin/ui/delKeyword")
+    @RequestMapping(value = {"/admin/ui/delKeyword", "/unauthorized/admin/ui/delKeyword"})
     public ResponseEntity delKeyword(@RequestParam(value = "id") Integer id) {
         int deletedRows;
 
@@ -119,7 +119,7 @@ public class AdminUiKeywordController {
      * @return сообщение о статусе выполнения.
      * В случае корректного выполнения в теле ответа возвращается количество удалёных записей.
      */
-    @RequestMapping("/admin/ui/modifyKeyword")
+    @RequestMapping(value = {"/admin/ui/modifyKeyword", "/unauthorized/admin/ui/modifyKeyword"})
     public ResponseEntity modifySite(@RequestParam(value = "id") Integer id,
                                      @RequestParam(value = "name") String name,
                                      @RequestParam(value = "personId") Integer personId) {

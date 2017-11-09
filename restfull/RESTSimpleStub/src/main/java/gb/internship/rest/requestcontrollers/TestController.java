@@ -41,7 +41,6 @@ public class TestController {
      * @param echoString строка аргумент из запроса.
      * @return полученный echoString или значение по умолчанию.
      */
-//    @RequestMapping("/echo")
     @RequestMapping(value = {"/echo", "/unauthorized/echo"})
     public String echo(@RequestParam(value = "echoString", defaultValue = DEFAULT_RESPONSE) String echoString) {
         return echoString;

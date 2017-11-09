@@ -36,7 +36,7 @@ public class AdminUiSitesController {
      *
      * @return список всех сайтов.
      */
-    @RequestMapping("/admin/ui/getAllSites")
+    @RequestMapping(value = {"/admin/ui/getAllSites", "/unauthorized/admin/ui/getAllSites"})
     public List<TableSites> getAllSites() {
         List<TableSites> resultList = new ArrayList<>();
         try {
@@ -58,7 +58,7 @@ public class AdminUiSitesController {
      * @param active активен.
      * @return сообщение о статусе выполнения.
      */
-    @RequestMapping("/admin/ui/addSite")
+    @RequestMapping(value = {"/admin/ui/addSite", "/unauthorized/admin/ui/addSite"})
     public ResponseEntity addSite(@RequestParam(value = "name") String name,
                                   @RequestParam(value = "url") String url,
                                   @RequestParam(value = "active") String active) {
@@ -100,7 +100,7 @@ public class AdminUiSitesController {
      * @return сообщение о статусе выполнения.
      * В случае корректного выполнения в теле ответа возвращается количество удалёных записей.
      */
-    @RequestMapping("/admin/ui/delSite")
+    @RequestMapping(value = {"/admin/ui/delSite", "/unauthorized/admin/ui/delSite"})
     public ResponseEntity delSite(@RequestParam(value = "id") Integer id) {
         int deletedRows;
 
@@ -131,7 +131,7 @@ public class AdminUiSitesController {
      * @param active активен.
      * @return сообщение о статусе выполнения.
      */
-    @RequestMapping("/admin/ui/modifySite")
+    @RequestMapping(value = {"/admin/ui/modifySite", "/unauthorized/admin/ui/modifySite"})
     public ResponseEntity modifySite(@RequestParam(value = "id") Integer id,
                                      @RequestParam(value = "name") String name,
                                      @RequestParam(value = "url") String url,
