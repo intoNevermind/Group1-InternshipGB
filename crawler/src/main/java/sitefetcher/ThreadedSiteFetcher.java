@@ -4,64 +4,35 @@
 
 package sitefetcher;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-
-import java.util.*;
+import static sitefetcher.SitesBufferUpdater.sitesBuffer;
 
 public class ThreadedSiteFetcher implements Runnable {
 
     private static final String ROBOTS_TXT = "/robots.txt";
-    private static final String SITEMAP = "Sitemap: ";
-    private static final String DISALLOW = "Disallow: ";
 
-    // Обрабатывает страницы, созданные до указанной даты
-    private Date scanDate;
-    // База данных
-    private Object dataBaseInstance;
-    // Локальное хранилище ссылок, K = URL, V = Host
-    private Map<String, String> foundPages = new HashMap<String, String>();;
-    // Хранилище не разрешенных ссылок
-    private Set<String> disallowRegex = new HashSet<String>();
+    private void checkRobotsTxt(String url) {
+        String robotsUrl = url + ROBOTS_TXT;
 
+        // Попытка загрузить robots.txt
+        Downloader downloader = new Downloader();
+        String robotsContent = new String();
+        try {
+            robotsContent = downloader.download(robotsUrl);
 
-    public ThreadedSiteFetcher(Date scanDate, Object dataBaseInstance) {
-        this.scanDate = scanDate;
-        this.dataBaseInstance = dataBaseInstance;
-    }
-
-
-
-    private void findNewSites() {
-        // Соединяется с базой данных
-        // Получает список Sites, для которых отсутствуют Pages
-        // Закрывает соединение с базой данных
-
-        // Дл целей тестирования положим
-        Set<String> newSitesUrls = new HashSet<String>();
-        newSitesUrls.add(dataBaseInstance.toString());
-
-        // Перебираем новые сайты
-        for (String siteUrl : newSitesUrls) {
-            String robotsUrl = siteUrl + ROBOTS_TXT;
-
-            // Попытка загрузить robots.txt
-            Downloader downloader = new Downloader();
-            String robotsContent = new String();
-            try {
-                robotsContent = downloader.download(robotsUrl);
-            } catch (Exception e) {
-                System.out.println("File " + robotsUrl + " not found!");
-            }
-
-            // Если файл скачан успешно, выбираем все Sitemap и Disallow
-            if (robotsContent != "") {
-                System.out.println(robotsContent);
-            }
+            // Если файл скачан успешно, записываем ссылку robotsUrl в newPagesBuffer
+            System.out.println(robotsUrl);
+        } catch (Exception e) {
+            System.out.println("File " + robotsUrl + " not found!");
+            // Если не успешно - записываем ссылку url в newPagesBuffer
+            System.out.println(url);
         }
     }
 
     public void run() {
-        this.findNewSites();
+        while (!sitesBuffer.isEmpty()) {
+            // Получаем ссылку на сайт
+            String url = sitesBuffer.poll();
+            checkRobotsTxt(url);
+        }
     }
 }
