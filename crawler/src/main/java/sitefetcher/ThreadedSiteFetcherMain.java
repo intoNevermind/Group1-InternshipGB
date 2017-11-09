@@ -4,12 +4,22 @@
 
 package sitefetcher;
 
+import static java.lang.Thread.sleep;
+
 public class ThreadedSiteFetcherMain {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         SitesBufferUpdater sitesBufferUpdater = new SitesBufferUpdater();
-        sitesBufferUpdater.run();
         ThreadedSiteFetcher threadedSiteFetcher = new ThreadedSiteFetcher();
+        PagesBufferUpdater pagesBufferUpdater = new PagesBufferUpdater();
+        ThreadedPageFetcher threadedPageFetcher = new ThreadedPageFetcher();
+
+        sitesBufferUpdater.run();
+        sleep(10000);
         threadedSiteFetcher.run();
+        sleep(10000);
+        threadedPageFetcher.run();
+        sleep(10000);
+        pagesBufferUpdater.run();
     }
 }

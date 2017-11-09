@@ -4,6 +4,7 @@
 
 package sitefetcher;
 
+import static sitefetcher.PagesBufferUpdater.newPagesBuffer;
 import static sitefetcher.SitesBufferUpdater.sitesBuffer;
 
 public class ThreadedSiteFetcher implements Runnable {
@@ -15,16 +16,15 @@ public class ThreadedSiteFetcher implements Runnable {
 
         // Попытка загрузить robots.txt
         Downloader downloader = new Downloader();
-        String robotsContent = new String();
         try {
-            robotsContent = downloader.download(robotsUrl);
+            String robotsContent = downloader.download(robotsUrl);
 
             // Если файл скачан успешно, записываем ссылку robotsUrl в newPagesBuffer
-            System.out.println(robotsUrl);
+            newPagesBuffer.offer(robotsUrl);
         } catch (Exception e) {
             System.out.println("File " + robotsUrl + " not found!");
             // Если не успешно - записываем ссылку url в newPagesBuffer
-            System.out.println(url);
+            newPagesBuffer.offer(url);
         }
     }
 
@@ -34,5 +34,7 @@ public class ThreadedSiteFetcher implements Runnable {
             String url = sitesBuffer.poll();
             checkRobotsTxt(url);
         }
+
+        System.out.println("ThreadedSiteFetcher finished!");
     }
 }

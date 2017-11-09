@@ -17,10 +17,12 @@ public class SitesBufferUpdater implements Runnable{
         // Соединяется с базой данных
         // Получает список Sites, для которых отсутствуют Pages
         // Закрывает соединение с базой данных
-        // Записывает все найденные Sites в sitesBuffer
 
+        // Записывает все найденные Sites в sitesBuffer
         // Для тестирования добавим пару сайтов в очередь
         sitesBuffer.offer("https://ria.ru");
         sitesBuffer.offer("https://meduza.io");
+
+        System.out.println("SitesBufferUpdater finished!");
     }
 }
