@@ -33,7 +33,7 @@ public class AdminUiUsersController {
      *
      * @return список всех пользователей.
      */
-    @RequestMapping("/admin/ui/getAllUsers")
+    @RequestMapping(value = {"/admin/ui/getAllUsers", "/unauthorized/admin/ui/getAllUsers"})
     public List<TableUsers> getAllUsers() {
         List<TableUsers> resultList = new ArrayList<>();
         try {
@@ -56,7 +56,7 @@ public class AdminUiUsersController {
      * @param active   активен.
      * @return сообщение о статусе выполнения.
      */
-    @RequestMapping("/admin/ui/addUser")
+    @RequestMapping(value = {"/admin/ui/addUser", "/unauthorized/admin/ui/addUser"})
     public ResponseEntity addSite(@RequestParam(value = "login") String login,
                                   @RequestParam(value = "admin") String admin,
                                   @RequestParam(value = "password") String password,
@@ -103,7 +103,7 @@ public class AdminUiUsersController {
      * @param id
      * @return
      */
-    @RequestMapping("/admin/ui/delUser")
+    @RequestMapping(value = {"/admin/ui/delUser", "/unauthorized/admin/ui/delUser"})
     public ResponseEntity delSite(@RequestParam(value = "id") Integer id) {
         int deletedRows;
 
@@ -136,7 +136,7 @@ public class AdminUiUsersController {
      * @param active   активен.
      * @return сообщение о статусе выполнения.
      */
-    @RequestMapping("/admin/ui/modifyUser")
+    @RequestMapping(value = {"/admin/ui/modifyUser", "/unauthorized/admin/ui/modifyUser"})
     public ResponseEntity modifySite(@RequestParam(value = "id") Integer id,
                                      @RequestParam(value = "login") String login,
                                      @RequestParam(value = "admin") String admin,
