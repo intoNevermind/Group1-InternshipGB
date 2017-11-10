@@ -1,16 +1,70 @@
 package windowGUI.options.workSQL;
 
+import retrofit2.Response;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-public class SitesTable {
-    private static final String TABLE_NAME = "sites";
+public class SitesTable extends  ConnectServer{
+    /*
+<РЕАЛ>
+Часть кода которая будет использоваться с реальными данными из базы
+*/
+    private RestApiForSitesTable restApiForSitesTable = getRetrofit().create(RestApiForSitesTable.class);
+    private static final LinkedHashMap<Integer,String> listIDAndNameReal = new LinkedHashMap<>();
 
-    private static final String ID_COLUMN = "ID";
-    private static final String NAME_COLUMN = "Name";
-    private static final String URL_COLUMN = "URL";
-    private static final String ACTIVE_COLUMN = "Active";
+    private ArrayList<Integer> getListIDReal() {
+        try {
+            Response<ArrayList<Integer>> response = restApiForSitesTable.getListIDFromSitesTable().execute();
+            return response.body();
+        } catch (IOException | AssertionError e) {
+            e.printStackTrace();
+            ArrayList<Integer> list = new ArrayList<>();
+            list.add(-1);
+            return  list;
+        }
+    }
 
+    private ArrayList<String> getListNameReal(){
+        try {
+            Response<ArrayList<String>> response = restApiForSitesTable.getListNameFromSitesTable().execute();
+            return response.body();
+        } catch (IOException | AssertionError e) {
+            e.printStackTrace();
+            ArrayList<String> list = new ArrayList<>();
+            list.add("");
+            return  list;
+        }
+    }
+
+    public ArrayList<Integer> getListActiveReal(){
+        try {
+            Response<ArrayList<Integer>> response = restApiForSitesTable.getListActiveFromSitesTable().execute();
+            return response.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+            ArrayList<Integer> list = new ArrayList<>();
+            list.add(-1);
+            return  list;
+        }
+    }
+
+    public LinkedHashMap<Integer, String> getListIDAndNameReal() {
+        for (int i = 0; i < getListIDReal().size(); i++) {
+            for (int j = 0; j < getListNameReal().size(); j++) {
+                listIDAndNameReal.put(getListIDReal().get(i),getListNameReal().get(j));
+            }
+        }
+        return listIDAndNameReal;
+    }
+/*
+</РЕАЛ>
+*/
+
+    /*
+    <ФЕЙК>
+    Часть кода для проверки работоспособности обработки данных из БД
+    */
     private static final ArrayList<Integer> listID = new ArrayList<>();
     private static final ArrayList<String> listName = new ArrayList<>();
     private static final ArrayList<String> listURL = new ArrayList<>();
@@ -47,23 +101,4 @@ public class SitesTable {
         return listIDAndName;
     }
 
-    public static String getTableName() {
-        return TABLE_NAME;
-    }
-
-    public static String getIdColumn() {
-        return ID_COLUMN;
-    }
-
-    public static String getNameColumn() {
-        return NAME_COLUMN;
-    }
-
-    public static String getUrlColumn() {
-        return URL_COLUMN;
-    }
-
-    public static String getActiveColumn() {
-        return ACTIVE_COLUMN;
-    }
 }
