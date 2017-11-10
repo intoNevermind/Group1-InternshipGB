@@ -90,7 +90,7 @@ public class ProcessingPersonPageRankTable {
     public int getIntNumberPagesTotal(String strNameSite, String strNamePerson, String strStartDate, String strFinishDate){
         if(strNameSite == null || strNamePerson == null || strStartDate == null || strFinishDate == null) return 0;
         LinkedHashMap<String, Integer> listFoundDateTimeAndCountPages = getListFoundDateTimeAndCountPages(strNameSite, strNamePerson, strStartDate, strFinishDate);
-        Object[] keyListFoundDateTimeAndCountPages = getListFoundDateTimeAndCountPages(strNameSite, strNamePerson, strStartDate, strFinishDate).keySet().toArray();
+        Object[] keyListFoundDateTimeAndCountPages = listFoundDateTimeAndCountPages.keySet().toArray();
         int numberPagesTotal = 0;
         for (int i = 0; i < listFoundDateTimeAndCountPages.size(); i++){
             numberPagesTotal += listFoundDateTimeAndCountPages.get(keyListFoundDateTimeAndCountPages[i]);
@@ -111,7 +111,6 @@ public class ProcessingPersonPageRankTable {
             return null;
         }
     }
-
     /*
      * Метод, возвращающий список Дат(String) из интервата дат
      * */
@@ -209,19 +208,6 @@ public class ProcessingPersonPageRankTable {
             }
         }
         return listNameSites;
-    }
-    /*
-     * Метод, возвращающий список уникальных Имен сайтов(String) по SitesID(int) из таблицы PersonPageRank
-     * */
-    private ArrayList<String> getListDistinctNameSites(){
-        ArrayList<String> listDistinctNameSites = new ArrayList<>();
-
-        for(int i = 0; i < getListNameSites().size(); i++) {
-            if(!listDistinctNameSites.contains(getListNameSites().get(i))){
-                listDistinctNameSites.add(getListNameSites().get(i));
-            }
-        }
-        return listDistinctNameSites;
     }
     /*
      * Метод, возвращающий список ID сайтов(int) сайтов из таблицы PersonPageRank
