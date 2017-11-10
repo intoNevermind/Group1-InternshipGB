@@ -16,9 +16,6 @@ public class PersonTable {
     private static final ArrayList<Integer> listActive = new ArrayList<>();
     private static final LinkedHashMap<Integer,String> listIDAndName = new LinkedHashMap<>();
 
-
-
-
     public ArrayList<Integer> getListID(){
         listID.add(1);
         listID.add(2);

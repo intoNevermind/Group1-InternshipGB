@@ -14,7 +14,7 @@ public class DailyStatistic extends Statistics{
     private static final JLabel headlinePersons = new JLabel(" Личности: ");
     private static final JLabel headlineStartPeriod = new JLabel(" Период c: ");
     private static final JLabel headlineFinishPeriod = new JLabel(" по: ");
-    private static final JLabel totalNumberPages = new JLabel();
+    private static final JLabel numberPagesTotal = new JLabel();
 
     private static final ProcessingPersonTable PPersonT = new ProcessingPersonTable();
 
@@ -102,10 +102,13 @@ public class DailyStatistic extends Statistics{
         if(finishDate == null) str += " \"" + headlineFinishPeriod.getText() + "\" ";
         if(!str.equals("")) JOptionPane.showMessageDialog(null, "Для просмотра ежедневной статистики необходимо выбрать " + str);
 
-        dataTable = new JTable(getPPersonPageRankT().getArrayFillDailyTable(nameSite,namePerson,startDate,finishDate), columnNames);
+        dataTable = new JTable(getPPersonPageRankT().getArrayFillDailyTable(nameSite,namePerson,startDate,finishDate, columnNames.length), columnNames);
         dataScrollPane = new JScrollPane(dataTable);
         getPanelStat().add(dataScrollPane, BorderLayout.CENTER);
         dataScrollPane.setVisible(true);
+        numberPagesTotal.setText("Общее количество новых страниц за выбранный период: " + getPPersonPageRankT().getIntNumberPagesTotal(nameSite,namePerson,startDate,finishDate));
+        getPanelStat().add(numberPagesTotal, BorderLayout.SOUTH);
+        numberPagesTotal.setVisible(true);
         getPanelStat().updateUI();
     }
 
@@ -118,13 +121,4 @@ public class DailyStatistic extends Statistics{
         getPanelStat().updateUI();
     }
 
-
-
-//    private long countTotalNumberPages(){
-//        int count = 0;
-//        for (int i = 0; i < data.length; i++) {
-//            count += (int)data[i][1];
-//        }
-//        return count;
-//    }
 }
