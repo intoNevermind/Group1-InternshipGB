@@ -2,31 +2,43 @@ package windowGUI.options;
 
 import windowGUI.MyCalendar;
 import windowGUI.options.workSQL.ProcessingPersonPageRankTable;
+import windowGUI.options.workSQL.ProcessingPersonTable;
 import windowGUI.options.workSQL.ProcessingSitesTable;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.beans.PropertyChangeEvent;
 
 public abstract class Statistics {
     private String tabName ;
 
     private final GridBagLayout GBL = new GridBagLayout();
 
-    private JPanel panelStat = new JPanel();
-    private JPanel optionsPanel = new JPanel();
+    private final JPanel panelStat = new JPanel();
+    private final JPanel optionsPanel = new JPanel();
 
-    private final JLabel headlineSite = new JLabel(" Сайты: ");
     private final JButton btnConfirm = new JButton(" Подтвердить");
 
     private final ProcessingPersonPageRankTable PPersonPageRankT = new ProcessingPersonPageRankTable();
 
+    private final JLabel headlineSite = new JLabel(" Сайты: ");
     private final ProcessingSitesTable PSitesT = new ProcessingSitesTable();
     private final JComboBox<Object> listSite = new JComboBox<>(PSitesT.getColumnName());
+
+    private final JLabel headlinePersons = new JLabel(" Личности: ");
+    private final ProcessingPersonTable PPersonT = new ProcessingPersonTable();
+    private final JComboBox<Object> listPersons = new JComboBox<>(PPersonT.getColumnName());
+
+    private final JLabel headlineStartPeriod = new JLabel(" Период c: ");
+    private final MyCalendar startCalendar = new MyCalendar();
+
+    private final JLabel headlineFinishPeriod = new JLabel(" по: ");
+    private final MyCalendar finishCalendar = new MyCalendar();
+
+    private int numberStr = 0;
     String[] columnNames;
     JTable dataTable;
     JScrollPane dataScrollPane;
-
-    private int numberStr = 0;
 
     Statistics() {
         panelStat.setLayout(new BorderLayout());
@@ -35,23 +47,14 @@ public abstract class Statistics {
     }
 
     public abstract void fillOptionsPanel();
-    public abstract void initNameSites(ActionEvent actionEvent);
     public abstract void listenerVisibleDataTable(ActionEvent actionEvent);
 
-    void addActionListenerForListSiteAndBtnConfirm(){
-       listSite.addActionListener(this::initNameSites);
-       listSite.addActionListener(this::listenerRemoveDataTable);
-       btnConfirm.addActionListener(this::listenerVisibleDataTable);
-    }
+    public void initNameSites(ActionEvent actionEvent){}
+    public void initNamePerson(ActionEvent actionEvent){}
+    public void initStartDate(PropertyChangeEvent evt){}
+    public void listenerRemoveDataTable(PropertyChangeEvent evt){}
+    public void initFinishDate(PropertyChangeEvent evt){}
 
-    void listenerRemoveDataTable(ActionEvent actionEvent) {
-        for (int i = 0; i < getPanelStat().getComponents().length; i++) {
-            if(getPanelStat().getComponents()[i].equals(dataScrollPane)){
-                getPanelStat().remove(dataScrollPane);
-            }
-        }
-        getPanelStat().updateUI();
-    }
 
     GridBagConstraints configGBC(Component component, boolean moveToNewLine){
         GridBagConstraints gbc =  new GridBagConstraints();
@@ -79,6 +82,39 @@ public abstract class Statistics {
             return gbc;
         }
         return gbc;
+    }
+
+    void addActionListenerForListPerson(){
+        listPersons.addActionListener(this::initNamePerson);
+        listPersons.addActionListener(this::listenerRemoveDataTable);
+    }
+
+    void addActionListenerForListSite(){
+        listSite.addActionListener(this::initNameSites);
+        listSite.addActionListener(this::listenerRemoveDataTable);
+    }
+
+    void addActionListenerForStartCalendar(){
+        startCalendar.getDateEditor().addPropertyChangeListener("date",this::initStartDate);
+        startCalendar.getDateEditor().addPropertyChangeListener("date", this::listenerRemoveDataTable);
+    }
+
+    void addActionListenerForFinishCalendar(){
+        finishCalendar.getDateEditor().addPropertyChangeListener("date",this::initFinishDate);
+        finishCalendar.getDateEditor().addPropertyChangeListener("date", this::listenerRemoveDataTable);
+    }
+
+    void addActionListenerForBtnConfirm(){
+        btnConfirm.addActionListener(this::listenerVisibleDataTable);
+    }
+
+    private void listenerRemoveDataTable(ActionEvent actionEvent) {
+        for (int i = 0; i < getPanelStat().getComponents().length; i++) {
+            if(getPanelStat().getComponents()[i].equals(dataScrollPane)){
+                getPanelStat().remove(dataScrollPane);
+            }
+        }
+        getPanelStat().updateUI();
     }
 
     void setTabName(String tabName) {
@@ -117,4 +153,27 @@ public abstract class Statistics {
         return listSite;
     }
 
+    JComboBox<Object> getListPersons() {
+        return listPersons;
+    }
+
+    JLabel getHeadlinePersons() {
+        return headlinePersons;
+    }
+
+    JLabel getHeadlineStartPeriod() {
+        return headlineStartPeriod;
+    }
+
+    MyCalendar getStartCalendar() {
+        return startCalendar;
+    }
+
+    JLabel getHeadlineFinishPeriod() {
+        return headlineFinishPeriod;
+    }
+
+    MyCalendar getFinishCalendar() {
+        return finishCalendar;
+    }
 }

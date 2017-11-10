@@ -12,7 +12,8 @@ public class GeneralStatistic extends Statistics{
         setTabName(TAB_NAME);
 
         fillOptionsPanel();
-        addActionListenerForListSiteAndBtnConfirm();
+        addActionListenerForListSite();
+        addActionListenerForBtnConfirm();
 
         columnNames = new String[]{"Имя", "Количество новых страниц"};
     }

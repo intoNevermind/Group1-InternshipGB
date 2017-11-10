@@ -1,7 +1,5 @@
 package windowGUI.options;
 
-import windowGUI.MyCalendar;
-import windowGUI.options.workSQL.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,17 +9,7 @@ import java.text.SimpleDateFormat;
 public class DailyStatistic extends Statistics{
     private static final String TAB_NAME = "Ежедневная статистика";
 
-    private static final JLabel headlinePersons = new JLabel(" Личности: ");
-    private static final JLabel headlineStartPeriod = new JLabel(" Период c: ");
-    private static final JLabel headlineFinishPeriod = new JLabel(" по: ");
     private static final JLabel numberPagesTotal = new JLabel();
-
-    private static final ProcessingPersonTable PPersonT = new ProcessingPersonTable();
-
-    private static final JComboBox<Object> listPersons = new JComboBox<>(PPersonT.getColumnName());
-
-    private static final MyCalendar startCalendar = new MyCalendar();
-    private static final MyCalendar finishCalendar = new MyCalendar();
 
     private static String nameSite;
     private static String namePerson;
@@ -33,16 +21,11 @@ public class DailyStatistic extends Statistics{
 
         fillOptionsPanel();
 
-        addActionListenerForListSiteAndBtnConfirm();
-
-        listPersons.addActionListener(this::initNamePerson);
-        listPersons.addActionListener(this::listenerRemoveDataTable);
-
-        startCalendar.getDateEditor().addPropertyChangeListener("date",this::initStartDate);
-        startCalendar.getDateEditor().addPropertyChangeListener("date",this::listenerRemoveDataTable);
-
-        finishCalendar.getDateEditor().addPropertyChangeListener("date", this::initFinishDate);
-        finishCalendar.getDateEditor().addPropertyChangeListener("date",this::listenerRemoveDataTable);
+        addActionListenerForListSite();
+        addActionListenerForBtnConfirm();
+        addActionListenerForListPerson();
+        addActionListenerForStartCalendar();
+        addActionListenerForFinishCalendar();
 
         columnNames = new String[]{"Дата", "Количество новых страниц"};
     }
@@ -54,20 +37,20 @@ public class DailyStatistic extends Statistics{
         getGBL().setConstraints(getListSite(), configGBC(getListSite(),false));
         getOptionsPanel().add(getListSite());
 
-        getGBL().setConstraints(headlinePersons, configGBC(headlinePersons,true));
-        getOptionsPanel().add(headlinePersons);
-        getGBL().setConstraints(listPersons, configGBC(getListSite(),false));
-        getOptionsPanel().add(listPersons);
+        getGBL().setConstraints(getHeadlinePersons(), configGBC(getHeadlinePersons(),true));
+        getOptionsPanel().add(getHeadlinePersons());
+        getGBL().setConstraints(getListPersons(), configGBC(getListPersons(),false));
+        getOptionsPanel().add(getListPersons());
 
-        getGBL().setConstraints(headlineStartPeriod, configGBC(headlineStartPeriod, true));
-        getOptionsPanel().add(headlineStartPeriod);
-        getGBL().setConstraints(startCalendar, configGBC(startCalendar,false));
-        getOptionsPanel().add(startCalendar);
+        getGBL().setConstraints(getHeadlineStartPeriod(), configGBC(getHeadlineStartPeriod(), true));
+        getOptionsPanel().add(getHeadlineStartPeriod());
+        getGBL().setConstraints(getStartCalendar(), configGBC(getStartCalendar(),false));
+        getOptionsPanel().add(getStartCalendar());
 
-        getGBL().setConstraints(headlineFinishPeriod, configGBC(headlineFinishPeriod,true));
-        getOptionsPanel().add(headlineFinishPeriod);
-        getGBL().setConstraints(finishCalendar, configGBC(finishCalendar,false));
-        getOptionsPanel().add(finishCalendar);
+        getGBL().setConstraints(getHeadlineFinishPeriod(), configGBC(getHeadlineFinishPeriod(),true));
+        getOptionsPanel().add(getHeadlineFinishPeriod());
+        getGBL().setConstraints(getFinishCalendar(), configGBC(getFinishCalendar(),false));
+        getOptionsPanel().add(getFinishCalendar());
 
         getGBL().setConstraints(getBtnConfirm(), configGBC(getBtnConfirm(), true));
         getOptionsPanel().add(getBtnConfirm());
@@ -79,27 +62,29 @@ public class DailyStatistic extends Statistics{
         nameSite = (String)box.getSelectedItem();
     }
 
-    private void initNamePerson(ActionEvent actionEvent){
+    @Override
+    public void initNamePerson(ActionEvent actionEvent){
         JComboBox box = (JComboBox)actionEvent.getSource();
         namePerson = (String)box.getSelectedItem();
     }
 
-
-    private void initStartDate(PropertyChangeEvent evt){
-        startDate = new SimpleDateFormat("yyyy-MM-dd").format(startCalendar.getDate());
+    @Override
+    public void initStartDate(PropertyChangeEvent evt){
+        startDate = new SimpleDateFormat("yyyy-MM-dd").format(getStartCalendar().getDate());
     }
 
-    private void initFinishDate(PropertyChangeEvent evt){
-        finishDate = new SimpleDateFormat("yyyy-MM-dd").format(finishCalendar.getDate());
+    @Override
+    public void initFinishDate(PropertyChangeEvent evt){
+        finishDate = new SimpleDateFormat("yyyy-MM-dd").format(getFinishCalendar().getDate());
     }
 
     @Override
     public void listenerVisibleDataTable(ActionEvent actionEvent){
         String str = "";
         if(nameSite == null) str += " \"" + getHeadlineSite().getText() + "\" ";
-        if(namePerson == null) str += " \"" + headlinePersons.getText() + "\" ";
-        if(startDate == null) str += " \"" + headlineStartPeriod.getText() + "\" ";
-        if(finishDate == null) str += " \"" + headlineFinishPeriod.getText() + "\" ";
+        if(namePerson == null) str += " \"" + getHeadlinePersons().getText() + "\" ";
+        if(startDate == null) str += " \"" + getHeadlineStartPeriod().getText() + "\" ";
+        if(finishDate == null) str += " \"" + getHeadlineFinishPeriod().getText() + "\" ";
         if(!str.equals("")) JOptionPane.showMessageDialog(null, "Для просмотра ежедневной статистики необходимо выбрать " + str);
 
         dataTable = new JTable(getPPersonPageRankT().getArrayFillDailyTable(nameSite,namePerson,startDate,finishDate, columnNames.length), columnNames);
@@ -112,7 +97,8 @@ public class DailyStatistic extends Statistics{
         getPanelStat().updateUI();
     }
 
-    private void listenerRemoveDataTable(PropertyChangeEvent evt){
+    @Override
+    public void listenerRemoveDataTable(PropertyChangeEvent evt){
         for (int i = 0; i < getPanelStat().getComponents().length; i++) {
             if(getPanelStat().getComponents()[i].equals(dataScrollPane)){
                 getPanelStat().remove(dataScrollPane);
@@ -120,5 +106,4 @@ public class DailyStatistic extends Statistics{
         }
         getPanelStat().updateUI();
     }
-
 }

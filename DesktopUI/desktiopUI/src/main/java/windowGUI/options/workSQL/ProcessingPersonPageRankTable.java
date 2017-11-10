@@ -88,6 +88,7 @@ public class ProcessingPersonPageRankTable {
     * Метод, возвращающий Количество новых страниц в общем(int), из выбранного интервала дат
     * */
     public int getIntNumberPagesTotal(String strNameSite, String strNamePerson, String strStartDate, String strFinishDate){
+        if(strNameSite == null || strNamePerson == null || strStartDate == null || strFinishDate == null) return 0;
         LinkedHashMap<String, Integer> listFoundDateTimeAndCountPages = getListFoundDateTimeAndCountPages(strNameSite, strNamePerson, strStartDate, strFinishDate);
         Object[] keyListFoundDateTimeAndCountPages = getListFoundDateTimeAndCountPages(strNameSite, strNamePerson, strStartDate, strFinishDate).keySet().toArray();
         int numberPagesTotal = 0;
