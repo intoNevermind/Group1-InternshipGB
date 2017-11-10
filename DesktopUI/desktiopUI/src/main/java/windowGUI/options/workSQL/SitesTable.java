@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 public class SitesTable extends  ConnectServer{
-    /*
+/*
 <РЕАЛ>
 Часть кода которая будет использоваться с реальными данными из базы
 */
@@ -19,9 +19,7 @@ public class SitesTable extends  ConnectServer{
             return response.body();
         } catch (IOException | AssertionError e) {
             e.printStackTrace();
-            ArrayList<Integer> list = new ArrayList<>();
-            list.add(-1);
-            return  list;
+            return  new ArrayList<Integer>();
         }
     }
 
@@ -31,9 +29,7 @@ public class SitesTable extends  ConnectServer{
             return response.body();
         } catch (IOException | AssertionError e) {
             e.printStackTrace();
-            ArrayList<String> list = new ArrayList<>();
-            list.add("");
-            return  list;
+            return  new ArrayList<String>();
         }
     }
 
@@ -43,9 +39,7 @@ public class SitesTable extends  ConnectServer{
             return response.body();
         } catch (IOException e) {
             e.printStackTrace();
-            ArrayList<Integer> list = new ArrayList<>();
-            list.add(-1);
-            return  list;
+            return  new ArrayList<Integer>();
         }
     }
 
@@ -61,10 +55,10 @@ public class SitesTable extends  ConnectServer{
 </РЕАЛ>
 */
 
-    /*
-    <ФЕЙК>
-    Часть кода для проверки работоспособности обработки данных из БД
-    */
+/*
+<ФЕЙК>
+Часть кода для проверки работоспособности обработки данных из БД
+*/
     private static final ArrayList<Integer> listID = new ArrayList<>();
     private static final ArrayList<String> listName = new ArrayList<>();
     private static final ArrayList<String> listURL = new ArrayList<>();
@@ -100,5 +94,7 @@ public class SitesTable extends  ConnectServer{
         listIDAndName.put(2,"РБК");
         return listIDAndName;
     }
-
+/*
+</ФЕЙК>
+*/
 }

@@ -1,14 +1,55 @@
 package windowGUI.options.workSQL;
 
+import retrofit2.Response;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
-public class PersonPageRankTable {
-    private static final String PERSON_PAGE_RANK_NAME = "personpagerank";
+public class PersonPageRankTable extends ConnectServer {
 
-    private static final String PERSON_ID_COLUMN = "PersonID";
-    private static final String PAGE_ID_COLUMN = "PageID";
-    private static final String RANK_COLUMN = "Rank";
+/*
+<РЕАЛ>
+Часть кода которая будет использоваться с реальными данными из базы
+*/
+    private RestApiForPersonPageRankTable restApiForPersonPageRankTable = getRetrofit().create(RestApiForPersonPageRankTable.class);
 
+    private ArrayList<Integer> getListPageIDReal() {
+        try {
+            Response<ArrayList<Integer>> response = restApiForPersonPageRankTable.getListPageIDFromPersonPageRankTable().execute();
+            return response.body();
+        } catch (IOException | AssertionError e) {
+            e.printStackTrace();
+            return  new ArrayList<Integer>();
+        }
+    }
+
+    private ArrayList<Integer> getListPersonIDReal(){
+        try {
+            Response<ArrayList<Integer>> response = restApiForPersonPageRankTable.getListPersonIDFromPersonPageRankTable().execute();
+            return response.body();
+        } catch (IOException | AssertionError e) {
+            e.printStackTrace();
+            return  new ArrayList<Integer>();
+        }
+    }
+
+    public ArrayList<Integer> getListRankReal(){
+        try {
+            Response<ArrayList<Integer>> response = restApiForPersonPageRankTable.getListRankFromPersonPageRankTable().execute();
+            return response.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return  new ArrayList<Integer>();
+        }
+    }
+/*
+</РЕАЛ>
+*/
+
+/*
+<ФЕЙК>
+Часть кода для проверки работоспособности обработки данных из БД
+*/
     private static final ArrayList<Integer> listPersonID = new ArrayList<>();
     private static final ArrayList<Integer> listPageID = new ArrayList<>();
     private static final ArrayList<Integer> listRank = new ArrayList<>();
@@ -80,20 +121,7 @@ public class PersonPageRankTable {
         listRank.add(19);
         return listRank;
     }
-
-    public static String getPersonPageRankName() {
-        return PERSON_PAGE_RANK_NAME;
-    }
-
-    public static String getPersonIdColumn() {
-        return PERSON_ID_COLUMN;
-    }
-
-    public static String getPageIdColumn() {
-        return PAGE_ID_COLUMN;
-    }
-
-    public static String getRankColumn() {
-        return RANK_COLUMN;
-    }
+/*
+</ФЕЙК>
+*/
 }

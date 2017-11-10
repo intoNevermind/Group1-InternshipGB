@@ -19,9 +19,7 @@ public class PersonTable extends ConnectServer {
             return response.body();
         } catch (IOException | AssertionError e) {
             e.printStackTrace();
-            ArrayList<Integer> list = new ArrayList<>();
-            list.add(-1);
-            return  list;
+            return  new ArrayList<Integer>();
         }
     }
 
@@ -31,9 +29,7 @@ public class PersonTable extends ConnectServer {
             return response.body();
         } catch (IOException | AssertionError e) {
             e.printStackTrace();
-            ArrayList<String> list = new ArrayList<>();
-            list.add("");
-            return  list;
+            return  new ArrayList<String>();
         }
     }
 
@@ -43,9 +39,7 @@ public class PersonTable extends ConnectServer {
             return response.body();
         } catch (IOException e) {
             e.printStackTrace();
-            ArrayList<Integer> list = new ArrayList<>();
-            list.add(-1);
-            return  list;
+            return  new ArrayList<Integer>();
         }
     }
 
@@ -96,8 +90,7 @@ public class PersonTable extends ConnectServer {
         listIDAndName.put(3,"Собчак");
         return listIDAndName;
     }
-    /*
-   </ФЕЙК>
-    */
-
+/*
+</ФЕЙК>
+*/
 }

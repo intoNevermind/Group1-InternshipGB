@@ -1,15 +1,54 @@
 package windowGUI.options.workSQL;
 
+import retrofit2.Response;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
-public class KeyWordsTable {
-    private static final String KEY_WORDS_NAME = "keywords";
+public class KeyWordsTable extends ConnectServer{
+/*
+<РЕАЛ>
+Часть кода которая будет использоваться с реальными данными из базы
+*/
+    private RestApiForKeyWordsTable restApiForKeyWordsTable = getRetrofit().create(RestApiForKeyWordsTable.class);
 
-    private static final String ID_COLUMN = "ID";
-    private static final String NAME_COLUMN = "Name";
-    private static final String PERSON_ID_COLUMN = "PersonID";
+    private ArrayList<Integer> getListIDReal() {
+        try {
+            Response<ArrayList<Integer>> response = restApiForKeyWordsTable.getListIDFromKeyWordsTable().execute();
+            return response.body();
+        } catch (IOException | AssertionError e) {
+            e.printStackTrace();
+            return  new ArrayList<Integer>();
+        }
+    }
 
+    private ArrayList<String> getListNameReal(){
+        try {
+            Response<ArrayList<String>> response = restApiForKeyWordsTable.getListNameFromKeyWordsTable().execute();
+            return response.body();
+        } catch (IOException | AssertionError e) {
+            e.printStackTrace();
+            return  new ArrayList<String>();
+        }
+    }
 
+    public ArrayList<Integer> getListPersonIDReal(){
+        try {
+            Response<ArrayList<Integer>> response = restApiForKeyWordsTable.getListPersonIDFromKeyWordsTable().execute();
+            return response.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return  new ArrayList<Integer>();
+        }
+    }
+/*
+</РЕАЛ>
+*/
+
+/*
+<ФЕЙК>
+Часть кода для проверки работоспособности обработки данных из БД
+*/
     private static final ArrayList<Integer> listID = new ArrayList<>();
     private static final ArrayList<String> listName = new ArrayList<>();
     private static final ArrayList<Integer> listPersonID = new ArrayList<>();
@@ -46,20 +85,7 @@ public class KeyWordsTable {
         listPersonID.add(3);
         return listPersonID;
     }
-
-    public static String getKeyWordsName() {
-        return KEY_WORDS_NAME;
-    }
-
-    public static String getIdColumn() {
-        return ID_COLUMN;
-    }
-
-    public static String getNameColumn() {
-        return NAME_COLUMN;
-    }
-
-    public static String getPersonIdColumn() {
-        return PERSON_ID_COLUMN;
-    }
+/*
+</ФЕЙК>
+*/
 }

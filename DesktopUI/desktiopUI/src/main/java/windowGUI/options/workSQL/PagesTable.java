@@ -1,20 +1,78 @@
 package windowGUI.options.workSQL;
 
+import retrofit2.Response;
+
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
-public class PagesTable {
-    private static final String PAGES_NAME = "pages";
+public class PagesTable extends ConnectServer{
+/*
+<РЕАЛ>
+Часть кода которая будет использоваться с реальными данными из базы
+*/
+    private RestApiForPagesTable restApiForPagesTable = getRetrofit().create(RestApiForPagesTable.class);
 
-    private static final String ID_COLUMN = "ID";
-    private static final String URL_COLUMN = "URL";
-    private static final String SITE_ID_COLUMN = "SiteID";
-    private static final String FOUND_DATE_TIME_COLUMN = "FoundDateTime";
-    private static final String LAST_SCAN_DATE_COLUMN = "LastScanDate";
+    private ArrayList<Integer> getListIDReal() {
+        try {
+            Response<ArrayList<Integer>> response = restApiForPagesTable.getListIDFromPagesTable().execute();
+            return response.body();
+        } catch (IOException | AssertionError e) {
+            e.printStackTrace();
+            return  new ArrayList<Integer>();
+        }
+    }
 
+    private ArrayList<String> getListURLReal(){
+        try {
+            Response<ArrayList<String>> response = restApiForPagesTable.getListURLFromPagesTable().execute();
+            return response.body();
+        } catch (IOException | AssertionError e) {
+            e.printStackTrace();
+            return  new ArrayList<String>();
+        }
+    }
+
+    public ArrayList<Integer> getListSateIDReal(){
+        try {
+            Response<ArrayList<Integer>> response = restApiForPagesTable.getListSiteIDFromPagesTable().execute();
+            return response.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return  new ArrayList<Integer>();
+        }
+    }
+
+    public ArrayList<Date> getListFoundDateTimeReal(){
+        try {
+            Response<ArrayList<Date>> response = restApiForPagesTable.getListFoundDateTimeFromPagesTable().execute();
+            return response.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return  new ArrayList<Date>();
+        }
+    }
+
+    public ArrayList<Date> getListLastScanDateReal(){
+        try {
+            Response<ArrayList<Date>> response = restApiForPagesTable.getListLastScanDateFromPagesTable().execute();
+            return response.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return  new ArrayList<Date>();
+        }
+    }
+/*
+</РЕАЛ>
+*/
+
+/*
+<ФЕЙК>
+Часть кода для проверки работоспособности обработки данных из БД
+*/
     private static final ArrayList<Integer> listID = new ArrayList<>();
     private static final ArrayList<String> listURL = new ArrayList<>();
     private static final ArrayList<Integer> listSiteID = new ArrayList<>();
@@ -119,28 +177,7 @@ public class PagesTable {
         }
         return listLastScanDate;
     }
-
-    public static String getPagesName() {
-        return PAGES_NAME;
-    }
-
-    public static String getIdColumn() {
-        return ID_COLUMN;
-    }
-
-    public static String getUrlColumn() {
-        return URL_COLUMN;
-    }
-
-    public static String getSiteIdColumn() {
-        return SITE_ID_COLUMN;
-    }
-
-    public static String getFoundDateTimeColumn() {
-        return FOUND_DATE_TIME_COLUMN;
-    }
-
-    public static String getLastScanDateColumn() {
-        return LAST_SCAN_DATE_COLUMN;
-    }
+/*
+</ФЕЙК>
+*/
 }
