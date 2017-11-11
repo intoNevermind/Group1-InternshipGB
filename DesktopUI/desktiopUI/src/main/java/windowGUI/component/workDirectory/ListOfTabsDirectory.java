@@ -1,4 +1,4 @@
-package windowGUI.component;
+package windowGUI.component.workDirectory;
 
 import javax.swing.*;
 

@@ -1,11 +1,11 @@
-package windowGUI.component.workDB.Tables;
+package windowGUI.component.workDB.tables;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import retrofit2.Response;
 import windowGUI.component.workDB.ConnectServer;
-import windowGUI.component.workDB.RestApi.RestApiForPersonTable;
+import windowGUI.component.workDB.restApi.RestApiForPersonTable;
 
 public class PersonTable extends ConnectServer {
 /*

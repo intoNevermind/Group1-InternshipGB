@@ -1,4 +1,4 @@
-package windowGUI.component;
+package windowGUI.component.workDirectory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -6,14 +6,13 @@ import java.awt.*;
 public class KeyWordsDirectory extends Directory{
     private static final String TAB_NAME = "Ключевые слова";
 
-    public KeyWordsDirectory() {
+    KeyWordsDirectory() {
         setTabName(TAB_NAME);
 
         fillOptionsPanel();
-
         fillBtnPanel();
-        columnNames = new String[]{"Наименование"};
 
+        columnNames = new String[]{"Наименование"};
         String[][] arr = {{"Путин"},{"Путина"},{"Путину"}};
 
         dataTable = new JTable(arr, columnNames);

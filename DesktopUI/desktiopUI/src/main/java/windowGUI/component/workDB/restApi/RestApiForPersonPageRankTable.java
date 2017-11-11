@@ -1,4 +1,4 @@
-package windowGUI.component.workDB.RestApi;
+package windowGUI.component.workDB.restApi;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

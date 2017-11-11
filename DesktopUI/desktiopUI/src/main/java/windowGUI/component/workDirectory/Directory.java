@@ -1,6 +1,7 @@
-package windowGUI.component;
+package windowGUI.component.workDirectory;
 
-import windowGUI.component.workDB.ProcessingData.ProcessingPersonTable;
+import windowGUI.component.ConfigurationGBL;
+import windowGUI.component.workDB.processingData.ProcessingPersonTable;
 import javax.swing.*;
 import java.awt.*;
 
@@ -27,7 +28,7 @@ public abstract class Directory {
     JTable dataTable;
     JScrollPane dataScrollPane;
 
-    public Directory() {
+    Directory() {
         panelDirectory.setLayout(new BorderLayout());
         panelDirectory.setPreferredSize(new Dimension(400, 300));
         optionsPanel.setLayout(GBL);
@@ -53,43 +54,43 @@ public abstract class Directory {
         return panelDirectory;
     }
 
-    public JPanel getOptionsPanel() {
+    JPanel getOptionsPanel() {
         return optionsPanel;
     }
 
-    public JPanel getBtnPanel() {
+    JPanel getBtnPanel() {
         return btnPanel;
     }
 
-    public GridBagLayout getGBL() {
+    GridBagLayout getGBL() {
         return GBL;
     }
 
-    public ConfigurationGBL getCGBL() {
+    ConfigurationGBL getCGBL() {
         return CGBL;
     }
 
-    public JLabel getHeadLinePerson() {
+    JLabel getHeadLinePerson() {
         return headLinePerson;
     }
 
-    public JComboBox<String> getListPerson() {
+    JComboBox<String> getListPerson() {
         return listPerson;
     }
 
-    public JButton getBtnConfirm() {
+    JButton getBtnConfirm() {
         return btnConfirm;
     }
 
-    public JButton getBtnAdd() {
+    JButton getBtnAdd() {
         return btnAdd;
     }
 
-    public JButton getBtnDelete() {
+    JButton getBtnDelete() {
         return btnDelete;
     }
 
-    public JButton getBtnEdit() {
+    JButton getBtnEdit() {
         return btnEdit;
     }
 }

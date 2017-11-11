@@ -1,6 +1,6 @@
-package windowGUI.component.workDB.ProcessingData;
+package windowGUI.component.workDB.processingData;
 
-import windowGUI.component.workDB.Tables.PersonTable;
+import windowGUI.component.workDB.tables.PersonTable;
 
 import java.util.ArrayList;
 

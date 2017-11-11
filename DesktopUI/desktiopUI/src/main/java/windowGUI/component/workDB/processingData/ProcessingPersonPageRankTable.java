@@ -1,9 +1,9 @@
-package windowGUI.component.workDB.ProcessingData;
+package windowGUI.component.workDB.processingData;
 
-import windowGUI.component.workDB.Tables.PagesTable;
-import windowGUI.component.workDB.Tables.PersonPageRankTable;
-import windowGUI.component.workDB.Tables.PersonTable;
-import windowGUI.component.workDB.Tables.SitesTable;
+import windowGUI.component.workDB.tables.PagesTable;
+import windowGUI.component.workDB.tables.PersonPageRankTable;
+import windowGUI.component.workDB.tables.PersonTable;
+import windowGUI.component.workDB.tables.SitesTable;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

@@ -1,8 +1,8 @@
-package windowGUI.component.workDB.Tables;
+package windowGUI.component.workDB.tables;
 
 import retrofit2.Response;
 import windowGUI.component.workDB.ConnectServer;
-import windowGUI.component.workDB.RestApi.RestApiForSitesTable;
+import windowGUI.component.workDB.restApi.RestApiForSitesTable;
 
 import java.io.IOException;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package windowGUI.component;
+package windowGUI.component.workDirectory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -6,11 +6,12 @@ import java.awt.*;
 public class SitesDirectory extends Directory{
     private static final String TAB_NAME = "Сайты";
 
-    public SitesDirectory() {
+    SitesDirectory() {
         setTabName(TAB_NAME);
-        fillBtnPanel();
-        columnNames = new String[]{"Наименование"};
 
+        fillBtnPanel();
+
+        columnNames = new String[]{"Наименование"};
         String[][] arr = {{"Лента.ру"},{"РБК"}};
 
         dataTable = new JTable(arr, columnNames);
