@@ -1,4 +1,4 @@
-package windowGUI.component;
+package windowGUI.component.worcStatistics;
 
 import javax.swing.*;
 import java.awt.*;

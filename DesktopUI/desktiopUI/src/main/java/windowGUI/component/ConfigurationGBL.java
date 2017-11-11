@@ -8,7 +8,7 @@ import java.awt.*;
 public class ConfigurationGBL {
     private int numberStr = 0;
 
-    GridBagConstraints configGBC(Component component, boolean moveToNewLine){
+    public GridBagConstraints configGBC(Component component, boolean moveToNewLine){
         GridBagConstraints gbc =  new GridBagConstraints();
         if(component instanceof JLabel){
             if(moveToNewLine) numberStr++;

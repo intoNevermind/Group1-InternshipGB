@@ -1,9 +1,10 @@
-package windowGUI.component;
+package windowGUI.component.worcStatistics;
 
 import windowGUI.MyCalendar;
-import windowGUI.component.workDB.ProcessingData.ProcessingPersonPageRankTable;
-import windowGUI.component.workDB.ProcessingData.ProcessingPersonTable;
-import windowGUI.component.workDB.ProcessingData.ProcessingSitesTable;
+import windowGUI.component.ConfigurationGBL;
+import windowGUI.component.workDB.processingData.ProcessingPersonPageRankTable;
+import windowGUI.component.workDB.processingData.ProcessingPersonTable;
+import windowGUI.component.workDB.processingData.ProcessingSitesTable;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -100,7 +101,7 @@ public abstract class Statistics {
         return GBL;
     }
 
-    public ConfigurationGBL getCGBL() {
+    ConfigurationGBL getCGBL() {
         return CGBL;
     }
 

@@ -1,4 +1,4 @@
-package windowGUI.component;
+package windowGUI.component.worcStatistics;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +12,7 @@ public class GeneralStatistic extends Statistics{
         setTabName(TAB_NAME);
 
         fillOptionsPanel();
+
         addActionListenerForListSite();
         addActionListenerForBtnConfirm();
 

@@ -1,8 +1,8 @@
 package windowGUI;
 
-import windowGUI.component.DailyStatistic;
-import windowGUI.component.GeneralStatistic;
-import windowGUI.component.ListOfTabsDirectory;
+import windowGUI.component.worcStatistics.DailyStatistic;
+import windowGUI.component.worcStatistics.GeneralStatistic;
+import windowGUI.component.workDirectory.ListOfTabsDirectory;
 
 import javax.swing.*;
 import java.awt.*;
