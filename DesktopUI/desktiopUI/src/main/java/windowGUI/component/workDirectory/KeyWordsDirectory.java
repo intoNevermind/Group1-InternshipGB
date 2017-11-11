@@ -1,5 +1,7 @@
 package windowGUI.component.workDirectory;
 
+import windowGUI.AddWindow;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,6 +19,7 @@ public class KeyWordsDirectory extends Directory{
 
         addActionListenerForListPerson();
         addActionListenerForBtnConfirm();
+        addActionListenerForBtnAdd();
     }
 
     @Override
@@ -54,4 +57,5 @@ public class KeyWordsDirectory extends Directory{
         dataScrollPane.setVisible(true);
         getPanelDirectory().updateUI();
     }
+
 }

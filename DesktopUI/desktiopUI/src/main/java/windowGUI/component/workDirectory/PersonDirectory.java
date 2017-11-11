@@ -11,6 +11,7 @@ public class PersonDirectory extends Directory{
         setTabName(TAB_NAME);
 
         fillBtnPanel();
+        addActionListenerForBtnAdd();
 
         dataTable = new JTable(getPPersonT().getArrayFillTable(getColumnNames().length), getColumnNames());
         dataScrollPane = new JScrollPane(dataTable);

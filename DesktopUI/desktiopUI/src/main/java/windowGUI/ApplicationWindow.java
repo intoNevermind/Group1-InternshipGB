@@ -22,6 +22,7 @@ class ApplicationWindow {
     private static final ListOfTabsDirectory LIST_OF_TABS_DIRECTORY = new ListOfTabsDirectory();
 
     ApplicationWindow() {
+        WINDOW.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         new ConfigurationsWindowGUI().setConfigWindow(WINDOW, WINDOW_TITLE,SIZE_WIDTH, SIZE_HEIGHT);
 
         addTabs();
@@ -29,6 +30,7 @@ class ApplicationWindow {
         LIST_STATISTIC.setLayout(new BorderLayout());
         LIST_STATISTIC.add(LIST_OF_TABS,BorderLayout.CENTER);
         WINDOW.add(LIST_STATISTIC, BorderLayout.NORTH);
+        WINDOW.setVisible(true);
 
     }
     private static void addTabs(){

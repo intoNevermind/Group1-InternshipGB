@@ -9,11 +9,8 @@ public class ConfigurationsWindowGUI {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int locationX = (screenSize.width - sizeWidth) / 2;
         int locationY = (screenSize.height - sizeHeight) / 2;
-        window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         window.setTitle(windowTitle);
         window.setBounds(locationX, locationY, sizeWidth, sizeHeight);
         window.setResizable(false);
-        window.setVisible(true);
-
     }
 }

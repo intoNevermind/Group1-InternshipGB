@@ -11,6 +11,7 @@ public class SitesDirectory extends Directory{
         setTabName(TAB_NAME);
 
         fillBtnPanel();
+        addActionListenerForBtnAdd();
 
         dataTable = new JTable(getPSitesT().getArrayFillTable(getColumnNames().length), getColumnNames());
         dataScrollPane = new JScrollPane(dataTable);
