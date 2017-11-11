@@ -1,4 +1,4 @@
-package windowGUI.options;
+package windowGUI.component;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,11 +20,11 @@ public class GeneralStatistic extends Statistics{
 
     @Override
     public void fillOptionsPanel() {
-        getGBL().setConstraints(getHeadlineSite(),configGBC(getHeadlineSite(),false));
+        getGBL().setConstraints(getHeadlineSite(),getCGBL().configGBC(getHeadlineSite(),false));
         getOptionsPanel().add(getHeadlineSite());
-        getGBL().setConstraints(getListSite(),configGBC(getListSite(),false));
+        getGBL().setConstraints(getListSite(),getCGBL().configGBC(getListSite(),false));
         getOptionsPanel().add(getListSite());
-        getGBL().setConstraints(getBtnConfirm(),configGBC(getBtnConfirm(),true));
+        getGBL().setConstraints(getBtnConfirm(),getCGBL().configGBC(getBtnConfirm(),true));
         getOptionsPanel().add(getBtnConfirm());
     }
 

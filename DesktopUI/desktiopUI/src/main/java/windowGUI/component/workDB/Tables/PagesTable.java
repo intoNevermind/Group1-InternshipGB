@@ -1,6 +1,8 @@
-package windowGUI.options.workSQL;
+package windowGUI.component.workDB.Tables;
 
 import retrofit2.Response;
+import windowGUI.component.workDB.ConnectServer;
+import windowGUI.component.workDB.RestApi.RestApiForPagesTable;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -9,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
-public class PagesTable extends ConnectServer{
+public class PagesTable extends ConnectServer {
 /*
 <РЕАЛ>
 Часть кода которая будет использоваться с реальными данными из базы
@@ -22,7 +24,7 @@ public class PagesTable extends ConnectServer{
             return response.body();
         } catch (IOException | AssertionError e) {
             e.printStackTrace();
-            return  new ArrayList<Integer>();
+            return  new ArrayList<>();
         }
     }
 
@@ -32,7 +34,7 @@ public class PagesTable extends ConnectServer{
             return response.body();
         } catch (IOException | AssertionError e) {
             e.printStackTrace();
-            return  new ArrayList<String>();
+            return  new ArrayList<>();
         }
     }
 
@@ -42,7 +44,7 @@ public class PagesTable extends ConnectServer{
             return response.body();
         } catch (IOException e) {
             e.printStackTrace();
-            return  new ArrayList<Integer>();
+            return  new ArrayList<>();
         }
     }
 
@@ -52,7 +54,7 @@ public class PagesTable extends ConnectServer{
             return response.body();
         } catch (IOException e) {
             e.printStackTrace();
-            return  new ArrayList<Date>();
+            return  new ArrayList<>();
         }
     }
 
@@ -62,7 +64,7 @@ public class PagesTable extends ConnectServer{
             return response.body();
         } catch (IOException e) {
             e.printStackTrace();
-            return  new ArrayList<Date>();
+            return  new ArrayList<>();
         }
     }
 /*

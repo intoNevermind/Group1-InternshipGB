@@ -1,4 +1,4 @@
-package windowGUI.options.workSQL;
+package windowGUI.component.workDB;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

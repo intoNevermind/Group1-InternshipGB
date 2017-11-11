@@ -5,7 +5,7 @@ public class launchApplication {
 
     public static void main(String[] args) {
         setStyleLookAndFeel();
-        new SelectionOfStatistics();
+        new ApplicationWindow();
     }
 
     private static void setStyleLookAndFeel(){

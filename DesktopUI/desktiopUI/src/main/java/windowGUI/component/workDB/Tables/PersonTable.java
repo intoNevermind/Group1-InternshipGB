@@ -1,9 +1,11 @@
-package windowGUI.options.workSQL;
+package windowGUI.component.workDB.Tables;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import retrofit2.Response;
+import windowGUI.component.workDB.ConnectServer;
+import windowGUI.component.workDB.RestApi.RestApiForPersonTable;
 
 public class PersonTable extends ConnectServer {
 /*
@@ -19,7 +21,7 @@ public class PersonTable extends ConnectServer {
             return response.body();
         } catch (IOException | AssertionError e) {
             e.printStackTrace();
-            return  new ArrayList<Integer>();
+            return new ArrayList<>();
         }
     }
 
@@ -29,7 +31,7 @@ public class PersonTable extends ConnectServer {
             return response.body();
         } catch (IOException | AssertionError e) {
             e.printStackTrace();
-            return  new ArrayList<String>();
+            return new ArrayList<>();
         }
     }
 
@@ -39,7 +41,7 @@ public class PersonTable extends ConnectServer {
             return response.body();
         } catch (IOException e) {
             e.printStackTrace();
-            return  new ArrayList<Integer>();
+            return new ArrayList<>();
         }
     }
 

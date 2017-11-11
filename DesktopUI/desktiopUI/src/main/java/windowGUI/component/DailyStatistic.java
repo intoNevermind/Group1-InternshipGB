@@ -1,4 +1,4 @@
-package windowGUI.options;
+package windowGUI.component;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,33 +26,32 @@ public class DailyStatistic extends Statistics{
         addActionListenerForListPerson();
         addActionListenerForStartCalendar();
         addActionListenerForFinishCalendar();
-
         columnNames = new String[]{"Дата", "Количество новых страниц"};
     }
 
     @Override
     public void fillOptionsPanel() {
-        getGBL().setConstraints(getHeadlineSite(), configGBC(getHeadlineSite(),false));
+        getGBL().setConstraints(getHeadlineSite(), getCGBL().configGBC(getHeadlineSite(),false));
         getOptionsPanel().add(getHeadlineSite());
-        getGBL().setConstraints(getListSite(), configGBC(getListSite(),false));
+        getGBL().setConstraints(getListSite(), getCGBL().configGBC(getListSite(),false));
         getOptionsPanel().add(getListSite());
 
-        getGBL().setConstraints(getHeadlinePersons(), configGBC(getHeadlinePersons(),true));
+        getGBL().setConstraints(getHeadlinePersons(), getCGBL().configGBC(getHeadlinePersons(),true));
         getOptionsPanel().add(getHeadlinePersons());
-        getGBL().setConstraints(getListPersons(), configGBC(getListPersons(),false));
+        getGBL().setConstraints(getListPersons(), getCGBL().configGBC(getListPersons(),false));
         getOptionsPanel().add(getListPersons());
 
-        getGBL().setConstraints(getHeadlineStartPeriod(), configGBC(getHeadlineStartPeriod(), true));
+        getGBL().setConstraints(getHeadlineStartPeriod(), getCGBL().configGBC(getHeadlineStartPeriod(), true));
         getOptionsPanel().add(getHeadlineStartPeriod());
-        getGBL().setConstraints(getStartCalendar(), configGBC(getStartCalendar(),false));
+        getGBL().setConstraints(getStartCalendar(), getCGBL().configGBC(getStartCalendar(),false));
         getOptionsPanel().add(getStartCalendar());
 
-        getGBL().setConstraints(getHeadlineFinishPeriod(), configGBC(getHeadlineFinishPeriod(),true));
+        getGBL().setConstraints(getHeadlineFinishPeriod(), getCGBL().configGBC(getHeadlineFinishPeriod(),true));
         getOptionsPanel().add(getHeadlineFinishPeriod());
-        getGBL().setConstraints(getFinishCalendar(), configGBC(getFinishCalendar(),false));
+        getGBL().setConstraints(getFinishCalendar(), getCGBL().configGBC(getFinishCalendar(),false));
         getOptionsPanel().add(getFinishCalendar());
 
-        getGBL().setConstraints(getBtnConfirm(), configGBC(getBtnConfirm(), true));
+        getGBL().setConstraints(getBtnConfirm(), getCGBL().configGBC(getBtnConfirm(), true));
         getOptionsPanel().add(getBtnConfirm());
     }
 

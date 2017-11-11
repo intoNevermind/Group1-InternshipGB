@@ -1,11 +1,13 @@
-package windowGUI.options.workSQL;
+package windowGUI.component.workDB.Tables;
 
 import retrofit2.Response;
+import windowGUI.component.workDB.ConnectServer;
+import windowGUI.component.workDB.RestApi.RestApiForKeyWordsTable;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class KeyWordsTable extends ConnectServer{
+public class KeyWordsTable extends ConnectServer {
 /*
 <РЕАЛ>
 Часть кода которая будет использоваться с реальными данными из базы
@@ -18,7 +20,7 @@ public class KeyWordsTable extends ConnectServer{
             return response.body();
         } catch (IOException | AssertionError e) {
             e.printStackTrace();
-            return  new ArrayList<Integer>();
+            return  new ArrayList<>();
         }
     }
 
@@ -28,7 +30,7 @@ public class KeyWordsTable extends ConnectServer{
             return response.body();
         } catch (IOException | AssertionError e) {
             e.printStackTrace();
-            return  new ArrayList<String>();
+            return  new ArrayList<>();
         }
     }
 
@@ -38,7 +40,7 @@ public class KeyWordsTable extends ConnectServer{
             return response.body();
         } catch (IOException e) {
             e.printStackTrace();
-            return  new ArrayList<Integer>();
+            return  new ArrayList<>();
         }
     }
 /*

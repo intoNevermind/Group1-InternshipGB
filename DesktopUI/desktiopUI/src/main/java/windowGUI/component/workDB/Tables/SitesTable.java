@@ -1,11 +1,14 @@
-package windowGUI.options.workSQL;
+package windowGUI.component.workDB.Tables;
 
 import retrofit2.Response;
+import windowGUI.component.workDB.ConnectServer;
+import windowGUI.component.workDB.RestApi.RestApiForSitesTable;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-public class SitesTable extends  ConnectServer{
+public class SitesTable extends ConnectServer {
 /*
 <РЕАЛ>
 Часть кода которая будет использоваться с реальными данными из базы
@@ -19,7 +22,7 @@ public class SitesTable extends  ConnectServer{
             return response.body();
         } catch (IOException | AssertionError e) {
             e.printStackTrace();
-            return  new ArrayList<Integer>();
+            return  new ArrayList<>();
         }
     }
 
@@ -29,7 +32,18 @@ public class SitesTable extends  ConnectServer{
             return response.body();
         } catch (IOException | AssertionError e) {
             e.printStackTrace();
-            return  new ArrayList<String>();
+            return  new ArrayList<>();
+        }
+    }
+
+
+    private ArrayList<String> getListURLReal(){
+        try {
+            Response<ArrayList<String>> response = restApiForSitesTable.getListURLFromSitesTable().execute();
+            return response.body();
+        } catch (IOException | AssertionError e) {
+            e.printStackTrace();
+            return  new ArrayList<>();
         }
     }
 
@@ -39,7 +53,7 @@ public class SitesTable extends  ConnectServer{
             return response.body();
         } catch (IOException e) {
             e.printStackTrace();
-            return  new ArrayList<Integer>();
+            return  new ArrayList<>();
         }
     }
 

@@ -1,9 +1,9 @@
-package windowGUI.options;
+package windowGUI.component;
 
 import windowGUI.MyCalendar;
-import windowGUI.options.workSQL.ProcessingPersonPageRankTable;
-import windowGUI.options.workSQL.ProcessingPersonTable;
-import windowGUI.options.workSQL.ProcessingSitesTable;
+import windowGUI.component.workDB.ProcessingData.ProcessingPersonPageRankTable;
+import windowGUI.component.workDB.ProcessingData.ProcessingPersonTable;
+import windowGUI.component.workDB.ProcessingData.ProcessingSitesTable;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,6 +13,7 @@ public abstract class Statistics {
     private String tabName ;
 
     private final GridBagLayout GBL = new GridBagLayout();
+    private final ConfigurationGBL CGBL = new ConfigurationGBL();
 
     private final JPanel panelStat = new JPanel();
     private final JPanel optionsPanel = new JPanel();
@@ -35,7 +36,6 @@ public abstract class Statistics {
     private final JLabel headlineFinishPeriod = new JLabel(" по: ");
     private final MyCalendar finishCalendar = new MyCalendar();
 
-    private int numberStr = 0;
     String[] columnNames;
     JTable dataTable;
     JScrollPane dataScrollPane;
@@ -54,35 +54,6 @@ public abstract class Statistics {
     public void initStartDate(PropertyChangeEvent evt){}
     public void listenerRemoveDataTable(PropertyChangeEvent evt){}
     public void initFinishDate(PropertyChangeEvent evt){}
-
-
-    GridBagConstraints configGBC(Component component, boolean moveToNewLine){
-        GridBagConstraints gbc =  new GridBagConstraints();
-        if(component instanceof JLabel){
-            if(moveToNewLine) numberStr++;
-            gbc.gridy = numberStr;
-            gbc.gridwidth  = 1;
-            gbc.anchor = GridBagConstraints.EAST;
-            return gbc;
-        }
-        if(component instanceof JComboBox || component instanceof MyCalendar){
-            if(moveToNewLine) numberStr++;
-            gbc.gridy = numberStr;
-            gbc.gridwidth  = 2;
-            gbc.fill = GridBagConstraints.BOTH;
-            gbc.weightx = 1.0;
-            return gbc;
-        }
-        if(component instanceof JButton){
-            if(moveToNewLine) numberStr++;
-            gbc.gridy = numberStr;
-            gbc.gridwidth  = GridBagConstraints.REMAINDER ;
-            gbc.fill = GridBagConstraints.BOTH;
-            gbc.weightx = 1.0;
-            return gbc;
-        }
-        return gbc;
-    }
 
     void addActionListenerForListPerson(){
         listPersons.addActionListener(this::initNamePerson);
@@ -127,6 +98,10 @@ public abstract class Statistics {
 
     GridBagLayout getGBL() {
         return GBL;
+    }
+
+    public ConfigurationGBL getCGBL() {
+        return CGBL;
     }
 
     public JPanel getPanelStat() {

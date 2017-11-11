@@ -1,4 +1,9 @@
-package windowGUI.options.workSQL;
+package windowGUI.component.workDB.ProcessingData;
+
+import windowGUI.component.workDB.Tables.PagesTable;
+import windowGUI.component.workDB.Tables.PersonPageRankTable;
+import windowGUI.component.workDB.Tables.PersonTable;
+import windowGUI.component.workDB.Tables.SitesTable;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
