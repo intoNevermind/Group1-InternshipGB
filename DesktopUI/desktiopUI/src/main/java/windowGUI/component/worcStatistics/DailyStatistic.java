@@ -78,15 +78,17 @@ public class DailyStatistic extends Statistics{
     }
 
     @Override
-    public void listenerVisibleDataTable(ActionEvent actionEvent){
+    public void visibleDataTable(ActionEvent actionEvent){
         String str = "";
-        if(nameSite == null) str += " \"" + getHeadlineSite().getText() + "\" ";
-        if(namePerson == null) str += " \"" + getHeadlinePersons().getText() + "\" ";
+        if(nameSite == null || nameSite.equals("Не выбранно")) str += " \"" + getHeadlineSite().getText() + "\" ";
+        if(namePerson == null || nameSite.equals("Не выбранно")) str += " \"" + getHeadlinePersons().getText() + "\" ";
         if(startDate == null) str += " \"" + getHeadlineStartPeriod().getText() + "\" ";
         if(finishDate == null) str += " \"" + getHeadlineFinishPeriod().getText() + "\" ";
-        if(!str.equals("")) JOptionPane.showMessageDialog(null, "Для просмотра ежедневной статистики необходимо выбрать " + str);
+        if(!str.equals("")) {
+            JOptionPane.showMessageDialog(null, "Для просмотра ежедневной статистики необходимо выбрать " + str);
+        }
 
-        dataTable = new JTable(getPPersonPageRankT().getArrayFillDailyTable(nameSite,namePerson,startDate,finishDate, columnNames.length), columnNames);
+        dataTable = new JTable(getPPersonPageRankT().getArrayFillTable(nameSite,namePerson,startDate,finishDate, columnNames.length), columnNames);
         dataScrollPane = new JScrollPane(dataTable);
         getPanelStat().add(dataScrollPane, BorderLayout.CENTER);
         dataScrollPane.setVisible(true);
@@ -97,7 +99,7 @@ public class DailyStatistic extends Statistics{
     }
 
     @Override
-    public void listenerRemoveDataTable(PropertyChangeEvent evt){
+    public void removeDataTable(PropertyChangeEvent evt){
         for (int i = 0; i < getPanelStat().getComponents().length; i++) {
             if(getPanelStat().getComponents()[i].equals(dataScrollPane)){
                 getPanelStat().remove(dataScrollPane);

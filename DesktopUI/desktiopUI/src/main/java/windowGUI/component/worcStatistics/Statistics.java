@@ -2,9 +2,9 @@ package windowGUI.component.worcStatistics;
 
 import windowGUI.MyCalendar;
 import windowGUI.component.ConfigurationGBL;
-import windowGUI.component.workDB.processingData.ProcessingPersonPageRankTable;
-import windowGUI.component.workDB.processingData.ProcessingPersonTable;
-import windowGUI.component.workDB.processingData.ProcessingSitesTable;
+import windowGUI.component.workDB.workProcessingData.ProcessingPersonPageRankTable;
+import windowGUI.component.workDB.workProcessingData.ProcessingPersonTable;
+import windowGUI.component.workDB.workProcessingData.ProcessingSitesTable;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -25,7 +25,7 @@ public abstract class Statistics {
 
     private final JLabel headlineSite = new JLabel(" Сайты: ");
     private final ProcessingSitesTable PSitesT = new ProcessingSitesTable();
-    private final JComboBox<Object> listSite = new JComboBox<>(PSitesT.getColumnName());
+    private final JComboBox<Object> listSite = new JComboBox<>(PSitesT.getArrayNameSites());
 
     private final JLabel headlinePersons = new JLabel(" Личности: ");
     private final ProcessingPersonTable PPersonT = new ProcessingPersonTable();
@@ -48,39 +48,39 @@ public abstract class Statistics {
     }
 
     public abstract void fillOptionsPanel();
-    public abstract void listenerVisibleDataTable(ActionEvent actionEvent);
+    public abstract void visibleDataTable(ActionEvent actionEvent);
 
     public void initNameSites(ActionEvent actionEvent){}
     public void initNamePerson(ActionEvent actionEvent){}
     public void initStartDate(PropertyChangeEvent evt){}
-    public void listenerRemoveDataTable(PropertyChangeEvent evt){}
+    public void removeDataTable(PropertyChangeEvent evt){}
     public void initFinishDate(PropertyChangeEvent evt){}
 
     void addActionListenerForListPerson(){
         listPersons.addActionListener(this::initNamePerson);
-        listPersons.addActionListener(this::listenerRemoveDataTable);
+        listPersons.addActionListener(this::removeDataTable);
     }
 
     void addActionListenerForListSite(){
         listSite.addActionListener(this::initNameSites);
-        listSite.addActionListener(this::listenerRemoveDataTable);
+        listSite.addActionListener(this::removeDataTable);
     }
 
     void addActionListenerForStartCalendar(){
         startCalendar.getDateEditor().addPropertyChangeListener("date",this::initStartDate);
-        startCalendar.getDateEditor().addPropertyChangeListener("date", this::listenerRemoveDataTable);
+        startCalendar.getDateEditor().addPropertyChangeListener("date", this::removeDataTable);
     }
 
     void addActionListenerForFinishCalendar(){
         finishCalendar.getDateEditor().addPropertyChangeListener("date",this::initFinishDate);
-        finishCalendar.getDateEditor().addPropertyChangeListener("date", this::listenerRemoveDataTable);
+        finishCalendar.getDateEditor().addPropertyChangeListener("date", this::removeDataTable);
     }
 
     void addActionListenerForBtnConfirm(){
-        btnConfirm.addActionListener(this::listenerVisibleDataTable);
+        btnConfirm.addActionListener(this::visibleDataTable);
     }
 
-    private void listenerRemoveDataTable(ActionEvent actionEvent) {
+    private void removeDataTable(ActionEvent actionEvent) {
         for (int i = 0; i < getPanelStat().getComponents().length; i++) {
             if(getPanelStat().getComponents()[i].equals(dataScrollPane)){
                 getPanelStat().remove(dataScrollPane);

@@ -2,6 +2,7 @@ package windowGUI.component.workDirectory;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 public class SitesDirectory extends Directory{
     private static final String TAB_NAME = "Сайты";
@@ -11,10 +12,7 @@ public class SitesDirectory extends Directory{
 
         fillBtnPanel();
 
-        columnNames = new String[]{"Наименование"};
-        String[][] arr = {{"Лента.ру"},{"РБК"}};
-
-        dataTable = new JTable(arr, columnNames);
+        dataTable = new JTable(getPSitesT().getArrayFillTable(getColumnNames().length), getColumnNames());
         dataScrollPane = new JScrollPane(dataTable);
         getPanelDirectory().add(dataScrollPane, BorderLayout.CENTER);
     }
@@ -26,4 +24,8 @@ public class SitesDirectory extends Directory{
         getBtnPanel().add(getBtnDelete());
     }
 
+    @Override
+    public void visibleDataTable(ActionEvent actionEvent) {
+
+    }
 }

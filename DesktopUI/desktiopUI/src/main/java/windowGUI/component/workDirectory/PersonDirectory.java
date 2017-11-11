@@ -2,6 +2,7 @@ package windowGUI.component.workDirectory;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 public class PersonDirectory extends Directory{
     private static final String TAB_NAME = "Личности";
@@ -11,10 +12,7 @@ public class PersonDirectory extends Directory{
 
         fillBtnPanel();
 
-        columnNames = new String[]{"Наименование"};
-        String[][] arr = {{"Путин"},{"Навальный"},{"Собчак"}};
-
-        dataTable = new JTable(arr, columnNames);
+        dataTable = new JTable(getPPersonT().getArrayFillTable(getColumnNames().length), getColumnNames());
         dataScrollPane = new JScrollPane(dataTable);
         getPanelDirectory().add(dataScrollPane, BorderLayout.CENTER);
     }
@@ -26,4 +24,8 @@ public class PersonDirectory extends Directory{
         getBtnPanel().add(getBtnDelete());
     }
 
+    @Override
+    public void visibleDataTable(ActionEvent actionEvent) {
+
+    }
 }

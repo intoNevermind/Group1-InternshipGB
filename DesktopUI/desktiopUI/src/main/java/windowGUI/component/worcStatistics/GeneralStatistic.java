@@ -36,10 +36,12 @@ public class GeneralStatistic extends Statistics{
     }
 
     @Override
-    public void listenerVisibleDataTable(ActionEvent actionEvent){
-        if(nameSite == null) JOptionPane.showMessageDialog(null, "Для просмотра общей статистики необходимо выбрать \""  + getHeadlineSite().getText() + "\" ");
+    public void visibleDataTable(ActionEvent actionEvent){
+        if(nameSite == null || nameSite.equals("Не выбранно")) {
+            JOptionPane.showMessageDialog(null, "Для просмотра общей статистики необходимо выбрать \""  + getHeadlineSite().getText() + "\" ");
+        }
 
-        dataTable = new JTable(getPPersonPageRankT().getArrayFillGeneralTable(nameSite, columnNames.length), columnNames);
+        dataTable = new JTable(getPPersonPageRankT().getArrayFillTable(nameSite, columnNames.length), columnNames);
         dataScrollPane = new JScrollPane(dataTable);
         getPanelStat().add(dataScrollPane, BorderLayout.CENTER);
         dataScrollPane.setVisible(true);

@@ -2,9 +2,12 @@ package windowGUI.component.workDirectory;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 public class KeyWordsDirectory extends Directory{
     private static final String TAB_NAME = "Ключевые слова";
+
+    private static String namePerson;
 
     KeyWordsDirectory() {
         setTabName(TAB_NAME);
@@ -12,20 +15,16 @@ public class KeyWordsDirectory extends Directory{
         fillOptionsPanel();
         fillBtnPanel();
 
-        columnNames = new String[]{"Наименование"};
-        String[][] arr = {{"Путин"},{"Путина"},{"Путину"}};
-
-        dataTable = new JTable(arr, columnNames);
-        dataScrollPane = new JScrollPane(dataTable);
-        getPanelDirectory().add(dataScrollPane, BorderLayout.CENTER);
+        addActionListenerForListPerson();
+        addActionListenerForBtnConfirm();
     }
 
     @Override
     public void fillOptionsPanel() {
         getGBL().setConstraints(getHeadLinePerson(),getCGBL().configGBC(getHeadLinePerson(),false));
         getOptionsPanel().add(getHeadLinePerson());
-        getGBL().setConstraints(getListPerson(), getCGBL().configGBC(getListPerson(),false));
-        getOptionsPanel().add(getListPerson());
+        getGBL().setConstraints(getListPersons(), getCGBL().configGBC(getListPersons(),false));
+        getOptionsPanel().add(getListPersons());
         getGBL().setConstraints(getBtnConfirm(), getCGBL().configGBC(getBtnConfirm(),true));
         getOptionsPanel().add(getBtnConfirm());
     }
@@ -35,5 +34,24 @@ public class KeyWordsDirectory extends Directory{
         getBtnPanel().add(getBtnAdd());
         getBtnPanel().add(getBtnEdit());
         getBtnPanel().add(getBtnDelete());
+    }
+
+    @Override
+    public void initNamePerson(ActionEvent actionEvent) {
+        JComboBox box = (JComboBox)actionEvent.getSource();
+        namePerson = (String)box.getSelectedItem();
+    }
+
+    @Override
+    public void visibleDataTable(ActionEvent actionEvent){
+        if(namePerson == null || namePerson.equals("Не выбранно")){
+            JOptionPane.showMessageDialog(null, "Для просмотра ключевых слов необходимо выбрать \""  + getHeadLinePerson().getText() + "\" ");
+        }
+
+        dataTable = new JTable(getPKeyWordsT().getArrayFillTable(namePerson, getColumnNames().length), getColumnNames());
+        dataScrollPane = new JScrollPane(dataTable);
+        getPanelDirectory().add(dataScrollPane, BorderLayout.CENTER);
+        dataScrollPane.setVisible(true);
+        getPanelDirectory().updateUI();
     }
 }

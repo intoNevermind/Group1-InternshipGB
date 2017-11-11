@@ -1,4 +1,4 @@
-package windowGUI.component.workDB.processingData;
+package windowGUI.component.workDB.workProcessingData;
 
 import windowGUI.component.workDB.tables.PagesTable;
 import windowGUI.component.workDB.tables.PersonPageRankTable;
@@ -9,9 +9,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class ProcessingPersonPageRankTable {
+
+public class ProcessingPersonPageRankTable extends  ProcessingData{
     private static final PersonTable TABLE_PERSON = new PersonTable();
-    private static final LinkedHashMap<Integer,String> LIST_ID_AND_NAME = TABLE_PERSON.getListIDAndName();
+    private static final LinkedHashMap<Integer,String> LIST_ID_AND_NAME_PERSON = TABLE_PERSON.getListIDAndName();
 
     private static final PersonPageRankTable TABLE_PERSON_PAGE_RANK = new PersonPageRankTable();
     private static final ArrayList<Integer> LIST_PERSON_ID_PERSON_PAGE_RANK = TABLE_PERSON_PAGE_RANK.getListPersonID();
@@ -28,34 +29,27 @@ public class ProcessingPersonPageRankTable {
     /*
     * Метод, возвращающий двумерный массив для передачи в конструктор таблицы общей статистики
     * */
-    public Object[][] getArrayFillGeneralTable(String strNameSite, int countColumn){
-        if(strNameSite == null) return new Object[0][0];
+    @Override
+    public Object[][] getArrayFillTable(String strNameSite, int countColumn){
+        if(strNameSite == null || countColumn < 1) return getArrayFillTable(strNameSite,countColumn);
         LinkedHashMap<String, Integer> listPersonNameAndRank = getListPersonNameAndRank(strNameSite);
         return convertingListToArray(listPersonNameAndRank, countColumn);
     }
     /*
      * Метод, возвращающий двумерный массив для передачи в конструктор таблицы ежедневной статистики
      * */
-    public Object[][] getArrayFillDailyTable(String strNameSite, String strNamePerson, String strStartDate, String strFinishDate, int countColumn){
-        if(strNameSite == null || strNamePerson == null || strStartDate == null || strFinishDate == null) return new Object[0][0];
+    @Override
+    public Object[][] getArrayFillTable(String strNameSite, String strNamePerson, String strStartDate, String strFinishDate, int countColumn){
+        if(strNameSite == null || strNamePerson == null || strStartDate == null || strFinishDate == null || countColumn < 1){
+            return super.getArrayFillTable(strNameSite, strNamePerson, strStartDate, strFinishDate, countColumn);
+        }
         LinkedHashMap<String, Integer> listFoundDateTimeAndCountPages = getListFoundDateTimeAndCountPages(strNameSite, strNamePerson, strStartDate, strFinishDate);
         return convertingListToArray(listFoundDateTimeAndCountPages, countColumn);
     }
     /*
      * Метод, преобразующий список в двумерный массив
      * */
-    private Object[][] convertingListToArray(LinkedHashMap list, int columnCount){
-        Object[] keyList = list.keySet().toArray();
-        Object[][] arr = new Object[list.size()][columnCount];
 
-        for(int i = 0; i < list.size(); i++) {
-            for(int j = 0; j < 2; j++) {
-                if(j == 0) arr[i][j] = keyList[i];
-                else arr[i][j] = list.get(keyList[i]);
-            }
-        }
-        return arr;
-    }
     /*
      * Метод, возвращающий пару NamePerson(String) и Rank(int) из таблицы PersonPageRank
      * */
@@ -100,7 +94,6 @@ public class ProcessingPersonPageRankTable {
         for (int i = 0; i < listFoundDateTimeAndCountPages.size(); i++){
             numberPagesTotal += listFoundDateTimeAndCountPages.get(keyListFoundDateTimeAndCountPages[i]);
         }
-        System.out.println(numberPagesTotal);
         return numberPagesTotal;
     }
     /*
@@ -173,12 +166,12 @@ public class ProcessingPersonPageRankTable {
      * */
     private ArrayList<String> getListNamePerson(){
         ArrayList<String> listNamePerson = new ArrayList<>();
-        Object[] keyListNamePerson = LIST_ID_AND_NAME.keySet().toArray();
+        Object[] keyListNamePerson = LIST_ID_AND_NAME_PERSON.keySet().toArray();
 
         for(int i = 0; i < LIST_PERSON_ID_PERSON_PAGE_RANK.size(); i++) {
             for(int j = 0; j < keyListNamePerson.length; j++) {
                 if(keyListNamePerson[j] == LIST_PERSON_ID_PERSON_PAGE_RANK.get(i)){
-                    listNamePerson.add(LIST_ID_AND_NAME.get(j+1));
+                    listNamePerson.add(LIST_ID_AND_NAME_PERSON.get(j+1));
                 }
             }
         }
