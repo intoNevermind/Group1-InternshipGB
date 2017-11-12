@@ -48,6 +48,8 @@ CREATE TABLE public.sites
   "Name" character varying(2048) NOT NULL UNIQUE,
   "URL" character varying(2048) NOT NULL,
   "Active" boolean NOT NULL DEFAULT true,
+  "InProgress" BOOLEAN NOT NULL DEFAULT false,
+  "LastUpdated" TIMESTAMP NOT NULL DEFAULT NOW(),
   CONSTRAINT sites_pkey PRIMARY KEY ("ID")
 );
 COMMENT ON TABLE public.sites
