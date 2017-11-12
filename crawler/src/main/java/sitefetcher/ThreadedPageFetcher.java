@@ -41,7 +41,8 @@ public class ThreadedPageFetcher implements Runnable{
                     str = str.replaceAll(SITEMAP, "");
 
                     // Добавляем в список не обработанных ссылок
-                    newPagesBuffer.offer(str);
+                    if (!newPagesBuffer.contains(str))
+                        newPagesBuffer.offer(str);
                 }
             }
         } catch (Exception e) {
@@ -70,7 +71,9 @@ public class ThreadedPageFetcher implements Runnable{
 
                 // Выделяем текстовое поле и добавляем в список не обработанных ссылок
                 Node titleNode = e.getChildNodes().item(0);
-                newPagesBuffer.offer(titleNode.getNodeValue());
+                String node = titleNode.getNodeValue();
+                if (!newPagesBuffer.contains(node))
+                    newPagesBuffer.offer(titleNode.getNodeValue());
             }
         } catch (Exception e) {
             System.out.println("XML error in file " + url);
@@ -79,6 +82,8 @@ public class ThreadedPageFetcher implements Runnable{
     }
 
     private void crawlPage (String url) {
+        if (LinkChecker.isAllowed(url) && !fetchedPagesBuffer.contains(url))
+            fetchedPagesBuffer.offer(url);
         try {
             // Скачиваем HTML документ
             org.jsoup.nodes.Document doc = Jsoup.connect(url).get();
@@ -91,7 +96,8 @@ public class ThreadedPageFetcher implements Runnable{
                 String linkUrl = link.attr("abs:href");
 
                 // Записываем все найденные ссылки в массив обработанных
-                fetchedPagesBuffer.offer(linkUrl);
+                if (LinkChecker.isAllowed(linkUrl) && !fetchedPagesBuffer.contains(linkUrl))
+                    fetchedPagesBuffer.offer(linkUrl);
             }
 
         } catch (IOException e) {

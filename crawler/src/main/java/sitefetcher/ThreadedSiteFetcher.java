@@ -20,11 +20,13 @@ public class ThreadedSiteFetcher implements Runnable {
             String robotsContent = downloader.download(robotsUrl);
 
             // Если файл скачан успешно, записываем ссылку robotsUrl в newPagesBuffer
-            newPagesBuffer.offer(robotsUrl);
+            if (!newPagesBuffer.contains(robotsUrl))
+                newPagesBuffer.offer(robotsUrl);
         } catch (Exception e) {
             System.out.println("File " + robotsUrl + " not found!");
             // Если не успешно - записываем ссылку url в newPagesBuffer
-            newPagesBuffer.offer(url);
+            if (!newPagesBuffer.contains(url))
+                newPagesBuffer.offer(url);
         }
     }
 

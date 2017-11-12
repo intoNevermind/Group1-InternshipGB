@@ -12,17 +12,20 @@ public class ThreadedSiteFetcherMain {
 
     public static void main(String[] args) throws InterruptedException {
         SitesBufferUpdater sitesBufferUpdater = new SitesBufferUpdater();
+        LinkChecker linkChecker = new LinkChecker();
         ThreadedSiteFetcher threadedSiteFetcher = new ThreadedSiteFetcher();
         PagesBufferUpdater pagesBufferUpdater = new PagesBufferUpdater();
         ThreadedPageFetcher threadedPageFetcher = new ThreadedPageFetcher();
         ReScanPages reScanPages = new ReScanPages(new Date());
 
         sitesBufferUpdater.run();
-        sleep(10000);
+
+        linkChecker.run();
+
         threadedSiteFetcher.run();
-        sleep(10000);
+
         threadedPageFetcher.run();
-        sleep(10000);
+
         pagesBufferUpdater.run();
     }
 }
