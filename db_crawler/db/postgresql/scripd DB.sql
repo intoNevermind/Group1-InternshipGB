@@ -69,6 +69,9 @@ CREATE TABLE public.pages
         REFERENCES public.sites ("ID") MATCH SIMPLE
         ON UPDATE NO ACTION ON DELETE CASCADE
 );
+
+ALTER TABLE pages ADD CONSTRAINT pages_url_unique UNIQUE ("URL");
+
 COMMENT ON TABLE public.pages
     IS 'Таблица базы данных, содержит страницы сайта, которые были найдены при анализе сайтов из таблицы Sites.';
 COMMENT ON COLUMN public.pages."FoundDateTime"
