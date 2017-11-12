@@ -12,9 +12,15 @@ public class Main {
     public static DBWrapper dbWrapper = null;
 
     public static void main(String[] args) {
+
         LogWrapper.info("Hello, I am Crawler.");
 
         CrawlerMainLoop crawlerMainLoop = new CrawlerMainLoop();
         crawlerMainLoop.run();
+
+        /*DBWrapper dbWrapper = new DBWrapper();
+        SiteStructureFetcher siteStructureFetcher = new SiteStructureFetcher();
+        siteStructureFetcher.crawlPage("http://meduza.io/", "meduza.io", dbWrapper);*/
+
     }
 }

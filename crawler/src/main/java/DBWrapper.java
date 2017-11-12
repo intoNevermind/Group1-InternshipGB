@@ -30,10 +30,6 @@ public class DBWrapper {
         }
     }
 
-    public ArrayList<String> getAllSites() {
-        return (getListFromDB("SELECT \"URL\" FROM sites"));
-    }
-
     private String getBucketlistSql(int bucketType, int size) {
         if (bucketType == BUCKET_TYPE_SITES) {
             return "SELECT \"ID\", \"URL\" FROM sites s " +
@@ -45,8 +41,8 @@ public class DBWrapper {
         } else if (bucketType == BUCKET_TYPE_PAGES) {
             return "SELECT \"ID\", \"URL\" FROM pages " +
                     "WHERE " +
-                    "\"LastScanDate < NOW() - INTERVAL '" + HOURS_BEFORE_UPDATE + " hours' \"" +
-                    "AND \"InProgress\" = false" +
+                    "\"LastScanDate\" < NOW() - INTERVAL '" + HOURS_BEFORE_UPDATE + " hours' " +
+                    "AND \"InProgress\" = false " +
                     "ORDER BY \"LastScanDate\"" +
                     "LIMIT " + size + " FOR UPDATE";
         } else {
@@ -60,7 +56,7 @@ public class DBWrapper {
             return "UPDATE sites SET \"InProgress\" = true WHERE \"ID\" = ?";
         }
         if (bucketType == BUCKET_TYPE_PAGES) {
-            return "UPDATE sites SET \"InProgress\" = true WHERE \"ID\" = ?";
+            return "UPDATE pages SET \"InProgress\" = true WHERE \"ID\" = ?";
         } else {
             // Unknown bucket type!
             return "";
@@ -157,9 +153,11 @@ public class DBWrapper {
                                                             "VALUES ((SELECT \"ID\" FROM sites WHERE \"URL\" = ?), ?, NOW())");
             preparedStatement.setString(1, siteUrl);
             preparedStatement.setString(2, pageUrl);
+            LogWrapper.info("Running query " + preparedStatement.toString());
             preparedStatement.execute();
             connection.commit();
         } catch (SQLException e) {
+            LogWrapper.info("Query was " + preparedStatement.toString());
             e.printStackTrace();
         } finally {
             try {
@@ -170,7 +168,6 @@ public class DBWrapper {
         }
     }
 
-    // For pages
     public void setSiteScanDate(String url) {
         PreparedStatement preparedStatement = null;
         try {
@@ -187,8 +184,26 @@ public class DBWrapper {
                 e.printStackTrace();
             }
         }
-
     }
+
+    public void setPageScanDate(String url) {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement("UPDATE pages SET \"LastScanDate\" = NOW() WHERE \"URL\" = ?");
+            preparedStatement.setString(1, url);
+            preparedStatement.execute();
+            connection.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                preparedStatement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     public void unlockSite(String url) {
         setSiteScanDate(url);
@@ -197,37 +212,97 @@ public class DBWrapper {
 
     public void unlockPage(String url) {
         unlockBucketItem(url, BUCKET_TYPE_PAGES);
-        // update LastScanDate in DB
+        setPageScanDate(url);
     }
 
-    public ArrayList<String> getListFromDB(String sql) {
-
-        Statement statement = null;
-        ResultSet resultSet = null;
-        ArrayList<String> result = new ArrayList<>();
-
+    public ArrayList<Integer> getPersonIDs() {
+      ArrayList<Integer> result = new ArrayList<>();
+      Statement statement = null;
+      ResultSet resultSet = null;
         try {
-
             statement = connection.createStatement();
-            statement.execute(sql);
-            ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
-
+            statement.execute("SELECT \"ID\" FROM persons");
+            resultSet = statement.getResultSet();
             while (resultSet.next()) {
-                result.add(resultSet.getString("URL"));
+                result.add(resultSet.getInt("ID"));
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
+        }
+        finally {
             try {
-                resultSet.close();
                 statement.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+        return result;
+    }
 
-        return (result);
+    public ArrayList<String> getPersonKeywords(int personId) {
+        ArrayList<String> result = new ArrayList<>();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            preparedStatement = connection.prepareStatement("SELECT \"Name\" FROM keywords WHERE \"PersonID\" = ?");
+            preparedStatement.setInt(1, personId);
+            preparedStatement.execute();
+
+            resultSet = preparedStatement.getResultSet();
+
+            while (resultSet.next()) {
+                result.add(resultSet.getString("Name"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                preparedStatement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    public void updatePersonPageRating(int rank, int personId, String pageUrl) {
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            preparedStatement =
+                    connection.prepareStatement("INSERT INTO personpagerank "
+                              +"(\"Rank\", \"PersonID\", \"PageID\") "
+                            + "VALUES (?, ?, (SELECT \"ID\" FROM pages WHERE \"URL\" = ?)) "
+                            + "ON CONFLICT (\"PersonID\", \"PageID\") DO UPDATE SET \"Rank\" = ? "
+                            + "WHERE personpagerank.\"PersonID\" = ? "
+                            + "AND personpagerank.\"PageID\" = (SELECT \"ID\" FROM pages WHERE \"URL\" = ?)");
+
+            preparedStatement.setInt(1, rank);
+            preparedStatement.setInt(2, personId);
+            preparedStatement.setString(3, pageUrl);
+            preparedStatement.setInt(4, rank);
+            preparedStatement.setInt(5, personId);
+            preparedStatement.setString(6, pageUrl);
+
+            LogWrapper.info(preparedStatement.toString());
+
+            preparedStatement.execute();
+
+            connection.commit();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                preparedStatement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
 }

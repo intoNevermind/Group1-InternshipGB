@@ -4,7 +4,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 
 import static org.apache.http.HttpHeaders.USER_AGENT;
@@ -13,7 +12,7 @@ import static org.apache.http.HttpHeaders.USER_AGENT;
  * Created by ferney on 26.10.17.
  */
 public class Downloader {
-    public String download(String url) throws IOException {
+    public String download(String url) throws Exception {
 
         // Создаю объект клиента.
         HttpClient client = HttpClientBuilder.create().build();

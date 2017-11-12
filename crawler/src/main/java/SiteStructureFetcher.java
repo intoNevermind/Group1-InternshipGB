@@ -101,7 +101,7 @@ public class SiteStructureFetcher {
         }
     }
 
-    private void crawlPage(String url, String host, DBWrapper dbWrapper) {
+    public void crawlPage(String url, String host, DBWrapper dbWrapper) {
 
         Set<String> linkSet = new HashSet<String>();
 
@@ -117,6 +117,7 @@ public class SiteStructureFetcher {
                 if (linkUrl.contains(host)) {
                     LogWrapper.info("Crawling " + linkUrl);
                     linkSet.add(linkUrl);
+                    LogWrapper.info("Adding page " + linkUrl + " for url " + url);
                     dbWrapper.addSitePage(url, linkUrl);
                 }
 

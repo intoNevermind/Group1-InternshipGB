@@ -44,14 +44,13 @@ public class CrawlerThreadsLauncher {
 
                     semaphore.acquire();
 
-                    LogWrapper.info(Thread.currentThread().getName());
+                    LogWrapper.info(Thread.currentThread().getName() + " starting structure fetching");
 
                     DBWrapper dbWrapper = new DBWrapper();
 
                     ArrayList<String> sites = null;
 
                     do {
-
                         sites = dbWrapper.getSiteBucketFromDB(BUCKET_SIZE);
 
                         for (int a = 0; a < sites.size(); a++) {
@@ -66,10 +65,35 @@ public class CrawlerThreadsLauncher {
                                 dbWrapper.unlockSite(sites.get(j));
                             }
                         } else {
-                            LogWrapper.info(Thread.currentThread().getName() + " - Nothing to do, exiting");
+                            LogWrapper.info(Thread.currentThread().getName() + " - Nothing to do, exiting structure fetching");
                         }
 
                     } while (sites.size() > 0);
+
+                    LogWrapper.info(Thread.currentThread().getName() + " starting ranks updating");
+
+                    ArrayList<String> pages = null;
+
+                    do {
+                       pages = dbWrapper.getPageBucketFromDB(BUCKET_SIZE);
+                       for (int a = 0; a < pages.size(); a++) {
+                           LogWrapper.info(Thread.currentThread().getName() + " - " + pages.get(a));
+                       }
+                        if (pages.size() > 0) {
+                            for (int j = 0; j < pages.size(); j++) {
+                                LogWrapper.info(Thread.currentThread().getName() + " is processing page " + pages.get(j));
+                                PersonRankUpdater.updatePersonRanks(pages.get(j), dbWrapper);
+                                Thread.sleep(1000);
+                                dbWrapper.unlockPage(pages.get(j));
+                            }
+                        } else {
+                            LogWrapper.info(Thread.currentThread().getName() + " - Nothing to do, exiting rank updating");
+                        }
+                    } while (pages.size() > 0);
+
+                    // Rank
+
+
 
                     /*if (!linksFromDb.isEmpty()) {
                         for (String s : linksFromDb) {
