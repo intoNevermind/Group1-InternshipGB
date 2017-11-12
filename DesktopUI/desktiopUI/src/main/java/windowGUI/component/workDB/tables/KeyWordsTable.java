@@ -1,5 +1,6 @@
 package windowGUI.component.workDB.tables;
 
+import okhttp3.ResponseBody;
 import retrofit2.Response;
 import windowGUI.component.workDB.ConnectServer;
 import windowGUI.component.workDB.restApi.RestApiForKeyWordsTable;
@@ -14,6 +15,10 @@ public class KeyWordsTable extends ConnectServer {
 */
     private RestApiForKeyWordsTable restApiForKeyWordsTable = getRetrofit().create(RestApiForKeyWordsTable.class);
 
+    /*
+     * <Получение>
+     * запросы с помощью которых, можно получить данные из БД
+     * */
     private ArrayList<Integer> getListIDReal() {
         try {
             Response<ArrayList<Integer>> response = restApiForKeyWordsTable.getListIDFromKeyWordsTable().execute();
@@ -43,6 +48,40 @@ public class KeyWordsTable extends ConnectServer {
             return  new ArrayList<>();
         }
     }
+    /*
+     * </Получение>
+     * */
+
+    /*
+     * <Отправка>
+     * запросы с помощью которых, можно отправить данные в БД
+     * */
+    public void addKeyWord(String keyWordName, int personID){
+        try {
+            Response<ResponseBody> response = restApiForKeyWordsTable.addKeyWord(keyWordName,personID).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void delKeyWord(int keyWordID){
+        try {
+            Response<ResponseBody> response = restApiForKeyWordsTable.delKeyWord(keyWordID).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void modifyKeyWord(int keyWordID, String keyWordName , int personID){
+        try {
+            Response<ResponseBody> response = restApiForKeyWordsTable.modifyKeyWord(keyWordID, keyWordName, personID).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    /*
+     * </Отправка>
+     * */
 /*
 </РЕАЛ>
 */

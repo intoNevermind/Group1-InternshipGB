@@ -1,5 +1,6 @@
 package windowGUI.component.workDB.tables;
 
+import okhttp3.ResponseBody;
 import retrofit2.Response;
 import windowGUI.component.workDB.ConnectServer;
 import windowGUI.component.workDB.restApi.RestApiForSitesTable;
@@ -15,7 +16,10 @@ public class SitesTable extends ConnectServer {
 */
     private RestApiForSitesTable restApiForSitesTable = getRetrofit().create(RestApiForSitesTable.class);
     private static final LinkedHashMap<Integer,String> listIDAndNameReal = new LinkedHashMap<>();
-
+    /*
+     * <Получение>
+     * запросы с помощью которых, можно получить данные из БД
+     * */
     private ArrayList<Integer> getListIDReal() {
         try {
             Response<ArrayList<Integer>> response = restApiForSitesTable.getListIDFromSitesTable().execute();
@@ -56,6 +60,9 @@ public class SitesTable extends ConnectServer {
             return  new ArrayList<>();
         }
     }
+    /*
+     * </Получение>
+     * */
 
     public LinkedHashMap<Integer, String> getListIDAndNameReal() {
         for (int i = 0; i < getListIDReal().size(); i++) {
@@ -65,6 +72,37 @@ public class SitesTable extends ConnectServer {
         }
         return listIDAndNameReal;
     }
+
+    /*
+     * <Отправка>
+     * запросы с помощью которых, можно отправить данные в БД
+     * */
+    public void addSite(String siteName, String siteUrl, boolean siteActive){
+        try {
+            Response<ResponseBody> response = restApiForSitesTable.addSite(siteName, siteUrl, siteActive).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void delSite(int siteID){
+        try {
+            Response<ResponseBody> response = restApiForSitesTable.delSite(siteID).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void modifySite(int siteID, String siteName, String siteUrl, boolean siteActive){
+        try {
+            Response<ResponseBody> response = restApiForSitesTable.modifySite(siteID, siteName, siteUrl, siteActive).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    /*
+     * </Отправка>
+     * */
 /*
 </РЕАЛ>
 */

@@ -3,6 +3,8 @@ package windowGUI.component.workDB.tables;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+
+import okhttp3.ResponseBody;
 import retrofit2.Response;
 import windowGUI.component.workDB.ConnectServer;
 import windowGUI.component.workDB.restApi.RestApiForPersonTable;
@@ -14,7 +16,10 @@ public class PersonTable extends ConnectServer {
 */
     private RestApiForPersonTable restApiForPersonTable = getRetrofit().create(RestApiForPersonTable.class);
     private static final LinkedHashMap<Integer,String> listIDAndNameReal = new LinkedHashMap<>();
-
+    /*
+     * <Получение>
+     * запросы с помощью которых, можно получить данные из БД
+     * */
     private ArrayList<Integer> getListIDReal() {
         try {
             Response<ArrayList<Integer>> response = restApiForPersonTable.getListIDFromPersonTable().execute();
@@ -44,6 +49,9 @@ public class PersonTable extends ConnectServer {
             return new ArrayList<>();
         }
     }
+    /*
+     * </Получение>
+     * */
 
     public LinkedHashMap<Integer, String> getListIDAndNameReal() {
         for (int i = 0; i < getListIDReal().size(); i++) {
@@ -53,6 +61,37 @@ public class PersonTable extends ConnectServer {
         }
         return listIDAndNameReal;
     }
+
+    /*
+     * <Отправка>
+     * запросы с помощью которых, можно отправить данные в БД
+     * */
+    public void addPerson(String personName, boolean personActive){
+        try {
+            Response<ResponseBody> response = restApiForPersonTable.addPerson(personName, personActive).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void delPerson(int personID){
+        try {
+            Response<ResponseBody> response = restApiForPersonTable.delPerson(personID).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void modifyPerson(int personID, String personName, boolean personActive){
+        try {
+            Response<ResponseBody> response = restApiForPersonTable.modifyPerson(personID, personName, personActive).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    /*
+     * </Отправка>
+     * */
 /*
 </РЕАЛ>
 */
