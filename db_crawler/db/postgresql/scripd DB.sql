@@ -63,6 +63,7 @@ CREATE TABLE public.pages
     "SiteID" integer NOT NULL,
     "FoundDateTime" timestamp without time zone NOT NULL,
     "LastScanDate" timestamp without time zone NULL,
+    "InProgress" BOOLEAN NOT NULL DEFAULT false,
     PRIMARY KEY ("ID"),
     CONSTRAINT fk_site_pages FOREIGN KEY ("SiteID")
         REFERENCES public.sites ("ID") MATCH SIMPLE
