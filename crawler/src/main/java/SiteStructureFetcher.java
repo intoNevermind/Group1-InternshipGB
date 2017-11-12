@@ -20,67 +20,63 @@ public class SiteStructureFetcher {
     private static final String ROBOTS_TXT = "robots.txt";
     private static final String SITEMAP = "Sitemap: ";
 
-    public static void updateSiteStructure(String url){
+    public void updateSiteStructure(String url, DBWrapper dbWrapper) {
         String host = url.trim().replaceAll("(https|http)://", "");
 
-        Set<String> sitemapUrls = fetchSitemaps(url);
+        Set<String> sitemapUrls = fetchSitemaps(url, dbWrapper);
 
-        if (sitemapUrls.isEmpty()){
-            crawlPage(url, host);
-        }
-        else crawlSitemaps(sitemapUrls);
+        if (sitemapUrls.isEmpty()) {
+            LogWrapper.info("Captain, sitemaps are empty!!!111");
+            crawlPage(url, host, dbWrapper);
+        } else crawlSitemaps(url, sitemapUrls, dbWrapper);
 
     }
 
-    private static Set<String> fetchSitemaps(String url){
-        //проверяет есть ли robots.txt и если он есть, то есть ли ссылки на sitemap
-        //если нет sitemap то возвращает пустой массив, иначе записывает в массив все найденные ссылки
-        //нет robots.txt возвращаем так же пустой массив
+    private Set<String> fetchSitemaps(String url, DBWrapper dbWrapper) {
 
         // Trying to download correspondent robots.txt
         Downloader downloader = new Downloader();
+
         try {
             String robotsString = downloader.download(url + "/" + ROBOTS_TXT);
-            // If file exists and no empty
+            // If file exists and not empty
             if (robotsString != null) {
+
+                dbWrapper.addSitePage(url, url + "/" + ROBOTS_TXT);
+
                 Set<String> setOfSitemaps = new HashSet<String>();
 
-                System.out.println(robotsString);
+                LogWrapper.info(robotsString);
 
                 // If "Sitemap:" found, parsing url.
                 for (String str : robotsString.split(System.getProperty("line.separator"))) {
-                    System.out.println(str);
+                    LogWrapper.info(str);
                     str.trim();
                     if (str.startsWith(SITEMAP)) {
                         str = str.replaceAll(SITEMAP, "");
                         setOfSitemaps.add(str);
+                        dbWrapper.addSitePage(url, str);
                     }
                 }
                 return setOfSitemaps;
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            LogWrapper.info("Going to return empty sitemaps array");
             return new HashSet<String>();
         }
 
         return new HashSet<String>();
     }
 
-    //2 разных метода, потому что у некоорых сайтов есть sitemap и все ссылки можно получить из него, а у некоторых нет :(
-    //и все ссылки придется получать разбирая HTML страниц
+    private void crawlSitemaps(String siteUrl, Set<String> urls, DBWrapper dbWrapper) {
 
-    private static void crawlSitemaps(Set<String> urls){
-        //находим все ссылки на странице
-        //запускаем для каждой crawlSitemap
-        //записываем в базу страницу с ссылкой на текущий sitemap
-        //вопрос oграничивать ли глубину и проверять ли повторы
-        System.out.println("Crawling sitemap!..");
-        System.out.println("Sitemap list: " + urls.toString());
+        LogWrapper.info("Crawling sitemap!..");
+        LogWrapper.info("Sitemap list: " + urls.toString());
 
         try {
             for (String url : urls) {
-                DocumentBuilderFactory f =
-                        DocumentBuilderFactory.newInstance();
+                DocumentBuilderFactory f = DocumentBuilderFactory.newInstance();
                 DocumentBuilder b = f.newDocumentBuilder();
                 Document doc = b.parse(url);
                 System.out.println(doc.getDocumentURI());
@@ -88,18 +84,16 @@ public class SiteStructureFetcher {
 
                 // Loop through each item
                 NodeList items = doc.getElementsByTagName("loc");
-                for (int i = 0; i < items.getLength(); i++)
-                {
+                for (int i = 0; i < items.getLength(); i++) {
                     Node n = items.item(i);
                     if (n.getNodeType() != Node.ELEMENT_NODE)
                         continue;
                     Element e = (Element) n;
-                    
+
                     // Get the "text node" in the loc (only one)
                     Node titleNode = e.getChildNodes().item(0);
-                    System.out.println(titleNode.getNodeValue());
-
-                    // TODO Save urls`s to database
+                    LogWrapper.info(titleNode.getNodeValue());
+                    dbWrapper.addSitePage(siteUrl, titleNode.getNodeValue());
                 }
             }
         } catch (Exception e) {
@@ -107,12 +101,7 @@ public class SiteStructureFetcher {
         }
     }
 
-    private static void crawlPage(String url, String host){
-        //находим все ссылки на странице
-        //запускаем для каждой crawlPage
-        //записываем в базу адрес страницы
-        //вопрос oграничивать ли глубину и проверять ли повторы
-        //System.out.println("Sitemap not found!");
+    private void crawlPage(String url, String host, DBWrapper dbWrapper) {
 
         Set<String> linkSet = new HashSet<String>();
 
@@ -126,19 +115,15 @@ public class SiteStructureFetcher {
                 String linkUrl = link.attr("abs:href");
 
                 if (linkUrl.contains(host)) {
-                    System.out.println("Crawling " + linkUrl);
+                    LogWrapper.info("Crawling " + linkUrl);
                     linkSet.add(linkUrl);
+                    dbWrapper.addSitePage(url, linkUrl);
                 }
 
-                // Save linkSet to database
-
-                // TODO Save urls`s to database
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-    //TODO классы обертки для базы - добавление страницы, проверка на наличие страницы
 }

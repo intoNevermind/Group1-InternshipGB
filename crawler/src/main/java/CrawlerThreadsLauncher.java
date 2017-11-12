@@ -6,6 +6,8 @@ import java.util.concurrent.Semaphore;
  */
 public class CrawlerThreadsLauncher {
 
+    final int BUCKET_SIZE = 2;
+
     private Semaphore semaphore;
     private int threadsCount;
 
@@ -42,8 +44,33 @@ public class CrawlerThreadsLauncher {
 
                     semaphore.acquire();
 
-                    System.out.println(Thread.currentThread().getName());
-                    Thread.sleep(7100);
+                    LogWrapper.info(Thread.currentThread().getName());
+
+                    DBWrapper dbWrapper = new DBWrapper();
+
+                    ArrayList<String> sites = null;
+
+                    do {
+
+                        sites = dbWrapper.getSiteBucketFromDB(BUCKET_SIZE);
+
+                        for (int a = 0; a < sites.size(); a++) {
+                            LogWrapper.info(Thread.currentThread().getName() + " - " + sites.get(a));
+                        }
+
+                        if (sites.size() > 0) {
+                            for (int j = 0; j < sites.size(); j++) {
+                                LogWrapper.info(Thread.currentThread().getName() + " is processing site " + sites.get(j));
+                                siteStructureFetcher.updateSiteStructure(sites.get(j), dbWrapper);
+                                Thread.sleep(1000);
+                                dbWrapper.unlockSite(sites.get(j));
+                            }
+                        } else {
+                            LogWrapper.info(Thread.currentThread().getName() + " - Nothing to do, exiting");
+                        }
+
+                    } while (sites.size() > 0);
+
                     /*if (!linksFromDb.isEmpty()) {
                         for (String s : linksFromDb) {
                             siteStructureFetcher.updateSiteStructure(s);
@@ -55,7 +82,7 @@ public class CrawlerThreadsLauncher {
                 } catch (InterruptedException ex) {
                     Thread.currentThread().interrupt();
                 } finally {
-                    System.out.println("Закончила работать " + Thread.currentThread().getName());
+                    LogWrapper.info("Закончила работать " + Thread.currentThread().getName());
                     semaphore.release();
                 }
             }).start();
