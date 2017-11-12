@@ -17,7 +17,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.IOException;
 
 import static sitefetcher.PagesBufferUpdater.fetchedPagesBuffer;
-import static sitefetcher.PagesBufferUpdater.newPagesBuffer;
+import static sitefetcher.ReScanPages.newPagesBuffer;
 
 public class ThreadedPageFetcher implements Runnable{
 

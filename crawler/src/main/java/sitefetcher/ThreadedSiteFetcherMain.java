@@ -4,6 +4,8 @@
 
 package sitefetcher;
 
+import java.util.Date;
+
 import static java.lang.Thread.sleep;
 
 public class ThreadedSiteFetcherMain {
@@ -13,6 +15,7 @@ public class ThreadedSiteFetcherMain {
         ThreadedSiteFetcher threadedSiteFetcher = new ThreadedSiteFetcher();
         PagesBufferUpdater pagesBufferUpdater = new PagesBufferUpdater();
         ThreadedPageFetcher threadedPageFetcher = new ThreadedPageFetcher();
+        ReScanPages reScanPages = new ReScanPages(new Date());
 
         sitesBufferUpdater.run();
         sleep(10000);

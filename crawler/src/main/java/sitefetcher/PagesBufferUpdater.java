@@ -9,9 +9,6 @@ import java.util.concurrent.PriorityBlockingQueue;
 
 public class PagesBufferUpdater implements Runnable{
 
-    // Буфер новых записей в таблице Pages, заполняется не обработанными ссылками
-    public static Queue<String> newPagesBuffer = new PriorityBlockingQueue<String>();
-
     // Буфер обработанных ссылок из newPagesBuffer, заполняется в процессе работы ThreadedPageFetcher
     public static Queue<String> fetchedPagesBuffer = new PriorityBlockingQueue<String>();
 

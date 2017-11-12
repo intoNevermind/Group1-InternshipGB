@@ -4,7 +4,7 @@
 
 package sitefetcher;
 
-import static sitefetcher.PagesBufferUpdater.newPagesBuffer;
+import static sitefetcher.ReScanPages.newPagesBuffer;
 import static sitefetcher.SitesBufferUpdater.sitesBuffer;
 
 public class ThreadedSiteFetcher implements Runnable {
