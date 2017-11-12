@@ -26,15 +26,21 @@ public abstract class AbstractModelRepository<T> implements Repository<T> {
         items.remove(item);
     }
 
-    public void deleteCascade(T item) throws SQLException {
-        items.remove(item);
+    public Collection<T> getAll(Boolean onlyActive) throws SQLException {
+        return items;
     }
 
+    public Collection<T> getAll(final Long userId, Boolean onlyActive) throws SQLException {
+        return items;
+    }
+
+    @Override
     public Collection<T> getAll() throws SQLException {
         return items;
     }
 
-    public Collection<T> getAllByUser(final User user) throws SQLException {
+    @Override
+    public Collection<T> getAll(Long userId) throws SQLException {
         return items;
     }
 }

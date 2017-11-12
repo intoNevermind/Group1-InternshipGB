@@ -4,15 +4,11 @@ import libdb.SqlSpecification;
 import libdb.entities.Person;
 
 public class PersonSpecifications implements SqlSpecification {
-
     /**
-     * All persons specification
-     *
+     * Select all persons specification
      */
-    public static class AllPerson implements SqlSpecification {
-        public AllPerson() {
-        }
-
+    public static class SelectOnlyActive implements SqlSpecification {
+        @Override
         public String toSqlQuery() {
             return String.format(
                     "SELECT * FROM %1$s WHERE \"%2$s\" = %3$b ORDER BY \"%4$s\";",
@@ -25,16 +21,35 @@ public class PersonSpecifications implements SqlSpecification {
     }
 
     /**
-     * UserId persons specification
-     *
+     * Select all persons specification
      */
-    public static class ByUserId implements SqlSpecification {
-        private Long userId;
+    public static class Select implements SqlSpecification {
+        private Boolean onlyActive;
+        public Select(Boolean onlyActive) {
+            this.onlyActive = onlyActive;
+        }
+        @Override
+        public String toSqlQuery() {
+            if (onlyActive)
+                return new SelectOnlyActive().toSqlQuery();
+            else
+                return String.format(
+                        "SELECT * FROM %1$s ORDER BY \"%2$s\";",
+                        PersonRepository.getTableName(),
+                        PersonRepository.getNameFieldDB("name")
+                );
+        }
+    }
 
-        public ByUserId(final Long userId) {
+    /**
+     * Select all by UserId persons specification
+     */
+    public static class SelectOnlyActiveByUserId implements SqlSpecification {
+        private Long userId;
+        public SelectOnlyActiveByUserId(Long userId) {
             this.userId = userId;
         }
-
+        @Override
         public String toSqlQuery() {
             return String.format(
                     "SELECT * FROM %1$s WHERE \"%2$s\" = %3$d AND \"%4$s\" = %5$b ORDER BY \"%6$s\";",
@@ -49,41 +64,39 @@ public class PersonSpecifications implements SqlSpecification {
     }
 
     /**
-     * Update specification
-     *
+     * Select all by UserId persons specification
      */
-    public static class UpdatePerson implements SqlSpecification {
-        private Person person;
-
-        public UpdatePerson(final Person person) {
-            this.person = person;
+    public static class SelectByUserId implements SqlSpecification {
+        private Long userId;
+        private Boolean onlyActive;
+        public SelectByUserId(Long userId, Boolean onlyActive) {
+            this.userId = userId;
+            this.onlyActive = onlyActive;
         }
-
+        @Override
         public String toSqlQuery() {
-            return String.format(
-                    "UPDATE %1$s SET \"%2$s\" = '%3$s', \"%3$s\" = %4$b WHERE \"%5$s\" = %6$d;",
-                    PersonRepository.getTableName(),
-                    PersonRepository.getNameFieldDB("name"),
-                    person.getName(),
-                    PersonRepository.getNameFieldDB("active"),
-                    person.getActive(),
-                    PersonRepository.getNameFieldDB("personId"),
-                    person.getId()
-            );
+            if (onlyActive)
+                return new SelectOnlyActiveByUserId(userId).toSqlQuery();
+            else
+                return String.format(
+                        "SELECT * FROM %1$s WHERE \"%2$s\" = %3$d ORDER BY \"%4$s\";",
+                        PersonRepository.getTableName(),
+                        PersonRepository.getNameFieldDB("userId"),
+                        userId,
+                        PersonRepository.getNameFieldDB("name")
+                );
         }
     }
 
     /**
-     * INSERT specification
-     *
+     * Insert specification
      */
-    public static class InsertPerson implements SqlSpecification {
+    public static class Insert implements SqlSpecification {
         private Person person;
-
-        public InsertPerson(final Person person) {
+        public Insert(Person person) {
             this.person = person;
         }
-
+        @Override
         public String toSqlQuery() {
             return String.format(
                     "INSERT INTO %1$s(\"%2$s\", \"%3$s\", \"%4$s\") VALUES ('%5$s', %6$b, %7$d);",
@@ -93,22 +106,44 @@ public class PersonSpecifications implements SqlSpecification {
                     PersonRepository.getNameFieldDB("userId"),
                     person.getName(),
                     person.getActive(),
-                    person.getUser().getId()
+                    person.getUserId()
+            );
+        }
+    }
+
+
+    /**
+     * Update specification
+     */
+    public static class Update implements SqlSpecification {
+        private Person person;
+        public Update(Person person) {
+            this.person = person;
+        }
+        @Override
+        public String toSqlQuery() {
+            return String.format(
+                    "UPDATE %1$s SET \"%2$s\" = '%3$s', \"%3$s\" = %4$b WHERE \"%5$s\" = %6$d;",
+                    PersonRepository.getTableName(),
+                    PersonRepository.getNameFieldDB("name"),
+                    person.getName(),
+                    PersonRepository.getNameFieldDB("active"),
+                    person.getActive(),
+                    PersonRepository.getNameFieldDB("id"),
+                    person.getId()
             );
         }
     }
 
     /**
-     * DELETE specification
-     *
+     * Delete specification
      */
-    public static class DeletePerson implements SqlSpecification {
+    public static class Delete implements SqlSpecification {
         private Person person;
-
-        public DeletePerson(final Person person) {
+        public Delete(Person person) {
             this.person = person;
         }
-
+        @Override
         public String toSqlQuery() {
             return String.format(
                     "DELETE FROM %1$s WHERE \"%2$s\" = %3$d AND \"%4$s\" = %5$d;",
@@ -116,10 +151,11 @@ public class PersonSpecifications implements SqlSpecification {
                     PersonRepository.getNameFieldDB("id"),
                     person.getId(),
                     PersonRepository.getNameFieldDB("userId"),
-                    person.getUser().getId()
+                    person.getUserId()
             );
         }
     }
+
 
     public String toSqlQuery() {
         return null;

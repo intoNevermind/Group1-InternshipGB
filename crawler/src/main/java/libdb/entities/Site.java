@@ -11,20 +11,25 @@ public class Site implements PersistenceEntity {
     private String name;
     private String url;
     private Boolean active;
-    private Integer UserId;
+    private Long userId;
     private Map<Integer, String> pages = new HashMap<Integer, String>();
 
     public Site() {};
 
-    public Site(String name, String url, Boolean active, Long UserID) {
+    public Site(Long id, String name, String url, Boolean active, Long userId) {
+        this.id = id;
         this.name = name;
         this.url = url;
         this.active = active;
-        this.UserId = UserId;
+        this.userId = userId;
     }
 
-    public Site(String name, String url, Long UserID) {
-        this(name, url, true, UserID);
+    public Site(String name, String url, Boolean active, Long userId) {
+        this(0L, name, url, active, userId);
+    }
+
+    public Site(String name, String url, Long userId) {
+        this(name, url, true, userId);
     }
 
     public Long getId() {
@@ -59,12 +64,12 @@ public class Site implements PersistenceEntity {
         this.active = active;
     }
 
-    public Integer getUserId() {
-        return UserId;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUserId(Integer userId) {
-        UserId = userId;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     @Override
@@ -78,6 +83,7 @@ public class Site implements PersistenceEntity {
         int result = 1;
         result = prime * result + (name == null ? 0 : name.hashCode());
         result = prime * result + (url == null ? 0 : url.hashCode());
+        result = prime * result + (userId == null ? 0 : userId.hashCode());
         return result;
     }
 
@@ -98,6 +104,13 @@ public class Site implements PersistenceEntity {
                 return false;
             }
         } else if (!id.equals(other.id)) {
+            return false;
+        }
+        if (userId == null) {
+            if (other.getUserId() != null) {
+                return false;
+            }
+        } else if (!userId.equals(other.getUserId())) {
             return false;
         }
         if (name == null) {

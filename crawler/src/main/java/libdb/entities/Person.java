@@ -12,7 +12,7 @@ public class Person implements PersistenceEntity {
     private Long id;
     private String name;
     private Boolean active;
-    private User user;
+    private Long userId;
     private Map<Integer, String> keywords = new HashMap<Integer, String>();
     private Map<Integer, Integer> ranks = new HashMap<Integer, Integer>();
 
@@ -20,11 +20,11 @@ public class Person implements PersistenceEntity {
 
     };
 
-    public Person(Long id, String name, Boolean active, User user) {
+    public Person(Long id, String name, Boolean active, Long userId) {
         this.id = id;
         this.name = name;
         this.active = active;
-        this.user = user;
+        this.userId = userId;
     }
 
     public Person(Long id, String name, Boolean active) {
@@ -33,14 +33,14 @@ public class Person implements PersistenceEntity {
         this.active = active;
     }
 
-    public Person(String name, Boolean active, User user) {
+    public Person(String name, Boolean active, Long userId) {
         this.name = name;
         this.active = active;
-        this.user = user;
+        this.userId = userId;
     }
 
-    public Person(String name, User user) {
-        this(name, true, user);
+    public Person(String name, Long userId) {
+        this(name, true, userId);
     }
 
     public Long getId() {
@@ -67,12 +67,12 @@ public class Person implements PersistenceEntity {
         this.active = active;
     }
 
-    public User getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public Map<Integer, String> getKeywords() {
@@ -96,8 +96,9 @@ public class Person implements PersistenceEntity {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + (id == null ? 0 : id.hashCode());
         result = prime * result + (name == null ? 0 : name.hashCode());
-        result = prime * result + (user == null ? 0 : user.hashCode());
+        result = prime * result + (userId == null ? 0 : userId.hashCode());
         return result;
     }
 
@@ -120,11 +121,11 @@ public class Person implements PersistenceEntity {
         } else if (!id.equals(other.id)) {
             return false;
         }
-        if (user == null) {
-            if (other.getUser() != null) {
+        if (userId == null) {
+            if (other.getUserId() != null) {
                 return false;
             }
-        } else if (!user.equals(other.getUser())) {
+        } else if (!userId.equals(other.getUserId())) {
             return false;
         }
         if (name == null) {

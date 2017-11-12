@@ -7,20 +7,20 @@ import java.util.Date;
  */
 public class Keyword implements PersistenceEntity {
     private Long id;
-    private Person person;
     private String name;
+    private Long personId;
 
     public Keyword() {};
 
-    public Keyword(Long id, String name, Person person) {
+    public Keyword(Long id, String name, Long personId) {
         this.id = id;
         this.name = name;
-        this.person = person;
+        this.personId = personId;
     }
 
-    public Keyword(String name, Person person) {
+    public Keyword(String name, Long personId) {
         this.name = name;
-        this.person = person;
+        this.personId = personId;
     }
 
     public Long getId() {
@@ -35,17 +35,30 @@ public class Keyword implements PersistenceEntity {
         this.name = name;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(Long personId) {
+        this.personId = personId;
+    }
+
     @Override
     public String toString() {
-        return "Keyword [id=" + id + ", name=" + name + ", person=" + person + "]";
+        return "Keyword [id=" + id + ", name=" + name + ", person=" + personId + "]";
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-//        result = prime * result + (site == null ? 0 : site.hashCode());
-//        result = prime * result + (url == null ? 0 : url.hashCode());
+        result = prime * result + (id == null ? 0 : id.hashCode());
+        result = prime * result + (name == null ? 0 : name.hashCode());
+        result = prime * result + (personId == null ? 0 : personId.hashCode());
         return result;
     }
 
