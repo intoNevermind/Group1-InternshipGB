@@ -32,6 +32,7 @@ class ApplicationWindow {
         WINDOW.add(LIST_STATISTIC, BorderLayout.NORTH);
         WINDOW.setVisible(true);
 
+
     }
     private static void addTabs(){
         LIST_OF_TABS.setVisible(true);

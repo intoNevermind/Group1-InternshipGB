@@ -1,6 +1,6 @@
 package windowGUI.component.workDirectory;
 
-import windowGUI.AddWindow;
+import windowGUI.component.editingDirectoryWindow.AddKeyWordWindow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -56,6 +56,15 @@ public class KeyWordsDirectory extends Directory{
         getPanelDirectory().add(dataScrollPane, BorderLayout.CENTER);
         dataScrollPane.setVisible(true);
         getPanelDirectory().updateUI();
+    }
+
+    @Override
+    public void visibleWindowAdd(ActionEvent actionEvent){
+        if(namePerson == null || namePerson.equals("Не выбранно")){
+            JOptionPane.showMessageDialog(null, "Для добавления ключевых слов необходимо выбрать \""  + getHeadLinePerson().getText() + "\" ");
+        }else {
+            new AddKeyWordWindow(getBtnAdd().getText() + " новое ключевое слово для личности: " + namePerson, getPPersonT().getIDPersonByNamePerson(namePerson));
+        }
     }
 
 }

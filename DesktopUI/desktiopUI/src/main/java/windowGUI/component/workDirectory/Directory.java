@@ -1,6 +1,6 @@
 package windowGUI.component.workDirectory;
 
-import windowGUI.AddWindow;
+import windowGUI.component.editingDirectoryWindow.AddKeyWordWindow;
 import windowGUI.component.ConfigurationGBL;
 import windowGUI.component.workDB.workProcessingData.ProcessingKeyWordsTable;
 import windowGUI.component.workDB.workProcessingData.ProcessingPersonTable;
@@ -47,13 +47,11 @@ public abstract class Directory {
     }
 
     public abstract void fillBtnPanel();
+    public abstract void visibleWindowAdd(ActionEvent actionEvent);
 
     public void fillOptionsPanel(){}
     public void initNamePerson(ActionEvent actionEvent){}
     public void visibleDataTable(ActionEvent actionEvent){}
-    void visibleWindowAdd(ActionEvent actionEvent){
-        new AddWindow(getBtnAdd().getText() + " новый элемент в справочник " + "\"" + tabName + "\"");
-    }
 
 
     void addActionListenerForListPerson(){
@@ -68,6 +66,7 @@ public abstract class Directory {
     void addActionListenerForBtnAdd(){
         btnAdd.addActionListener(this::visibleWindowAdd);
     }
+
     private void removeDataTable(ActionEvent actionEvent) {
         for (int i = 0; i < getPanelDirectory().getComponents().length; i++) {
             if(getPanelDirectory().getComponents()[i].equals(dataScrollPane)){
@@ -76,6 +75,8 @@ public abstract class Directory {
         }
         getPanelDirectory().updateUI();
     }
+
+
     public String getTabName() {
         return tabName;
     }

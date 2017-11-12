@@ -11,6 +11,6 @@ public class ConfigurationsWindowGUI {
         int locationY = (screenSize.height - sizeHeight) / 2;
         window.setTitle(windowTitle);
         window.setBounds(locationX, locationY, sizeWidth, sizeHeight);
-        window.setResizable(false);
+        window.setResizable(true);
     }
 }

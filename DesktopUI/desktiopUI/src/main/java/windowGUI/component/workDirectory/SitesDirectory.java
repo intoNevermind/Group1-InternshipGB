@@ -29,4 +29,9 @@ public class SitesDirectory extends Directory{
     public void visibleDataTable(ActionEvent actionEvent) {
 
     }
+
+    @Override
+    public void visibleWindowAdd(ActionEvent actionEvent) {
+
+    }
 }

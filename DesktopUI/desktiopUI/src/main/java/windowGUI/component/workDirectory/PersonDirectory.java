@@ -1,5 +1,8 @@
 package windowGUI.component.workDirectory;
 
+import windowGUI.component.editingDirectoryWindow.AddKeyWordWindow;
+import windowGUI.component.editingDirectoryWindow.AddPersonWindow;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -28,5 +31,10 @@ public class PersonDirectory extends Directory{
     @Override
     public void visibleDataTable(ActionEvent actionEvent) {
 
+    }
+
+    @Override
+    public void visibleWindowAdd(ActionEvent actionEvent) {
+        new AddPersonWindow(getBtnAdd().getText() + " новую личность " , true);
     }
 }
