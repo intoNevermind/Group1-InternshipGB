@@ -30,8 +30,11 @@ public abstract class EditingDirectoryWindow {
     private final JLabel headLineTextFieldURL = new JLabel("URL");
     private final JTextField valueEntryFieldURL = new JTextField();
 
+    private final JLabel headLineTextFieldDel = new JLabel();
+
     private final JButton btnSave = new JButton("Сохранить");
     private final JButton btnCancel = new JButton("Отмена");
+
 
     private final JCheckBox active = new JCheckBox("Отображать эту запись в списке.");
 
@@ -46,14 +49,13 @@ public abstract class EditingDirectoryWindow {
         window.setVisible(true);
     }
 
-    public abstract void getValueField(ActionEvent actionEvent);
     public abstract void fillPanels();
+    public abstract void saveEditing(ActionEvent actionEvent);
 
     void addBtnListener(){
-        btnSave.addActionListener(this::getValueField);
+        btnSave.addActionListener(this::saveEditing);
         btnCancel.addActionListener(this::cancelEditing);
     }
-
 
     private void cancelEditing(ActionEvent actionEvent){
         window.dispose();
@@ -112,7 +114,11 @@ public abstract class EditingDirectoryWindow {
         return CGBL;
     }
 
-    public JCheckBox getActive() {
+    JCheckBox getActive() {
         return active;
+    }
+
+    public JLabel getHeadLineTextFieldDel() {
+        return headLineTextFieldDel;
     }
 }

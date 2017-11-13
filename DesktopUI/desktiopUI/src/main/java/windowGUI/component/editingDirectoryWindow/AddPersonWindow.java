@@ -37,7 +37,7 @@ public class AddPersonWindow extends EditingDirectoryWindow {
 
 
     @Override
-    public void getValueField(ActionEvent actionEvent) {
+    public void saveEditing(ActionEvent actionEvent) {
         if(getValueEntryFieldName().getText() != null){
             TABLE_PERSON.addPerson(getValueEntryFieldName().getText(),getActive().isSelected());
             System.out.println(getActive().isSelected());

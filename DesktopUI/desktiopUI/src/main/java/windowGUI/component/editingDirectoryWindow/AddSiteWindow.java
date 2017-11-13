@@ -42,10 +42,9 @@ public class AddSiteWindow extends EditingDirectoryWindow {
     }
 
     @Override
-    public void getValueField(ActionEvent actionEvent) {
+    public void saveEditing(ActionEvent actionEvent) {
         if(getValueEntryFieldName().getText() != null){
             TABLE_SITES.addSite(getValueEntryFieldName().getText(), getValueEntryFieldURL().getText(),getActive().isSelected());
-            System.out.println(getValueEntryFieldName().getText() + " " + getValueEntryFieldURL().getText() + " " + getActive().isSelected());
         }
         SITES_DIRECTORY.getPanelDirectory().updateUI();
         getValueEntryFieldName().setText(null);

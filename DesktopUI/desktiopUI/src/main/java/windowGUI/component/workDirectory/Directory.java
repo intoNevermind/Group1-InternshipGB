@@ -6,8 +6,11 @@ import windowGUI.component.workDB.workProcessingData.ProcessingKeyWordsTable;
 import windowGUI.component.workDB.workProcessingData.ProcessingPersonTable;
 import windowGUI.component.workDB.workProcessingData.ProcessingSitesTable;
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public abstract class Directory {
     private String tabName ;
@@ -54,11 +57,21 @@ public abstract class Directory {
 
     public abstract void fillBtnPanel();
     public abstract void visibleWindowAdd(ActionEvent actionEvent);
+    public void visibleWindowDel(ActionEvent actionEvent){};
 
     public void fillOptionsPanel(){}
     public void initNamePerson(ActionEvent actionEvent){}
+    public void initNameSites(ListSelectionEvent selectionEvent){}
     public void visibleDataTable(ActionEvent actionEvent){}
 
+    private void removeDataTable(ActionEvent actionEvent) {
+        for (int i = 0; i < getPanelDirectory().getComponents().length; i++) {
+            if(getPanelDirectory().getComponents()[i].equals(dataScrollPane)){
+                getPanelDirectory().remove(dataScrollPane);
+            }
+        }
+        getPanelDirectory().updateUI();
+    }
 
     void addActionListenerForListPerson(){
         listPersons.addActionListener(this::initNamePerson);
@@ -73,13 +86,8 @@ public abstract class Directory {
         btnAdd.addActionListener(this::visibleWindowAdd);
     }
 
-    private void removeDataTable(ActionEvent actionEvent) {
-        for (int i = 0; i < getPanelDirectory().getComponents().length; i++) {
-            if(getPanelDirectory().getComponents()[i].equals(dataScrollPane)){
-                getPanelDirectory().remove(dataScrollPane);
-            }
-        }
-        getPanelDirectory().updateUI();
+    void addActionListenerForBtnDel(){
+        btnDelete.addActionListener(this::visibleWindowDel);
     }
 
 

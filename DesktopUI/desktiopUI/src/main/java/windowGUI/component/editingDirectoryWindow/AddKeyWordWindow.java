@@ -37,7 +37,7 @@ public class AddKeyWordWindow extends EditingDirectoryWindow{
         getBtnPanel().add(getBtnCancel());
     }
     @Override
-    public void getValueField(ActionEvent actionEvent) {
+    public void saveEditing(ActionEvent actionEvent) {
         if(getValueEntryFieldName().getText() != null){
             TABLE_KEY_WORDS.addKeyWord(getValueEntryFieldName().getText(), personID);
         }
