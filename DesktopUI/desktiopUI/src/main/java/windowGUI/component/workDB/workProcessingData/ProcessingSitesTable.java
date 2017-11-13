@@ -9,7 +9,7 @@ public class ProcessingSitesTable extends ProcessingData{
 
     public String[] getArrayNameSites(){
         String[] str = new String[LIST_NAME_SITES.size()+1];
-        str[0] = "Не выбранно";
+        str[0] = getNotChosen();
         for (int i = 0; i < LIST_NAME_SITES.size(); i++) {
             str[i+1] = LIST_NAME_SITES.get(i);
         }

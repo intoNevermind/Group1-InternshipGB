@@ -1,6 +1,8 @@
 package windowGUI.component.editingDirectoryWindow;
 
 
+import windowGUI.component.ConfigurationGBL;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,109 +10,109 @@ import java.awt.event.ActionEvent;
 public abstract class EditingDirectoryWindow {
 
     private static final int SIZE_WIDTH = 600;
-    private static final int SIZE_HEIGHT = 140;
-    private final JFrame WINDOW = new JFrame();
+    private static final int SIZE_HEIGHT = 200;
+
+    private static final int INDENT_WIDTH = 100;
+    private static final int FIELD_SIZE_WIDTH = SIZE_WIDTH - INDENT_WIDTH;
+    private static final int FIELD_SIZE_HEIGHT = SIZE_HEIGHT / 5;
+
+    private final JFrame window = new JFrame();
 
     private static final GridBagLayout GBL = new GridBagLayout();
+    private final ConfigurationGBL CGBL = new ConfigurationGBL();
 
-    private final JPanel TEXT_FIELD_PANEL = new JPanel(GBL);
-    private final JPanel BTN_PANEL = new JPanel(GBL);
+    private final JPanel textFieldPanel = new JPanel(GBL);
+    private final JPanel btnPanel = new JPanel(GBL);
 
-    private final JLabel HEAD_LINE_TEXT_FIELD = new JLabel("Наименование");
-    private final JTextField VALUE_ENTRY_FIELD = new JTextField();
+    private final JLabel headLineTextFieldName = new JLabel("Наименование");
+    private final JTextField valueEntryFieldName = new JTextField();
 
-    private final JButton BTN_SAVE = new JButton("Сохранить");
-    private final JButton BTN_CANCEL = new JButton("Отмена");
+    private final JLabel headLineTextFieldURL = new JLabel("URL");
+    private final JTextField valueEntryFieldURL = new JTextField();
 
+    private final JButton btnSave = new JButton("Сохранить");
+    private final JButton btnCancel = new JButton("Отмена");
 
-    private int numberStr;
+    private final JCheckBox active = new JCheckBox("Отображать эту запись в списке.");
+
 
     void fillWindow(){
-        WINDOW.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        VALUE_ENTRY_FIELD.setPreferredSize(new Dimension(500,25));
+        window.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        valueEntryFieldName.setPreferredSize(new Dimension(FIELD_SIZE_WIDTH,FIELD_SIZE_HEIGHT));
+        valueEntryFieldURL.setPreferredSize(new Dimension(FIELD_SIZE_WIDTH,FIELD_SIZE_HEIGHT));
 
-        WINDOW.add(TEXT_FIELD_PANEL, BorderLayout.CENTER);
-        WINDOW.add(BTN_PANEL,BorderLayout.SOUTH);
-        WINDOW.setVisible(true);
+        window.add(textFieldPanel, BorderLayout.CENTER);
+        window.add(btnPanel,BorderLayout.SOUTH);
+        window.setVisible(true);
     }
 
     public abstract void getValueField(ActionEvent actionEvent);
     public abstract void fillPanels();
 
-    GridBagConstraints configGBC(Component component, boolean moveToNewLine){
-        GridBagConstraints gbc =  new GridBagConstraints();
-        if(component instanceof JLabel){
-            if(moveToNewLine) numberStr++;
-            gbc.gridy = numberStr;
-            gbc.gridwidth  = 1;
-            gbc.anchor = GridBagConstraints.WEST;
-            return gbc;
-        }
-        if(component instanceof JButton){
-            if(moveToNewLine) numberStr++;
-            gbc.gridy = numberStr;
-            gbc.gridwidth  = 2;
-            gbc.fill = GridBagConstraints.HORIZONTAL;
-            gbc.weightx = 1.0;
-            return gbc;
-        }
-        if(component instanceof JTextField ||component instanceof JCheckBox){
-            if(moveToNewLine) numberStr++;
-            gbc.gridy = numberStr;
-            gbc.gridwidth  = GridBagConstraints.REMAINDER ;
-            gbc.fill = GridBagConstraints.BOTH;
-            gbc.weightx = 1.0;
-            return gbc;
-        }
-        return gbc;
+    void addBtnListener(){
+        btnSave.addActionListener(this::getValueField);
+        btnCancel.addActionListener(this::cancelEditing);
     }
 
-    void addListener(){
-        BTN_SAVE.addActionListener(this::getValueField);
-        BTN_CANCEL.addActionListener(this::cancelEditing);
-    }
 
     private void cancelEditing(ActionEvent actionEvent){
-        WINDOW.dispose();
+        window.dispose();
     }
+
 
     static int getSizeWidth() {
         return SIZE_WIDTH;
     }
 
-    int getSizeHeight() {
+    static int getSizeHeight() {
         return SIZE_HEIGHT;
     }
 
     JFrame getWindow() {
-        return WINDOW;
+        return window;
     }
 
-    JLabel getHeadLineTextField() {
-        return HEAD_LINE_TEXT_FIELD;
+    JLabel getHeadLineTextFieldName() {
+        return headLineTextFieldName;
     }
 
-    JTextField getValueEntryField() {
-        return VALUE_ENTRY_FIELD;
+    JTextField getValueEntryFieldName() {
+        return valueEntryFieldName;
+    }
+
+    JLabel getHeadLineTextFieldURL() {
+        return headLineTextFieldURL;
+    }
+
+    JTextField getValueEntryFieldURL() {
+        return valueEntryFieldURL;
     }
 
     JPanel getBtnPanel() {
-        return BTN_PANEL;
+        return btnPanel;
     }
 
     JPanel getTextFieldPanel() {
-        return TEXT_FIELD_PANEL;
+        return textFieldPanel;
     }
 
     JButton getBtnSave() {
-        return BTN_SAVE;
+        return btnSave;
     }
 
     JButton getBtnCancel() {
-        return BTN_CANCEL;
+        return btnCancel;
     }
 
     GridBagLayout getGBL() {
         return GBL;
+    }
+
+    ConfigurationGBL getCGBL() {
+        return CGBL;
+    }
+
+    public JCheckBox getActive() {
+        return active;
     }
 }

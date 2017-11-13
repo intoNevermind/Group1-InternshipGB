@@ -5,6 +5,8 @@ import java.util.LinkedHashMap;
 
 public class ProcessingData {
 
+    private static final String NOT_CHOSEN = "Не выбрано";
+
     public Object[][] getArrayFillTable(String strName, int countColumn){
         return new Object[0][0];
     }
@@ -42,4 +44,7 @@ public class ProcessingData {
         return arr;
     }
 
+    public static String getNotChosen() {
+        return NOT_CHOSEN;
+    }
 }

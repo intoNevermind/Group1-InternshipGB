@@ -2,46 +2,50 @@ package windowGUI.component.editingDirectoryWindow;
 
 import windowGUI.ConfigurationsWindowGUI;
 import windowGUI.component.workDB.tables.PersonTable;
-import javax.swing.*;
+import windowGUI.component.workDirectory.PersonDirectory;
 import java.awt.event.ActionEvent;
 
+
 public class AddPersonWindow extends EditingDirectoryWindow {
+    private static final PersonDirectory PERSON_DIRECTORY = new PersonDirectory();
 
     private static final PersonTable TABLE_PERSON = new PersonTable();
-    JCheckBox jCheckBox = new JCheckBox("Не отображать эту запись в списке");
 
-    public AddPersonWindow(String windowTitle, boolean active) {
+    public AddPersonWindow(String windowTitle) {
 
         new ConfigurationsWindowGUI().setConfigWindow(getWindow(), windowTitle, getSizeWidth(), getSizeHeight());
         fillPanels();
         fillWindow();
-        addListener();
+        addBtnListener();
 
     }
     @Override
     public void fillPanels() {
-        getGBL().setConstraints(getHeadLineTextField(), configGBC(getHeadLineTextField(),false));
-        getTextFieldPanel().add(getHeadLineTextField());
-        getGBL().setConstraints(getValueEntryField(), configGBC(getValueEntryField(),true));
-        getTextFieldPanel().add(getValueEntryField());
+        getGBL().setConstraints(getHeadLineTextFieldName(), getCGBL().configSubsidiaryGBC(getHeadLineTextFieldName(),false));
+        getTextFieldPanel().add(getHeadLineTextFieldName());
+        getGBL().setConstraints(getValueEntryFieldName(), getCGBL().configSubsidiaryGBC(getValueEntryFieldName(),true));
+        getTextFieldPanel().add(getValueEntryFieldName());
 
-        getGBL().setConstraints(jCheckBox, configGBC(jCheckBox,true));
-        getTextFieldPanel().add(jCheckBox);
+        getGBL().setConstraints(getActive(), getCGBL().configSubsidiaryGBC(getActive(),true));
+        getTextFieldPanel().add(getActive());
 
-        getGBL().setConstraints(getBtnSave(), configGBC(getBtnSave(),true));
+        getGBL().setConstraints(getBtnSave(), getCGBL().configSubsidiaryGBC(getBtnSave(),true));
         getBtnPanel().add(getBtnSave());
-        getGBL().setConstraints(getBtnCancel(), configGBC(getBtnCancel(),false));
+        getGBL().setConstraints(getBtnCancel(), getCGBL().configSubsidiaryGBC(getBtnCancel(),false));
         getBtnPanel().add(getBtnCancel());
-
     }
+
 
     @Override
     public void getValueField(ActionEvent actionEvent) {
-        if(getValueEntryField().getText() != null){
-            TABLE_PERSON.addPerson(getValueEntryField().getText(),true);
+        if(getValueEntryFieldName().getText() != null){
+            TABLE_PERSON.addPerson(getValueEntryFieldName().getText(),getActive().isSelected());
+            System.out.println(getActive().isSelected());
         }
-
-        getValueEntryField().setText(null);
+        PERSON_DIRECTORY.getPanelDirectory().updateUI();
+        getValueEntryFieldName().setText(null);
         getWindow().dispose();
     }
+
+
 }

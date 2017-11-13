@@ -1,5 +1,7 @@
 package windowGUI.component.workDirectory;
 
+import windowGUI.component.editingDirectoryWindow.AddSiteWindow;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,7 +9,7 @@ import java.awt.event.ActionEvent;
 public class SitesDirectory extends Directory{
     private static final String TAB_NAME = "Сайты";
 
-    SitesDirectory() {
+    public SitesDirectory() {
         setTabName(TAB_NAME);
 
         fillBtnPanel();
@@ -32,6 +34,6 @@ public class SitesDirectory extends Directory{
 
     @Override
     public void visibleWindowAdd(ActionEvent actionEvent) {
-
+        new AddSiteWindow(getBtnAdd().getText() + " новую личность");
     }
 }

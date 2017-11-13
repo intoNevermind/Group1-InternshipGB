@@ -31,7 +31,7 @@ public class ProcessingPersonPageRankTable extends  ProcessingData{
     * */
     @Override
     public Object[][] getArrayFillTable(String strNameSite, int countColumn){
-        if(strNameSite == null || countColumn < 1) return getArrayFillTable(strNameSite,countColumn);
+        if(strNameSite == null || countColumn < 1) return super.getArrayFillTable(strNameSite,countColumn);
         LinkedHashMap<String, Integer> listPersonNameAndRank = getListPersonNameAndRank(strNameSite);
         return convertingListToArray(listPersonNameAndRank, countColumn);
     }

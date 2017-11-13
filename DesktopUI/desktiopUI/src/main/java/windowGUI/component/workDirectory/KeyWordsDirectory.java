@@ -1,6 +1,7 @@
 package windowGUI.component.workDirectory;
 
 import windowGUI.component.editingDirectoryWindow.AddKeyWordWindow;
+import windowGUI.component.workDB.workProcessingData.ProcessingData;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +12,7 @@ public class KeyWordsDirectory extends Directory{
 
     private static String namePerson;
 
-    KeyWordsDirectory() {
+    public KeyWordsDirectory() {
         setTabName(TAB_NAME);
 
         fillOptionsPanel();
@@ -24,11 +25,11 @@ public class KeyWordsDirectory extends Directory{
 
     @Override
     public void fillOptionsPanel() {
-        getGBL().setConstraints(getHeadLinePerson(),getCGBL().configGBC(getHeadLinePerson(),false));
+        getGBL().setConstraints(getHeadLinePerson(),getCGBL().configMainGBC(getHeadLinePerson(),false));
         getOptionsPanel().add(getHeadLinePerson());
-        getGBL().setConstraints(getListPersons(), getCGBL().configGBC(getListPersons(),false));
+        getGBL().setConstraints(getListPersons(), getCGBL().configMainGBC(getListPersons(),false));
         getOptionsPanel().add(getListPersons());
-        getGBL().setConstraints(getBtnConfirm(), getCGBL().configGBC(getBtnConfirm(),true));
+        getGBL().setConstraints(getBtnConfirm(), getCGBL().configMainGBC(getBtnConfirm(),true));
         getOptionsPanel().add(getBtnConfirm());
     }
 
@@ -47,7 +48,7 @@ public class KeyWordsDirectory extends Directory{
 
     @Override
     public void visibleDataTable(ActionEvent actionEvent){
-        if(namePerson == null || namePerson.equals("Не выбранно")){
+        if(namePerson == null || namePerson.equals(ProcessingData.getNotChosen())){
             JOptionPane.showMessageDialog(null, "Для просмотра ключевых слов необходимо выбрать \""  + getHeadLinePerson().getText() + "\" ");
         }
 

@@ -1,6 +1,8 @@
 package windowGUI.component.workDB.tables;
 
 import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 import windowGUI.component.workDB.ConnectServer;
 import windowGUI.component.workDB.restApi.RestApiForSitesTable;
@@ -20,6 +22,7 @@ public class SitesTable extends ConnectServer {
      * <Получение>
      * запросы с помощью которых, можно получить данные из БД
      * */
+
     private ArrayList<Integer> getListIDReal() {
         try {
             Response<ArrayList<Integer>> response = restApiForSitesTable.getListIDFromSitesTable().execute();
@@ -63,7 +66,6 @@ public class SitesTable extends ConnectServer {
     /*
      * </Получение>
      * */
-
     public LinkedHashMap<Integer, String> getListIDAndNameReal() {
         for (int i = 0; i < getListIDReal().size(); i++) {
             for (int j = 0; j < getListNameReal().size(); j++) {
@@ -72,7 +74,6 @@ public class SitesTable extends ConnectServer {
         }
         return listIDAndNameReal;
     }
-
     /*
      * <Отправка>
      * запросы с помощью которых, можно отправить данные в БД

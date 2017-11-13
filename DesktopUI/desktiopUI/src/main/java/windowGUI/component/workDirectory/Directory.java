@@ -1,11 +1,10 @@
 package windowGUI.component.workDirectory;
 
-import windowGUI.component.editingDirectoryWindow.AddKeyWordWindow;
+import windowGUI.ApplicationWindow;
 import windowGUI.component.ConfigurationGBL;
 import windowGUI.component.workDB.workProcessingData.ProcessingKeyWordsTable;
 import windowGUI.component.workDB.workProcessingData.ProcessingPersonTable;
 import windowGUI.component.workDB.workProcessingData.ProcessingSitesTable;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,12 +12,19 @@ import java.awt.event.ActionEvent;
 public abstract class Directory {
     private String tabName ;
 
+    private final GridBagLayout GBL = new GridBagLayout();
+    private final ConfigurationGBL CGBL = new ConfigurationGBL();
+
+    private static final int INDENT_WIDTH = 200;
+    private static final int INDENT_HEIGHT = 100;
+    private static final int PANEL_DIRECTORY_SIZE_WIDTH = ApplicationWindow.getSizeWidth() - INDENT_WIDTH;
+    private static final int PANEL_DIRECTORY_SIZE_HEIGHT = ApplicationWindow.getSizeHeight() - INDENT_HEIGHT;
+
     private final JPanel panelDirectory = new JPanel();
     private final JPanel optionsPanel = new JPanel();
     private final JPanel btnPanel = new JPanel();
 
-    private final GridBagLayout GBL = new GridBagLayout();
-    private final ConfigurationGBL CGBL = new ConfigurationGBL();
+
     private final JLabel headLinePerson = new JLabel("Личности");
 
     private static final ProcessingPersonTable PPersonT = new ProcessingPersonTable();
@@ -39,7 +45,7 @@ public abstract class Directory {
 
     Directory() {
         panelDirectory.setLayout(new BorderLayout());
-        panelDirectory.setPreferredSize(new Dimension(400, 300));
+        panelDirectory.setPreferredSize(new Dimension(PANEL_DIRECTORY_SIZE_WIDTH, PANEL_DIRECTORY_SIZE_HEIGHT));
         optionsPanel.setLayout(GBL);
         btnPanel.setLayout(new FlowLayout());
         panelDirectory.add(optionsPanel, BorderLayout.NORTH);
@@ -129,7 +135,7 @@ public abstract class Directory {
         return btnEdit;
     }
 
-    public static ProcessingPersonTable getPPersonT() {
+    static ProcessingPersonTable getPPersonT() {
         return PPersonT;
     }
 

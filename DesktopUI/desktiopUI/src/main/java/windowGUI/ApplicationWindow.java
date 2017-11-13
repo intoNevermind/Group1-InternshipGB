@@ -7,10 +7,10 @@ import windowGUI.component.workDirectory.ListOfTabsDirectory;
 import javax.swing.*;
 import java.awt.*;
 
-class ApplicationWindow {
+public class ApplicationWindow {
 
     private static final int SIZE_WIDTH = 600;
-    private static final int SIZE_HEIGHT = 400;
+    private static final int SIZE_HEIGHT = 600;
     private static final String WINDOW_TITLE = "Выбор статистики";
     private static final JFrame WINDOW = new JFrame();
     private static final JPanel LIST_STATISTIC = new JPanel();
@@ -41,4 +41,12 @@ class ApplicationWindow {
         LIST_OF_TABS.addTab(DAILY_STATISTIC.getTabName(), DAILY_STATISTIC.getPanelStat());
     }
 
+
+    public static int getSizeWidth() {
+        return SIZE_WIDTH;
+    }
+
+    public static int getSizeHeight() {
+        return SIZE_HEIGHT;
+    }
 }

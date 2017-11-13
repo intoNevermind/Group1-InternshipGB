@@ -1,5 +1,6 @@
 package windowGUI.component.worcStatistics;
 
+import windowGUI.ApplicationWindow;
 import windowGUI.MyCalendar;
 import windowGUI.component.ConfigurationGBL;
 import windowGUI.component.workDB.workProcessingData.ProcessingPersonPageRankTable;
@@ -15,6 +16,11 @@ public abstract class Statistics {
 
     private final GridBagLayout GBL = new GridBagLayout();
     private final ConfigurationGBL CGBL = new ConfigurationGBL();
+
+    private static final int INDENT_WIDTH = 200;
+    private static final int INDENT_HEIGHT = 100;
+    private static final int PANEL_STAT_SIZE_WIDTH = ApplicationWindow.getSizeWidth() - INDENT_WIDTH;
+    private static final int PANEL_STAT_SIZE_HEIGHT = ApplicationWindow.getSizeHeight() - INDENT_HEIGHT;
 
     private final JPanel panelStat = new JPanel();
     private final JPanel optionsPanel = new JPanel();
@@ -43,6 +49,7 @@ public abstract class Statistics {
 
     Statistics() {
         panelStat.setLayout(new BorderLayout());
+        panelStat.setPreferredSize(new Dimension(PANEL_STAT_SIZE_WIDTH, PANEL_STAT_SIZE_HEIGHT));
         optionsPanel.setLayout(GBL);
         panelStat.add(optionsPanel, BorderLayout.NORTH);
     }

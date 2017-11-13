@@ -20,9 +20,10 @@ public class PersonTable extends ConnectServer {
      * <Получение>
      * запросы с помощью которых, можно получить данные из БД
      * */
-    private ArrayList<Integer> getListIDReal() {
+   public ArrayList<Integer> getListIDReal() {
         try {
             Response<ArrayList<Integer>> response = restApiForPersonTable.getListIDFromPersonTable().execute();
+            System.out.println(response.body());
             return response.body();
         } catch (IOException | AssertionError e) {
             e.printStackTrace();
@@ -30,7 +31,7 @@ public class PersonTable extends ConnectServer {
         }
     }
 
-    private ArrayList<String> getListNameReal(){
+    public ArrayList<String> getListNameReal(){
         try {
             Response<ArrayList<String>> response = restApiForPersonTable.getListNameFromPersonTable().execute();
             return response.body();

@@ -1,9 +1,6 @@
 package windowGUI;
 
-import windowGUI.component.workDB.workProcessingData.ProcessingKeyWordsTable;
-
 import javax.swing.*;
-
 
 public class launchApplication {
 

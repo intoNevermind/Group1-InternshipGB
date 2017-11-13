@@ -4,7 +4,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
-import windowGUI.component.workDB.tables.KeyWordsTable;
+
 
 import java.util.ArrayList;
 
