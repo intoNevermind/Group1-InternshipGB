@@ -41,9 +41,10 @@ public class DBWrapper {
         } else if (bucketType == BUCKET_TYPE_PAGES) {
             return "SELECT \"ID\", \"URL\" FROM pages " +
                     "WHERE " +
-                    "\"LastScanDate\" < NOW() - INTERVAL '" + HOURS_BEFORE_UPDATE + " hours' " +
+                    "(\"LastScanDate\" < NOW() - INTERVAL '" + HOURS_BEFORE_UPDATE + " hours' " +
+                    "OR \"LastScanDate\" IS NULL) " +
                     "AND \"InProgress\" = false " +
-                    "ORDER BY \"LastScanDate\"" +
+                    "ORDER BY \"LastScanDate\" " +
                     "LIMIT " + size + " FOR UPDATE";
         } else {
             // Unknown bucket type!
@@ -67,6 +68,8 @@ public class DBWrapper {
 
         String listSql = getBucketlistSql(bucketType, size);
         String lockSql = getBucketlockSql(bucketType, size);
+
+        LogWrapper.info(listSql);
 
         Statement listStatement = null;
         PreparedStatement lockStatement = null;
@@ -148,20 +151,23 @@ public class DBWrapper {
 
     public void addSitePage(String siteUrl, String pageUrl) {
         PreparedStatement preparedStatement = null;
+
         try {
             preparedStatement = connection.prepareStatement("INSERT INTO pages (\"SiteID\", \"URL\", \"FoundDateTime\") " +
                                                             "VALUES ((SELECT \"ID\" FROM sites WHERE \"URL\" = ?), ?, NOW())");
             preparedStatement.setString(1, siteUrl);
             preparedStatement.setString(2, pageUrl);
+
             LogWrapper.info("Running query " + preparedStatement.toString());
             preparedStatement.execute();
-            connection.commit();
+
         } catch (SQLException e) {
-            LogWrapper.info("Query was " + preparedStatement.toString());
-            e.printStackTrace();
+            LogWrapper.info("Query " + preparedStatement.toString() + " failed with exception " + e.getMessage());
+            //e.printStackTrace();
         } finally {
             try {
-                preparedStatement.close();
+               connection.commit();
+               preparedStatement.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
