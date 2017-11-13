@@ -78,8 +78,8 @@ public class TablePersonOperations {
      * @return список всех состояний Active - Integer.
      * @throws SQLException
      */
-    public List<Integer> getActiveFromPersonTable() throws SQLException {
-        List<Integer> resultList = new ArrayList<>();
+    public List<Boolean> getActiveFromPersonTable() throws SQLException {
+        List<Boolean> resultList = new ArrayList<>();
 
         LOG.info("SELECT \"Active\" FROM persons;");
 
@@ -88,7 +88,7 @@ public class TablePersonOperations {
         ResultSet resultSet = statement.executeQuery(sqlQuery);
 
         while (resultSet.next()) {
-            resultList.add(resultSet.getInt("active"));
+            resultList.add(resultSet.getBoolean("active"));
         }
 
         statement.close();

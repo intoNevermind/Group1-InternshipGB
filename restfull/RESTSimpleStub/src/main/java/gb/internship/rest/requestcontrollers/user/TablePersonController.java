@@ -65,8 +65,8 @@ public class TablePersonController {
      * @return список всех состояний Active личностей.
      */
     @RequestMapping(value = {"/user/ui/getActiveFromPersonTable"})
-    public List<Integer> getActiveFromPersonTable() {
-        List<Integer> resultList = new ArrayList<>();
+    public List<Boolean> getActiveFromPersonTable() {
+        List<Boolean> resultList = new ArrayList<>();
         try {
             resultList = tablePersonOperations.getActiveFromPersonTable();
         } catch (Exception ex) {
