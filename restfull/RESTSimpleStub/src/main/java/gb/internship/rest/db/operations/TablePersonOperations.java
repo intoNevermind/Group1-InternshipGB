@@ -75,7 +75,7 @@ public class TablePersonOperations {
     /**
      * Получение значений всех Active из таблицы Persons.
      *
-     * @return список всех состояний Active - Integer.
+     * @return список всех состояний Active - Boolean.
      * @throws SQLException
      */
     public List<Boolean> getActiveFromPersonTable() throws SQLException {
