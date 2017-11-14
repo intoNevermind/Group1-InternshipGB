@@ -1,5 +1,10 @@
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Properties;
+import java.io.InputStream;
 
 /**
  * Created by ferney on 12.11.17.
@@ -14,13 +19,33 @@ public class DBWrapper {
     private Connection connection = null;
 
     public DBWrapper() {
-        // TODO: move DB connection parameters to a config
+
+        final String PATH_TO_PROPERTIES = "config.properties";
+        Properties prop = new Properties();
+        InputStream input = null;
+        // Load properties from file
+
+
         try {
+            try {
+
+                input = new FileInputStream(PATH_TO_PROPERTIES);
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            try {
+
+                prop.load(input);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             connection =
                     DriverManager.getConnection(
-                            "jdbc:postgresql://54.154.158.193:5432/scanner",
-                            "scanner",
-                            "Gvyq4lA06VkpHAb2WxFu2gZib2ORpHGv");
+                            prop.getProperty("database"),
+                            prop.getProperty("dbuser"),
+                            prop.getProperty("dbpassword"));
 
             connection.setAutoCommit(false);
             //connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);

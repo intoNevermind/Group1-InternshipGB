@@ -18,9 +18,6 @@ public class Main {
         CrawlerMainLoop crawlerMainLoop = new CrawlerMainLoop();
         crawlerMainLoop.run();
 
-        /*DBWrapper dbWrapper = new DBWrapper();
-        SiteStructureFetcher siteStructureFetcher = new SiteStructureFetcher();
-        siteStructureFetcher.crawlPage("http://meduza.io/", "meduza.io", dbWrapper);*/
 
     }
 }

@@ -23,18 +23,6 @@ public class CrawlerThreadsLauncher {
     SiteStructureFetcher siteStructureFetcher = new SiteStructureFetcher();
     PersonRankUpdater personRankUpdater = new PersonRankUpdater();
 
-    public void setLinksFromDb(ArrayList<String> linksFromDb) {
-        this.linksFromDb = linksFromDb;
-    }
-
-    public void setLinksFromDbPages(ArrayList<String> linksFromDbPages) {
-        this.linksFromDbPages = linksFromDbPages;
-    }
-
-    public void setKeyWords(ArrayList<String> keyWords) {
-        this.keyWords = keyWords;
-    }
-
     public void startThreads(){
 
         for (int i = 0; i < threadsCount; i++) {
@@ -91,18 +79,6 @@ public class CrawlerThreadsLauncher {
                         }
                     } while (pages.size() > 0);
 
-                    // Rank
-
-
-
-                    /*if (!linksFromDb.isEmpty()) {
-                        for (String s : linksFromDb) {
-                            siteStructureFetcher.updateSiteStructure(s);
-                        }
-                    }
-                    if (!linksFromDbPages.isEmpty()) {
-                        personRankUpdater.updatePersonRanks(linksFromDbPages, keyWords);
-                    }*/
                 } catch (InterruptedException ex) {
                     Thread.currentThread().interrupt();
                 } finally {

@@ -3,7 +3,7 @@
  */
 public class CrawlerMainLoop implements Runnable {
 
-    final long TIME_UPDATE = 60000;
+    final long TIME_UPDATE = 3600000;
     final int NUMBERS_OF_THREADS = 4;
 
     public void run() {
