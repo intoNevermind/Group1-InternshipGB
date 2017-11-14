@@ -2,6 +2,7 @@ package windowGUI.component.workDirectory;
 
 import windowGUI.component.editingDirectoryWindow.AddSiteWindow;
 import windowGUI.component.editingDirectoryWindow.DelSiteWindow;
+import windowGUI.component.editingDirectoryWindow.EditSiteWindow;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -16,10 +17,6 @@ public class SitesDirectory extends Directory{
 
     public SitesDirectory() {
         setTabName(TAB_NAME);
-
-        fillBtnPanel();
-        addActionListenerForBtnAdd();
-        addActionListenerForBtnDel();
 
         dataTable = new JTable(getPSitesT().getArrayFillTable(getColumnNames().length), getColumnNames());
         dataTable.getSelectionModel().addListSelectionListener(this::initSelectedRow);
@@ -51,9 +48,26 @@ public class SitesDirectory extends Directory{
     @Override
     public void visibleWindowDel(ActionEvent actionEvent) {
         if(nameSites == null ){
-            JOptionPane.showMessageDialog(null, "Для удаления сайта необходимо выбрать сайт из списка");
+            JOptionPane.showMessageDialog(null,
+                    "Для удаления сайта необходимо выбрать сайт из списка");
         }else {
-            new DelSiteWindow(getBtnDelete().getText() + " сайт ", nameSites, getPSitesT().getIDSitesByNameSites(nameSites));
+            new DelSiteWindow(getBtnDelete().getText() + " сайт ",
+                    nameSites,
+                    getPSitesT().getIDSitesByNameSites(nameSites));
+        }
+    }
+
+    @Override
+    public void visibleWindowEdit(ActionEvent actionEvent) {
+        if(nameSites == null){
+            JOptionPane.showMessageDialog(null,
+                    "Для редактирования сайта необходимо выбрать сайт из списка");
+        }else {
+            new EditSiteWindow(getBtnEdit().getText() + " сайт ",
+                    nameSites,
+                    getPSitesT().getIDSitesByNameSites(nameSites),
+                    getPSitesT().getURLSitesByNameSites(nameSites),
+                    getPSitesT().getActiveSitesByNameSites(nameSites));
         }
     }
 }

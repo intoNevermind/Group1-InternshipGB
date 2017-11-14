@@ -22,10 +22,6 @@ public class DailyStatistic extends Statistics{
     public DailyStatistic() {
         setTabName(TAB_NAME);
 
-        fillOptionsPanel();
-
-        addActionListenerForListSite();
-        addActionListenerForBtnConfirm();
         addActionListenerForListPerson();
         addActionListenerForStartCalendar();
         addActionListenerForFinishCalendar();

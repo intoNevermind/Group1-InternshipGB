@@ -53,6 +53,7 @@ public abstract class EditingDirectoryWindow {
     public abstract void saveEditing(ActionEvent actionEvent);
 
     public void fillAddPanels(){}
+    public void fillEditPanels(){}
 
     private void addBtnListener(){
         btnSave.addActionListener(this::saveEditing);

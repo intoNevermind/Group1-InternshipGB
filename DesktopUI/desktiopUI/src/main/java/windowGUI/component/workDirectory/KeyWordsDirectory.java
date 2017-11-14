@@ -23,12 +23,9 @@ public class KeyWordsDirectory extends Directory{
         setTabName(TAB_NAME);
 
         fillOptionsPanel();
-        fillBtnPanel();
 
         addActionListenerForListPerson();
         addActionListenerForBtnConfirm();
-        addActionListenerForBtnAdd();
-        addActionListenerForBtnDel();
     }
 
 
@@ -95,4 +92,8 @@ public class KeyWordsDirectory extends Directory{
         }
     }
 
+    @Override
+    public void visibleWindowEdit(ActionEvent actionEvent) {
+
+    }
 }

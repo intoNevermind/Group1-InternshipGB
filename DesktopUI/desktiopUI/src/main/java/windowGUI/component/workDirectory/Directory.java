@@ -52,16 +52,24 @@ public abstract class Directory {
         btnPanel.setLayout(new FlowLayout());
         panelDirectory.add(optionsPanel, BorderLayout.NORTH);
         panelDirectory.add(btnPanel,BorderLayout.SOUTH);
+
+        fillBtnPanel();
+        addActionListenerForBtnAdd();
+        addActionListenerForBtnDel();
+        addActionListenerForBtnEdit();
     }
 
     public abstract void fillBtnPanel();
     public abstract void visibleWindowAdd(ActionEvent actionEvent);
-    public void visibleWindowDel(ActionEvent actionEvent){};
+    public abstract void visibleWindowDel(ActionEvent actionEvent);
+    public abstract void visibleWindowEdit(ActionEvent actionEvent);
 
     public void fillOptionsPanel(){}
     public void initNamePerson(ActionEvent actionEvent){}
     public void initSelectedRow(ListSelectionEvent selectionEvent){}
     public void visibleDataTable(ActionEvent actionEvent){}
+
+
 
     private void removeDataTable(ActionEvent actionEvent) {
         for (int i = 0; i < getPanelDirectory().getComponents().length; i++) {
@@ -87,6 +95,10 @@ public abstract class Directory {
 
     void addActionListenerForBtnDel(){
         btnDelete.addActionListener(this::visibleWindowDel);
+    }
+
+    void addActionListenerForBtnEdit(){
+        btnEdit.addActionListener(this::visibleWindowEdit);
     }
 
 

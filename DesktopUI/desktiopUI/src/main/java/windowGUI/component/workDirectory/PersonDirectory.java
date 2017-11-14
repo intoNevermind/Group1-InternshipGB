@@ -17,9 +17,6 @@ public class PersonDirectory extends Directory{
     public PersonDirectory() {
         setTabName(TAB_NAME);
 
-        fillBtnPanel();
-        addActionListenerForBtnAdd();
-        addActionListenerForBtnDel();
 
         dataTable = new JTable(getPPersonT().getArrayFillTable(getColumnNames().length), getColumnNames());
         dataTable.getSelectionModel().addListSelectionListener(this::initSelectedRow);
@@ -54,5 +51,10 @@ public class PersonDirectory extends Directory{
         }else {
             new DelPersonWindow(getBtnDelete().getText() + " личность ", namePerson, getPPersonT().getIDPersonByNamePerson(namePerson));
         }
+    }
+
+    @Override
+    public void visibleWindowEdit(ActionEvent actionEvent) {
+
     }
 }

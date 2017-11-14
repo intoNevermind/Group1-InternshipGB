@@ -117,6 +117,8 @@ public class SitesTable extends ConnectServer {
     private static final ArrayList<String> listURL = new ArrayList<>();
     private static final ArrayList<Integer> listActive = new ArrayList<>();
     private static final LinkedHashMap<Integer,String> listIDAndName = new LinkedHashMap<>();
+    private static final LinkedHashMap<String,String> listNameAndURL = new LinkedHashMap<>();
+    private static final LinkedHashMap<String,Integer> listNameAndActive = new LinkedHashMap<>();
 
     public ArrayList<Integer> getListID(){
         listID.add(1);
@@ -132,7 +134,7 @@ public class SitesTable extends ConnectServer {
 
     public ArrayList<String> getListURL(){
         listURL.add("http:/lenta.ru/");
-        listURL.add("http:/lenta.ru/");
+        listURL.add("http:/rbk.ru/");
         return listURL;
     }
 
@@ -146,6 +148,18 @@ public class SitesTable extends ConnectServer {
         listIDAndName.put(1,"Лента.ру");
         listIDAndName.put(2,"РБК");
         return listIDAndName;
+    }
+
+    public LinkedHashMap<String, String> getListNameAndURL() {
+        listNameAndURL.put("Лента.ру", "http:/lenta.ru/");
+        listNameAndURL.put("РБК", "http:/rbk.ru/");
+        return listNameAndURL;
+    }
+
+    public LinkedHashMap<String, Integer> getListNameAndActive() {
+        listNameAndActive.put("Лента.ру", 1);
+        listNameAndActive.put("РБК", 0);
+        return listNameAndActive;
     }
 /*
 </ФЕЙК>

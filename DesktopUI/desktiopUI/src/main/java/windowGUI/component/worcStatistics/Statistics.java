@@ -52,6 +52,11 @@ public abstract class Statistics {
         panelStat.setPreferredSize(new Dimension(PANEL_STAT_SIZE_WIDTH, PANEL_STAT_SIZE_HEIGHT));
         optionsPanel.setLayout(GBL);
         panelStat.add(optionsPanel, BorderLayout.NORTH);
+
+        fillOptionsPanel();
+
+        addActionListenerForListSite();
+        addActionListenerForBtnConfirm();
     }
 
     public abstract void fillOptionsPanel();
