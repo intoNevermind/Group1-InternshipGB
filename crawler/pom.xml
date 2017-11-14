@@ -111,8 +111,9 @@
                         </manifest>
                     </archive>
                     <descriptorRefs>
-                        <descriptorRef>-with-dependencies</descriptorRef>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
+                    <finalName>crawler</finalName>
                 </configuration>
                 <executions>
                     <execution>
