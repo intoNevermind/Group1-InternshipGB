@@ -3,35 +3,41 @@ package windowGUI.component.editingDirectoryWindow;
 import windowGUI.ConfigurationsWindowGUI;
 import windowGUI.component.workDB.tables.PersonTable;
 import windowGUI.component.workDirectory.PersonDirectory;
+
+import java.awt.*;
 import java.awt.event.ActionEvent;
+
+import static java.awt.GridBagConstraints.*;
 
 
 public class AddPersonWindow extends EditingDirectoryWindow {
-    private static final PersonDirectory PERSON_DIRECTORY = new PersonDirectory();
 
+    private static final PersonDirectory PERSON_DIRECTORY = new PersonDirectory();
     private static final PersonTable TABLE_PERSON = new PersonTable();
+
 
     public AddPersonWindow(String windowTitle) {
 
         new ConfigurationsWindowGUI().setConfigWindow(getWindow(), windowTitle, getSizeWidth(), getSizeHeight());
-        fillPanels();
-        fillWindow();
-        addBtnListener();
+        fillAddPanels();
+
+        getWindow().add(getTextFieldPanel(), BorderLayout.CENTER);
+
 
     }
     @Override
-    public void fillPanels() {
-        getGBL().setConstraints(getHeadLineTextFieldName(), getCGBL().configSubsidiaryGBC(getHeadLineTextFieldName(),false));
+    public void fillAddPanels() {
+        getGBL().setConstraints(getHeadLineTextFieldName(), getCGBL().configGBCTest(WEST,1,false));
         getTextFieldPanel().add(getHeadLineTextFieldName());
-        getGBL().setConstraints(getValueEntryFieldName(), getCGBL().configSubsidiaryGBC(getValueEntryFieldName(),true));
+        getGBL().setConstraints(getValueEntryFieldName(), getCGBL().configGBCTest(REMAINDER,true));
         getTextFieldPanel().add(getValueEntryFieldName());
 
-        getGBL().setConstraints(getActive(), getCGBL().configSubsidiaryGBC(getActive(),true));
+        getGBL().setConstraints(getActive(), getCGBL().configGBCTest(REMAINDER,true));
         getTextFieldPanel().add(getActive());
 
-        getGBL().setConstraints(getBtnSave(), getCGBL().configSubsidiaryGBC(getBtnSave(),true));
+        getGBL().setConstraints(getBtnSave(), getCGBL().configGBCTest(1,true));
         getBtnPanel().add(getBtnSave());
-        getGBL().setConstraints(getBtnCancel(), getCGBL().configSubsidiaryGBC(getBtnCancel(),false));
+        getGBL().setConstraints(getBtnCancel(), getCGBL().configGBCTest(1,false));
         getBtnPanel().add(getBtnCancel());
     }
 

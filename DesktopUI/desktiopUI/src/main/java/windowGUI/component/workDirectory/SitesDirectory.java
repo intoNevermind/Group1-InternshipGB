@@ -22,7 +22,7 @@ public class SitesDirectory extends Directory{
         addActionListenerForBtnDel();
 
         dataTable = new JTable(getPSitesT().getArrayFillTable(getColumnNames().length), getColumnNames());
-        dataTable.getSelectionModel().addListSelectionListener(this::initNameSites);
+        dataTable.getSelectionModel().addListSelectionListener(this::initSelectedRow);
         dataScrollPane = new JScrollPane(dataTable);
         getPanelDirectory().add(dataScrollPane, BorderLayout.CENTER);
     }
@@ -41,7 +41,7 @@ public class SitesDirectory extends Directory{
     }
 
     @Override
-    public void initNameSites(ListSelectionEvent selectionEvent){
+    public void initSelectedRow(ListSelectionEvent selectionEvent){
         TableModel model = dataTable.getModel();
         Object value = model.getValueAt(dataTable.getSelectedRow(), 0);
         nameSites = (String) value;
@@ -51,9 +51,9 @@ public class SitesDirectory extends Directory{
     @Override
     public void visibleWindowDel(ActionEvent actionEvent) {
         if(nameSites == null ){
-            JOptionPane.showMessageDialog(null, "Для удаления сайта необходимо выбрать \""  + getHeadLinePerson().getText() + "\" ");
+            JOptionPane.showMessageDialog(null, "Для удаления сайта необходимо выбрать сайт из списка");
         }else {
-            new DelSiteWindow(getBtnAdd().getText() + " личность", nameSites, getPSitesT().getIDSitesByNameSites(nameSites));
+            new DelSiteWindow(getBtnDelete().getText() + " сайт ", nameSites, getPSitesT().getIDSitesByNameSites(nameSites));
         }
     }
 }

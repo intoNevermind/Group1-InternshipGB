@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+import static java.awt.GridBagConstraints.*;
+
 public class GeneralStatistic extends Statistics{
     private static final String TAB_NAME = "Общая статистика";
     private static String nameSite;
@@ -19,13 +21,14 @@ public class GeneralStatistic extends Statistics{
         columnNames = new String[]{"Имя", "Количество новых страниц"};
     }
 
+
     @Override
     public void fillOptionsPanel() {
-        getGBL().setConstraints(getHeadlineSite(),getCGBL().configMainGBC(getHeadlineSite(),false));
+        getGBL().setConstraints(getHeadlineSite(),getCGBL().configGBCTest(EAST,1,false));
         getOptionsPanel().add(getHeadlineSite());
-        getGBL().setConstraints(getListSite(),getCGBL().configMainGBC(getListSite(),false));
+        getGBL().setConstraints(getListSite(),getCGBL().configGBCTest(2,false));
         getOptionsPanel().add(getListSite());
-        getGBL().setConstraints(getBtnConfirm(),getCGBL().configMainGBC(getBtnConfirm(),true));
+        getGBL().setConstraints(getBtnConfirm(),getCGBL().configGBCTest(REMAINDER,true));
         getOptionsPanel().add(getBtnConfirm());
     }
 

@@ -23,16 +23,8 @@ public class ProcessingSitesTable extends ProcessingData{
         return convertingListToArray(LIST_NAME_SITES,countColumn);
     }
 
-    public int getIDSitesByNameSites(String namePerson){
-        if (namePerson == null || namePerson.equals(getNotChosen())) return -1;
-        int idPerson = -1;
-        Object[] keyListIDAndAndNamePerson = listIDAndNameSites.keySet().toArray();
-        for (int i = 0; i < listIDAndNameSites.size(); i++) {
-            if(namePerson.equals(listIDAndNameSites.get(i+1))){
-                idPerson = (int) keyListIDAndAndNamePerson[i];
-            }
-        }
-        return idPerson;
+    public int getIDSitesByNameSites(String nameSites){
+        return getIDByName(nameSites,listIDAndNameSites);
     }
 
 }

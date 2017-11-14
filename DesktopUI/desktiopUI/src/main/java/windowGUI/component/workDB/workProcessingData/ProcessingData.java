@@ -47,4 +47,16 @@ public class ProcessingData {
     public static String getNotChosen() {
         return NOT_CHOSEN;
     }
+
+    int getIDByName(String name,LinkedHashMap<Integer,String> list ){
+        if (name == null || name.equals(getNotChosen())) return -1;
+        int id = -1;
+        Object[] keyListIDAndAndNamePerson = list.keySet().toArray();
+        for (int i = 0; i < list.size(); i++) {
+            if(name.equals(list.get(i+1))){
+                id = (int) keyListIDAndAndNamePerson[i];
+            }
+        }
+        return id;
+    }
 }

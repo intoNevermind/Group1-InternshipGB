@@ -23,6 +23,7 @@ public abstract class EditingDirectoryWindow {
 
     private final JPanel textFieldPanel = new JPanel(GBL);
     private final JPanel btnPanel = new JPanel(GBL);
+    private final JPanel panelText = new JPanel(new BorderLayout());
 
     private final JLabel headLineTextFieldName = new JLabel("Наименование");
     private final JTextField valueEntryFieldName = new JTextField();
@@ -35,24 +36,25 @@ public abstract class EditingDirectoryWindow {
     private final JButton btnSave = new JButton("Сохранить");
     private final JButton btnCancel = new JButton("Отмена");
 
-
     private final JCheckBox active = new JCheckBox("Отображать эту запись в списке.");
 
-
-    void fillWindow(){
+    EditingDirectoryWindow() {
         window.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         valueEntryFieldName.setPreferredSize(new Dimension(FIELD_SIZE_WIDTH,FIELD_SIZE_HEIGHT));
         valueEntryFieldURL.setPreferredSize(new Dimension(FIELD_SIZE_WIDTH,FIELD_SIZE_HEIGHT));
 
-        window.add(textFieldPanel, BorderLayout.CENTER);
         window.add(btnPanel,BorderLayout.SOUTH);
+        addBtnListener();
         window.setVisible(true);
     }
 
-    public abstract void fillPanels();
+
+
     public abstract void saveEditing(ActionEvent actionEvent);
 
-    void addBtnListener(){
+    public void fillAddPanels(){}
+
+    private void addBtnListener(){
         btnSave.addActionListener(this::saveEditing);
         btnCancel.addActionListener(this::cancelEditing);
     }
@@ -60,6 +62,22 @@ public abstract class EditingDirectoryWindow {
     private void cancelEditing(ActionEvent actionEvent){
         window.dispose();
     }
+
+    void fillDelPanels(String elementName){
+        headLineTextFieldDel.setText("Вы хотите удалить елемент " + elementName + " ?");
+        panelText.add(headLineTextFieldDel, BorderLayout.CENTER);
+        window.add(panelText, BorderLayout.CENTER);
+
+        btnSave.setText("Да");
+        GBL.setConstraints(btnSave, CGBL.configGBCTest(1,true));
+        btnPanel.add(btnSave);
+
+        btnCancel.setText("Нет");
+        GBL.setConstraints(btnCancel, CGBL.configGBCTest(1,false));
+        btnPanel.add(btnCancel);
+    }
+
+
 
 
     static int getSizeWidth() {
@@ -116,9 +134,5 @@ public abstract class EditingDirectoryWindow {
 
     JCheckBox getActive() {
         return active;
-    }
-
-    public JLabel getHeadLineTextFieldDel() {
-        return headLineTextFieldDel;
     }
 }

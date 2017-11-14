@@ -7,6 +7,7 @@ import windowGUI.component.workDB.restApi.RestApiForKeyWordsTable;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 public class KeyWordsTable extends ConnectServer {
 /*
@@ -93,6 +94,7 @@ public class KeyWordsTable extends ConnectServer {
     private static final ArrayList<Integer> listID = new ArrayList<>();
     private static final ArrayList<String> listName = new ArrayList<>();
     private static final ArrayList<Integer> listPersonID = new ArrayList<>();
+    private static final LinkedHashMap<Integer,String> listIDAndName = new LinkedHashMap<>();
 
     public ArrayList<Integer> getListID(){
         for (int i = 1; i <= 9; i++) {
@@ -125,6 +127,19 @@ public class KeyWordsTable extends ConnectServer {
         listPersonID.add(2);
         listPersonID.add(3);
         return listPersonID;
+    }
+
+    public LinkedHashMap<Integer, String> getListIDAndName() {
+        listIDAndName.put(1,"Путин");
+        listIDAndName.put(2,"Путина");
+        listIDAndName.put(3,"Путину");
+        listIDAndName.put(4,"Путиным");
+        listIDAndName.put(5,"Навальный");
+        listIDAndName.put(6,"Навальным");
+        listIDAndName.put(7,"Навальному");
+        listIDAndName.put(8,"Навального");
+        listIDAndName.put(9,"Собчак");
+        return listIDAndName;
     }
 /*
 </ФЕЙК>

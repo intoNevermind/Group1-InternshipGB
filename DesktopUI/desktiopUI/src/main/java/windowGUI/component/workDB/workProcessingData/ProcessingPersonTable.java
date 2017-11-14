@@ -27,14 +27,6 @@ public class ProcessingPersonTable extends  ProcessingData{
     }
 
     public int getIDPersonByNamePerson(String namePerson){
-        if (namePerson == null || namePerson.equals(getNotChosen())) return -1;
-        int idPerson = -1;
-        Object[] keyListIDAndAndNamePerson = listIDAndNamePerson.keySet().toArray();
-        for (int i = 0; i < listIDAndNamePerson.size(); i++) {
-            if(namePerson.equals(listIDAndNamePerson.get(i+1))){
-                idPerson = (int) keyListIDAndAndNamePerson[i];
-            }
-        }
-        return idPerson;
+       return getIDByName(namePerson,listIDAndNamePerson);
     }
 }

@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.text.SimpleDateFormat;
 
+import static java.awt.GridBagConstraints.*;
+
 public class DailyStatistic extends Statistics{
     private static final String TAB_NAME = "Ежедневная статистика";
 
@@ -30,29 +32,30 @@ public class DailyStatistic extends Statistics{
         columnNames = new String[]{"Дата", "Количество новых страниц"};
     }
 
+
     @Override
     public void fillOptionsPanel() {
-        getGBL().setConstraints(getHeadlineSite(), getCGBL().configMainGBC(getHeadlineSite(),false));
+        getGBL().setConstraints(getHeadlineSite(), getCGBL().configGBCTest(EAST,1,false));
         getOptionsPanel().add(getHeadlineSite());
-        getGBL().setConstraints(getListSite(), getCGBL().configMainGBC(getListSite(),false));
+        getGBL().setConstraints(getListSite(), getCGBL().configGBCTest(2,false));
         getOptionsPanel().add(getListSite());
 
-        getGBL().setConstraints(getHeadlinePersons(), getCGBL().configMainGBC(getHeadlinePersons(),true));
+        getGBL().setConstraints(getHeadlinePersons(), getCGBL().configGBCTest(EAST,1,true));
         getOptionsPanel().add(getHeadlinePersons());
-        getGBL().setConstraints(getListPersons(), getCGBL().configMainGBC(getListPersons(),false));
+        getGBL().setConstraints(getListPersons(), getCGBL().configGBCTest(2,false));
         getOptionsPanel().add(getListPersons());
 
-        getGBL().setConstraints(getHeadlineStartPeriod(), getCGBL().configMainGBC(getHeadlineStartPeriod(), true));
+        getGBL().setConstraints(getHeadlineStartPeriod(), getCGBL().configGBCTest(EAST,1,true));
         getOptionsPanel().add(getHeadlineStartPeriod());
-        getGBL().setConstraints(getStartCalendar(), getCGBL().configMainGBC(getStartCalendar(),false));
+        getGBL().setConstraints(getStartCalendar(), getCGBL().configGBCTest(2,false));
         getOptionsPanel().add(getStartCalendar());
 
-        getGBL().setConstraints(getHeadlineFinishPeriod(), getCGBL().configMainGBC(getHeadlineFinishPeriod(),true));
+        getGBL().setConstraints(getHeadlineFinishPeriod(), getCGBL().configGBCTest(EAST,1,true));
         getOptionsPanel().add(getHeadlineFinishPeriod());
-        getGBL().setConstraints(getFinishCalendar(), getCGBL().configMainGBC(getFinishCalendar(),false));
+        getGBL().setConstraints(getFinishCalendar(), getCGBL().configGBCTest(2,false));
         getOptionsPanel().add(getFinishCalendar());
 
-        getGBL().setConstraints(getBtnConfirm(), getCGBL().configMainGBC(getBtnConfirm(), true));
+        getGBL().setConstraints(getBtnConfirm(), getCGBL().configGBCTest(REMAINDER,true));
         getOptionsPanel().add(getBtnConfirm());
     }
 

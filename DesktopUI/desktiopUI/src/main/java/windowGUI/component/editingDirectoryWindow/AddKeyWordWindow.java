@@ -4,14 +4,15 @@ import windowGUI.ConfigurationsWindowGUI;
 import windowGUI.component.workDB.tables.KeyWordsTable;
 import windowGUI.component.workDirectory.KeyWordsDirectory;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 
+import static java.awt.GridBagConstraints.*;
 
 
 public class AddKeyWordWindow extends EditingDirectoryWindow{
 
     private static final KeyWordsDirectory KEY_WORDS_DIRECTORY = new KeyWordsDirectory();
-
     private static final KeyWordsTable TABLE_KEY_WORDS = new KeyWordsTable();
     private int personID;
 
@@ -19,21 +20,23 @@ public class AddKeyWordWindow extends EditingDirectoryWindow{
         this.personID = personID;
         new ConfigurationsWindowGUI().setConfigWindow(getWindow(), windowTitle, getSizeWidth(), getSizeHeight());
 
-        fillPanels();
-        fillWindow();
-        addBtnListener();
+        fillAddPanels();
+
+        getWindow().add(getTextFieldPanel(), BorderLayout.CENTER);
+
     }
 
+
     @Override
-    public void fillPanels() {
-        getGBL().setConstraints(getHeadLineTextFieldName(), getCGBL().configSubsidiaryGBC(getHeadLineTextFieldName(),false));
+    public void fillAddPanels() {
+        getGBL().setConstraints(getHeadLineTextFieldName(), getCGBL().configGBCTest(WEST,1,false));
         getTextFieldPanel().add(getHeadLineTextFieldName());
-        getGBL().setConstraints(getValueEntryFieldName(), getCGBL().configSubsidiaryGBC(getValueEntryFieldName(),true));
+        getGBL().setConstraints(getValueEntryFieldName(), getCGBL().configGBCTest(REMAINDER,true));
         getTextFieldPanel().add(getValueEntryFieldName());
 
-        getGBL().setConstraints(getBtnSave(), getCGBL().configSubsidiaryGBC(getBtnSave(),true));
+        getGBL().setConstraints(getBtnSave(), getCGBL().configGBCTest(1,true));
         getBtnPanel().add(getBtnSave());
-        getGBL().setConstraints(getBtnCancel(), getCGBL().configSubsidiaryGBC(getBtnCancel(),false));
+        getGBL().setConstraints(getBtnCancel(), getCGBL().configGBCTest(1,false));
         getBtnPanel().add(getBtnCancel());
     }
     @Override

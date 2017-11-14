@@ -13,6 +13,8 @@ public class ProcessingKeyWordsTable extends  ProcessingData{
     private static final KeyWordsTable TABLE_KEY_WORDS = new KeyWordsTable();
     private static final ArrayList<Integer> LIST_PERSON_ID_KEY_WORDS = TABLE_KEY_WORDS.getListPersonID();
     private static final ArrayList<String> LIST_NAME_KEY_WORDS = TABLE_KEY_WORDS.getListName();
+    private static final LinkedHashMap<Integer, String> listIDAndNameKeyWords = TABLE_KEY_WORDS.getListIDAndName();
+
 
     @Override
     public Object[][] getArrayFillTable(String strNamePerson, int countColumn){
@@ -33,5 +35,9 @@ public class ProcessingKeyWordsTable extends  ProcessingData{
             }
         }
         return listNameKeyWordsByNamePerson;
+    }
+
+    public int getIDKeyWordByNameKeyWord(String nameKeyWord){
+        return getIDByName(nameKeyWord,listIDAndNameKeyWords);
     }
 }

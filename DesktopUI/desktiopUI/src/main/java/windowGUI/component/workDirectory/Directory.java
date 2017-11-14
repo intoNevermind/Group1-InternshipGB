@@ -9,8 +9,7 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+
 
 public abstract class Directory {
     private String tabName ;
@@ -61,7 +60,7 @@ public abstract class Directory {
 
     public void fillOptionsPanel(){}
     public void initNamePerson(ActionEvent actionEvent){}
-    public void initNameSites(ListSelectionEvent selectionEvent){}
+    public void initSelectedRow(ListSelectionEvent selectionEvent){}
     public void visibleDataTable(ActionEvent actionEvent){}
 
     private void removeDataTable(ActionEvent actionEvent) {
