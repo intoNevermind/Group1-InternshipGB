@@ -12,29 +12,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by agcheb on 13.11.17.
+ * Created by agcheb on 14.11.17.
  */
-public class TablePersonOperations {
+public class TableSitesOperations {
     private Log LOG = LogFactory.getLog(UsersUiSitesDbOperation.class);
 
     private Connection connection;
 
-    public TablePersonOperations() {
+    public TableSitesOperations() {
         this.connection = DbWrapper.getInstance().getConnection();;
     }
 
     /**
-     * Получение всех ID личностей из таблицы persons.
+     * Получение всех ID сайтов из таблицы sites.
      *
      * @return список всех ID - Integer.
      * @throws SQLException
      */
-    public List<Integer> getIDFromPersonTable() throws SQLException {
+    public List<Integer> getIDFromSitesTable() throws SQLException {
         List<Integer> resultList = new ArrayList<>();
 
-        LOG.info("SELECT \"ID\" FROM persons;");
+        LOG.info("SELECT \"ID\" FROM sites;");
 
-        String sqlQuery = "SELECT \"ID\" FROM persons;";
+        String sqlQuery = "SELECT \"ID\" FROM sites;";
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sqlQuery);
 
@@ -49,17 +49,17 @@ public class TablePersonOperations {
 
 
     /**
-     * Получение всех Имен личностей из таблицы Persons.
+     * Получение всех Имен сайтов из таблицы sites.
      *
-     * @return список всех имен - String.
+     * @return список всех имен сайтов - String.
      * @throws SQLException
      */
-    public List<String> getNameFromPersonTable() throws SQLException {
+    public List<String> getNameFromSitesTable() throws SQLException {
         List<String> resultList = new ArrayList<>();
 
-        LOG.info("SELECT \"Name\" FROM persons;");
+        LOG.info("SELECT \"Name\" FROM sites;");
 
-        String sqlQuery = "SELECT \"Name\" FROM persons;";
+        String sqlQuery = "SELECT \"Name\" FROM sites;";
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sqlQuery);
 
@@ -72,18 +72,43 @@ public class TablePersonOperations {
         return resultList;
     }
 
+
     /**
-     * Получение значений всех Active из таблицы Persons.
+     * Получение всех URL сайтов из таблицы sites.
+     *
+     * @return список всех URL сайтов - String.
+     * @throws SQLException
+     */
+    public List<String> getURLFromSitesTable() throws SQLException {
+        List<String> resultList = new ArrayList<>();
+
+        LOG.info("SELECT \"URL\" FROM sites;");
+
+        String sqlQuery = "SELECT \"URL\" FROM sites;";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sqlQuery);
+
+        while (resultSet.next()) {
+            resultList.add(resultSet.getString("url"));
+        }
+
+        statement.close();
+
+        return resultList;
+    }
+
+    /**
+     * Получение значений всех Active из таблицы sites.
      *
      * @return список всех состояний Active - Boolean.
      * @throws SQLException
      */
-    public List<Boolean> getActiveFromPersonTable() throws SQLException {
+    public List<Boolean> getActiveFromSitesTable() throws SQLException {
         List<Boolean> resultList = new ArrayList<>();
 
-        LOG.info("SELECT \"Active\" FROM persons;");
+        LOG.info("SELECT \"Active\" FROM sites;");
 
-        String sqlQuery = "SELECT \"Active\" FROM persons;";
+        String sqlQuery = "SELECT \"Active\" FROM sites;";
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sqlQuery);
 
