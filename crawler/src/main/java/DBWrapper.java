@@ -59,9 +59,10 @@ public class DBWrapper {
         if (bucketType == BUCKET_TYPE_SITES) {
             return "SELECT \"ID\", \"URL\" FROM sites s " +
                     "WHERE " +
-                    "(SELECT count(1) FROM pages p WHERE p.\"SiteID\" = s.\"ID\") = 0 " +
-                    "AND \"InProgress\" = false " +
-                    "AND \"LastUpdated\" < NOW() - INTERVAL '" + HOURS_BEFORE_UPDATE + " hours' " +
+                      "\"InProgress\" = false " +
+                    "AND (" +
+                      "(SELECT count(1) FROM pages p WHERE p.\"SiteID\" = s.\"ID\") = 0 " +
+                      "OR \"LastUpdated\" < NOW() - INTERVAL '" + HOURS_BEFORE_UPDATE + " hours') " +
                     "LIMIT " + size + " FOR UPDATE";
         } else if (bucketType == BUCKET_TYPE_PAGES) {
             return "SELECT \"ID\", \"URL\" FROM pages " +
