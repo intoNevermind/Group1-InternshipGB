@@ -1,8 +1,6 @@
 package windowGUI.component.workDirectory;
 
-import windowGUI.component.editingDirectoryWindow.AddKeyWordWindow;
-import windowGUI.component.editingDirectoryWindow.DelKeyWordWindow;
-import windowGUI.component.editingDirectoryWindow.DelSiteWindow;
+import windowGUI.component.editingDirectoryWindow.*;
 import windowGUI.component.workDB.workProcessingData.ProcessingData;
 
 import javax.swing.*;
@@ -28,7 +26,6 @@ public class KeyWordsDirectory extends Directory{
         addActionListenerForBtnConfirm();
     }
 
-
     @Override
     public void fillOptionsPanel() {
         getGBL().setConstraints(getHeadLinePerson(),getCGBL().configGBCTest(EAST,1,false));
@@ -40,13 +37,6 @@ public class KeyWordsDirectory extends Directory{
     }
 
     @Override
-    public void fillBtnPanel() {
-        getBtnPanel().add(getBtnAdd());
-        getBtnPanel().add(getBtnEdit());
-        getBtnPanel().add(getBtnDelete());
-    }
-
-    @Override
     public void initNamePerson(ActionEvent actionEvent) {
         JComboBox box = (JComboBox)actionEvent.getSource();
         namePerson = (String)box.getSelectedItem();
@@ -55,9 +45,9 @@ public class KeyWordsDirectory extends Directory{
     @Override
     public void visibleDataTable(ActionEvent actionEvent){
         if(namePerson == null || namePerson.equals(ProcessingData.getNotChosen())){
-            JOptionPane.showMessageDialog(null, "Для просмотра ключевых слов необходимо выбрать \""  + getHeadLinePerson().getText() + "\" ");
+            JOptionPane.showMessageDialog(null,
+                    "Для просмотра ключевых слов необходимо выбрать \""  + getHeadLinePerson().getText() + "\" ");
         }
-
         dataTable = new JTable(getPKeyWordsT().getArrayFillTable(namePerson, getColumnNames().length), getColumnNames());
         dataScrollPane = new JScrollPane(dataTable);
         getPanelDirectory().add(dataScrollPane, BorderLayout.CENTER);
@@ -69,9 +59,11 @@ public class KeyWordsDirectory extends Directory{
     @Override
     public void visibleWindowAdd(ActionEvent actionEvent){
         if(namePerson == null || namePerson.equals("Не выбранно")){
-            JOptionPane.showMessageDialog(null, "Для добавления ключевых слов необходимо выбрать \""  + getHeadLinePerson().getText() + "\" ");
+            JOptionPane.showMessageDialog(null,
+                    "Для добавления ключевых слов необходимо выбрать \""  + getHeadLinePerson().getText() + "\" ");
         }else {
-            new AddKeyWordWindow(getBtnAdd().getText() + " новое ключевое слово для личности: " + namePerson, getPPersonT().getIDPersonByNamePerson(namePerson));
+            new AddKeyWordWindow(getBtnAdd().getText() + " новое ключевое слово для личности: " + namePerson,
+                    getPPersonT().getIDPersonByNamePerson(namePerson));
         }
     }
 
@@ -86,7 +78,8 @@ public class KeyWordsDirectory extends Directory{
     @Override
     public void visibleWindowDel(ActionEvent actionEvent) {
         if(nameKeyWord == null ){
-            JOptionPane.showMessageDialog(null, "Для удаления ключевого слова необходимо выбрать ключевое слово из списка");
+            JOptionPane.showMessageDialog(null,
+                    "Для удаления ключевого слова необходимо выбрать ключевое слово из списка");
         }else {
             new DelKeyWordWindow(getBtnDelete().getText() + " ключевое слово ", nameKeyWord, getPKeyWordsT().getIDKeyWordByNameKeyWord(nameKeyWord));
         }
@@ -94,6 +87,14 @@ public class KeyWordsDirectory extends Directory{
 
     @Override
     public void visibleWindowEdit(ActionEvent actionEvent) {
-
+        if(nameKeyWord == null){
+            JOptionPane.showMessageDialog(null,
+                    "Для редактирования ключевого слова необходимо выбрать ключевое слово из списка");
+        }else {
+            new EditKeyWordWindow(getBtnEdit().getText() + " ключевое слово ",
+                    nameKeyWord,
+                    getPKeyWordsT().getIDKeyWordByNameKeyWord(nameKeyWord),
+                    getPPersonT().getIDPersonByNamePerson(namePerson));
+        }
     }
 }

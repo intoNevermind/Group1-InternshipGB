@@ -1,13 +1,13 @@
 package windowGUI.component.workDB.workProcessingData;
 
 import windowGUI.component.workDB.tables.SitesTable;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 public class ProcessingSitesTable extends ProcessingData{
-    private static final SitesTable TABLE_SITES = new SitesTable();
+    private static final SitesTable TABLE_SITES = SitesTable.getInstance();
     private static final ArrayList<String> LIST_NAME_SITES = TABLE_SITES.getListName();
-    private static final ArrayList<String> LIST_URL_SITES = TABLE_SITES.getListURL();
     private static final LinkedHashMap<Integer, String> listIDAndNameSites = TABLE_SITES.getListIDAndName();
     private static final LinkedHashMap<String, String> listNameAndURL = TABLE_SITES.getListNameAndURL();
     private static final LinkedHashMap<String, Integer> listNameAndActive = TABLE_SITES.getListNameAndActive();
@@ -33,7 +33,7 @@ public class ProcessingSitesTable extends ProcessingData{
     public String getURLSitesByNameSites(String nameSites){
         if (nameSites == null || nameSites.equals(getNotChosen())) return "";
         String URL = "";
-        Object[] keyListNameAndURL = listNameAndURL.keySet().toArray();//имена сайтов
+        Object[] keyListNameAndURL = listNameAndURL.keySet().toArray();
         for (int i = 0; i < listNameAndURL.size(); i++) {
             if(nameSites.equals(keyListNameAndURL[i])){
                 URL = listNameAndURL.get(nameSites);
@@ -43,14 +43,6 @@ public class ProcessingSitesTable extends ProcessingData{
     }
 
     public boolean getActiveSitesByNameSites(String nameSites){
-        if (nameSites == null || nameSites.equals(getNotChosen())) return false;
-        boolean active = false;
-        Object[] keyListNameAndURL = listNameAndActive.keySet().toArray();//имена сайтов
-        for (int i = 0; i < listNameAndActive.size(); i++) {
-            if(nameSites.equals(keyListNameAndURL[i])){
-                active = listNameAndActive.get(nameSites) == 1;
-            }
-        }
-        return active;
+        return getActiveByName(nameSites,listNameAndActive);
     }
 }

@@ -14,5 +14,4 @@ public interface RestApiForPersonPageRankTable {
 
     @GET("/user/ui/getRankFromPersonPageRankTable")
     Call<ArrayList<Integer>> getListRankFromPersonPageRankTable();//получить на выходе ArrayList<Integer>, содержащий все значения колонки Rank из таблицы PersonPageRank
-
 }

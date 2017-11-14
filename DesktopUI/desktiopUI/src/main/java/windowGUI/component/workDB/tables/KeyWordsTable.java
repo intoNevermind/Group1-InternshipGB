@@ -57,7 +57,7 @@ public class KeyWordsTable extends ConnectServer {
      * <Отправка>
      * запросы с помощью которых, можно отправить данные в БД
      * */
-    public void addKeyWord(String keyWordName, int personID){
+    public void addKeyWordReal(String keyWordName, int personID){
         try {
             Response<ResponseBody> response = restApiForKeyWordsTable.addKeyWord(keyWordName,personID).execute();
         } catch (IOException e) {
@@ -65,15 +65,16 @@ public class KeyWordsTable extends ConnectServer {
         }
     }
 
-    public void delKeyWord(int keyWordID){
+    public void delKeyWordReal(int keyWordID){
         try {
             Response<ResponseBody> response = restApiForKeyWordsTable.delKeyWord(keyWordID).execute();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void modifyKeyWord(int keyWordID, String keyWordName , int personID){
+    public void modifyKeyWordReal(int keyWordID, String keyWordName , int personID){
         try {
             Response<ResponseBody> response = restApiForKeyWordsTable.modifyKeyWord(keyWordID, keyWordName, personID).execute();
         } catch (IOException e) {
@@ -96,14 +97,20 @@ public class KeyWordsTable extends ConnectServer {
     private static final ArrayList<Integer> listPersonID = new ArrayList<>();
     private static final LinkedHashMap<Integer,String> listIDAndName = new LinkedHashMap<>();
 
-    public ArrayList<Integer> getListID(){
+    private static KeyWordsTable instance;
+
+    public static KeyWordsTable getInstance() {
+        if(instance == null){
+            instance = new KeyWordsTable();
+        }
+        return instance;
+    }
+
+    private KeyWordsTable() {
         for (int i = 1; i <= 9; i++) {
             listID.add(i);
         }
-        return listID;
-    }
 
-    public ArrayList<String> getListName(){
         listName.add("Путин");
         listName.add("Путинa");
         listName.add("Путинy");
@@ -113,10 +120,7 @@ public class KeyWordsTable extends ConnectServer {
         listName.add("Навальному");
         listName.add("Навального");
         listName.add("Собчак");
-        return listName;
-    }
 
-    public ArrayList<Integer> getListPersonID(){
         listPersonID.add(1);
         listPersonID.add(1);
         listPersonID.add(1);
@@ -126,10 +130,7 @@ public class KeyWordsTable extends ConnectServer {
         listPersonID.add(2);
         listPersonID.add(2);
         listPersonID.add(3);
-        return listPersonID;
-    }
 
-    public LinkedHashMap<Integer, String> getListIDAndName() {
         listIDAndName.put(1,"Путин");
         listIDAndName.put(2,"Путина");
         listIDAndName.put(3,"Путину");
@@ -139,6 +140,31 @@ public class KeyWordsTable extends ConnectServer {
         listIDAndName.put(7,"Навальному");
         listIDAndName.put(8,"Навального");
         listIDAndName.put(9,"Собчак");
+    }
+
+    public static void addKeyWord(String keyWordName, int personID){
+    }
+
+    public static void delKeyWord(int keyWordID){
+    }
+
+    public static void modifyKeyWord(int keyWordID, String keyWordName , int personID){
+
+    }
+
+    public static ArrayList<Integer> getListID(){
+        return listID;
+    }
+
+    public static ArrayList<String> getListName(){
+        return listName;
+    }
+
+    public static ArrayList<Integer> getListPersonID(){
+        return listPersonID;
+    }
+
+    public static LinkedHashMap<Integer, String> getListIDAndName() {
         return listIDAndName;
     }
 /*

@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 public class ProcessingKeyWordsTable extends  ProcessingData{
-    private static final PersonTable TABLE_PERSON = new PersonTable();
+    private static final PersonTable TABLE_PERSON = PersonTable.getInstance();
     private static final LinkedHashMap<Integer,String> LIST_ID_AND_NAME_PERSON = TABLE_PERSON.getListIDAndName();
 
-    private static final KeyWordsTable TABLE_KEY_WORDS = new KeyWordsTable();
+    private static final KeyWordsTable TABLE_KEY_WORDS = KeyWordsTable.getInstance();
     private static final ArrayList<Integer> LIST_PERSON_ID_KEY_WORDS = TABLE_KEY_WORDS.getListPersonID();
     private static final ArrayList<String> LIST_NAME_KEY_WORDS = TABLE_KEY_WORDS.getListName();
     private static final LinkedHashMap<Integer, String> listIDAndNameKeyWords = TABLE_KEY_WORDS.getListIDAndName();

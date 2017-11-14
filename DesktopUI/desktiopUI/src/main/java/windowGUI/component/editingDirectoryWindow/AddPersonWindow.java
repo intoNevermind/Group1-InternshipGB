@@ -6,25 +6,19 @@ import windowGUI.component.workDirectory.PersonDirectory;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
-
 import static java.awt.GridBagConstraints.*;
 
-
 public class AddPersonWindow extends EditingDirectoryWindow {
-
     private static final PersonDirectory PERSON_DIRECTORY = new PersonDirectory();
-    private static final PersonTable TABLE_PERSON = new PersonTable();
-
+    private static final PersonTable TABLE_PERSON = PersonTable.getInstance();
 
     public AddPersonWindow(String windowTitle) {
-
         new ConfigurationsWindowGUI().setConfigWindow(getWindow(), windowTitle, getSizeWidth(), getSizeHeight());
+
         fillAddPanels();
-
         getWindow().add(getTextFieldPanel(), BorderLayout.CENTER);
-
-
     }
+
     @Override
     public void fillAddPanels() {
         getGBL().setConstraints(getHeadLineTextFieldName(), getCGBL().configGBCTest(WEST,1,false));
@@ -41,7 +35,6 @@ public class AddPersonWindow extends EditingDirectoryWindow {
         getBtnPanel().add(getBtnCancel());
     }
 
-
     @Override
     public void saveEditing(ActionEvent actionEvent) {
         if(getValueEntryFieldName().getText() != null){
@@ -52,6 +45,4 @@ public class AddPersonWindow extends EditingDirectoryWindow {
         getValueEntryFieldName().setText(null);
         getWindow().dispose();
     }
-
-
 }

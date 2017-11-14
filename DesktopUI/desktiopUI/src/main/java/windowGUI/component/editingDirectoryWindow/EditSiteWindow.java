@@ -6,28 +6,28 @@ import windowGUI.component.workDirectory.SitesDirectory;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
-
 import static java.awt.GridBagConstraints.REMAINDER;
 import static java.awt.GridBagConstraints.WEST;
 
 public class EditSiteWindow extends EditingDirectoryWindow{
     private static final SitesDirectory SITES_DIRECTORY = new SitesDirectory();
-    private static final SitesTable TABLE_SITES = new SitesTable();
+    private static final SitesTable TABLE_SITES = SitesTable.getInstance();
     private String sitesName;
     private String sitesURL;
-    private boolean personActive;
+    private boolean keyWordActive;
     private int sitesID;
 
-    public EditSiteWindow(String windowTitle, String sitesName, int sitesID, String sitesURL, boolean personActive) {
+    public EditSiteWindow(String windowTitle, String sitesName, int sitesID, String sitesURL, boolean keyWordActive) {
         this.sitesName = sitesName;
         this.sitesURL = sitesURL;
-        this.personActive = personActive;
+        this.keyWordActive = keyWordActive;
         this.sitesID = sitesID;
+
         new ConfigurationsWindowGUI().setConfigWindow(getWindow(), windowTitle, getSizeWidth(), getSizeHeight());
+
         fillEditPanels();
         getWindow().add(getTextFieldPanel(), BorderLayout.CENTER);
     }
-
 
     @Override
     public void fillEditPanels() {
@@ -43,7 +43,7 @@ public class EditSiteWindow extends EditingDirectoryWindow{
         getGBL().setConstraints(getValueEntryFieldURL(), getCGBL().configGBCTest(REMAINDER,true));
         getTextFieldPanel().add(getValueEntryFieldURL());
 
-        getActive().setSelected(personActive);
+        getActive().setSelected(keyWordActive);
         getGBL().setConstraints(getActive(), getCGBL().configGBCTest(REMAINDER,true));
         getTextFieldPanel().add(getActive());
 

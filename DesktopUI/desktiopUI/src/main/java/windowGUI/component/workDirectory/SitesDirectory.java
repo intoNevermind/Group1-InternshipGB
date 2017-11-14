@@ -6,7 +6,6 @@ import windowGUI.component.editingDirectoryWindow.EditSiteWindow;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
-
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -25,14 +24,6 @@ public class SitesDirectory extends Directory{
     }
 
     @Override
-    public void fillBtnPanel() {
-        getBtnPanel().add(getBtnAdd());
-        getBtnPanel().add(getBtnEdit());
-        getBtnPanel().add(getBtnDelete());
-    }
-
-
-    @Override
     public void visibleWindowAdd(ActionEvent actionEvent) {
         new AddSiteWindow(getBtnAdd().getText() + " новую личность");
     }
@@ -42,7 +33,6 @@ public class SitesDirectory extends Directory{
         TableModel model = dataTable.getModel();
         Object value = model.getValueAt(dataTable.getSelectedRow(), 0);
         nameSites = (String) value;
-
     }
 
     @Override

@@ -120,45 +120,63 @@ public class SitesTable extends ConnectServer {
     private static final LinkedHashMap<String,String> listNameAndURL = new LinkedHashMap<>();
     private static final LinkedHashMap<String,Integer> listNameAndActive = new LinkedHashMap<>();
 
-    public ArrayList<Integer> getListID(){
+
+    private static SitesTable instance;
+
+    public static SitesTable getInstance() {
+        if(instance == null){
+            instance = new SitesTable();
+        }
+        return instance;
+    }
+
+    private SitesTable() {
         listID.add(1);
         listID.add(2);
+
+        listName.add("Лента.ру");
+        listName.add("РБК");
+
+        listURL.add("http:/lenta.ru/");
+        listURL.add("http:/rbk.ru/");
+
+        listActive.add(0);
+        listActive.add(1);
+
+        listIDAndName.put(1,"Лента.ру");
+        listIDAndName.put(2,"РБК");
+
+        listNameAndURL.put("Лента.ру", "http:/lenta.ru/");
+        listNameAndURL.put("РБК", "http:/rbk.ru/");
+    }
+
+    public static ArrayList<Integer> getListID(){
         return listID;
     }
 
-    public ArrayList<String> getListName(){
-        listName.add("Лента.ру");
-        listName.add("РБК");
+    public static ArrayList<String> getListName(){
         return listName;
     }
 
-    public ArrayList<String> getListURL(){
-        listURL.add("http:/lenta.ru/");
-        listURL.add("http:/rbk.ru/");
+    public static ArrayList<String> getListURL(){
         return listURL;
     }
 
-    public ArrayList<Integer> getListActive(){
-        listActive.add(0);
-        listActive.add(1);
+    public static ArrayList<Integer> getListActive(){
         return listActive;
     }
 
-    public LinkedHashMap<Integer, String> getListIDAndName() {
-        listIDAndName.put(1,"Лента.ру");
-        listIDAndName.put(2,"РБК");
+    public static LinkedHashMap<Integer, String> getListIDAndName() {
         return listIDAndName;
     }
 
-    public LinkedHashMap<String, String> getListNameAndURL() {
-        listNameAndURL.put("Лента.ру", "http:/lenta.ru/");
-        listNameAndURL.put("РБК", "http:/rbk.ru/");
+    public static LinkedHashMap<String, String> getListNameAndURL() {
         return listNameAndURL;
     }
 
     public LinkedHashMap<String, Integer> getListNameAndActive() {
         listNameAndActive.put("Лента.ру", 1);
-        listNameAndActive.put("РБК", 0);
+        listNameAndActive.put("РБК", 1);
         return listNameAndActive;
     }
 /*

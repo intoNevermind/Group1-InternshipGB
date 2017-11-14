@@ -1,6 +1,5 @@
 package windowGUI.component.editingDirectoryWindow;
 
-
 import windowGUI.component.ConfigurationGBL;
 
 import javax.swing.*;
@@ -8,7 +7,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public abstract class EditingDirectoryWindow {
-
     private static final int SIZE_WIDTH = 600;
     private static final int SIZE_HEIGHT = 200;
 
@@ -19,19 +17,18 @@ public abstract class EditingDirectoryWindow {
     private final JFrame window = new JFrame();
 
     private static final GridBagLayout GBL = new GridBagLayout();
-    private final ConfigurationGBL CGBL = new ConfigurationGBL();
+    private static final ConfigurationGBL CGBL = new ConfigurationGBL();
 
     private final JPanel textFieldPanel = new JPanel(GBL);
     private final JPanel btnPanel = new JPanel(GBL);
     private final JPanel panelText = new JPanel(new BorderLayout());
 
     private final JLabel headLineTextFieldName = new JLabel("Наименование");
-    private final JTextField valueEntryFieldName = new JTextField();
-
     private final JLabel headLineTextFieldURL = new JLabel("URL");
-    private final JTextField valueEntryFieldURL = new JTextField();
-
     private final JLabel headLineTextFieldDel = new JLabel();
+
+    private final JTextField valueEntryFieldName = new JTextField();
+    private final JTextField valueEntryFieldURL = new JTextField();
 
     private final JButton btnSave = new JButton("Сохранить");
     private final JButton btnCancel = new JButton("Отмена");
@@ -40,6 +37,7 @@ public abstract class EditingDirectoryWindow {
 
     EditingDirectoryWindow() {
         window.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+
         valueEntryFieldName.setPreferredSize(new Dimension(FIELD_SIZE_WIDTH,FIELD_SIZE_HEIGHT));
         valueEntryFieldURL.setPreferredSize(new Dimension(FIELD_SIZE_WIDTH,FIELD_SIZE_HEIGHT));
 
@@ -48,21 +46,10 @@ public abstract class EditingDirectoryWindow {
         window.setVisible(true);
     }
 
-
-
     public abstract void saveEditing(ActionEvent actionEvent);
 
     public void fillAddPanels(){}
     public void fillEditPanels(){}
-
-    private void addBtnListener(){
-        btnSave.addActionListener(this::saveEditing);
-        btnCancel.addActionListener(this::cancelEditing);
-    }
-
-    private void cancelEditing(ActionEvent actionEvent){
-        window.dispose();
-    }
 
     void fillDelPanels(String elementName){
         headLineTextFieldDel.setText("Вы хотите удалить елемент " + elementName + " ?");
@@ -78,13 +65,18 @@ public abstract class EditingDirectoryWindow {
         btnPanel.add(btnCancel);
     }
 
+    private void addBtnListener(){
+        btnSave.addActionListener(this::saveEditing);
+        btnCancel.addActionListener(this::cancelEditing);
+    }
 
-
+    private void cancelEditing(ActionEvent actionEvent){
+        window.dispose();
+    }
 
     static int getSizeWidth() {
         return SIZE_WIDTH;
     }
-
     static int getSizeHeight() {
         return SIZE_HEIGHT;
     }
@@ -93,44 +85,39 @@ public abstract class EditingDirectoryWindow {
         return window;
     }
 
-    JLabel getHeadLineTextFieldName() {
-        return headLineTextFieldName;
+    static GridBagLayout getGBL() {
+        return GBL;
     }
-
-    JTextField getValueEntryFieldName() {
-        return valueEntryFieldName;
-    }
-
-    JLabel getHeadLineTextFieldURL() {
-        return headLineTextFieldURL;
-    }
-
-    JTextField getValueEntryFieldURL() {
-        return valueEntryFieldURL;
+    static ConfigurationGBL getCGBL() {
+        return CGBL;
     }
 
     JPanel getBtnPanel() {
         return btnPanel;
     }
-
     JPanel getTextFieldPanel() {
         return textFieldPanel;
+    }
+
+    JLabel getHeadLineTextFieldName() {
+        return headLineTextFieldName;
+    }
+    JLabel getHeadLineTextFieldURL() {
+        return headLineTextFieldURL;
+    }
+
+    JTextField getValueEntryFieldName() {
+        return valueEntryFieldName;
+    }
+    JTextField getValueEntryFieldURL() {
+        return valueEntryFieldURL;
     }
 
     JButton getBtnSave() {
         return btnSave;
     }
-
     JButton getBtnCancel() {
         return btnCancel;
-    }
-
-    GridBagLayout getGBL() {
-        return GBL;
-    }
-
-    ConfigurationGBL getCGBL() {
-        return CGBL;
     }
 
     JCheckBox getActive() {

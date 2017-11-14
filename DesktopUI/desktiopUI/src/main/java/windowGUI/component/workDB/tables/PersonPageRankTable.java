@@ -56,53 +56,56 @@ public class PersonPageRankTable extends ConnectServer {
     private static final ArrayList<Integer> listPageID = new ArrayList<>();
     private static final ArrayList<Integer> listRank = new ArrayList<>();
 
-    public ArrayList<Integer> getListPersonID() {
-        listPersonID.add(1);
-        listPersonID.add(1);
-        listPersonID.add(1);
-        listPersonID.add(1);
-        listPersonID.add(1);
-        listPersonID.add(1);
+    private static PersonPageRankTable instance;
 
-        listPersonID.add(2);
-        listPersonID.add(2);
-        listPersonID.add(2);
-        listPersonID.add(2);
-        listPersonID.add(2);
-        listPersonID.add(2);
-
-        listPersonID.add(3);
-        listPersonID.add(3);
-        listPersonID.add(3);
-        listPersonID.add(3);
-        listPersonID.add(3);
-        listPersonID.add(3);
-        return listPersonID;
+    public static PersonPageRankTable getInstance() {
+        if(instance == null){
+            instance = new PersonPageRankTable();
+        }
+        return instance;
     }
 
-    public ArrayList<Integer> getListPageID() {
-        listPageID.add(1);
-        listPageID.add(2);
-        listPageID.add(3);
-        listPageID.add(4);
-        listPageID.add(5);
-        listPageID.add(6);
-        listPageID.add(1);
-        listPageID.add(2);
-        listPageID.add(3);
-        listPageID.add(4);
-        listPageID.add(5);
-        listPageID.add(6);
-        listPageID.add(1);
-        listPageID.add(2);
-        listPageID.add(3);
-        listPageID.add(4);
-        listPageID.add(5);
-        listPageID.add(6);
-        return listPageID;
-    }
+    private PersonPageRankTable() {
+        listPersonID.add(1);
+        listPersonID.add(1);
+        listPersonID.add(1);
+        listPersonID.add(1);
+        listPersonID.add(1);
+        listPersonID.add(1);
 
-    public ArrayList<Integer> getListRank() {
+        listPersonID.add(2);
+        listPersonID.add(2);
+        listPersonID.add(2);
+        listPersonID.add(2);
+        listPersonID.add(2);
+        listPersonID.add(2);
+
+        listPersonID.add(3);
+        listPersonID.add(3);
+        listPersonID.add(3);
+        listPersonID.add(3);
+        listPersonID.add(3);
+        listPersonID.add(3);
+
+        listPageID.add(1);
+        listPageID.add(2);
+        listPageID.add(3);
+        listPageID.add(4);
+        listPageID.add(5);
+        listPageID.add(6);
+        listPageID.add(1);
+        listPageID.add(2);
+        listPageID.add(3);
+        listPageID.add(4);
+        listPageID.add(5);
+        listPageID.add(6);
+        listPageID.add(1);
+        listPageID.add(2);
+        listPageID.add(3);
+        listPageID.add(4);
+        listPageID.add(5);
+        listPageID.add(6);
+
         listRank.add(9);
         listRank.add(7);
         listRank.add(6);
@@ -121,6 +124,17 @@ public class PersonPageRankTable extends ConnectServer {
         listRank.add(0);
         listRank.add(20);
         listRank.add(19);
+    }
+
+    public static ArrayList<Integer> getListPersonID() {
+        return listPersonID;
+    }
+
+    public static ArrayList<Integer> getListPageID() {
+        return listPageID;
+    }
+
+    public static ArrayList<Integer> getListRank() {
         return listRank;
     }
 /*

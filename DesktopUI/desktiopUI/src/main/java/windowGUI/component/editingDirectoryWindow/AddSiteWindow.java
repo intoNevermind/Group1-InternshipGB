@@ -6,23 +6,19 @@ import windowGUI.component.workDirectory.SitesDirectory;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
-
 import static java.awt.GridBagConstraints.*;
 
 public class AddSiteWindow extends EditingDirectoryWindow {
     private static final SitesDirectory SITES_DIRECTORY = new SitesDirectory();
 
-    private static final SitesTable TABLE_SITES = new SitesTable();
-
+    private static final SitesTable TABLE_SITES = SitesTable.getInstance();
 
     public AddSiteWindow(String windowTitle) {
         new ConfigurationsWindowGUI().setConfigWindow(getWindow(), windowTitle, getSizeWidth(), getSizeHeight());
         fillAddPanels();
 
         getWindow().add(getTextFieldPanel(), BorderLayout.CENTER);
-
     }
-
 
     @Override
     public void fillAddPanels() {

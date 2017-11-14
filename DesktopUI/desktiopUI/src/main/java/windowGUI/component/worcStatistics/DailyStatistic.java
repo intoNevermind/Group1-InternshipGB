@@ -1,12 +1,12 @@
 package windowGUI.component.worcStatistics;
 
 import windowGUI.component.workDB.workProcessingData.ProcessingData;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.text.SimpleDateFormat;
-
 import static java.awt.GridBagConstraints.*;
 
 public class DailyStatistic extends Statistics{
@@ -27,7 +27,6 @@ public class DailyStatistic extends Statistics{
         addActionListenerForFinishCalendar();
         columnNames = new String[]{"Дата", "Количество новых страниц"};
     }
-
 
     @Override
     public void fillOptionsPanel() {
@@ -85,14 +84,16 @@ public class DailyStatistic extends Statistics{
         if(startDate == null) str += " \"" + getHeadlineStartPeriod().getText() + "\" ";
         if(finishDate == null) str += " \"" + getHeadlineFinishPeriod().getText() + "\" ";
         if(!str.equals("")) {
-            JOptionPane.showMessageDialog(null, "Для просмотра ежедневной статистики необходимо выбрать " + str);
+            JOptionPane.showMessageDialog(null,
+                    "Для просмотра ежедневной статистики необходимо выбрать " + str);
         }
-
         dataTable = new JTable(getPPersonPageRankT().getArrayFillTable(nameSite,namePerson,startDate,finishDate, columnNames.length), columnNames);
         dataScrollPane = new JScrollPane(dataTable);
         getPanelStat().add(dataScrollPane, BorderLayout.CENTER);
         dataScrollPane.setVisible(true);
-        numberPagesTotal.setText("Общее количество новых страниц за выбранный период: " + getPPersonPageRankT().getIntNumberPagesTotal(nameSite,namePerson,startDate,finishDate));
+
+        numberPagesTotal.setText("Общее количество новых страниц за выбранный период: " +
+                getPPersonPageRankT().getIntNumberPagesTotal(nameSite,namePerson,startDate,finishDate));
         getPanelStat().add(numberPagesTotal, BorderLayout.SOUTH);
         numberPagesTotal.setVisible(true);
         getPanelStat().updateUI();

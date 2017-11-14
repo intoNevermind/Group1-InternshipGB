@@ -5,43 +5,41 @@ import windowGUI.component.ConfigurationGBL;
 import windowGUI.component.workDB.workProcessingData.ProcessingKeyWordsTable;
 import windowGUI.component.workDB.workProcessingData.ProcessingPersonTable;
 import windowGUI.component.workDB.workProcessingData.ProcessingSitesTable;
+
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-
 public abstract class Directory {
-    private String tabName ;
-
-    private final GridBagLayout GBL = new GridBagLayout();
-    private final ConfigurationGBL CGBL = new ConfigurationGBL();
+    private String tabName;
 
     private static final int INDENT_WIDTH = 200;
     private static final int INDENT_HEIGHT = 100;
     private static final int PANEL_DIRECTORY_SIZE_WIDTH = ApplicationWindow.getSizeWidth() - INDENT_WIDTH;
     private static final int PANEL_DIRECTORY_SIZE_HEIGHT = ApplicationWindow.getSizeHeight() - INDENT_HEIGHT;
 
+    private static final GridBagLayout GBL = new GridBagLayout();
+    private static final ConfigurationGBL CGBL = new ConfigurationGBL();
+
     private final JPanel panelDirectory = new JPanel();
     private final JPanel optionsPanel = new JPanel();
     private final JPanel btnPanel = new JPanel();
 
+    private static final ProcessingPersonTable P_PERSON_T = new ProcessingPersonTable();
+    private static final ProcessingKeyWordsTable P_KEY_WORDS_T = new ProcessingKeyWordsTable();
+    private static final ProcessingSitesTable P_SITES_T = new ProcessingSitesTable();
 
     private final JLabel headLinePerson = new JLabel("Личности");
 
-    private static final ProcessingPersonTable PPersonT = new ProcessingPersonTable();
-    private final JComboBox<String> listPersons = new JComboBox<>(PPersonT.getColumnName());
+    private final JComboBox<String> listPersons = new JComboBox<>(P_PERSON_T.getColumnName());
 
     private final JButton btnConfirm = new JButton("Подтвердить");
     private final JButton btnAdd = new JButton("Добавить");
     private final JButton btnDelete = new JButton("Удалить");
     private final JButton btnEdit = new JButton("Редактировать");
-
-    private final ProcessingKeyWordsTable PKeyWordsT = new ProcessingKeyWordsTable();
-    private final ProcessingSitesTable PSitesT = new ProcessingSitesTable();
-
-
     private final String[] columnNames = new String[]{"Наименование"};
+
     JTable dataTable;
     JScrollPane dataScrollPane;
 
@@ -54,12 +52,12 @@ public abstract class Directory {
         panelDirectory.add(btnPanel,BorderLayout.SOUTH);
 
         fillBtnPanel();
+
         addActionListenerForBtnAdd();
         addActionListenerForBtnDel();
         addActionListenerForBtnEdit();
     }
 
-    public abstract void fillBtnPanel();
     public abstract void visibleWindowAdd(ActionEvent actionEvent);
     public abstract void visibleWindowDel(ActionEvent actionEvent);
     public abstract void visibleWindowEdit(ActionEvent actionEvent);
@@ -69,7 +67,11 @@ public abstract class Directory {
     public void initSelectedRow(ListSelectionEvent selectionEvent){}
     public void visibleDataTable(ActionEvent actionEvent){}
 
-
+    private void fillBtnPanel(){
+        getBtnPanel().add(getBtnAdd());
+        getBtnPanel().add(getBtnEdit());
+        getBtnPanel().add(getBtnDelete());
+    }
 
     private void removeDataTable(ActionEvent actionEvent) {
         for (int i = 0; i < getPanelDirectory().getComponents().length; i++) {
@@ -78,6 +80,18 @@ public abstract class Directory {
             }
         }
         getPanelDirectory().updateUI();
+    }
+
+    private void addActionListenerForBtnAdd(){
+        btnAdd.addActionListener(this::visibleWindowAdd);
+    }
+
+    private void addActionListenerForBtnDel(){
+        btnDelete.addActionListener(this::visibleWindowDel);
+    }
+
+    private void addActionListenerForBtnEdit(){
+        btnEdit.addActionListener(this::visibleWindowEdit);
     }
 
     void addActionListenerForListPerson(){
@@ -89,45 +103,38 @@ public abstract class Directory {
         btnConfirm.addActionListener(this::visibleDataTable);
     }
 
-    void addActionListenerForBtnAdd(){
-        btnAdd.addActionListener(this::visibleWindowAdd);
-    }
-
-    void addActionListenerForBtnDel(){
-        btnDelete.addActionListener(this::visibleWindowDel);
-    }
-
-    void addActionListenerForBtnEdit(){
-        btnEdit.addActionListener(this::visibleWindowEdit);
-    }
-
-
     public String getTabName() {
         return tabName;
     }
-
     void setTabName(String tabName) {
         this.tabName = tabName;
+    }
+
+    static GridBagLayout getGBL() {
+        return GBL;
+    }
+    static ConfigurationGBL getCGBL() {
+        return CGBL;
     }
 
     public JPanel getPanelDirectory() {
         return panelDirectory;
     }
-
     JPanel getOptionsPanel() {
         return optionsPanel;
     }
-
     JPanel getBtnPanel() {
         return btnPanel;
     }
 
-    GridBagLayout getGBL() {
-        return GBL;
+    static ProcessingPersonTable getPPersonT() {
+        return P_PERSON_T;
     }
-
-    ConfigurationGBL getCGBL() {
-        return CGBL;
+    static ProcessingKeyWordsTable getPKeyWordsT() {
+        return P_KEY_WORDS_T;
+    }
+    static ProcessingSitesTable getPSitesT() {
+        return P_SITES_T;
     }
 
     JLabel getHeadLinePerson() {
@@ -141,29 +148,14 @@ public abstract class Directory {
     JButton getBtnConfirm() {
         return btnConfirm;
     }
-
     JButton getBtnAdd() {
         return btnAdd;
     }
-
     JButton getBtnDelete() {
         return btnDelete;
     }
-
     JButton getBtnEdit() {
         return btnEdit;
-    }
-
-    static ProcessingPersonTable getPPersonT() {
-        return PPersonT;
-    }
-
-    ProcessingKeyWordsTable getPKeyWordsT() {
-        return PKeyWordsT;
-    }
-
-    ProcessingSitesTable getPSitesT() {
-        return PSitesT;
     }
 
     String[] getColumnNames() {

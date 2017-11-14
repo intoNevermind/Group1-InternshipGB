@@ -11,20 +11,20 @@ import java.util.*;
 
 
 public class ProcessingPersonPageRankTable extends  ProcessingData{
-    private static final PersonTable TABLE_PERSON = new PersonTable();
+    private static final PersonTable TABLE_PERSON = PersonTable.getInstance();
     private static final LinkedHashMap<Integer,String> LIST_ID_AND_NAME_PERSON = TABLE_PERSON.getListIDAndName();
 
-    private static final PersonPageRankTable TABLE_PERSON_PAGE_RANK = new PersonPageRankTable();
+    private static final PersonPageRankTable TABLE_PERSON_PAGE_RANK = PersonPageRankTable.getInstance();
     private static final ArrayList<Integer> LIST_PERSON_ID_PERSON_PAGE_RANK = TABLE_PERSON_PAGE_RANK.getListPersonID();
     private static final ArrayList<Integer> LIST_PAGE_ID_PERSON_PAGE_RANK = TABLE_PERSON_PAGE_RANK.getListPageID();
     private static final ArrayList<Integer> LIST_RANK_PERSON_PAGE_RANK = TABLE_PERSON_PAGE_RANK.getListRank();
 
-    private static final PagesTable TABLE_PAGES = new PagesTable();
+    private static final PagesTable TABLE_PAGES = PagesTable.getInstance();
     private static final ArrayList<Integer> LIST_SITES_ID_PAGES = TABLE_PAGES.getListSiteID();
     private static final ArrayList<Integer> LIST_ID_PAGES = TABLE_PAGES.getListID();
     private static final LinkedHashMap<Integer,Date> LIST_ID_AND_FOUND_DATE_TIME_PAGES = TABLE_PAGES.getListIDAndFoundDateTime();
 
-    private static final SitesTable TABLE_SITES = new SitesTable();
+    private static final SitesTable TABLE_SITES = SitesTable.getInstance();
     private static final LinkedHashMap<Integer,String> LIST_ID_AND_NAME_SITES = TABLE_SITES.getListIDAndName();
     /*
     * Метод, возвращающий двумерный массив для передачи в конструктор таблицы общей статистики

@@ -20,7 +20,7 @@ public class PersonTable extends ConnectServer {
      * <Получение>
      * запросы с помощью которых, можно получить данные из БД
      * */
-   public ArrayList<Integer> getListIDReal() {
+    public ArrayList<Integer> getListIDReal() {
         try {
             Response<ArrayList<Integer>> response = restApiForPersonTable.getListIDFromPersonTable().execute();
             System.out.println(response.body());
@@ -105,32 +105,56 @@ public class PersonTable extends ConnectServer {
     private static final ArrayList<String> listName = new ArrayList<>();
     private static final ArrayList<Integer> listActive = new ArrayList<>();
     private static final LinkedHashMap<Integer,String> listIDAndName = new LinkedHashMap<>();
+    private static final LinkedHashMap<String,Integer> listNameAndActive = new LinkedHashMap<>();
 
-    public ArrayList<Integer> getListID(){
+    private static PersonTable instance;
+
+    public static PersonTable getInstance() {
+        if(instance == null){
+            instance = new PersonTable();
+        }
+        return instance;
+    }
+
+    private PersonTable() {
         listID.add(1);
         listID.add(2);
         listID.add(3);
-        return listID;
-    }
 
-    public ArrayList<String> getListName(){
         listName.add("Путин");
         listName.add("Навальный");
         listName.add("Собчак");
-        return listName;
-    }
 
-    public ArrayList<Integer> getListActive(){
         listActive.add(0);
         listActive.add(1);
-        return listActive;
-    }
 
-    public LinkedHashMap<Integer, String> getListIDAndName() {
         listIDAndName.put(1,"Путин");
         listIDAndName.put(2,"Навальный");
         listIDAndName.put(3,"Собчак");
+
+        listNameAndActive.put("Путин", 1);
+        listNameAndActive.put("Навальный", 1);
+        listNameAndActive.put("Собчак", 1);
+    }
+
+    public static ArrayList<Integer> getListID(){
+        return listID;
+    }
+
+    public static ArrayList<String> getListName(){
+        return listName;
+    }
+
+    public static ArrayList<Integer> getListActive(){
+        return listActive;
+    }
+
+    public static LinkedHashMap<Integer, String> getListIDAndName() {
         return listIDAndName;
+    }
+
+    public static LinkedHashMap<String, Integer> getListNameAndActive() {
+        return listNameAndActive;
     }
 /*
 </ФЕЙК>

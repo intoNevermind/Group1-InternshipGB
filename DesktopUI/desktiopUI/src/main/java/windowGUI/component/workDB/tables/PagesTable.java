@@ -82,7 +82,16 @@ public class PagesTable extends ConnectServer {
     private static final ArrayList<Date> listLastScanDate = new ArrayList<>();
     private static final LinkedHashMap<Integer,Date> listIDAndFoundDateTime = new LinkedHashMap<>();
 
-    public  LinkedHashMap<Integer,Date> getListIDAndFoundDateTime() {
+    private static PagesTable instance;
+
+    public static PagesTable getInstance() {
+        if(instance == null){
+            instance = new PagesTable();
+        }
+        return instance;
+    }
+
+    private PagesTable() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Date date = sdf.parse("2017-11-01 09:43:00");
@@ -101,41 +110,28 @@ public class PagesTable extends ConnectServer {
         }catch (ParseException e) {
             e.printStackTrace();
         }
-        return listIDAndFoundDateTime;
-    }
 
-    public ArrayList<Integer> getListID(){
         listID.add(1);
         listID.add(2);
         listID.add(3);
         listID.add(4);
         listID.add(5);
         listID.add(6);
-        return listID;
-    }
 
-    public ArrayList<String> getListURL(){
         listURL.add("https://lenta.ru/news/2017/10/31/okueva/");
         listURL.add("https://lenta.ru/news/2017/10/25/malakhov_navalny/");
         listURL.add("https://lenta.ru/news/2017/10/26/navalny/");
         listURL.add("http://www.rbc.ru/politics/30/10/2017/59f726639a794714c553b09e");
         listURL.add("http://www.rbc.ru/politics/27/10/2017/59f345049a79475ffd648fec");
         listURL.add("http://www.rbc.ru/politics/27/10/2017/59f345049a79475ffd648fec");
-        return listURL;
-    }
 
-    public ArrayList<Integer> getListSiteID(){
         listSiteID.add(1);
         listSiteID.add(1);
         listSiteID.add(1);
         listSiteID.add(2);
         listSiteID.add(2);
         listSiteID.add(2);
-        return listSiteID;
-    }
 
-    public  ArrayList<Date> getListFoundDateTime(){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Date date = sdf.parse("2017-11-01 09:43:00");
             Date date1 = sdf.parse("2017-11-02 09:43:00");
@@ -154,11 +150,7 @@ public class PagesTable extends ConnectServer {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return listFoundDateTime;
-    }
 
-    public  ArrayList<Date> getListLastScanDate(){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Date date = sdf.parse("2017-11-06 09:43:00");
             Date date1 = sdf.parse("2017-11-06 09:43:00");
@@ -177,6 +169,29 @@ public class PagesTable extends ConnectServer {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    public static LinkedHashMap<Integer,Date> getListIDAndFoundDateTime() {
+        return listIDAndFoundDateTime;
+    }
+
+    public static ArrayList<Integer> getListID(){
+        return listID;
+    }
+
+    public static ArrayList<String> getListURL(){
+        return listURL;
+    }
+
+    public static ArrayList<Integer> getListSiteID(){
+        return listSiteID;
+    }
+
+    public static ArrayList<Date> getListFoundDateTime(){
+        return listFoundDateTime;
+    }
+
+    public static ArrayList<Date> getListLastScanDate(){
         return listLastScanDate;
     }
 /*
