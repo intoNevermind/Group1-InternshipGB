@@ -31,7 +31,7 @@ public class UserUIGeneralStatisticsController {
      * @param site     ключевое слово.
      * @return список всех рейтингов личностей.
      */
-    @RequestMapping("/user/ui/getGeneralStatistics")
+    @RequestMapping("/unauthorized/user/ui/getGeneralStatistics")
     public List<PersonGeneralStatistic> getGeneralStatistic(@RequestParam(value = "site") String site) {
         List<PersonGeneralStatistic> resultList = new ArrayList<>();
         if ("".equals(site)) {
