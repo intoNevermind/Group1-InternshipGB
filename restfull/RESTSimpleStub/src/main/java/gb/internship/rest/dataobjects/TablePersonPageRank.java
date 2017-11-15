@@ -1,21 +1,22 @@
 package gb.internship.rest.dataobjects;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
- * @author баранов
+ * @author баранов, Aleksandr Vvedensky
  * Класс для работы с таблицей PersonPageRank
  */
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TablePersonPageRank {
 
-    private Integer persnoID;
+    private Integer personId;
     private Integer pageID;
     private Integer rank;
 
-    public Integer getPersnoID() { return persnoID; }
+    public Integer getPersonId() { return personId; }
 
-    public void setPersnoID(Integer persnoID) { this.persnoID = persnoID;    }
+    public void setPersonId(Integer personId) { this.personId = personId;    }
 
     public Integer getPageID() {        return pageID;    }
 
@@ -27,8 +28,8 @@ public class TablePersonPageRank {
 
 
 
-    public TablePersonPageRank(Integer persnoID, Integer pageID, Integer rank) {
-        this.persnoID = persnoID;
+    public TablePersonPageRank(Integer personId, Integer pageID, Integer rank) {
+        this.personId = personId;
         this.pageID = pageID;
         this.rank = rank;
    }
