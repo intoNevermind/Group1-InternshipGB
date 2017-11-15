@@ -11,14 +11,8 @@ public interface RestApiForKeyWordsTable {
 * <Получение>
 * запросы с помощью которых, можно получить данные из БД
 * */
-    @GET("/user/ui/getIDFromKeyWordsTable")
-    Call<ArrayList<Integer>> getListIDFromKeyWordsTable();//получить на выходе ArrayList<Integer>, содержащий все значения колонки ID из таблицы KeyWorlds
-
-    @GET("/user/ui/getNameFromKeyWordsTable")
-    Call<ArrayList<String>> getListNameFromKeyWordsTable();//получить на выходе ArrayList<String>, содержащий все значения колонки Name из таблицы PKeyWorlds
-
-    @GET("/user/ui/getPersonIDFromKeyWordsTable")
-    Call<ArrayList<Integer>> getListPersonIDFromKeyWordsTable();//получить на выходе ArrayList<Integer>, содержащий все значения колонки PersonID из таблицы KeyWorlds
+    @GET("getAllKeywords")
+    Call<ArrayList<PojoKeyWords>> getListAllKeyWords();
 /*
 * </Получение>
 * */
@@ -27,14 +21,14 @@ public interface RestApiForKeyWordsTable {
 * <Отправка>
 * запросы с помощью которых, можно отправить данные в БД
 * */
-    @GET("/admin/ui/addKeyword")
+    @GET("addKeyword")
     Call<ResponseBody> addKeyWord(@Query("KeyWordName") String keyWordName ,
                                   @Query("PersonID") int personID);// добавляет ключевое слово по ID личности в БД
 
-    @GET("/admin/ui/delKeyword")
+    @GET("delKeyword")
     Call<ResponseBody> delKeyWord(@Query("KeyWordID") int keyWordID);// удаляет ключевое слово по ID из БД
 
-    @GET("/admin/ui/modifyKeyword")
+    @GET("modifyKeyword")
     Call<ResponseBody> modifyKeyWord(@Query("KeyWordID") int keyWordID,
                                      @Query("KeyWordName") String keyWordName ,
                                      @Query("PersonID") int personID);// редактирует имя ключевого слова и ID личности по ID ключевого слова(сам ID редоктировать нельзя)

@@ -10,7 +10,7 @@ public class ProcessingPersonTable extends  ProcessingData{
     private static final PersonTable TABLE_PERSON = PersonTable.getInstance();
     private static final ArrayList<String> LIST_NAME_PERSON = TABLE_PERSON.getListName();
     private static final LinkedHashMap<Integer, String> listIDAndNamePerson = TABLE_PERSON.getListIDAndName();
-    private static final LinkedHashMap<String, Integer> listNameAndActive = TABLE_PERSON.getListNameAndActive();
+    private static final LinkedHashMap<String, Boolean> listNameAndActive = TABLE_PERSON.getListNameAndActive();
 
     public String[] getColumnName(){
         String[] str = new String[LIST_NAME_PERSON.size()+1];

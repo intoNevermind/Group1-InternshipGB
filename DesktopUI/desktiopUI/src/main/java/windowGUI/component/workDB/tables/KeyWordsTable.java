@@ -3,6 +3,7 @@ package windowGUI.component.workDB.tables;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 import windowGUI.component.workDB.ConnectServer;
+import windowGUI.component.workDB.restApi.PojoKeyWords;
 import windowGUI.component.workDB.restApi.RestApiForKeyWordsTable;
 
 import java.io.IOException;
@@ -15,43 +16,62 @@ public class KeyWordsTable extends ConnectServer {
 Часть кода которая будет использоваться с реальными данными из базы
 */
     private RestApiForKeyWordsTable restApiForKeyWordsTable = getRetrofit().create(RestApiForKeyWordsTable.class);
+    private static final ArrayList<Integer> listID = new ArrayList<>();
+    private static final ArrayList<String> listName = new ArrayList<>();
+    private static final ArrayList<Integer> listPersonID = new ArrayList<>();
+    private static final LinkedHashMap<Integer,String> listIDAndName = new LinkedHashMap<>();
+    private static KeyWordsTable instance;
 
+    public static KeyWordsTable getInstance() {
+        if(instance == null){
+            instance = new KeyWordsTable();
+        }
+        return instance;
+    }
+
+    private KeyWordsTable() {
+        infoAllKeyWords();
+    }
     /*
      * <Получение>
      * запросы с помощью которых, можно получить данные из БД
      * */
-    private ArrayList<Integer> getListIDReal() {
-        try {
-            Response<ArrayList<Integer>> response = restApiForKeyWordsTable.getListIDFromKeyWordsTable().execute();
-            return response.body();
-        } catch (IOException | AssertionError e) {
-            e.printStackTrace();
-            return  new ArrayList<>();
-        }
-    }
 
-    private ArrayList<String> getListNameReal(){
+    private void infoAllKeyWords(){
         try {
-            Response<ArrayList<String>> response = restApiForKeyWordsTable.getListNameFromKeyWordsTable().execute();
-            return response.body();
-        } catch (IOException | AssertionError e) {
-            e.printStackTrace();
-            return  new ArrayList<>();
-        }
-    }
-
-    public ArrayList<Integer> getListPersonIDReal(){
-        try {
-            Response<ArrayList<Integer>> response = restApiForKeyWordsTable.getListPersonIDFromKeyWordsTable().execute();
-            return response.body();
+            Response response = restApiForKeyWordsTable.getListAllKeyWords().execute();
+            ArrayList<PojoKeyWords> list = (ArrayList<PojoKeyWords>) response.body();
+            for (int i = 0; i < list.size(); i++) {
+                listID.add(list.get(i).getId());
+                listName.add(list.get(i).getName());
+                listPersonID.add(list.get(i).getPersonId());
+            }
         } catch (IOException e) {
             e.printStackTrace();
-            return  new ArrayList<>();
         }
+    }
+
+    private ArrayList<Integer> getListID() {
+        return listID;
+    }
+
+    public ArrayList<String> getListName(){
+        return listName;
+    }
+
+    public ArrayList<Integer> getListPersonID(){
+        return listPersonID;
     }
     /*
      * </Получение>
      * */
+
+    public LinkedHashMap<Integer, String> getListIDAndName() {
+        for (int i = 0; i < listID.size(); i++) {
+            listIDAndName.put(getListID().get(i),getListName().get(i));
+        }
+        return listIDAndName;
+    }
 
     /*
      * <Отправка>
@@ -86,88 +106,5 @@ public class KeyWordsTable extends ConnectServer {
      * */
 /*
 </РЕАЛ>
-*/
-
-/*
-<ФЕЙК>
-Часть кода для проверки работоспособности обработки данных из БД
-*/
-    private static final ArrayList<Integer> listID = new ArrayList<>();
-    private static final ArrayList<String> listName = new ArrayList<>();
-    private static final ArrayList<Integer> listPersonID = new ArrayList<>();
-    private static final LinkedHashMap<Integer,String> listIDAndName = new LinkedHashMap<>();
-
-    private static KeyWordsTable instance;
-
-    public static KeyWordsTable getInstance() {
-        if(instance == null){
-            instance = new KeyWordsTable();
-        }
-        return instance;
-    }
-
-    private KeyWordsTable() {
-        for (int i = 1; i <= 9; i++) {
-            listID.add(i);
-        }
-
-        listName.add("Путин");
-        listName.add("Путинa");
-        listName.add("Путинy");
-        listName.add("Путиным");
-        listName.add("Навальный");
-        listName.add("Навальным");
-        listName.add("Навальному");
-        listName.add("Навального");
-        listName.add("Собчак");
-
-        listPersonID.add(1);
-        listPersonID.add(1);
-        listPersonID.add(1);
-        listPersonID.add(1);
-        listPersonID.add(2);
-        listPersonID.add(2);
-        listPersonID.add(2);
-        listPersonID.add(2);
-        listPersonID.add(3);
-
-        listIDAndName.put(1,"Путин");
-        listIDAndName.put(2,"Путина");
-        listIDAndName.put(3,"Путину");
-        listIDAndName.put(4,"Путиным");
-        listIDAndName.put(5,"Навальный");
-        listIDAndName.put(6,"Навальным");
-        listIDAndName.put(7,"Навальному");
-        listIDAndName.put(8,"Навального");
-        listIDAndName.put(9,"Собчак");
-    }
-
-    public static void addKeyWord(String keyWordName, int personID){
-    }
-
-    public static void delKeyWord(int keyWordID){
-    }
-
-    public static void modifyKeyWord(int keyWordID, String keyWordName , int personID){
-
-    }
-
-    public static ArrayList<Integer> getListID(){
-        return listID;
-    }
-
-    public static ArrayList<String> getListName(){
-        return listName;
-    }
-
-    public static ArrayList<Integer> getListPersonID(){
-        return listPersonID;
-    }
-
-    public static LinkedHashMap<Integer, String> getListIDAndName() {
-        return listIDAndName;
-    }
-/*
-</ФЕЙК>
 */
 }

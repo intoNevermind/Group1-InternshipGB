@@ -10,7 +10,7 @@ public class ProcessingSitesTable extends ProcessingData{
     private static final ArrayList<String> LIST_NAME_SITES = TABLE_SITES.getListName();
     private static final LinkedHashMap<Integer, String> listIDAndNameSites = TABLE_SITES.getListIDAndName();
     private static final LinkedHashMap<String, String> listNameAndURL = TABLE_SITES.getListNameAndURL();
-    private static final LinkedHashMap<String, Integer> listNameAndActive = TABLE_SITES.getListNameAndActive();
+    private static final LinkedHashMap<String, Boolean> listNameAndActive = TABLE_SITES.getListNameAndActive();
 
     public String[] getArrayNameSites(){
         String[] str = new String[LIST_NAME_SITES.size()+1];

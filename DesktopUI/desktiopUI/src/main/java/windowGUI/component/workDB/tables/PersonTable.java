@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 import windowGUI.component.workDB.ConnectServer;
+import windowGUI.component.workDB.restApi.PojoPersons;
 import windowGUI.component.workDB.restApi.RestApiForPersonTable;
 
 public class PersonTable extends ConnectServer {
@@ -15,52 +16,69 @@ public class PersonTable extends ConnectServer {
 Часть кода которая будет использоваться с реальными данными из базы
 */
     private RestApiForPersonTable restApiForPersonTable = getRetrofit().create(RestApiForPersonTable.class);
-    private static final LinkedHashMap<Integer,String> listIDAndNameReal = new LinkedHashMap<>();
+
+    private static final ArrayList<Integer> listID = new ArrayList<>();
+    private static final ArrayList<String> listName = new ArrayList<>();
+    private static final ArrayList<Boolean> listActive = new ArrayList<>();
+    private static final LinkedHashMap<Integer,String> listIDAndName = new LinkedHashMap<>();
+    private static final LinkedHashMap<String,Boolean> listNameAndActive = new LinkedHashMap<>();
+
+    private static PersonTable instance;
+
+    public static PersonTable getInstance() {
+        if(instance == null){
+            instance = new PersonTable();
+        }
+        return instance;
+    }
+
+    private PersonTable() {
+        infoAllPersons();
+    }
     /*
      * <Получение>
      * запросы с помощью которых, можно получить данные из БД
      * */
-    public ArrayList<Integer> getListIDReal() {
+    private void infoAllPersons(){
         try {
-            Response<ArrayList<Integer>> response = restApiForPersonTable.getListIDFromPersonTable().execute();
-            System.out.println(response.body());
-            return response.body();
-        } catch (IOException | AssertionError e) {
-            e.printStackTrace();
-            return new ArrayList<>();
-        }
-    }
-
-    public ArrayList<String> getListNameReal(){
-        try {
-            Response<ArrayList<String>> response = restApiForPersonTable.getListNameFromPersonTable().execute();
-            return response.body();
-        } catch (IOException | AssertionError e) {
-            e.printStackTrace();
-            return new ArrayList<>();
-        }
-    }
-
-    public ArrayList<Integer> getListActiveReal(){
-        try {
-            Response<ArrayList<Integer>> response = restApiForPersonTable.getListActiveFromPersonTable().execute();
-            return response.body();
+            Response response = restApiForPersonTable.getListAllPersons().execute();
+            ArrayList<PojoPersons> list = (ArrayList<PojoPersons>) response.body();
+            for (int i = 0; i < list.size(); i++) {
+                listID.add(list.get(i).getId());
+                listName.add(list.get(i).getName());
+                listActive.add(list.get(i).getActive());
+            }
         } catch (IOException e) {
             e.printStackTrace();
-            return new ArrayList<>();
         }
+    }
+
+    private ArrayList<Integer> getListID() {
+        return listID;
+    }
+
+    public ArrayList<String> getListName(){
+       return listName;
+    }
+
+    private ArrayList<Boolean> getListActive(){
+       return listActive;
     }
     /*
      * </Получение>
      * */
-
-    public LinkedHashMap<Integer, String> getListIDAndNameReal() {
-        for (int i = 0; i < getListIDReal().size(); i++) {
-            for (int j = 0; j < getListNameReal().size(); j++) {
-                listIDAndNameReal.put(getListIDReal().get(i),getListNameReal().get(j));
-            }
+    public LinkedHashMap<Integer, String> getListIDAndName() {
+        for (int i = 0; i < getListID().size(); i++) {
+            listIDAndName.put(getListID().get(i),getListName().get(i));
         }
-        return listIDAndNameReal;
+        return listIDAndName;
+    }
+
+    public LinkedHashMap<String, Boolean> getListNameAndActive() {
+        for (int i = 0; i < getListID().size(); i++) {
+            listNameAndActive.put(getListName().get(i),getListActive().get(i));
+        }
+        return listNameAndActive;
     }
 
     /*
@@ -95,68 +113,5 @@ public class PersonTable extends ConnectServer {
      * */
 /*
 </РЕАЛ>
-*/
-
-/*
-<ФЕЙК>
-Часть кода для проверки работоспособности обработки данных из БД
-*/
-    private static final ArrayList<Integer> listID = new ArrayList<>();
-    private static final ArrayList<String> listName = new ArrayList<>();
-    private static final ArrayList<Integer> listActive = new ArrayList<>();
-    private static final LinkedHashMap<Integer,String> listIDAndName = new LinkedHashMap<>();
-    private static final LinkedHashMap<String,Integer> listNameAndActive = new LinkedHashMap<>();
-
-    private static PersonTable instance;
-
-    public static PersonTable getInstance() {
-        if(instance == null){
-            instance = new PersonTable();
-        }
-        return instance;
-    }
-
-    private PersonTable() {
-        listID.add(1);
-        listID.add(2);
-        listID.add(3);
-
-        listName.add("Путин");
-        listName.add("Навальный");
-        listName.add("Собчак");
-
-        listActive.add(0);
-        listActive.add(1);
-
-        listIDAndName.put(1,"Путин");
-        listIDAndName.put(2,"Навальный");
-        listIDAndName.put(3,"Собчак");
-
-        listNameAndActive.put("Путин", 1);
-        listNameAndActive.put("Навальный", 1);
-        listNameAndActive.put("Собчак", 1);
-    }
-
-    public static ArrayList<Integer> getListID(){
-        return listID;
-    }
-
-    public static ArrayList<String> getListName(){
-        return listName;
-    }
-
-    public static ArrayList<Integer> getListActive(){
-        return listActive;
-    }
-
-    public static LinkedHashMap<Integer, String> getListIDAndName() {
-        return listIDAndName;
-    }
-
-    public static LinkedHashMap<String, Integer> getListNameAndActive() {
-        return listNameAndActive;
-    }
-/*
-</ФЕЙК>
 */
 }

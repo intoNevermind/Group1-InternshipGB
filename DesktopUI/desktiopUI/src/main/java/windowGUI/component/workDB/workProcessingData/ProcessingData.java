@@ -60,13 +60,13 @@ public class ProcessingData {
         return id;
     }
 
-    boolean getActiveByName(String name, LinkedHashMap<String,Integer> list){
+    boolean getActiveByName(String name, LinkedHashMap<String,Boolean> list){
         if (name == null || name.equals(getNotChosen())) return false;
         boolean active = false;
         Object[] keyList = list.keySet().toArray();
         for (int i = 0; i < list.size(); i++) {
             if(name.equals(keyList[i])){
-                active = list.get(name) == 1;
+                active = list.get(name);
             }
         }
         return active;
