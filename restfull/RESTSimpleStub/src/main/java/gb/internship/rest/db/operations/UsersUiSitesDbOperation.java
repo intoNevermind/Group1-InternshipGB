@@ -1,6 +1,7 @@
 package gb.internship.rest.db.operations;
 
 import gb.internship.rest.dataobjects.PersonGeneralStatistic;
+import gb.internship.rest.dataobjects.TablePersonPageRank;
 import gb.internship.rest.dataobjects.TablePersons;
 import gb.internship.rest.db.DbWrapper;
 import org.apache.commons.logging.Log;
@@ -11,7 +12,7 @@ import java.sql.Date;
 import java.util.*;
 
 /**
- * @author баранов
+ * @author баранов, Aleksandr Vvedensky
  * Класс для работы с базой с User UI
  */
 
@@ -39,24 +40,24 @@ public class UsersUiSitesDbOperation {
 
         List<Integer> idPages = getAllPagesIDOfSite(getSiteID(site));
 
-        for (TablePersons person: persons) {
+        for (TablePersons person : persons) {
             Integer rank = 0;
             Integer personID = person.getId();
-            for (Integer pageID:idPages) {
+            for (Integer pageID : idPages) {
                 LOG.info("SELECT \"RANK\" FROM PersonPageRank WHERE siteId = " + pageID + "AND personId =" + personID + ";");
                 String sqlQuery = "SELECT \"RANK\" FROM pages WHERE siteId = ? AND personId = ?";
                 PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-                preparedStatement.setInt(1,pageID);
-                preparedStatement.setInt(2,personID);
+                preparedStatement.setInt(1, pageID);
+                preparedStatement.setInt(2, personID);
                 ResultSet resultSet = preparedStatement.executeQuery();
-                while (resultSet.next()){
+                while (resultSet.next()) {
                     rank += resultSet.getInt("RANK");
                 }
                 preparedStatement.close();
             }
-            resultList.add(new PersonGeneralStatistic(personID,person.getName(),rank));
+            resultList.add(new PersonGeneralStatistic(personID, person.getName(), rank));
         }
-    return resultList;
+        return resultList;
     }
 
     /**
@@ -70,7 +71,7 @@ public class UsersUiSitesDbOperation {
 
         LOG.info("SELECT \"ID\", \"Name\", \"Active\" FROM persons;");
         String sqlQuery = "SELECT \"ID\", \"Name\", \"Active\" FROM persons;";
-        try{
+        try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sqlQuery);
             while (resultSet.next()) {
@@ -79,7 +80,7 @@ public class UsersUiSitesDbOperation {
                         resultSet.getBoolean("active")));
             }
             statement.close();
-        }catch (SQLException e){
+        } catch (SQLException e) {
             LOG.warn("Error get persons. Please show log");
             e.printStackTrace();
 
@@ -89,11 +90,10 @@ public class UsersUiSitesDbOperation {
     }
 
 
-
     /**
      * Получение всех id страниц из таблицы Pages.
      *
-     * @param siteId  - id сайта, по которому просматривается статистика
+     * @param siteId - id сайта, по которому просматривается статистика
      * @return список всех id страниц, оернутых в Integer
      * @throws SQLException
      */
@@ -104,7 +104,7 @@ public class UsersUiSitesDbOperation {
         LOG.info("SELECT \"ID\" FROM pages WHERE siteId = " + siteId + ";");
         String sqlQuery = "SELECT \"ID\" FROM pages WHERE siteId = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-        preparedStatement.setInt(1,siteId);
+        preparedStatement.setInt(1, siteId);
         ResultSet resultSet = preparedStatement.executeQuery();
 
         while (resultSet.next()) {
@@ -119,7 +119,7 @@ public class UsersUiSitesDbOperation {
     /**
      * Получение всех id сайта по его имени.
      *
-     * @param site  - имя сайта, по которому просматривается статистика
+     * @param site - имя сайта, по которому просматривается статистика
      * @return id сайта, обернутый в Integer
      * @throws SQLException
      */
@@ -141,18 +141,18 @@ public class UsersUiSitesDbOperation {
     }
 
 
-/**
- * @author Баранов
- * Получаем ежедневную статистику
- */
+    /**
+     * @author Баранов
+     * Получаем ежедневную статистику
+     */
 
     private Date getPersonsOfLastScanDate(java.util.Date lastscandate, String name) throws SQLException {
         Date result = null;
-        LOG.info("SELECT * FROM (SELECT * FROM pages WHERE lastscandate = " +lastscandate +  " SELECT * FROM persons WHERE name = " + name + ";");
+        LOG.info("SELECT * FROM (SELECT * FROM pages WHERE lastscandate = " + lastscandate + " SELECT * FROM persons WHERE name = " + name + ";");
         String sqlQuery = "SELECT * FROM (SELECT * FROM pages WHERE lastscandate = ? SELECT * FROM persons WHERE name =?)";
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
         preparedStatement.setDate(1, (Date) lastscandate);
-        preparedStatement.setString(2,name);
+        preparedStatement.setString(2, name);
         ResultSet resultSet = preparedStatement.executeQuery();
 
         while (resultSet.next()) {
@@ -166,14 +166,15 @@ public class UsersUiSitesDbOperation {
 
     /**
      * Добаление сайта от пользователя
-     * @param name имя сайта
-     * @param url   адрес сайта
+     *
+     * @param name   имя сайта
+     * @param url    адрес сайта
      * @param active активность
      * @throws SQLException
      */
-    public void addSiteofUser(String name, String url, Boolean active)  {
+    public void addSiteofUser(String name, String url, Boolean active) {
 
-        LOG.info( "INSERT INTO sites: \"Name\" = " + name + ", url = " + url + ", \"Active\" = " + active);
+        LOG.info("INSERT INTO sites: \"Name\" = " + name + ", url = " + url + ", \"Active\" = " + active);
         String sqlQuery = "INSERT INTO \"sites\" (\"Name\", \"URL\",\"Active\") VALUES ((?), (?), (?));";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
@@ -183,7 +184,7 @@ public class UsersUiSitesDbOperation {
             preparedStatement.execute();
             preparedStatement.close();
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             LOG.warn("Error add sites. Please show log");
             e.printStackTrace();
 
@@ -193,6 +194,7 @@ public class UsersUiSitesDbOperation {
 
     /**
      * Цдаление сайта под пользователем
+     *
      * @param id сайтa
      * @return
      * @throws SQLException
@@ -216,5 +218,30 @@ public class UsersUiSitesDbOperation {
 
     }
 
+    /**
+     * Получение PersonPageRank по id.
+     *
+     * @param id PersonID
+     * @return List<TablePersonPageRank>
+     * @throws SQLException
+     */
+    public List<TablePersonPageRank> getPersonPageRankByPersonId(Integer id) throws SQLException {
+        List<TablePersonPageRank> resultList = new ArrayList<>();
 
+        LOG.info("SELECT \"PersonID\", \"PageID\", \"Rank\" FROM personpagerank WHERE \"PersonID\" = " + id);
+        String sqlQuery = "SELECT \"PersonID\", \"PageID\", \"Rank\" FROM personpagerank WHERE \"PersonID\" = (?);";
+
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setInt(1, id);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        while (resultSet.next()) {
+            resultList.add(new TablePersonPageRank(resultSet.getInt("PersonID"),
+                    resultSet.getInt("PageID"),
+                    resultSet.getInt("Rank")));
+        }
+        preparedStatement.close();
+
+        return resultList;
+    }
 }
