@@ -4,8 +4,8 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>gb.internship</groupId>
-	<artifactId>RESTSimpleStub</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>REST-API-for-GB-group1</artifactId>
+	<version>3.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>RESTSimpleStub</name>
