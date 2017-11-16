@@ -21,7 +21,6 @@ public class PersonPageRankTable extends ConnectServer {
     private static final PersonTable personTable = PersonTable.getInstance();
     private static final ArrayList<Integer> listIDPerson = personTable.getListID();
 
-    public static int personID = 0;
     private static PersonPageRankTable instance;
 
     public static PersonPageRankTable getInstance() {
@@ -38,14 +37,14 @@ public class PersonPageRankTable extends ConnectServer {
     private void infoAllPersonsPageRank(){
         try {
             for (int i = 0; i <listIDPerson.size() ; i++) {
-                personID = listIDPerson.get(i);
-                listPersonID.add(personID);
-                Response response = restApiForPersonPageRankTable.getPersonPageRankByPersonId(personID).execute();
+                listPersonID.add(listIDPerson.get(i));
+                Response response = restApiForPersonPageRankTable.getPersonPageRankByPersonId(listIDPerson.get(i)).execute();
                 ArrayList<PojoPersonPageRank> list = (ArrayList<PojoPersonPageRank>) response.body();
                 for (int j = 0; j < list.size(); j++) {
                     listPageID.add(list.get(j).getPageID());
                     listRank.add(list.get(j).getRank());
                 }
+                System.out.println(listIDPerson.get(i) + ", " + listPageID);
             }
 
         } catch (IOException e) {
