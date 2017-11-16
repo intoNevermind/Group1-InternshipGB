@@ -16,6 +16,7 @@ public class ProcessingPersonTable extends  ProcessingData{
         String[] str = new String[LIST_NAME_PERSON.size()+1];
         str[0] = getNotChosen();
         for (int i = 0; i < LIST_NAME_PERSON.size(); i++) {
+            if(listNameAndActive.get(LIST_NAME_PERSON.get(i)))
             str[i+1] = LIST_NAME_PERSON.get(i);
         }
         return str;

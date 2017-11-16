@@ -1,4 +1,4 @@
-package windowGUI.component.editingDirectoryWindow;
+package windowGUI.editingDirectoryWindow;
 
 import windowGUI.ConfigurationsWindowGUI;
 import windowGUI.component.workDB.tables.PersonTable;

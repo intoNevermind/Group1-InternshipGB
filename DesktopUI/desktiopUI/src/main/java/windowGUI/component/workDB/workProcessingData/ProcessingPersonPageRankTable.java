@@ -9,7 +9,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-
 public class ProcessingPersonPageRankTable extends  ProcessingData{
     private static final PersonTable TABLE_PERSON = PersonTable.getInstance();
     private static final LinkedHashMap<Integer,String> LIST_ID_AND_NAME_PERSON = TABLE_PERSON.getListIDAndName();

@@ -1,6 +1,7 @@
 package windowGUI.component.workDirectory;
 
 import windowGUI.ApplicationWindow;
+import windowGUI.MyStyle;
 import windowGUI.component.ConfigurationGBL;
 import windowGUI.component.workDB.workProcessingData.ProcessingKeyWordsTable;
 import windowGUI.component.workDB.workProcessingData.ProcessingPersonTable;
@@ -10,8 +11,11 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
 public abstract class Directory {
+    private static final MyStyle MY_STYLE = new MyStyle();
+
     private String tabName;
 
     private static final int INDENT_WIDTH = 200;
@@ -43,7 +47,11 @@ public abstract class Directory {
     JTable dataTable;
     JScrollPane dataScrollPane;
 
+
+
     Directory() {
+        MY_STYLE.setStyle(getListComponents());
+
         panelDirectory.setLayout(new BorderLayout());
         panelDirectory.setPreferredSize(new Dimension(PANEL_DIRECTORY_SIZE_WIDTH, PANEL_DIRECTORY_SIZE_HEIGHT));
         optionsPanel.setLayout(GBL);
@@ -66,6 +74,18 @@ public abstract class Directory {
     public void initNamePerson(ActionEvent actionEvent){}
     public void initSelectedRow(ListSelectionEvent selectionEvent){}
     public void visibleDataTable(ActionEvent actionEvent){}
+
+    private ArrayList<Component> getListComponents(){
+        ArrayList<Component> listComponent = new ArrayList<>();
+        listComponent.add(headLinePerson);
+        listComponent.add(listPersons);
+        listComponent.add(btnConfirm);
+        listComponent.add(btnAdd);
+        listComponent.add(btnDelete);
+        listComponent.add(btnEdit);
+        listComponent.add(dataTable);
+        return listComponent;
+    }
 
     private void fillBtnPanel(){
         getBtnPanel().add(getBtnAdd());

@@ -53,7 +53,7 @@ public class PersonTable extends ConnectServer {
         }
     }
 
-    private ArrayList<Integer> getListID() {
+    public ArrayList<Integer> getListID() {
         return listID;
     }
 
@@ -88,6 +88,7 @@ public class PersonTable extends ConnectServer {
     public void addPerson(String personName, boolean personActive){
         try {
             Response<ResponseBody> response = restApiForPersonTable.addPerson(personName, personActive).execute();
+            System.out.println(response.code());
         } catch (IOException e) {
             e.printStackTrace();
         }

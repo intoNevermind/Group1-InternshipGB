@@ -1,6 +1,6 @@
 package windowGUI.component.workDirectory;
 
-import windowGUI.component.editingDirectoryWindow.*;
+import windowGUI.editingDirectoryWindow.*;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;

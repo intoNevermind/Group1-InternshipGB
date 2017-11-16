@@ -16,6 +16,7 @@ public class ProcessingSitesTable extends ProcessingData{
         String[] str = new String[LIST_NAME_SITES.size()+1];
         str[0] = getNotChosen();
         for (int i = 0; i < LIST_NAME_SITES.size(); i++) {
+            if(listNameAndActive.get(LIST_NAME_SITES.get(i)))
             str[i+1] = LIST_NAME_SITES.get(i);
         }
         return str;

@@ -1,10 +1,12 @@
-package windowGUI.component.editingDirectoryWindow;
+package windowGUI.editingDirectoryWindow;
 
+import windowGUI.MyStyle;
 import windowGUI.component.ConfigurationGBL;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
 public abstract class EditingDirectoryWindow {
     private static final int SIZE_WIDTH = 600;
@@ -13,6 +15,8 @@ public abstract class EditingDirectoryWindow {
     private static final int INDENT_WIDTH = 100;
     private static final int FIELD_SIZE_WIDTH = SIZE_WIDTH - INDENT_WIDTH;
     private static final int FIELD_SIZE_HEIGHT = SIZE_HEIGHT / 5;
+
+    private static final MyStyle MY_STYLE = new MyStyle();
 
     private final JFrame window = new JFrame();
 
@@ -36,6 +40,8 @@ public abstract class EditingDirectoryWindow {
     private final JCheckBox active = new JCheckBox("Отображать эту запись в списке.");
 
     EditingDirectoryWindow() {
+        MY_STYLE.setStyle(getListComponents());
+
         window.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         valueEntryFieldName.setPreferredSize(new Dimension(FIELD_SIZE_WIDTH,FIELD_SIZE_HEIGHT));
@@ -55,7 +61,6 @@ public abstract class EditingDirectoryWindow {
         headLineTextFieldDel.setText("Вы хотите удалить елемент " + elementName + " ?");
         panelText.add(headLineTextFieldDel, BorderLayout.CENTER);
         window.add(panelText, BorderLayout.CENTER);
-
         btnSave.setText("Да");
         GBL.setConstraints(btnSave, CGBL.configGBCTest(1,true));
         btnPanel.add(btnSave);
@@ -72,6 +77,21 @@ public abstract class EditingDirectoryWindow {
 
     private void cancelEditing(ActionEvent actionEvent){
         window.dispose();
+    }
+
+    private ArrayList<Component> getListComponents(){
+        ArrayList<Component> listComponent = new ArrayList<>();
+        listComponent.add(headLineTextFieldName);
+        listComponent.add(headLineTextFieldURL);
+        listComponent.add(headLineTextFieldDel);
+
+        listComponent.add(textFieldPanel);
+        listComponent.add(valueEntryFieldURL);
+
+        listComponent.add(btnSave);
+        listComponent.add(btnCancel);
+        listComponent.add(active);
+        return listComponent;
     }
 
     static int getSizeWidth() {

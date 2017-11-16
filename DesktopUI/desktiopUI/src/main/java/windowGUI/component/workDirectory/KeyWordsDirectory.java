@@ -1,6 +1,6 @@
 package windowGUI.component.workDirectory;
 
-import windowGUI.component.editingDirectoryWindow.*;
+import windowGUI.editingDirectoryWindow.*;
 import windowGUI.component.workDB.workProcessingData.ProcessingData;
 
 import javax.swing.*;
@@ -72,7 +72,6 @@ public class KeyWordsDirectory extends Directory{
         TableModel model = dataTable.getModel();
         Object value = model.getValueAt(dataTable.getSelectedRow(), 0);
         nameKeyWord = (String) value;
-
     }
 
     @Override

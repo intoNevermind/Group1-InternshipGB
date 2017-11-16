@@ -2,60 +2,26 @@ package windowGUI.component.workDB.tables;
 
 import retrofit2.Response;
 import windowGUI.component.workDB.ConnectServer;
+import windowGUI.component.workDB.restApi.PojoPersonPageRank;
 import windowGUI.component.workDB.restApi.RestApiForPersonPageRankTable;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class PersonPageRankTable extends ConnectServer {
-
 /*
 <РЕАЛ>
 Часть кода которая будет использоваться с реальными данными из базы
 */
     private RestApiForPersonPageRankTable restApiForPersonPageRankTable = getRetrofit().create(RestApiForPersonPageRankTable.class);
 
-    private ArrayList<Integer> getListPageIDReal() {
-        try {
-            Response<ArrayList<Integer>> response = restApiForPersonPageRankTable.getListPageIDFromPersonPageRankTable().execute();
-            return response.body();
-        } catch (IOException | AssertionError e) {
-            e.printStackTrace();
-            return  new ArrayList<>();
-        }
-    }
-
-    private ArrayList<Integer> getListPersonIDReal(){
-        try {
-            Response<ArrayList<Integer>> response = restApiForPersonPageRankTable.getListPersonIDFromPersonPageRankTable().execute();
-            return response.body();
-        } catch (IOException | AssertionError e) {
-            e.printStackTrace();
-            return  new ArrayList<>();
-        }
-    }
-
-    public ArrayList<Integer> getListRankReal(){
-        try {
-            Response<ArrayList<Integer>> response = restApiForPersonPageRankTable.getListRankFromPersonPageRankTable().execute();
-            return response.body();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return  new ArrayList<>();
-        }
-    }
-/*
-</РЕАЛ>
-*/
-
-/*
-<ФЕЙК>
-Часть кода для проверки работоспособности обработки данных из БД
-*/
     private static final ArrayList<Integer> listPersonID = new ArrayList<>();
     private static final ArrayList<Integer> listPageID = new ArrayList<>();
     private static final ArrayList<Integer> listRank = new ArrayList<>();
+    private static final PersonTable personTable = PersonTable.getInstance();
+    private static final ArrayList<Integer> listIDPerson = personTable.getListID();
 
+    public static int personID = 0;
     private static PersonPageRankTable instance;
 
     public static PersonPageRankTable getInstance() {
@@ -66,77 +32,47 @@ public class PersonPageRankTable extends ConnectServer {
     }
 
     private PersonPageRankTable() {
-        listPersonID.add(1);
-        listPersonID.add(1);
-        listPersonID.add(1);
-        listPersonID.add(1);
-        listPersonID.add(1);
-        listPersonID.add(1);
-
-        listPersonID.add(2);
-        listPersonID.add(2);
-        listPersonID.add(2);
-        listPersonID.add(2);
-        listPersonID.add(2);
-        listPersonID.add(2);
-
-        listPersonID.add(3);
-        listPersonID.add(3);
-        listPersonID.add(3);
-        listPersonID.add(3);
-        listPersonID.add(3);
-        listPersonID.add(3);
-
-        listPageID.add(1);
-        listPageID.add(2);
-        listPageID.add(3);
-        listPageID.add(4);
-        listPageID.add(5);
-        listPageID.add(6);
-        listPageID.add(1);
-        listPageID.add(2);
-        listPageID.add(3);
-        listPageID.add(4);
-        listPageID.add(5);
-        listPageID.add(6);
-        listPageID.add(1);
-        listPageID.add(2);
-        listPageID.add(3);
-        listPageID.add(4);
-        listPageID.add(5);
-        listPageID.add(6);
-
-        listRank.add(9);
-        listRank.add(7);
-        listRank.add(6);
-        listRank.add(7);
-        listRank.add(4);
-        listRank.add(18);
-        listRank.add(0);
-        listRank.add(5);
-        listRank.add(8);
-        listRank.add(3);
-        listRank.add(1);
-        listRank.add(0);
-        listRank.add(0);
-        listRank.add(7);
-        listRank.add(8);
-        listRank.add(0);
-        listRank.add(20);
-        listRank.add(19);
+        infoAllPersonsPageRank();
     }
 
-    public static ArrayList<Integer> getListPersonID() {
+    private void infoAllPersonsPageRank(){
+        try {
+            for (int i = 0; i <listIDPerson.size() ; i++) {
+                personID = listIDPerson.get(i);
+                listPersonID.add(personID);
+                Response response = restApiForPersonPageRankTable.getPersonPageRankByPersonId(personID).execute();
+                ArrayList<PojoPersonPageRank> list = (ArrayList<PojoPersonPageRank>) response.body();
+                for (int j = 0; j < list.size(); j++) {
+                    listPageID.add(list.get(j).getPageID());
+                    listRank.add(list.get(j).getRank());
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public ArrayList<Integer> getListPersonID() {
         return listPersonID;
     }
 
-    public static ArrayList<Integer> getListPageID() {
+    public ArrayList<Integer> getListPageID() {
         return listPageID;
     }
 
-    public static ArrayList<Integer> getListRank() {
+    public ArrayList<Integer> getListRank() {
         return listRank;
     }
+/*
+</РЕАЛ>
+*/
+
+/*
+<ФЕЙК>
+Часть кода для проверки работоспособности обработки данных из БД
+*/
+
 /*
 </ФЕЙК>
 */
