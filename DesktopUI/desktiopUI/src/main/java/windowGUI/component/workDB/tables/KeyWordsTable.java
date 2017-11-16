@@ -2,7 +2,6 @@ package windowGUI.component.workDB.tables;
 
 import okhttp3.ResponseBody;
 import retrofit2.Response;
-import windowGUI.component.workDB.ConnectServer;
 import windowGUI.component.workDB.restApi.PojoKeyWords;
 import windowGUI.component.workDB.restApi.RestApiForKeyWordsTable;
 
@@ -39,8 +38,8 @@ public class KeyWordsTable extends ConnectServer {
 
     private void infoAllKeyWords(){
         try {
-            Response response = restApiForKeyWordsTable.getListAllKeyWords().execute();
-            ArrayList<PojoKeyWords> list = (ArrayList<PojoKeyWords>) response.body();
+            Response<ArrayList<PojoKeyWords>> response = restApiForKeyWordsTable.getListAllKeyWords().execute();
+            ArrayList<PojoKeyWords> list = response.body();
             for (int i = 0; i < list.size(); i++) {
                 listID.add(list.get(i).getId());
                 listName.add(list.get(i).getName());

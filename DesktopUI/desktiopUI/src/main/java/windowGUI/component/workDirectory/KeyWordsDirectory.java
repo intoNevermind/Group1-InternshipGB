@@ -46,7 +46,9 @@ public class KeyWordsDirectory extends Directory{
     public void visibleDataTable(ActionEvent actionEvent){
         if(namePerson == null || namePerson.equals(ProcessingData.getNotChosen())){
             JOptionPane.showMessageDialog(null,
-                    "Для просмотра ключевых слов необходимо выбрать \""  + getHeadLinePerson().getText() + "\" ");
+                    "Для просмотра ключевых слов необходимо выбрать \""  + getHeadLinePerson().getText() + "\" ",
+                    "Не инициализированы поля",
+                    JOptionPane.WARNING_MESSAGE);
         }
         dataTable = new JTable(getPKeyWordsT().getArrayFillTable(namePerson, getColumnNames().length), getColumnNames());
         dataScrollPane = new JScrollPane(dataTable);
@@ -60,7 +62,9 @@ public class KeyWordsDirectory extends Directory{
     public void visibleWindowAdd(ActionEvent actionEvent){
         if(namePerson == null || namePerson.equals("Не выбранно")){
             JOptionPane.showMessageDialog(null,
-                    "Для добавления ключевых слов необходимо выбрать \""  + getHeadLinePerson().getText() + "\" ");
+                    "Для добавления ключевых слов необходимо выбрать \""  + getHeadLinePerson().getText() + "\" ",
+                    "Не инициализированы поля",
+                    JOptionPane.WARNING_MESSAGE);
         }else {
             new AddKeyWordWindow(getBtnAdd().getText() + " новое ключевое слово для личности: " + namePerson,
                     getPPersonT().getIDPersonByNamePerson(namePerson));
@@ -78,7 +82,9 @@ public class KeyWordsDirectory extends Directory{
     public void visibleWindowDel(ActionEvent actionEvent) {
         if(nameKeyWord == null ){
             JOptionPane.showMessageDialog(null,
-                    "Для удаления ключевого слова необходимо выбрать ключевое слово из списка");
+                    "Для удаления ключевого слова необходимо выбрать ключевое слово из списка",
+                    "Не инициализированы поля",
+                    JOptionPane.WARNING_MESSAGE);
         }else {
             new DelKeyWordWindow(getBtnDelete().getText() + " ключевое слово ", nameKeyWord, getPKeyWordsT().getIDKeyWordByNameKeyWord(nameKeyWord));
         }
@@ -88,7 +94,9 @@ public class KeyWordsDirectory extends Directory{
     public void visibleWindowEdit(ActionEvent actionEvent) {
         if(nameKeyWord == null){
             JOptionPane.showMessageDialog(null,
-                    "Для редактирования ключевого слова необходимо выбрать ключевое слово из списка");
+                    "Для редактирования ключевого слова необходимо выбрать ключевое слово из списка",
+                    "Не инициализированы поля",
+                    JOptionPane.WARNING_MESSAGE);
         }else {
             new EditKeyWordWindow(getBtnEdit().getText() + " ключевое слово ",
                     nameKeyWord,

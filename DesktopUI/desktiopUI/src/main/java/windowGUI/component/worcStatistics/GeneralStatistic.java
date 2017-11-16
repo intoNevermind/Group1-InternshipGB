@@ -39,7 +39,9 @@ public class GeneralStatistic extends Statistics{
     public void visibleDataTable(ActionEvent actionEvent){
         if(nameSite == null || nameSite.equals(ProcessingData.getNotChosen())) {
             JOptionPane.showMessageDialog(null,
-                    "Для просмотра общей статистики необходимо выбрать \""  + getHeadlineSite().getText() + "\" ");
+                    "Для просмотра общей статистики необходимо выбрать \""  + getHeadlineSite().getText() + "\" ",
+                    "Не инициализированы поля",
+                    JOptionPane.WARNING_MESSAGE);
         }
         dataTable = new JTable(getPPersonPageRankT().getArrayFillTable(nameSite, columnNames.length), columnNames);
         dataScrollPane = new JScrollPane(dataTable);

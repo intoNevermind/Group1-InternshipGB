@@ -8,7 +8,6 @@ import retrofit2.http.Query;
 import java.util.ArrayList;
 
 public interface RestApiForPersonTable {
-
 /*
 * <Получение>
 * запросы с помощью которых, можно получить данные из БД
@@ -24,16 +23,16 @@ public interface RestApiForPersonTable {
 * запросы с помощью которых, можно отправить данные в БД
 * */
     @POST("admin/ui/addPerson")
-    Call<ResponseBody> addPerson(@Query("PersonName") String personName ,
-                                 @Query("personActive") boolean personActive);// добавляет личность и активность в БД
+    Call<ResponseBody> addPerson(@Query("name") String personName ,
+                                 @Query("active") boolean personActive);// добавляет личность и активность в БД
 
     @POST("admin/ui/delPerson")
-    Call<ResponseBody> delPerson(@Query("PersonID") int personID);// удаляет личность по ID из БД
+    Call<ResponseBody> delPerson(@Query("id") int personID);// удаляет личность по ID из БД
 
     @POST("admin/ui/modifyPerson")
-    Call<ResponseBody> modifyPerson(@Query("PersonID") int personID,
-                                    @Query("PersonName") String personName ,
-                                    @Query("personActive") boolean personActive);// редактирует имя личности и активность по ID личности(сам ID редоктировать нельзя)
+    Call<ResponseBody> modifyPerson(@Query("id") int personID,
+                                    @Query("name") String personName ,
+                                    @Query("active") boolean personActive);// редактирует имя личности и активность по ID личности(сам ID редоктировать нельзя)
 /*
 * </Отправка>
 * */

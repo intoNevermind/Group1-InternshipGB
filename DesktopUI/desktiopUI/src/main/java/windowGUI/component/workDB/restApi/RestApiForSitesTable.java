@@ -23,18 +23,18 @@ public interface RestApiForSitesTable {
 * запросы с помощью которых, можно отправить данные в БД
 * */
     @POST("admin/ui/addSite")
-    Call<ResponseBody> addSite(@Query("SiteName") String siteName ,
-                               @Query("SiteURL") String siteUrl,
-                               @Query("siteActive") boolean siteActive);// добавляет сайт, URL и активность в БД
+    Call<ResponseBody> addSite(@Query("name") String siteName ,
+                               @Query("url") String siteUrl,
+                               @Query("active") boolean siteActive);// добавляет сайт, URL и активность в БД
 
     @POST("admin/ui/delSite")
-    Call<ResponseBody> delSite(@Query("SiteID") int siteID);// удаляет сайт по ID из БД
+    Call<ResponseBody> delSite(@Query("id") int siteID);// удаляет сайт по ID из БД
 
     @POST("admin/ui/modifySite")
-    Call<ResponseBody> modifySite(@Query("SiteID") int siteID,
-                                  @Query("SiteName") String siteName ,
-                                  @Query("SiteURL") String siteUrl,
-                                  @Query("siteActive") boolean siteActive);// редактирует имя сайта его URL и активность по ID  сайта(сам ID редоктировать нельзя)
+    Call<ResponseBody> modifySite(@Query("id") int siteID,
+                                  @Query("name") String siteName ,
+                                  @Query("url") String siteUrl,
+                                  @Query("active") boolean siteActive);// редактирует имя сайта его URL и активность по ID  сайта(сам ID редоктировать нельзя)
 /*
 * </Отправка>
 */

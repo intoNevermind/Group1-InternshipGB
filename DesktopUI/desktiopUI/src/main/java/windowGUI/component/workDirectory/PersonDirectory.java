@@ -38,7 +38,9 @@ public class PersonDirectory extends Directory{
     public void visibleWindowDel(ActionEvent actionEvent) {
         if(namePerson == null ){
             JOptionPane.showMessageDialog(null,
-                    "Для удаления личности необходимо выбрать личность из списка");
+                    "Для удаления личности необходимо выбрать личность из списка",
+                    "Не инициализированы поля",
+                    JOptionPane.WARNING_MESSAGE);
         }else {
             new DelPersonWindow(getBtnDelete().getText() + " личность ",
                     namePerson, getPPersonT().getIDPersonByNamePerson(namePerson));
@@ -49,7 +51,9 @@ public class PersonDirectory extends Directory{
     public void visibleWindowEdit(ActionEvent actionEvent) {
         if(namePerson == null){
             JOptionPane.showMessageDialog(null,
-                    "Для редактирования личности необходимо выбрать личность из списка");
+                    "Для редактирования личности необходимо выбрать личность из списка",
+                    "Не инициализированы поля",
+                    JOptionPane.WARNING_MESSAGE);
         }else {
             new EditPersonWindow(getBtnEdit().getText() + " личность ",
                     namePerson,

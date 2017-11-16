@@ -1,11 +1,10 @@
 package windowGUI.component.workDB.tables;
 
-import okhttp3.ResponseBody;
-import retrofit2.Response;
-import windowGUI.component.workDB.ConnectServer;
 import windowGUI.component.workDB.restApi.PojoSites;
 import windowGUI.component.workDB.restApi.RestApiForSitesTable;
 
+import okhttp3.ResponseBody;
+import retrofit2.Response;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -42,8 +41,8 @@ public class SitesTable extends ConnectServer {
      * */
     private void infoAllSites(){
         try {
-            Response response = restApiForSitesTable.getListAllSites().execute();
-            ArrayList<PojoSites> list = (ArrayList<PojoSites>) response.body();
+            Response<ArrayList<PojoSites>> response = restApiForSitesTable.getListAllSites().execute();
+            ArrayList<PojoSites> list = response.body();
             for (int i = 0; i < list.size(); i++) {
                 listID.add(list.get(i).getId());
                 listName.add(list.get(i).getName());
@@ -124,8 +123,5 @@ public class SitesTable extends ConnectServer {
     /*
      * </Отправка>
      * */
-/*
-</РЕАЛ>
-*/
 
 }

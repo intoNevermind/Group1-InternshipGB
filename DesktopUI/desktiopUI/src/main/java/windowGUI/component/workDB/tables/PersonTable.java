@@ -6,7 +6,6 @@ import java.util.LinkedHashMap;
 
 import okhttp3.ResponseBody;
 import retrofit2.Response;
-import windowGUI.component.workDB.ConnectServer;
 import windowGUI.component.workDB.restApi.PojoPersons;
 import windowGUI.component.workDB.restApi.RestApiForPersonTable;
 
@@ -41,8 +40,8 @@ public class PersonTable extends ConnectServer {
      * */
     private void infoAllPersons(){
         try {
-            Response response = restApiForPersonTable.getListAllPersons().execute();
-            ArrayList<PojoPersons> list = (ArrayList<PojoPersons>) response.body();
+            Response<ArrayList<PojoPersons>> response = restApiForPersonTable.getListAllPersons().execute();
+            ArrayList<PojoPersons> list = response.body();
             for (int i = 0; i < list.size(); i++) {
                 listID.add(list.get(i).getId());
                 listName.add(list.get(i).getName());

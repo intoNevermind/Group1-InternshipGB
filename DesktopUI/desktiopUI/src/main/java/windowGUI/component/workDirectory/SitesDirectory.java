@@ -39,7 +39,9 @@ public class SitesDirectory extends Directory{
     public void visibleWindowDel(ActionEvent actionEvent) {
         if(nameSites == null ){
             JOptionPane.showMessageDialog(null,
-                    "Для удаления сайта необходимо выбрать сайт из списка");
+                    "Для удаления сайта необходимо выбрать сайт из списка",
+                    "Не инициализированы поля",
+                    JOptionPane.WARNING_MESSAGE);
         }else {
             new DelSiteWindow(getBtnDelete().getText() + " сайт ",
                     nameSites,
@@ -51,7 +53,9 @@ public class SitesDirectory extends Directory{
     public void visibleWindowEdit(ActionEvent actionEvent) {
         if(nameSites == null){
             JOptionPane.showMessageDialog(null,
-                    "Для редактирования сайта необходимо выбрать сайт из списка");
+                    "Для редактирования сайта необходимо выбрать сайт из списка",
+                    "Не инициализированы поля",
+                    JOptionPane.WARNING_MESSAGE);
         }else {
             new EditSiteWindow(getBtnEdit().getText() + " сайт ",
                     nameSites,

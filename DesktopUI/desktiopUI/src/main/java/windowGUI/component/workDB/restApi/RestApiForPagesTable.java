@@ -7,6 +7,9 @@ import java.util.Date;
 
 public interface RestApiForPagesTable {
 
+    @GET("/user/ui/getAllPages")
+    Call<ArrayList<PojoPages>> getListAllPages();
+
     @GET("/user/ui/getIDFromPagesTable")
     Call<ArrayList<Integer>> getListIDFromPagesTable();//получить на выходе ArrayList<Integer>, содержащий все значения колонки ID из таблицы Pages
 

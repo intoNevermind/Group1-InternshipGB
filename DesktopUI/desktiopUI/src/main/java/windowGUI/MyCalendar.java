@@ -7,7 +7,7 @@ public class MyCalendar extends JDateChooser{
 
         public MyCalendar() {
             setBounds(20, 20, 200, 20);
-            setDateFormatString("yyyy-MM-dd- HH:mm:ss");
+            setDateFormatString("yyyy-MM-dd");
 
             EventQueue.invokeLater(() ->{
                 try {

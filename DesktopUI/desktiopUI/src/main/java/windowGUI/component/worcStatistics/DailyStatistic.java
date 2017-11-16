@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.text.SimpleDateFormat;
 import static java.awt.GridBagConstraints.*;
+import static javax.swing.JOptionPane.OK_CANCEL_OPTION;
 
 public class DailyStatistic extends Statistics{
     private static final String TAB_NAME = "Ежедневная статистика";
@@ -85,7 +86,9 @@ public class DailyStatistic extends Statistics{
         if(finishDate == null) str += " \"" + getHeadlineFinishPeriod().getText() + "\" ";
         if(!str.equals("")) {
             JOptionPane.showMessageDialog(null,
-                    "Для просмотра ежедневной статистики необходимо выбрать " + str);
+                    "Для просмотра ежедневной статистики необходимо выбрать " + str,
+                    "Не инициализированы поля",
+                    JOptionPane.WARNING_MESSAGE);
         }
         dataTable = new JTable(getPPersonPageRankT().getArrayFillTable(nameSite,namePerson,startDate,finishDate, columnNames.length), columnNames);
         dataScrollPane = new JScrollPane(dataTable);

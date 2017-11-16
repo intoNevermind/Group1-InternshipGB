@@ -23,16 +23,16 @@ public interface RestApiForKeyWordsTable {
 * запросы с помощью которых, можно отправить данные в БД
 * */
     @POST("admin/ui/addKeyword")
-    Call<ResponseBody> addKeyWord(@Query("KeyWordName") String keyWordName ,
-                                  @Query("PersonID") int personID);// добавляет ключевое слово по ID личности в БД
+    Call<ResponseBody> addKeyWord(@Query("name") String keyWordName ,
+                                  @Query("personId") int personID);// добавляет ключевое слово по ID личности в БД
 
     @POST("admin/ui/delKeyword")
-    Call<ResponseBody> delKeyWord(@Query("KeyWordID") int keyWordID);// удаляет ключевое слово по ID из БД
+    Call<ResponseBody> delKeyWord(@Query("id") int keyWordID);// удаляет ключевое слово по ID из БД
 
     @POST("admin/ui/modifyKeyword")
-    Call<ResponseBody> modifyKeyWord(@Query("KeyWordID") int keyWordID,
-                                     @Query("KeyWordName") String keyWordName ,
-                                     @Query("PersonID") int personID);// редактирует имя ключевого слова и ID личности по ID ключевого слова(сам ID редоктировать нельзя)
+    Call<ResponseBody> modifyKeyWord(@Query("id") int keyWordID,
+                                     @Query("name") String keyWordName ,
+                                     @Query("personId") int personID);// редактирует имя ключевого слова и ID личности по ID ключевого слова(сам ID редоктировать нельзя)
 /*
 * </Отправка>
 * */

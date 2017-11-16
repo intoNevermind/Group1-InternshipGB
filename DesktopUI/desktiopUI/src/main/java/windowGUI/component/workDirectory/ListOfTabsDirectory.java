@@ -19,6 +19,7 @@ public class ListOfTabsDirectory {
 
     public ListOfTabsDirectory() {
         MY_STYLE.setStyle(getListComponents());
+
         addTabs();
     }
 

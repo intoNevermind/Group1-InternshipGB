@@ -1,18 +1,13 @@
 package windowGUI.component.workDB.tables;
 
-import retrofit2.Response;
-import windowGUI.component.workDB.ConnectServer;
 import windowGUI.component.workDB.restApi.PojoPersonPageRank;
 import windowGUI.component.workDB.restApi.RestApiForPersonPageRankTable;
 
+import retrofit2.Response;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class PersonPageRankTable extends ConnectServer {
-/*
-<РЕАЛ>
-Часть кода которая будет использоваться с реальными данными из базы
-*/
     private RestApiForPersonPageRankTable restApiForPersonPageRankTable = getRetrofit().create(RestApiForPersonPageRankTable.class);
 
     private static final ArrayList<Integer> listPersonID = new ArrayList<>();
@@ -38,13 +33,12 @@ public class PersonPageRankTable extends ConnectServer {
         try {
             for (int i = 0; i <listIDPerson.size() ; i++) {
                 listPersonID.add(listIDPerson.get(i));
-                Response response = restApiForPersonPageRankTable.getPersonPageRankByPersonId(listIDPerson.get(i)).execute();
-                ArrayList<PojoPersonPageRank> list = (ArrayList<PojoPersonPageRank>) response.body();
+                Response<ArrayList<PojoPersonPageRank>> response = restApiForPersonPageRankTable.getPersonPageRankByPersonId(listIDPerson.get(i)).execute();
+                ArrayList<PojoPersonPageRank> list = response.body();
                 for (int j = 0; j < list.size(); j++) {
                     listPageID.add(list.get(j).getPageID());
                     listRank.add(list.get(j).getRank());
                 }
-                System.out.println(listIDPerson.get(i) + ", " + listPageID);
             }
 
         } catch (IOException e) {
@@ -63,16 +57,4 @@ public class PersonPageRankTable extends ConnectServer {
     public ArrayList<Integer> getListRank() {
         return listRank;
     }
-/*
-</РЕАЛ>
-*/
-
-/*
-<ФЕЙК>
-Часть кода для проверки работоспособности обработки данных из БД
-*/
-
-/*
-</ФЕЙК>
-*/
 }
