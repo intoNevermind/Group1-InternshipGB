@@ -1,6 +1,7 @@
 package gb.internship.rest.db.operations;
 
 import gb.internship.rest.dataobjects.PersonGeneralStatistic;
+import gb.internship.rest.dataobjects.TableKeywords;
 import gb.internship.rest.dataobjects.TablePersonPageRank;
 import gb.internship.rest.dataobjects.TablePersons;
 import gb.internship.rest.db.DbWrapper;
@@ -239,6 +240,32 @@ public class UsersUiDbOperation {
             resultList.add(new TablePersonPageRank(resultSet.getInt("PersonID"),
                     resultSet.getInt("PageID"),
                     resultSet.getInt("Rank")));
+        }
+        preparedStatement.close();
+
+        return resultList;
+    }
+
+    /**
+     * Получение ключевых слов для конкретного PersonID.
+     *
+     * @param personId PersonID
+     * @return List<TableKeywords>
+     * @throws SQLException
+     */
+    public List<TableKeywords> getKeywordsByPersonId(Integer personId) throws SQLException {
+        List<TableKeywords> resultList = new ArrayList<>();
+
+        LOG.info("SELECT \"ID\", \"Name\", \"PersonID\" FROM keywords WHERE \"PersonID\" = + " + personId + ");");
+        String sqlQuery = "SELECT \"ID\", \"Name\", \"PersonID\" FROM keywords WHERE \"PersonID\" = (?);";
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setInt(1, personId);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        while (resultSet.next()) {
+            resultList.add(new TableKeywords(resultSet.getInt("id"),
+                    resultSet.getInt("personid"),
+                    resultSet.getString("name")));
         }
         preparedStatement.close();
 
