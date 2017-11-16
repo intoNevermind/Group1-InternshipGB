@@ -1,6 +1,6 @@
 package gb.internship.rest.requestcontrollers.user;
 
-import gb.internship.rest.dataobjects.TablePersonPageRank;
+import gb.internship.rest.dataobjects.TableKeywords;
 import gb.internship.rest.db.operations.UsersUiDbOperation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -14,42 +14,41 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * Операции с табилцей PersonPageRank.
+ * Операции с табилцей keywords.
  *
  * @author Aleksandr Vvedensky
  */
 @RestController
-public class UserUiPersonPageRank {
-
-    private Log LOG = LogFactory.getLog(UserUiPersonPageRank.class);
+public class UserUiKeywords {
+    private Log LOG = LogFactory.getLog(UserUiKeywords.class);
     private UsersUiDbOperation usersUiDbOperation;
 
-    public UserUiPersonPageRank() {
+    public UserUiKeywords() {
         usersUiDbOperation = new UsersUiDbOperation();
     }
 
     /**
-     * Возвращает список PersonPageRank по ID пользователя.
+     * Получение списка keywords.
      *
-     * @param id PersonID
-     * @return Список PersonPageRank или ошибку.
+     * @param id идентификатор личности.
+     * @return Список keywords или ошибку.
      */
-    @RequestMapping(value = {"/user/ui/getPersonPageRankByPersonId",
-            "/unauthorized/user/ui/getPersonPageRankByPersonId"})
-    public ResponseEntity<?> getPersonPageRankByPersonId(@RequestParam(value = "id") Integer id) {
+    @RequestMapping(value = {"/user/ui/getKeywordsByPersonId",
+            "/unauthorized/user/ui/getKeywordsByPersonId"})
+    public ResponseEntity<?> getKeywordsByPersonId(@RequestParam(value = "id") Integer id) {
         if (id == null) {
-            LOG.warn("Error in /user/ui/getPersonPageRankByPersonId. id == null");
+            LOG.warn("Error in /admin/ui/getKeywordsByPersonId. id == null");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Error. id == null");
         }
 
         try {
-            List<TablePersonPageRank> resultList = usersUiDbOperation.getPersonPageRankByPersonId(id);
+            List<TableKeywords> resultList = usersUiDbOperation.getKeywordsByPersonId(id);
             return new ResponseEntity<>(resultList, HttpStatus.OK);
         } catch (SQLException ex) {
-            LOG.warn("Error at run getPersonPageRankByPersonId.");
+            LOG.warn("Error at run getKeywordsByPersonId.");
             ex.printStackTrace();
-            return new ResponseEntity<>("Error at run getPersonPageRankByPersonId.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Error at run getKeywordsByPersonId.", HttpStatus.BAD_REQUEST);
         }
     }
 }
