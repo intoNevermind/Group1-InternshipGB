@@ -15,13 +15,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @SpringBootApplication
 @EnableWebMvc
 @Configuration
-//@ComponentScan(basePackages = "gb.internship.rest.requestcontrollers")
-//@ComponentScan(basePackages = {"gb.internship.rest.requestcontrollers",
-//        "gb.internship.rest.security",
-//        "gb.internship.rest.webpagecontroller"})
 @ComponentScan(basePackages = "gb.internship.rest")
-//webpagecontroller
-//@ComponentScan(basePackages = "gb.internship.rest.webpagecontroller")
 public class StartUp {
 
     public static void main(String[] args) {
