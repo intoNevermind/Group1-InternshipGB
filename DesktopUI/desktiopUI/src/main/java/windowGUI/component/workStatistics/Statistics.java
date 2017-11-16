@@ -1,11 +1,11 @@
-package windowGUI.component.worcStatistics;
+package windowGUI.component.workStatistics;
 
 import windowGUI.ApplicationWindow;
 import windowGUI.MyStyle;
 import windowGUI.component.ConfigurationGBL;
-import windowGUI.component.workDB.workProcessingData.ProcessingPersonPageRankTable;
-import windowGUI.component.workDB.workProcessingData.ProcessingPersonTable;
-import windowGUI.component.workDB.workProcessingData.ProcessingSitesTable;
+import windowGUI.component.workDB.processingData.ProcessingPersonPageRankTable;
+import windowGUI.component.workDB.processingData.ProcessingPersonTable;
+import windowGUI.component.workDB.processingData.ProcessingSitesTable;
 
 import javax.swing.*;
 import java.awt.*;

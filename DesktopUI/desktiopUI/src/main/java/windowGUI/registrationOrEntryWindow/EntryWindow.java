@@ -1,9 +1,12 @@
-package windowGUI.registrationOrEntry;
+package windowGUI.registrationOrEntryWindow;
 
-import javax.swing.*;
+import windowGUI.ApplicationWindow;
+
+import java.awt.event.ActionEvent;
 
 import static java.awt.GridBagConstraints.EAST;
 import static java.awt.GridBagConstraints.REMAINDER;
+import static windowGUI.registrationOrEntryWindow.AuthorizationWindow.getWINDOW;
 
 public class EntryWindow extends Authorization {
     private static final String TAB_TITLE = "Вход";
@@ -31,5 +34,13 @@ public class EntryWindow extends Authorization {
         getBtnContinue().setText("Войти");
         getGBL().setConstraints(getBtnContinue(), getCGBL().configGBCTest(REMAINDER,true));
         getPanelTabs().add(getBtnContinue());
+    }
+
+    @Override
+    public void openApplication(ActionEvent actionEvent) {
+        if(getLoginField() != null && getPasswordField() != null){
+            new ApplicationWindow();
+        }
+        getWINDOW().dispose();
     }
 }

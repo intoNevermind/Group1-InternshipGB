@@ -1,6 +1,6 @@
 package windowGUI;
 
-import windowGUI.registrationOrEntry.AuthorizationWindow;
+import windowGUI.registrationOrEntryWindow.AuthorizationWindow;
 
 import javax.swing.*;
 

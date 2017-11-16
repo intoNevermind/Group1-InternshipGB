@@ -1,10 +1,7 @@
 package windowGUI.component.workDB.tables;
 
-import windowGUI.component.workDB.restApi.PojoPages;
 import windowGUI.component.workDB.restApi.RestApiForPagesTable;
 
-import retrofit2.Response;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;

@@ -1,6 +1,6 @@
-package windowGUI.component.worcStatistics;
+package windowGUI.component.workStatistics;
 
-import windowGUI.component.workDB.workProcessingData.ProcessingData;
+import windowGUI.component.workDB.processingData.ProcessingData;
 
 import javax.swing.*;
 import java.awt.*;

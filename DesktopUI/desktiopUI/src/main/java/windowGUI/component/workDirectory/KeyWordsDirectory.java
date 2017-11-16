@@ -1,6 +1,6 @@
 package windowGUI.component.workDirectory;
 
-import windowGUI.component.workDB.workProcessingData.ProcessingData;
+import windowGUI.component.workDB.processingData.ProcessingData;
 import windowGUI.editingDirectoryWindow.add.AddKeyWordWindow;
 import windowGUI.editingDirectoryWindow.delete.DelKeyWordWindow;
 import windowGUI.editingDirectoryWindow.edit.EditKeyWordWindow;

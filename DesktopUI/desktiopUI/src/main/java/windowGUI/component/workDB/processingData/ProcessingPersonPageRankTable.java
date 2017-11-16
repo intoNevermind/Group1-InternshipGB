@@ -1,4 +1,4 @@
-package windowGUI.component.workDB.workProcessingData;
+package windowGUI.component.workDB.processingData;
 
 import windowGUI.component.workDB.tables.PagesTable;
 import windowGUI.component.workDB.tables.PersonPageRankTable;

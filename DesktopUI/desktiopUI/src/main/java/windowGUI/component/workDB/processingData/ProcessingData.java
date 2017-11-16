@@ -1,4 +1,4 @@
-package windowGUI.component.workDB.workProcessingData;
+package windowGUI.component.workDB.processingData;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

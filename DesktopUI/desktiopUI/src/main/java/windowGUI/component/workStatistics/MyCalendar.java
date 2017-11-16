@@ -1,4 +1,4 @@
-package windowGUI.component.worcStatistics;
+package windowGUI.component.workStatistics;
 
 import java.awt.*;
 import com.toedter.calendar.JDateChooser;

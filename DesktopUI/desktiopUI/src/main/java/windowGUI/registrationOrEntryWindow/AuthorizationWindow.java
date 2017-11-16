@@ -1,4 +1,4 @@
-package windowGUI.registrationOrEntry;
+package windowGUI.registrationOrEntryWindow;
 
 import windowGUI.ConfigurationsWindowGUI;
 import windowGUI.MyStyle;
@@ -52,5 +52,9 @@ public class AuthorizationWindow {
 
     public static int getSizeHeight() {
         return SIZE_HEIGHT;
+    }
+
+    public static JFrame getWINDOW() {
+        return WINDOW;
     }
 }

@@ -1,8 +1,9 @@
 package windowGUI;
 
-import windowGUI.component.worcStatistics.DailyStatistic;
-import windowGUI.component.worcStatistics.GeneralStatistic;
+import windowGUI.component.workStatistics.DailyStatistic;
+import windowGUI.component.workStatistics.GeneralStatistic;
 import windowGUI.component.workDirectory.ListOfTabsDirectory;
+import windowGUI.component.workUsers.Users;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,8 +24,9 @@ public class ApplicationWindow {
     private static final DailyStatistic DAILY_STATISTIC = new DailyStatistic();
     private static final GeneralStatistic GENERAL_STATISTIC = new GeneralStatistic();
     private static final ListOfTabsDirectory LIST_OF_TABS_DIRECTORY = new ListOfTabsDirectory();
+    private static final Users USERS = new Users();
 
-    ApplicationWindow() {
+    public ApplicationWindow() {
         MY_STYLE.setStyle(getListComponents());
 
         WINDOW.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -42,6 +44,7 @@ public class ApplicationWindow {
         LIST_OF_TABS.addTab(GENERAL_STATISTIC.getTabName(), GENERAL_STATISTIC.getPanelStat());
         LIST_OF_TABS.addTab(DAILY_STATISTIC.getTabName(), DAILY_STATISTIC.getPanelStat());
         LIST_OF_TABS.addTab(LIST_OF_TABS_DIRECTORY.getNameListOfTabs(), LIST_OF_TABS_DIRECTORY.getListOfTabs());
+        LIST_OF_TABS.addTab(USERS.getTabName(), USERS.getPanelUser());
     }
 
     private ArrayList<Component> getListComponents(){

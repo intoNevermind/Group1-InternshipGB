@@ -3,9 +3,9 @@ package windowGUI.component.workDirectory;
 import windowGUI.ApplicationWindow;
 import windowGUI.MyStyle;
 import windowGUI.component.ConfigurationGBL;
-import windowGUI.component.workDB.workProcessingData.ProcessingKeyWordsTable;
-import windowGUI.component.workDB.workProcessingData.ProcessingPersonTable;
-import windowGUI.component.workDB.workProcessingData.ProcessingSitesTable;
+import windowGUI.component.workDB.processingData.ProcessingKeyWordsTable;
+import windowGUI.component.workDB.processingData.ProcessingPersonTable;
+import windowGUI.component.workDB.processingData.ProcessingSitesTable;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -24,9 +24,9 @@ public abstract class Directory {
     private static final GridBagLayout GBL = new GridBagLayout();
     private static final ConfigurationGBL CGBL = new ConfigurationGBL();
 
-    private final JPanel panelDirectory = new JPanel();
-    private final JPanel optionsPanel = new JPanel();
-    private final JPanel btnPanel = new JPanel();
+    private final JPanel panelDirectory = new JPanel(new BorderLayout());
+    private final JPanel optionsPanel = new JPanel(GBL);
+    private final JPanel btnPanel = new JPanel(new FlowLayout());
 
     private static final ProcessingPersonTable P_PERSON_T = new ProcessingPersonTable();
     private static final ProcessingKeyWordsTable P_KEY_WORDS_T = new ProcessingKeyWordsTable();
@@ -48,10 +48,8 @@ public abstract class Directory {
     Directory() {
         MY_STYLE.setStyle(getListComponents());
 
-        panelDirectory.setLayout(new BorderLayout());
         panelDirectory.setPreferredSize(new Dimension(PANEL_DIRECTORY_SIZE_WIDTH, PANEL_DIRECTORY_SIZE_HEIGHT));
-        optionsPanel.setLayout(GBL);
-        btnPanel.setLayout(new FlowLayout());
+
         panelDirectory.add(optionsPanel, BorderLayout.NORTH);
         panelDirectory.add(btnPanel,BorderLayout.SOUTH);
 

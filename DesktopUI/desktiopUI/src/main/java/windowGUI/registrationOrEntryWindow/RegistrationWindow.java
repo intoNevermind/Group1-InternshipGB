@@ -1,7 +1,12 @@
-package windowGUI.registrationOrEntry;
+package windowGUI.registrationOrEntryWindow;
+
+import windowGUI.ApplicationWindow;
+
+import java.awt.event.ActionEvent;
 
 import static java.awt.GridBagConstraints.EAST;
 import static java.awt.GridBagConstraints.REMAINDER;
+import static windowGUI.registrationOrEntryWindow.AuthorizationWindow.getWINDOW;
 
 public class RegistrationWindow extends Authorization {
     private static final String TAB_TITLE = "Регистрация";
@@ -39,6 +44,12 @@ public class RegistrationWindow extends Authorization {
         getBtnContinue().setText("Зарегистрироваться");
         getGBL().setConstraints(getBtnContinue(), getCGBL().configGBCTest(REMAINDER,true));
         getPanelTabs().add(getBtnContinue());
+    }
+
+    @Override
+    public void openApplication(ActionEvent actionEvent) {
+        new ApplicationWindow();
+        getWINDOW().dispose();
     }
 
 }

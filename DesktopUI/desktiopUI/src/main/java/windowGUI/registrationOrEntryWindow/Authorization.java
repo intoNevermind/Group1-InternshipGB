@@ -1,10 +1,11 @@
-package windowGUI.registrationOrEntry;
+package windowGUI.registrationOrEntryWindow;
 
 import windowGUI.MyStyle;
 import windowGUI.component.ConfigurationGBL;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
 public abstract class Authorization {
@@ -40,9 +41,11 @@ public abstract class Authorization {
         panelTabs.setPreferredSize(new Dimension(PANEL_TABS_SIZE_WIDTH, PANEL_TABS_SIZE_HEIGHT));
 
         fillTabPanel();
+        addBtnListener();
     }
 
     public abstract void fillTabPanel();
+    public abstract void openApplication(ActionEvent actionEvent);
 
     private ArrayList<Component> getListComponents(){
         ArrayList<Component> listComponent = new ArrayList<>();
@@ -60,11 +63,13 @@ public abstract class Authorization {
         return listComponent;
     }
 
+    private void addBtnListener(){
+        btnContinue.addActionListener(this::openApplication);
+    }
 
     public static GridBagLayout getGBL() {
         return GBL;
     }
-
     public static ConfigurationGBL getCGBL() {
         return CGBL;
     }
@@ -72,7 +77,6 @@ public abstract class Authorization {
     public String getTabTitle() {
         return tabTitle;
     }
-
     void setTabTitle(String tabTitle) {
         this.tabTitle = tabTitle;
     }
@@ -81,39 +85,37 @@ public abstract class Authorization {
         return panelTabs;
     }
 
-    public JLabel getHeadLineLogin() {
+    JLabel getHeadLineLogin() {
         return headLineLogin;
     }
-    public JLabel getHeadLinePassword() {
+    JLabel getHeadLinePassword() {
         return headLinePassword;
     }
-    public JLabel getHeadLineEmail() {
+    JLabel getHeadLineEmail() {
         return headLineEmail;
     }
-    public JLabel getHeadLinePasswordRepeat() {
+    JLabel getHeadLinePasswordRepeat() {
         return headLinePasswordRepeat;
     }
 
-
-
-    public JTextField getLoginField() {
+    JTextField getLoginField() {
         return loginField;
     }
-    public JTextField getPasswordField() {
+    JTextField getPasswordField() {
         return passwordField;
     }
-    public JTextField getEmailField() {
+    JTextField getEmailField() {
         return emailField;
     }
-    public JTextField getPasswordRepeatField() {
+    JTextField getPasswordRepeatField() {
         return passwordRepeatField;
     }
 
-    public JCheckBox getRemember() {
+    JCheckBox getRemember() {
         return remember;
     }
 
-    public JButton getBtnContinue() {
+    JButton getBtnContinue() {
         return btnContinue;
     }
 }
