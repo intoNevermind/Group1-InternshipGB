@@ -1,7 +1,9 @@
 package windowGUI.component.workDirectory;
 
-import windowGUI.editingDirectoryWindow.*;
 import windowGUI.component.workDB.workProcessingData.ProcessingData;
+import windowGUI.editingDirectoryWindow.add.AddKeyWordWindow;
+import windowGUI.editingDirectoryWindow.delete.DelKeyWordWindow;
+import windowGUI.editingDirectoryWindow.edit.EditKeyWordWindow;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;

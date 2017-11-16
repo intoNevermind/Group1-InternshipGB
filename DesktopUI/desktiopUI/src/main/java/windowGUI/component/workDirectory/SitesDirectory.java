@@ -1,8 +1,8 @@
 package windowGUI.component.workDirectory;
 
-import windowGUI.editingDirectoryWindow.AddSiteWindow;
-import windowGUI.editingDirectoryWindow.DelSiteWindow;
-import windowGUI.editingDirectoryWindow.EditSiteWindow;
+import windowGUI.editingDirectoryWindow.add.AddSiteWindow;
+import windowGUI.editingDirectoryWindow.delete.DelSiteWindow;
+import windowGUI.editingDirectoryWindow.edit.EditSiteWindow;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;

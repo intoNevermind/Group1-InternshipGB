@@ -1,21 +1,24 @@
 package windowGUI;
 
+import windowGUI.registrationOrEntry.AuthorizationWindow;
+
 import javax.swing.*;
 
 public class launchApplication {
 
     public static void main(String[] args) {
         setStyleLookAndFeel();
-        new ApplicationWindow();
+//        new ApplicationWindow();
+        new AuthorizationWindow();
     }
 
     private static void setStyleLookAndFeel(){
         try {
-            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+            UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
         } catch (ClassNotFoundException |
-                 InstantiationException |
-                 IllegalAccessException |
-                 UnsupportedLookAndFeelException e) {
+                InstantiationException |
+                IllegalAccessException |
+                UnsupportedLookAndFeelException  e) {
             e.printStackTrace();
         }
     }

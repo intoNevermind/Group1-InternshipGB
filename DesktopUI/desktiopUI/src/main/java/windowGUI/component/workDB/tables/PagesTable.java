@@ -36,15 +36,15 @@ public class PagesTable extends ConnectServer {
     }
 
     private void infoAllPages(){
-        try {
-            Response<ArrayList<PojoPages>> response = restApiForPagesTable.getListAllPages().execute();
-            ArrayList<PojoPages> list = response.body();
-            for (int i = 0; i < list.size(); i++) {
-                /*тут будут заполнятся списки*/
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Response<ArrayList<PojoPages>> response = restApiForPagesTable.getListAllPages().execute();
+//            ArrayList<PojoPages> list = response.body();
+//            for (int i = 0; i < list.size(); i++) {
+//                /*тут будут заполнятся списки*/
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public ArrayList<Integer> getListID(){

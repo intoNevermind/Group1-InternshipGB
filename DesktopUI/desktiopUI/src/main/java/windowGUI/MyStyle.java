@@ -22,7 +22,7 @@ public class MyStyle {
             }
             if(listComponent.get(i)instanceof JButton){
                 listComponent.get(i).setFont(new Font(font, Font.PLAIN, 18));
-                listComponent.get(i).setForeground(Color.BLUE);
+                listComponent.get(i).setForeground(Color.DARK_GRAY);
             }
             if(listComponent.get(i) instanceof JCheckBox){
                 listComponent.get(i).setFont(new Font(font, Font.PLAIN, 14));

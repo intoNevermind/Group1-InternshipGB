@@ -1,14 +1,15 @@
-package windowGUI.editingDirectoryWindow;
+package windowGUI.editingDirectoryWindow.add;
 
 import windowGUI.ConfigurationsWindowGUI;
 import windowGUI.component.workDB.tables.KeyWordsTable;
 import windowGUI.component.workDirectory.KeyWordsDirectory;
+import windowGUI.editingDirectoryWindow.EditingDirectoryWindow;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import static java.awt.GridBagConstraints.*;
 
-public class AddKeyWordWindow extends EditingDirectoryWindow{
+public class AddKeyWordWindow extends EditingDirectoryWindow {
     private static final KeyWordsDirectory KEY_WORDS_DIRECTORY = new KeyWordsDirectory();
     private static final KeyWordsTable TABLE_KEY_WORDS = KeyWordsTable.getInstance();
     private int personID;
@@ -24,10 +25,10 @@ public class AddKeyWordWindow extends EditingDirectoryWindow{
 
     @Override
     public void fillAddPanels() {
-        getGBL().setConstraints(getHeadLineTextFieldName(), getCGBL().configGBCTest(WEST,1,false));
-        getTextFieldPanel().add(getHeadLineTextFieldName());
-        getGBL().setConstraints(getValueEntryFieldName(), getCGBL().configGBCTest(REMAINDER,true));
-        getTextFieldPanel().add(getValueEntryFieldName());
+        getGBL().setConstraints(getHeadLineName(), getCGBL().configGBCTest(WEST,1,false));
+        getTextFieldPanel().add(getHeadLineName());
+        getGBL().setConstraints(getNameField(), getCGBL().configGBCTest(REMAINDER,true));
+        getTextFieldPanel().add(getNameField());
 
         getGBL().setConstraints(getBtnSave(), getCGBL().configGBCTest(1,true));
         getBtnPanel().add(getBtnSave());
@@ -37,11 +38,11 @@ public class AddKeyWordWindow extends EditingDirectoryWindow{
 
     @Override
     public void saveEditing(ActionEvent actionEvent) {
-        if(getValueEntryFieldName().getText() != null){
-            TABLE_KEY_WORDS.addKeyWordReal(getValueEntryFieldName().getText(), personID);
+        if(getNameField().getText() != null){
+            TABLE_KEY_WORDS.addKeyWordReal(getNameField().getText(), personID);
         }
         KEY_WORDS_DIRECTORY.getPanelDirectory().updateUI();
-        getValueEntryFieldName().setText(null);
+        getNameField().setText(null);
         getWindow().dispose();
     }
 

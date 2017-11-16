@@ -1,6 +1,8 @@
 package windowGUI.component.workDirectory;
 
-import windowGUI.editingDirectoryWindow.*;
+import windowGUI.editingDirectoryWindow.add.AddPersonWindow;
+import windowGUI.editingDirectoryWindow.delete.DelPersonWindow;
+import windowGUI.editingDirectoryWindow.edit.EditPersonWindow;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;

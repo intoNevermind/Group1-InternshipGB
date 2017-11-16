@@ -1,8 +1,9 @@
-package windowGUI.editingDirectoryWindow;
+package windowGUI.editingDirectoryWindow.add;
 
 import windowGUI.ConfigurationsWindowGUI;
 import windowGUI.component.workDB.tables.SitesTable;
 import windowGUI.component.workDirectory.SitesDirectory;
+import windowGUI.editingDirectoryWindow.EditingDirectoryWindow;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -22,15 +23,15 @@ public class AddSiteWindow extends EditingDirectoryWindow {
 
     @Override
     public void fillAddPanels() {
-        getGBL().setConstraints(getHeadLineTextFieldName(), getCGBL().configGBCTest(WEST,1,false));
-        getTextFieldPanel().add(getHeadLineTextFieldName());
-        getGBL().setConstraints(getValueEntryFieldName(), getCGBL().configGBCTest(REMAINDER,true));
-        getTextFieldPanel().add(getValueEntryFieldName());
+        getGBL().setConstraints(getHeadLineName(), getCGBL().configGBCTest(WEST,1,false));
+        getTextFieldPanel().add(getHeadLineName());
+        getGBL().setConstraints(getNameField(), getCGBL().configGBCTest(REMAINDER,true));
+        getTextFieldPanel().add(getNameField());
 
-        getGBL().setConstraints(getHeadLineTextFieldURL(), getCGBL().configGBCTest(WEST,1,true));
-        getTextFieldPanel().add(getHeadLineTextFieldURL());
-        getGBL().setConstraints(getValueEntryFieldURL(), getCGBL().configGBCTest(REMAINDER,true));
-        getTextFieldPanel().add(getValueEntryFieldURL());
+        getGBL().setConstraints(getHeadLineURL(), getCGBL().configGBCTest(WEST,1,true));
+        getTextFieldPanel().add(getHeadLineURL());
+        getGBL().setConstraints(getUrlField(), getCGBL().configGBCTest(REMAINDER,true));
+        getTextFieldPanel().add(getUrlField());
 
         getGBL().setConstraints(getActive(), getCGBL().configGBCTest(REMAINDER,true));
         getTextFieldPanel().add(getActive());
@@ -43,11 +44,11 @@ public class AddSiteWindow extends EditingDirectoryWindow {
 
     @Override
     public void saveEditing(ActionEvent actionEvent) {
-        if(getValueEntryFieldName().getText() != null){
-            TABLE_SITES.addSite(getValueEntryFieldName().getText(), getValueEntryFieldURL().getText(),getActive().isSelected());
+        if(getNameField().getText() != null){
+            TABLE_SITES.addSite(getNameField().getText(), getUrlField().getText(),getActive().isSelected());
         }
         SITES_DIRECTORY.getPanelDirectory().updateUI();
-        getValueEntryFieldName().setText(null);
+        getNameField().setText(null);
         getWindow().dispose();
     }
 }

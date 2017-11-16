@@ -1,8 +1,9 @@
-package windowGUI.editingDirectoryWindow;
+package windowGUI.editingDirectoryWindow.add;
 
 import windowGUI.ConfigurationsWindowGUI;
 import windowGUI.component.workDB.tables.PersonTable;
 import windowGUI.component.workDirectory.PersonDirectory;
+import windowGUI.editingDirectoryWindow.EditingDirectoryWindow;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -21,10 +22,10 @@ public class AddPersonWindow extends EditingDirectoryWindow {
 
     @Override
     public void fillAddPanels() {
-        getGBL().setConstraints(getHeadLineTextFieldName(), getCGBL().configGBCTest(WEST,1,false));
-        getTextFieldPanel().add(getHeadLineTextFieldName());
-        getGBL().setConstraints(getValueEntryFieldName(), getCGBL().configGBCTest(REMAINDER,true));
-        getTextFieldPanel().add(getValueEntryFieldName());
+        getGBL().setConstraints(getHeadLineName(), getCGBL().configGBCTest(WEST,1,false));
+        getTextFieldPanel().add(getHeadLineName());
+        getGBL().setConstraints(getNameField(), getCGBL().configGBCTest(REMAINDER,true));
+        getTextFieldPanel().add(getNameField());
 
         getGBL().setConstraints(getActive(), getCGBL().configGBCTest(REMAINDER,true));
         getTextFieldPanel().add(getActive());
@@ -37,12 +38,12 @@ public class AddPersonWindow extends EditingDirectoryWindow {
 
     @Override
     public void saveEditing(ActionEvent actionEvent) {
-        if(getValueEntryFieldName().getText() != null){
-            TABLE_PERSON.addPerson(getValueEntryFieldName().getText(),getActive().isSelected());
+        if(getNameField().getText() != null){
+            TABLE_PERSON.addPerson(getNameField().getText(),getActive().isSelected());
             System.out.println(getActive().isSelected());
         }
         PERSON_DIRECTORY.getPanelDirectory().updateUI();
-        getValueEntryFieldName().setText(null);
+        getNameField().setText(null);
         getWindow().dispose();
     }
 }

@@ -11,13 +11,12 @@ import java.util.ArrayList;
 public class ApplicationWindow {
 
     private static final int SIZE_WIDTH = 600;
-    private static final int SIZE_HEIGHT = 600;
+    private static final int SIZE_HEIGHT = 500;
     private static final String WINDOW_TITLE = "Выбор статистики";
 
     private static final MyStyle MY_STYLE = new MyStyle();
 
     private static final JFrame WINDOW = new JFrame();
-    private static final JPanel LIST_STATISTIC = new JPanel();
     private static final JTabbedPane LIST_OF_TABS = new JTabbedPane(JTabbedPane.TOP, JTabbedPane.SCROLL_TAB_LAYOUT);
 
 
@@ -33,14 +32,13 @@ public class ApplicationWindow {
 
         addTabs();
 
-        LIST_STATISTIC.setLayout(new BorderLayout());
-        LIST_STATISTIC.add(LIST_OF_TABS,BorderLayout.CENTER);
-        WINDOW.add(LIST_STATISTIC, BorderLayout.NORTH);
+        WINDOW.add(LIST_OF_TABS, BorderLayout.CENTER);
         WINDOW.setVisible(true);
 
     }
     private static void addTabs(){
         LIST_OF_TABS.setVisible(true);
+        LIST_OF_TABS.setPreferredSize(new Dimension(SIZE_WIDTH, SIZE_HEIGHT ));
         LIST_OF_TABS.addTab(GENERAL_STATISTIC.getTabName(), GENERAL_STATISTIC.getPanelStat());
         LIST_OF_TABS.addTab(DAILY_STATISTIC.getTabName(), DAILY_STATISTIC.getPanelStat());
         LIST_OF_TABS.addTab(LIST_OF_TABS_DIRECTORY.getNameListOfTabs(), LIST_OF_TABS_DIRECTORY.getListOfTabs());

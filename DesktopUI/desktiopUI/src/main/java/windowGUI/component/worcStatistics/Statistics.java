@@ -1,7 +1,6 @@
 package windowGUI.component.worcStatistics;
 
 import windowGUI.ApplicationWindow;
-import windowGUI.MyCalendar;
 import windowGUI.MyStyle;
 import windowGUI.component.ConfigurationGBL;
 import windowGUI.component.workDB.workProcessingData.ProcessingPersonPageRankTable;
@@ -19,16 +18,14 @@ public abstract class Statistics {
 
     private String tabName ;
 
-    private static final int INDENT_WIDTH = 200;
-    private static final int INDENT_HEIGHT = 100;
-    private static final int PANEL_STAT_SIZE_WIDTH = ApplicationWindow.getSizeWidth() - INDENT_WIDTH;
-    private static final int PANEL_STAT_SIZE_HEIGHT = ApplicationWindow.getSizeHeight() - INDENT_HEIGHT;
+    private static final int PANEL_STAT_SIZE_WIDTH = ApplicationWindow.getSizeWidth() ;
+    private static final int PANEL_STAT_SIZE_HEIGHT = ApplicationWindow.getSizeHeight() ;
 
     private static final GridBagLayout GBL = new GridBagLayout();
     private static final ConfigurationGBL CGBL = new ConfigurationGBL();
 
-    private final JPanel panelStat = new JPanel();
-    private final JPanel optionsPanel = new JPanel();
+    private final JPanel panelStat = new JPanel(new BorderLayout());
+    private final JPanel optionsPanel = new JPanel(GBL);
 
     private static final ProcessingPersonPageRankTable P_PERSON_PAGE_RANK_T = new ProcessingPersonPageRankTable();
     private static final ProcessingSitesTable P_SITES_T = new ProcessingSitesTable();
@@ -51,26 +48,11 @@ public abstract class Statistics {
     JTable dataTable;
     JScrollPane dataScrollPane;
 
-    private ArrayList<Component> getListComponents(){
-        ArrayList<Component> listComponent = new ArrayList<>();
-        listComponent.add(headlineSite);
-        listComponent.add(headlinePersons);
-        listComponent.add(headlineStartPeriod);
-        listComponent.add(headlineFinishPeriod);
-        listComponent.add(listSite);
-        listComponent.add(listPersons);
-        listComponent.add(startCalendar);
-        listComponent.add(finishCalendar);
-        listComponent.add(btnConfirm);
-        listComponent.add(dataTable);
-        return listComponent;
-    }
+
     Statistics() {
         MY_STYLE.setStyle(getListComponents());
 
-        panelStat.setLayout(new BorderLayout());
         panelStat.setPreferredSize(new Dimension(PANEL_STAT_SIZE_WIDTH, PANEL_STAT_SIZE_HEIGHT));
-        optionsPanel.setLayout(GBL);
         panelStat.add(optionsPanel, BorderLayout.NORTH);
 
         fillOptionsPanel();
@@ -88,7 +70,24 @@ public abstract class Statistics {
     public void removeDataTable(PropertyChangeEvent evt){}
     public void initFinishDate(PropertyChangeEvent evt){}
 
+    private ArrayList<Component> getListComponents(){
+        ArrayList<Component> listComponent = new ArrayList<>();
+        listComponent.add(headlineSite);
+        listComponent.add(headlinePersons);
+        listComponent.add(headlineStartPeriod);
+        listComponent.add(headlineFinishPeriod);
 
+        listComponent.add(listSite);
+        listComponent.add(listPersons);
+
+        listComponent.add(startCalendar);
+        listComponent.add(finishCalendar);
+
+        listComponent.add(btnConfirm);
+
+        listComponent.add(dataTable);
+        return listComponent;
+    }
 
     private void removeDataTable(ActionEvent actionEvent) {
         for (int i = 0; i < getPanelStat().getComponents().length; i++) {

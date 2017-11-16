@@ -1,8 +1,9 @@
-package windowGUI.editingDirectoryWindow;
+package windowGUI.editingDirectoryWindow.edit;
 
 import windowGUI.ConfigurationsWindowGUI;
 import windowGUI.component.workDB.tables.KeyWordsTable;
 import windowGUI.component.workDirectory.KeyWordsDirectory;
+import windowGUI.editingDirectoryWindow.EditingDirectoryWindow;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -29,12 +30,12 @@ public class EditKeyWordWindow extends EditingDirectoryWindow {
 
     @Override
     public void fillEditPanels() {
-        getGBL().setConstraints(getHeadLineTextFieldName(), getCGBL().configGBCTest(WEST,1,false));
-        getTextFieldPanel().add(getHeadLineTextFieldName());
+        getGBL().setConstraints(getHeadLineName(), getCGBL().configGBCTest(WEST,1,false));
+        getTextFieldPanel().add(getHeadLineName());
 
-        getValueEntryFieldName().setText(keyWordName);
-        getGBL().setConstraints(getValueEntryFieldName(), getCGBL().configGBCTest(REMAINDER,true));
-        getTextFieldPanel().add(getValueEntryFieldName());
+        getNameField().setText(keyWordName);
+        getGBL().setConstraints(getNameField(), getCGBL().configGBCTest(REMAINDER,true));
+        getTextFieldPanel().add(getNameField());
 
         getGBL().setConstraints(getBtnSave(), getCGBL().configGBCTest(1,true));
         getBtnPanel().add(getBtnSave());
@@ -44,11 +45,11 @@ public class EditKeyWordWindow extends EditingDirectoryWindow {
 
     @Override
     public void saveEditing(ActionEvent actionEvent) {
-        if(getValueEntryFieldName().getText() != null ){
+        if(getNameField().getText() != null ){
             TABLE_KEY_WORDS.modifyKeyWordReal(keyWordID,keyWordName,personID);
         }
         KEY_WORDS_DIRECTORY.getPanelDirectory().updateUI();
-        getValueEntryFieldName().setText(null);
+        getNameField().setText(null);
         getWindow().dispose();
     }
 }

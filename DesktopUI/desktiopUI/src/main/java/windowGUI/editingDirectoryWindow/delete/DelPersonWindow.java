@@ -1,8 +1,9 @@
-package windowGUI.editingDirectoryWindow;
+package windowGUI.editingDirectoryWindow.delete;
 
 import windowGUI.ConfigurationsWindowGUI;
 import windowGUI.component.workDB.tables.PersonTable;
 import windowGUI.component.workDirectory.PersonDirectory;
+import windowGUI.editingDirectoryWindow.EditingDirectoryWindow;
 
 import java.awt.event.ActionEvent;
 

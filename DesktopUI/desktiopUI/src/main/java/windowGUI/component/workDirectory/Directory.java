@@ -18,10 +18,8 @@ public abstract class Directory {
 
     private String tabName;
 
-    private static final int INDENT_WIDTH = 200;
-    private static final int INDENT_HEIGHT = 100;
-    private static final int PANEL_DIRECTORY_SIZE_WIDTH = ApplicationWindow.getSizeWidth() - INDENT_WIDTH;
-    private static final int PANEL_DIRECTORY_SIZE_HEIGHT = ApplicationWindow.getSizeHeight() - INDENT_HEIGHT;
+    private static final int PANEL_DIRECTORY_SIZE_WIDTH = ApplicationWindow.getSizeWidth();
+    private static final int PANEL_DIRECTORY_SIZE_HEIGHT = ApplicationWindow.getSizeHeight();
 
     private static final GridBagLayout GBL = new GridBagLayout();
     private static final ConfigurationGBL CGBL = new ConfigurationGBL();
@@ -46,8 +44,6 @@ public abstract class Directory {
 
     JTable dataTable;
     JScrollPane dataScrollPane;
-
-
 
     Directory() {
         MY_STYLE.setStyle(getListComponents());
@@ -78,11 +74,14 @@ public abstract class Directory {
     private ArrayList<Component> getListComponents(){
         ArrayList<Component> listComponent = new ArrayList<>();
         listComponent.add(headLinePerson);
+
         listComponent.add(listPersons);
+
         listComponent.add(btnConfirm);
         listComponent.add(btnAdd);
         listComponent.add(btnDelete);
         listComponent.add(btnEdit);
+
         listComponent.add(dataTable);
         return listComponent;
     }
@@ -143,7 +142,7 @@ public abstract class Directory {
     JPanel getOptionsPanel() {
         return optionsPanel;
     }
-    JPanel getBtnPanel() {
+    private JPanel getBtnPanel() {
         return btnPanel;
     }
 

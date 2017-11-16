@@ -27,25 +27,25 @@ public abstract class EditingDirectoryWindow {
     private final JPanel btnPanel = new JPanel(GBL);
     private final JPanel panelText = new JPanel(new BorderLayout());
 
-    private final JLabel headLineTextFieldName = new JLabel("Наименование");
-    private final JLabel headLineTextFieldURL = new JLabel("URL");
-    private final JLabel headLineTextFieldDel = new JLabel();
+    private final JLabel headLineName = new JLabel("Наименование");
+    private final JLabel headLineURL = new JLabel("URL");
+    private final JLabel headLineDel = new JLabel();
 
-    private final JTextField valueEntryFieldName = new JTextField();
-    private final JTextField valueEntryFieldURL = new JTextField();
+    private final JTextField nameField = new JTextField();
+    private final JTextField urlField = new JTextField();
 
     private final JButton btnSave = new JButton("Сохранить");
     private final JButton btnCancel = new JButton("Отмена");
 
     private final JCheckBox active = new JCheckBox("Отображать эту запись в списке.");
 
-    EditingDirectoryWindow() {
+    public EditingDirectoryWindow() {
         MY_STYLE.setStyle(getListComponents());
 
         window.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-        valueEntryFieldName.setPreferredSize(new Dimension(FIELD_SIZE_WIDTH,FIELD_SIZE_HEIGHT));
-        valueEntryFieldURL.setPreferredSize(new Dimension(FIELD_SIZE_WIDTH,FIELD_SIZE_HEIGHT));
+        nameField.setPreferredSize(new Dimension(FIELD_SIZE_WIDTH,FIELD_SIZE_HEIGHT));
+        urlField.setPreferredSize(new Dimension(FIELD_SIZE_WIDTH,FIELD_SIZE_HEIGHT));
 
         window.add(btnPanel,BorderLayout.SOUTH);
         addBtnListener();
@@ -57,9 +57,9 @@ public abstract class EditingDirectoryWindow {
     public void fillAddPanels(){}
     public void fillEditPanels(){}
 
-    void fillDelPanels(String elementName){
-        headLineTextFieldDel.setText("Вы хотите удалить елемент " + elementName + " ?");
-        panelText.add(headLineTextFieldDel, BorderLayout.CENTER);
+    protected void fillDelPanels(String elementName){
+        headLineDel.setText("Вы хотите удалить елемент " + elementName + " ?");
+        panelText.add(headLineDel, BorderLayout.CENTER);
         window.add(panelText, BorderLayout.CENTER);
         btnSave.setText("Да");
         GBL.setConstraints(btnSave, CGBL.configGBCTest(1,true));
@@ -81,12 +81,12 @@ public abstract class EditingDirectoryWindow {
 
     private ArrayList<Component> getListComponents(){
         ArrayList<Component> listComponent = new ArrayList<>();
-        listComponent.add(headLineTextFieldName);
-        listComponent.add(headLineTextFieldURL);
-        listComponent.add(headLineTextFieldDel);
+        listComponent.add(headLineName);
+        listComponent.add(headLineURL);
+        listComponent.add(headLineDel);
 
         listComponent.add(textFieldPanel);
-        listComponent.add(valueEntryFieldURL);
+        listComponent.add(urlField);
 
         listComponent.add(btnSave);
         listComponent.add(btnCancel);
@@ -94,53 +94,53 @@ public abstract class EditingDirectoryWindow {
         return listComponent;
     }
 
-    static int getSizeWidth() {
+    public static int getSizeWidth() {
         return SIZE_WIDTH;
     }
-    static int getSizeHeight() {
+    public static int getSizeHeight() {
         return SIZE_HEIGHT;
     }
 
-    JFrame getWindow() {
+    public JFrame getWindow() {
         return window;
     }
 
-    static GridBagLayout getGBL() {
+    public static GridBagLayout getGBL() {
         return GBL;
     }
-    static ConfigurationGBL getCGBL() {
+    public static ConfigurationGBL getCGBL() {
         return CGBL;
     }
 
-    JPanel getBtnPanel() {
+    protected JPanel getBtnPanel() {
         return btnPanel;
     }
-    JPanel getTextFieldPanel() {
+    protected JPanel getTextFieldPanel() {
         return textFieldPanel;
     }
 
-    JLabel getHeadLineTextFieldName() {
-        return headLineTextFieldName;
+    protected JLabel getHeadLineName() {
+        return headLineName;
     }
-    JLabel getHeadLineTextFieldURL() {
-        return headLineTextFieldURL;
-    }
-
-    JTextField getValueEntryFieldName() {
-        return valueEntryFieldName;
-    }
-    JTextField getValueEntryFieldURL() {
-        return valueEntryFieldURL;
+    protected JLabel getHeadLineURL() {
+        return headLineURL;
     }
 
-    JButton getBtnSave() {
+    protected JTextField getNameField() {
+        return nameField;
+    }
+    protected JTextField getUrlField() {
+        return urlField;
+    }
+
+    protected JButton getBtnSave() {
         return btnSave;
     }
-    JButton getBtnCancel() {
+    protected JButton getBtnCancel() {
         return btnCancel;
     }
 
-    JCheckBox getActive() {
+    protected JCheckBox getActive() {
         return active;
     }
 }

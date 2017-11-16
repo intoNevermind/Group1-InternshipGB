@@ -1,12 +1,13 @@
-package windowGUI.editingDirectoryWindow;
+package windowGUI.editingDirectoryWindow.delete;
 
 import windowGUI.ConfigurationsWindowGUI;
 import windowGUI.component.workDB.tables.KeyWordsTable;
 import windowGUI.component.workDirectory.KeyWordsDirectory;
+import windowGUI.editingDirectoryWindow.EditingDirectoryWindow;
 
 import java.awt.event.ActionEvent;
 
-public class DelKeyWordWindow extends EditingDirectoryWindow{
+public class DelKeyWordWindow extends EditingDirectoryWindow {
     private static final KeyWordsDirectory KEY_WORDS_DIRECTORY = new KeyWordsDirectory();
     private static final KeyWordsTable TABLE_KEY_WORDS = KeyWordsTable.getInstance();
     private int keyWordID;

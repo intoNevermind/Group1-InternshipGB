@@ -25,7 +25,6 @@ public class ListOfTabsDirectory {
 
     private static void addTabs(){
         LIST_OF_TABS.setVisible(true);
-
         LIST_OF_TABS.addTab(sitesDirectory.getTabName(), sitesDirectory.getPanelDirectory());
         LIST_OF_TABS.addTab(personDirectory.getTabName(),personDirectory.getPanelDirectory());
         LIST_OF_TABS.addTab(keyWordsDirectory.getTabName(), keyWordsDirectory.getPanelDirectory());
@@ -37,11 +36,11 @@ public class ListOfTabsDirectory {
         return listComponent;
     }
 
-    public static JTabbedPane getListOfTabs() {
+    public JTabbedPane getListOfTabs() {
         return LIST_OF_TABS;
     }
 
-    public static String getNameListOfTabs() {
+    public String getNameListOfTabs() {
         return NAME_LIST_OF_TABS;
     }
 }

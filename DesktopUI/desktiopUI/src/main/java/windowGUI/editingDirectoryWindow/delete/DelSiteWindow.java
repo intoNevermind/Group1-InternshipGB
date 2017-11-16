@@ -1,12 +1,13 @@
-package windowGUI.editingDirectoryWindow;
+package windowGUI.editingDirectoryWindow.delete;
 
 import windowGUI.ConfigurationsWindowGUI;
 import windowGUI.component.workDB.tables.SitesTable;
 import windowGUI.component.workDirectory.SitesDirectory;
+import windowGUI.editingDirectoryWindow.EditingDirectoryWindow;
 
 import java.awt.event.ActionEvent;
 
-public class DelSiteWindow extends EditingDirectoryWindow{
+public class DelSiteWindow extends EditingDirectoryWindow {
     private static final SitesDirectory SITES_DIRECTORY = new SitesDirectory();
     private static final SitesTable TABLE_SITES = SitesTable.getInstance();
     private int sitesID;
