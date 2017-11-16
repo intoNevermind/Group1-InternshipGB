@@ -1,7 +1,7 @@
 package gb.internship.rest.requestcontrollers.admin;
 
 import gb.internship.rest.dataobjects.TablePersons;
-import gb.internship.rest.db.operations.AdminUiSitesDbOperations;
+import gb.internship.rest.db.operations.AdminUiDbOperations;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.http.HttpStatus;
@@ -22,10 +22,10 @@ import java.util.List;
 @RestController
 public class AdminUiPersonController {
     private Log LOG = LogFactory.getLog(AdminUiPersonController.class);
-    private AdminUiSitesDbOperations adminUiSitesDbOperations;
+    private AdminUiDbOperations adminUiDbOperations;
 
     public AdminUiPersonController() {
-        adminUiSitesDbOperations = new AdminUiSitesDbOperations();
+        adminUiDbOperations = new AdminUiDbOperations();
     }
 
     /**
@@ -37,7 +37,7 @@ public class AdminUiPersonController {
     public List<TablePersons> getAllPersons() {
         List<TablePersons> resultList = new ArrayList<>();
         try {
-            resultList = adminUiSitesDbOperations.getAllPersons();
+            resultList = adminUiDbOperations.getAllPersons();
         } catch (Exception ex) {
             LOG.warn("Error getting all persons data.");
             ex.printStackTrace();
@@ -68,7 +68,7 @@ public class AdminUiPersonController {
 
         Boolean activeBooleanValue = Boolean.parseBoolean(active);
         try {
-            adminUiSitesDbOperations.addPerson(name, activeBooleanValue);
+            adminUiDbOperations.addPerson(name, activeBooleanValue);
         } catch (Exception ex) {
             LOG.warn("Error at run add person.");
             ex.printStackTrace();
@@ -99,7 +99,7 @@ public class AdminUiPersonController {
         }
 
         try {
-            deletedRows = adminUiSitesDbOperations.delPerson(id);
+            deletedRows = adminUiDbOperations.delPerson(id);
         } catch (SQLException ex) {
             LOG.warn("Error at run del person.");
             ex.printStackTrace();
@@ -136,7 +136,7 @@ public class AdminUiPersonController {
         Boolean activeBooleanValue = Boolean.parseBoolean(active);
 
         try {
-            updatedRows = adminUiSitesDbOperations.modifyPerson(id, name, activeBooleanValue);
+            updatedRows = adminUiDbOperations.modifyPerson(id, name, activeBooleanValue);
         } catch (SQLException ex) {
             LOG.warn("Error at run modify person.");
             ex.printStackTrace();

@@ -1,8 +1,6 @@
 package gb.internship.rest.requestcontrollers.admin;
 
-import gb.internship.rest.dataobjects.TableKeywords;
-import gb.internship.rest.dataobjects.TablePersons;
-import gb.internship.rest.db.operations.AdminUiSitesDbOperations;
+import gb.internship.rest.db.operations.AdminUiDbOperations;
 import gb.internship.rest.dataobjects.TableSites;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -25,10 +23,10 @@ import java.util.List;
 public class AdminUiSitesController {
     private Log LOG = LogFactory.getLog(AdminUiSitesController.class);
 
-    private AdminUiSitesDbOperations adminUiSitesDbOperations;
+    private AdminUiDbOperations adminUiDbOperations;
 
     public AdminUiSitesController() throws SQLException {
-        adminUiSitesDbOperations = new AdminUiSitesDbOperations();
+        adminUiDbOperations = new AdminUiDbOperations();
     }
 
     /**
@@ -40,7 +38,7 @@ public class AdminUiSitesController {
     public List<TableSites> getAllSites() {
         List<TableSites> resultList = new ArrayList<>();
         try {
-            resultList = adminUiSitesDbOperations.getAllSites();
+            resultList = adminUiDbOperations.getAllSites();
         } catch (Exception ex) {
             LOG.warn("Error getting all sites data.");
             ex.printStackTrace();
@@ -81,7 +79,7 @@ public class AdminUiSitesController {
 
         Boolean activeBooleanValue = Boolean.parseBoolean(active);
         try {
-            adminUiSitesDbOperations.addSite(name, url, activeBooleanValue);
+            adminUiDbOperations.addSite(name, url, activeBooleanValue);
         } catch (Exception ex) {
             LOG.warn("Error at run add site.");
             ex.printStackTrace();
@@ -111,7 +109,7 @@ public class AdminUiSitesController {
         }
 
         try {
-            deletedRows = adminUiSitesDbOperations.delSite(id);
+            deletedRows = adminUiDbOperations.delSite(id);
         } catch (SQLException ex) {
             LOG.warn("Error at run del site.");
             ex.printStackTrace();
@@ -163,7 +161,7 @@ public class AdminUiSitesController {
         Boolean activeBooleanValue = Boolean.parseBoolean(active);
 
         try {
-            updatedRows = adminUiSitesDbOperations.modifySite(id, name, url, activeBooleanValue);
+            updatedRows = adminUiDbOperations.modifySite(id, name, url, activeBooleanValue);
         } catch (SQLException ex) {
             LOG.warn("Error at run modify site.");
             ex.printStackTrace();

@@ -1,7 +1,7 @@
 package gb.internship.rest.requestcontrollers.admin;
 
 import gb.internship.rest.dataobjects.TableKeywords;
-import gb.internship.rest.db.operations.AdminUiSitesDbOperations;
+import gb.internship.rest.db.operations.AdminUiDbOperations;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.http.HttpStatus;
@@ -22,10 +22,10 @@ import java.util.List;
 @RestController
 public class AdminUiKeywordController {
     private Log LOG = LogFactory.getLog(AdminUiKeywordController.class);
-    private AdminUiSitesDbOperations adminUiSitesDbOperations;
+    private AdminUiDbOperations adminUiDbOperations;
 
     public AdminUiKeywordController() {
-        adminUiSitesDbOperations = new AdminUiSitesDbOperations();
+        adminUiDbOperations = new AdminUiDbOperations();
     }
 
     /**
@@ -37,7 +37,7 @@ public class AdminUiKeywordController {
     public List<TableKeywords> getAllKeywords() {
         List<TableKeywords> resultList = new ArrayList<>();
         try {
-            resultList = adminUiSitesDbOperations.getAllKeywords();
+            resultList = adminUiDbOperations.getAllKeywords();
         } catch (Exception ex) {
             LOG.warn("Error getting all Keywords data.");
             ex.printStackTrace();
@@ -69,7 +69,7 @@ public class AdminUiKeywordController {
         }
 
         try {
-            adminUiSitesDbOperations.addKeyword(name, personId);
+            adminUiDbOperations.addKeyword(name, personId);
         } catch (Exception ex) {
             LOG.warn("Error at run add Keyword.");
             ex.printStackTrace();
@@ -99,7 +99,7 @@ public class AdminUiKeywordController {
         }
 
         try {
-            deletedRows = adminUiSitesDbOperations.delKeyword(id);
+            deletedRows = adminUiDbOperations.delKeyword(id);
         } catch (SQLException ex) {
             LOG.warn("Error at run del Keyword.");
             ex.printStackTrace();
@@ -143,7 +143,7 @@ public class AdminUiKeywordController {
         }
 
         try {
-            updatedRows = adminUiSitesDbOperations.modifyKeyword(id, personId, name);
+            updatedRows = adminUiDbOperations.modifyKeyword(id, personId, name);
         } catch (SQLException ex) {
             LOG.warn("Error at run modify Keyword.");
             ex.printStackTrace();

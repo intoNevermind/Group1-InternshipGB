@@ -1,7 +1,7 @@
 package gb.internship.rest.requestcontrollers.admin;
 
 import gb.internship.rest.dataobjects.TableUsers;
-import gb.internship.rest.db.operations.AdminUiSitesDbOperations;
+import gb.internship.rest.db.operations.AdminUiDbOperations;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.http.HttpStatus;
@@ -22,10 +22,10 @@ import java.util.List;
 @RestController
 public class AdminUiUsersController {
     private Log LOG = LogFactory.getLog(AdminUiSitesController.class);
-    private AdminUiSitesDbOperations adminUiSitesDbOperations;
+    private AdminUiDbOperations adminUiDbOperations;
 
     public AdminUiUsersController() {
-        adminUiSitesDbOperations = new AdminUiSitesDbOperations();
+        adminUiDbOperations = new AdminUiDbOperations();
     }
 
     /**
@@ -37,7 +37,7 @@ public class AdminUiUsersController {
     public List<TableUsers> getAllUsers() {
         List<TableUsers> resultList = new ArrayList<>();
         try {
-            resultList = adminUiSitesDbOperations.getAllUsers();
+            resultList = adminUiDbOperations.getAllUsers();
         } catch (Exception ex) {
             LOG.warn("Error getting all Users data.");
             ex.printStackTrace();
@@ -86,7 +86,7 @@ public class AdminUiUsersController {
         Boolean adminBooleanValue = Boolean.parseBoolean(admin);
         Boolean activeBooleanValue = Boolean.parseBoolean(active);
         try {
-            adminUiSitesDbOperations.addUser(login, adminBooleanValue, password, activeBooleanValue);
+            adminUiDbOperations.addUser(login, adminBooleanValue, password, activeBooleanValue);
         } catch (Exception ex) {
             LOG.warn("Error at run add User.");
             ex.printStackTrace();
@@ -114,7 +114,7 @@ public class AdminUiUsersController {
         }
 
         try {
-            deletedRows = adminUiSitesDbOperations.delUser(id);
+            deletedRows = adminUiDbOperations.delUser(id);
         } catch (SQLException ex) {
             LOG.warn("Error at run del User.");
             ex.printStackTrace();
@@ -174,7 +174,7 @@ public class AdminUiUsersController {
         Boolean activeBooleanValue = Boolean.parseBoolean(active);
 
         try {
-            updatedRows = adminUiSitesDbOperations
+            updatedRows = adminUiDbOperations
                     .modifyUser(id, login, adminBooleanValue, password, activeBooleanValue);
         } catch (SQLException ex) {
             LOG.warn("Error at run modify User.");

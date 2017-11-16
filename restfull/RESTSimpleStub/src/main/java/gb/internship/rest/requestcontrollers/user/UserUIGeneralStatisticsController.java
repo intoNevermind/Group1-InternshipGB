@@ -1,7 +1,7 @@
 package gb.internship.rest.requestcontrollers.user;
 
 import gb.internship.rest.dataobjects.PersonGeneralStatistic;
-import gb.internship.rest.db.operations.UsersUiSitesDbOperation;
+import gb.internship.rest.db.operations.UsersUiDbOperation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,10 +19,10 @@ public class UserUIGeneralStatisticsController {
 
     private Log LOG = LogFactory.getLog(UserUIGeneralStatisticsController.class);
 
-    private UsersUiSitesDbOperation userUiSitesDbOperations;
+    private UsersUiDbOperation userUiSitesDbOperations;
 
     public UserUIGeneralStatisticsController() {
-        userUiSitesDbOperations = new UsersUiSitesDbOperation();
+        userUiSitesDbOperations = new UsersUiDbOperation();
     }
 
     /**

@@ -17,12 +17,12 @@ import java.util.*;
  */
 
 
-public class UsersUiSitesDbOperation {
-    private Log LOG = LogFactory.getLog(UsersUiSitesDbOperation.class);
+public class UsersUiDbOperation {
+    private Log LOG = LogFactory.getLog(UsersUiDbOperation.class);
 
     private Connection connection;
 
-    public UsersUiSitesDbOperation() {
+    public UsersUiDbOperation() {
         this.connection = DbWrapper.getInstance().getConnection();
     }
 

@@ -21,13 +21,13 @@ import java.util.List;
  *
  * @author Aleksandr Vvedensky
  */
-public class AdminUiSitesDbOperations {
+public class AdminUiDbOperations {
 
-    private Log LOG = LogFactory.getLog(AdminUiSitesDbOperations.class);
+    private Log LOG = LogFactory.getLog(AdminUiDbOperations.class);
 
     private Connection connection;
 
-    public AdminUiSitesDbOperations() {
+    public AdminUiDbOperations() {
         this.connection = DbWrapper.getInstance().getConnection();
     }
 

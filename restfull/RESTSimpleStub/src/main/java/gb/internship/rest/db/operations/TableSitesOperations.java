@@ -15,7 +15,7 @@ import java.util.List;
  * Created by agcheb on 14.11.17.
  */
 public class TableSitesOperations {
-    private Log LOG = LogFactory.getLog(UsersUiSitesDbOperation.class);
+    private Log LOG = LogFactory.getLog(UsersUiDbOperation.class);
 
     private Connection connection;
 

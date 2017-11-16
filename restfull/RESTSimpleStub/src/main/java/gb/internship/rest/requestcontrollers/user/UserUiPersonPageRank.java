@@ -1,7 +1,7 @@
 package gb.internship.rest.requestcontrollers.user;
 
 import gb.internship.rest.dataobjects.TablePersonPageRank;
-import gb.internship.rest.db.operations.UsersUiSitesDbOperation;
+import gb.internship.rest.db.operations.UsersUiDbOperation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.http.HttpStatus;
@@ -22,10 +22,10 @@ import java.util.List;
 public class UserUiPersonPageRank {
 
     private Log LOG = LogFactory.getLog(UserUiPersonPageRank.class);
-    private UsersUiSitesDbOperation usersUiSitesDbOperation;
+    private UsersUiDbOperation usersUiDbOperation;
 
     public UserUiPersonPageRank() {
-        usersUiSitesDbOperation = new UsersUiSitesDbOperation();
+        usersUiDbOperation = new UsersUiDbOperation();
     }
 
     /**
@@ -44,7 +44,7 @@ public class UserUiPersonPageRank {
         }
 
         try {
-            List<TablePersonPageRank> resultList = usersUiSitesDbOperation.getPersonPageRankByPersonId(id);
+            List<TablePersonPageRank> resultList = usersUiDbOperation.getPersonPageRankByPersonId(id);
             return new ResponseEntity<>(resultList, HttpStatus.OK);
         } catch (SQLException ex) {
             LOG.warn("Error at run getPersonPageRankByPersonId.");
