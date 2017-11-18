@@ -14,9 +14,9 @@ public class LinkChecker implements Runnable{
     // Список запрщещенных масок ссылок, ключ - host, значенте - набор запрещающих масок
     public static Map<String, HashSet<String>> disallowedLinks = new HashMap<String, HashSet<String>>();
 
-    public void addSite (String host) {
+    public static synchronized void addSite (String host) {
         String robotsUrl = host + ROBOTS_TXT;
-        host = host.trim().replaceAll("(https|http)://", "");
+        host = host.trim().replaceAll("(https|http)://", "").replaceAll("/", "");
         System.out.println("Found host: " + host);
 
         // Если ключ уже есть в базе - выход

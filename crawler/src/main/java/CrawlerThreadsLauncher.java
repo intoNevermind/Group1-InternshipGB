@@ -1,3 +1,5 @@
+import sitefetcher.LinkChecker;
+
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
@@ -20,7 +22,7 @@ public class CrawlerThreadsLauncher {
     private ArrayList<String> linksFromDbPages = new ArrayList<String>();
     private ArrayList<String> keyWords = new ArrayList<String>();
 
-    SiteStructureFetcher siteStructureFetcher = new SiteStructureFetcher();
+    //SiteStructureFetcher siteStructureFetcher = new SiteStructureFetcher();
     PersonRankUpdater personRankUpdater = new PersonRankUpdater();
 
     public void startThreads(){
@@ -43,11 +45,13 @@ public class CrawlerThreadsLauncher {
 
                         for (int a = 0; a < sites.size(); a++) {
                             LogWrapper.info(Thread.currentThread().getName() + " - " + sites.get(a));
+                            LinkChecker.addSite(sites.get(a));
                         }
 
                         if (sites.size() > 0) {
                             for (int j = 0; j < sites.size(); j++) {
                                 LogWrapper.info(Thread.currentThread().getName() + " is processing site " + sites.get(j));
+                                SiteStructureFetcher siteStructureFetcher = new SiteStructureFetcher();
                                 siteStructureFetcher.updateSiteStructure(sites.get(j), dbWrapper);
                                 Thread.sleep(1000);
                                 dbWrapper.unlockSite(sites.get(j));
