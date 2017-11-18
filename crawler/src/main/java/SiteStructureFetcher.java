@@ -4,11 +4,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 import sitefetcher.LinkChecker;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.HashSet;
 import java.util.Queue;
 import java.util.Set;
@@ -40,10 +43,10 @@ public class SiteStructureFetcher {
         String str;
         while ((str = newPagesBuffer.poll()) != null) {
 
-            if (url.endsWith(ROBOTS_TXT)) {
+            if (str.endsWith(ROBOTS_TXT)) {
                 crawlRobotsTxt(str);
             }
-            else if (url.endsWith(XML) || url.endsWith(XML_GZ)) {
+            else if (str.endsWith(XML) || str.endsWith(XML_GZ)) {
                 crawlSitemap(str);
             }
             else {
@@ -54,7 +57,8 @@ public class SiteStructureFetcher {
         // Пишем все полученные в fetchedPagesBuffer ссылки в базу
         while ((str = fetchedPagesBuffer.poll()) != null) {
             LogWrapper.info("Crawled page " + str);
-            dbWrapper.addSitePage(url, str);
+            if (dbWrapper != null)
+                dbWrapper.addSitePage(url, str);
         }
 
         // По итогу все обработанные поптоками страницы перетекают в fetchedPagesBuffer
@@ -181,14 +185,18 @@ public class SiteStructureFetcher {
             String robotsContent = downloader.download(robotsUrl);
 
             // Если файл скачан успешно, записываем ссылку robotsUrl в newPagesBuffer
-            if (!newPagesBuffer.contains(robotsUrl))
+            if (!newPagesBuffer.contains(robotsUrl)) {
                 newPagesBuffer.offer(robotsUrl);
+                LogWrapper.info("Added new URL: " + robotsUrl);
+            }
         } catch (Exception e) {
             LogWrapper.info("File " + robotsUrl + " not found!");
             // Если не успешно - записываем ссылку url в newPagesBuffer
         }
-        if (!newPagesBuffer.contains(url))
+        if (!newPagesBuffer.contains(url)) {
             newPagesBuffer.offer(url);
+            LogWrapper.info("Added new URL: " + url);
+        }
     }
 
     private void crawlRobotsTxt (String url) {
@@ -207,8 +215,10 @@ public class SiteStructureFetcher {
                     str = str.replaceAll(SITEMAP, "");
 
                     // Добавляем в список не обработанных ссылок
-                    if (!newPagesBuffer.contains(str))
+                    if (!newPagesBuffer.contains(str)) {
                         newPagesBuffer.offer(str);
+                        LogWrapper.info("Added new URL: " + str);
+                    }
                 }
             }
         } catch (Exception e) {
@@ -220,6 +230,7 @@ public class SiteStructureFetcher {
 
     private void crawlSitemap (String url) {
         DocumentBuilderFactory f = DocumentBuilderFactory.newInstance();
+        f.setNamespaceAware(true);
         try {
             // Скачиваем XML по ссылке
             DocumentBuilder b = f.newDocumentBuilder();
@@ -229,7 +240,8 @@ public class SiteStructureFetcher {
             // Если фалй упакован в GZ, сперва распаковываем.
             if (url.endsWith(XML_GZ)) {
                 Downloader downloader = new Downloader();
-                doc = b.parse(downloader.downloadGz(url));
+                String unzipedXML = downloader.downloadGz(url);
+                doc = b.parse(new InputSource(new StringReader(unzipedXML)));
             } else
                 doc = b.parse(url);
             doc.getDocumentElement().normalize();
@@ -246,8 +258,10 @@ public class SiteStructureFetcher {
                 // Выделяем текстовое поле и добавляем в список не обработанных ссылок
                 Node titleNode = e.getChildNodes().item(0);
                 String node = titleNode.getNodeValue();
-                if (!newPagesBuffer.contains(node))
+                if (!newPagesBuffer.contains(node)) {
                     newPagesBuffer.offer(node);
+                    LogWrapper.info("Added new URL: " + node);
+                }
             }
         } catch (Exception e) {
             LogWrapper.info("XML error in file " + url);
@@ -270,8 +284,10 @@ public class SiteStructureFetcher {
                 String linkUrl = link.attr("abs:href");
 
                 // Записываем все найденные ссылки в массив обработанных
-                if (LinkChecker.isAllowed(linkUrl) && !fetchedPagesBuffer.contains(linkUrl))
+                if (LinkChecker.isAllowed(linkUrl) && !fetchedPagesBuffer.contains(linkUrl)) {
                     fetchedPagesBuffer.offer(linkUrl);
+                    LogWrapper.info("Added new URL: " + linkUrl);
+                }
             }
 
         } catch (IOException e) {
