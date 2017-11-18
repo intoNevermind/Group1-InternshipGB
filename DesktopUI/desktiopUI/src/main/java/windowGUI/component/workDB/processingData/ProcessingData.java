@@ -61,7 +61,7 @@ public class ProcessingData {
         int id = -1;
 
         for (int i = 0; i < list.size(); i++) {
-            if(name.equals(list.get(i+1))) id = (int) keysList[i];
+            if(name.equals(list.get(keysList[i]))) id = (int) keysList[i];
         }
         return id;
     }

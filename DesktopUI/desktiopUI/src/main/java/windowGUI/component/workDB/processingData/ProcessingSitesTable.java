@@ -32,10 +32,10 @@ public class ProcessingSitesTable extends ProcessingData{
      * метод, возвращающий двумерный массив сайтов для заполнения JTable класса SitesDirectory строками
      * */
     @Override
-    public Object[][] getArrayFillTable(int countColumn){
-        if(countColumn < 1) return super.getArrayFillTable(countColumn);
+    public Object[][] getArrayFillTable(int numberColumn){
+        if(numberColumn < 1) return super.getArrayFillTable(numberColumn);
 
-        return convertingListToArray(LIST_NAME_FROM_SITES,countColumn);
+        return convertingListToArray(LIST_NAME_FROM_SITES,numberColumn);
     }
 
     /*
