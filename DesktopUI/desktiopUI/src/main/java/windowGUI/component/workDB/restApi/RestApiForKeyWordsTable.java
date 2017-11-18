@@ -6,13 +6,15 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import java.util.ArrayList;
-
+/*
+ * Интерфейс для описания запросов для получения(отправки) данных из таблицы KeyWords, в REST-сервер
+ * */
 public interface RestApiForKeyWordsTable {
 /*
 * <Получение>
 * запросы с помощью которых, можно получить данные из БД
 * */
-    @GET("admin/ui/getAllKeywords")
+    @GET("unauthorized/admin/ui/getAllKeywords")
     Call<ArrayList<PojoKeyWords>> getListAllKeyWords();
 /*
 * </Получение>
@@ -22,17 +24,17 @@ public interface RestApiForKeyWordsTable {
 * <Отправка>
 * запросы с помощью которых, можно отправить данные в БД
 * */
-    @POST("admin/ui/addKeyword")
+    @POST("unauthorized/admin/ui/addKeyword")
     Call<ResponseBody> addKeyWord(@Query("name") String keyWordName ,
-                                  @Query("personId") int personID);// добавляет ключевое слово по ID личности в БД
+                                  @Query("personId") int personID);
 
-    @POST("admin/ui/delKeyword")
-    Call<ResponseBody> delKeyWord(@Query("id") int keyWordID);// удаляет ключевое слово по ID из БД
+    @POST("unauthorized/admin/ui/delKeyword")
+    Call<ResponseBody> delKeyWord(@Query("id") int keyWordID);
 
-    @POST("admin/ui/modifyKeyword")
+    @POST("unauthorized/admin/ui/modifyKeyword")
     Call<ResponseBody> modifyKeyWord(@Query("id") int keyWordID,
                                      @Query("name") String keyWordName ,
-                                     @Query("personId") int personID);// редактирует имя ключевого слова и ID личности по ID ключевого слова(сам ID редоктировать нельзя)
+                                     @Query("personId") int personID);
 /*
 * </Отправка>
 * */

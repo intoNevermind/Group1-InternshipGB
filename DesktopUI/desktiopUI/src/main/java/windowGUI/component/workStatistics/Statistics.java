@@ -12,11 +12,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
-
+/*
+ * Родительский класс для классов-статистик
+ * */
 public abstract class Statistics {
     private static final MyStyle MY_STYLE = new MyStyle();
 
-    private String tabName ;
+    private String tabName;
+    private static final String EMPTY_FIELDS = "Не инициализированы поля";
 
     private static final int PANEL_STAT_SIZE_WIDTH = ApplicationWindow.getSizeWidth() ;
     private static final int PANEL_STAT_SIZE_HEIGHT = ApplicationWindow.getSizeHeight() ;
@@ -35,9 +38,10 @@ public abstract class Statistics {
     private final JLabel headlinePersons = new JLabel(" Личности: ");
     private final JLabel headlineStartPeriod = new JLabel(" Период c: ");
     private final JLabel headlineFinishPeriod = new JLabel(" по: ");
+    private final JLabel numberPagesTotal = new JLabel();
 
     private final JComboBox<Object> listSite = new JComboBox<>(P_SITES_T.getArrayNameSites());
-    private final JComboBox<Object> listPersons = new JComboBox<>(P_PERSON_T.getColumnName());
+    private final JComboBox<Object> listPersons = new JComboBox<>(P_PERSON_T.getArrayNamePersons());
 
     private final MyCalendar startCalendar = new MyCalendar();
     private final MyCalendar finishCalendar = new MyCalendar();
@@ -48,7 +52,6 @@ public abstract class Statistics {
     JTable dataTable;
     JScrollPane dataScrollPane;
 
-
     Statistics() {
         MY_STYLE.setStyle(getListComponents());
 
@@ -58,24 +61,19 @@ public abstract class Statistics {
         fillOptionsPanel();
 
         addActionListenerForListSite();
-        addActionListenerForBtnConfirm();
+        btnConfirm.addActionListener(this::visibleDataTable);
     }
 
-    public abstract void fillOptionsPanel();
-    public abstract void visibleDataTable(ActionEvent actionEvent);
-
-    public void initNameSites(ActionEvent actionEvent){}
-    public void initNamePerson(ActionEvent actionEvent){}
-    public void initStartDate(PropertyChangeEvent evt){}
-    public void removeDataTable(PropertyChangeEvent evt){}
-    public void initFinishDate(PropertyChangeEvent evt){}
-
+    /*
+     * метод, отвечающий за передачу всех элементов справочников для установки графического вида
+     * */
     private ArrayList<Component> getListComponents(){
         ArrayList<Component> listComponent = new ArrayList<>();
         listComponent.add(headlineSite);
         listComponent.add(headlinePersons);
         listComponent.add(headlineStartPeriod);
         listComponent.add(headlineFinishPeriod);
+        listComponent.add(numberPagesTotal);
 
         listComponent.add(listSite);
         listComponent.add(listPersons);
@@ -89,6 +87,23 @@ public abstract class Statistics {
         return listComponent;
     }
 
+    /*
+     * <абстрактные методы>
+     * */
+    public abstract void fillOptionsPanel();// заполняет панэль опций
+    public abstract void visibleDataTable(ActionEvent actionEvent);//делает видимой таблицу с данными
+    /*
+     * </абстрактные методы>
+     * */
+
+    /*
+     * <общие методы>
+     * одинаковые и обязательные для всех справочников
+     * */
+
+    /*
+     * метод, удаляющий таблицу с данными
+     * */
     private void removeDataTable(ActionEvent actionEvent) {
         for (int i = 0; i < getPanelStat().getComponents().length; i++) {
             if(getPanelStat().getComponents()[i].equals(dataScrollPane)){
@@ -98,35 +113,59 @@ public abstract class Statistics {
         getPanelStat().updateUI();
     }
 
-    private void addActionListenerForBtnConfirm(){
-        btnConfirm.addActionListener(this::visibleDataTable);
-    }
-
+    /*
+     * метод, добавляющий листенеры для выпадающего списка сайтов
+     * */
     private void addActionListenerForListSite(){
         listSite.addActionListener(this::initNameSites);
         listSite.addActionListener(this::removeDataTable);
     }
+    /*
+     * </общие методы>
+     * */
 
+    /*
+     * <специфичные методы>
+     * специфичные методы, которые могут быть в классе-справочнике
+     * */
+    public void initNameSites(ActionEvent actionEvent){}// инициализирует имя сайта
+    public void initNamePerson(ActionEvent actionEvent){}// инициализирует имя личности
+    public void initStartDate(PropertyChangeEvent evt){}// инициализирует начальную дату
+    public void initFinishDate(PropertyChangeEvent evt){}// инициализирует конечную дату
+    public void removeDataTable(PropertyChangeEvent evt){}// удаляет таблицу с данными(перегруженный)
+
+     /*
+     * метод, добавляющий листенеры для выпадающего списка личностей
+     * */
     void addActionListenerForListPerson(){
         listPersons.addActionListener(this::initNamePerson);
         listPersons.addActionListener(this::removeDataTable);
     }
 
-    void addActionListenerForStartCalendar(){
+    /*
+     * метод, добавляющий листенеры для календарей
+     * */
+    void addActionListenerForCalendars(){
         startCalendar.getDateEditor().addPropertyChangeListener("date",this::initStartDate);
         startCalendar.getDateEditor().addPropertyChangeListener("date", this::removeDataTable);
-    }
-
-    void addActionListenerForFinishCalendar(){
         finishCalendar.getDateEditor().addPropertyChangeListener("date",this::initFinishDate);
         finishCalendar.getDateEditor().addPropertyChangeListener("date", this::removeDataTable);
     }
+    /*
+     * </специфичные методы>
+     * */
 
+    /*
+     * <getters and setters>\
+     * */
     void setTabName(String tabName) {
         this.tabName = tabName;
     }
     public String getTabName() {
         return tabName;
+    }
+    public static String getEmptyFields() {
+        return EMPTY_FIELDS;
     }
 
     static GridBagLayout getGBL() {
@@ -159,6 +198,9 @@ public abstract class Statistics {
     JLabel getHeadlineFinishPeriod() {
         return headlineFinishPeriod;
     }
+    JLabel getNumberPagesTotal() {
+        return numberPagesTotal;
+    }
 
     JComboBox<Object> getListSite() {
         return listSite;
@@ -177,4 +219,7 @@ public abstract class Statistics {
     JButton getBtnConfirm() {
         return btnConfirm;
     }
+    /*
+     * </getters and setters>\
+     * */
 }

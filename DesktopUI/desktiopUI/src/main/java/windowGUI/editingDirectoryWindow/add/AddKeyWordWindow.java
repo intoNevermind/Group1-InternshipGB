@@ -39,7 +39,7 @@ public class AddKeyWordWindow extends EditingDirectoryWindow {
     @Override
     public void saveEditing(ActionEvent actionEvent) {
         if(getNameField().getText() != null){
-            TABLE_KEY_WORDS.addKeyWordReal(getNameField().getText(), personID);
+            TABLE_KEY_WORDS.addKeyWord(getNameField().getText(), personID);
         }
         KEY_WORDS_DIRECTORY.getPanelDirectory().updateUI();
         getNameField().setText(null);

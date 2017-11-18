@@ -9,13 +9,16 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+/*
+ * Класс-справочник, отвечающий за функциональную деятельность справочника Persons
+ * */
+public class PersonsDirectory extends Directory{
+    private static final String NAME_TAB = "Личности";
 
-public class PersonDirectory extends Directory{
-    private static final String TAB_NAME = "Личности";
     private static String namePerson ;
 
-    public PersonDirectory() {
-        setTabName(TAB_NAME);
+    public PersonsDirectory() {
+        setNameTab(NAME_TAB);
 
         dataTable = new JTable(getPPersonT().getArrayFillTable(getColumnNames().length), getColumnNames());
         dataTable.getSelectionModel().addListSelectionListener(this::initSelectedRow);
@@ -59,7 +62,7 @@ public class PersonDirectory extends Directory{
         }else {
             new EditPersonWindow(getBtnEdit().getText() + " личность ",
                     namePerson,
-                    getPPersonT().getIDPersonByNamePerson(namePerson),//
+                    getPPersonT().getIDPersonByNamePerson(namePerson),
                     getPPersonT().getActivePersonByNamePerson(namePerson));
         }
     }

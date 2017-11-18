@@ -22,7 +22,7 @@ public class DelKeyWordWindow extends EditingDirectoryWindow {
 
     @Override
     public void saveEditing(ActionEvent actionEvent) {
-        TABLE_KEY_WORDS.delKeyWordReal(keyWordID);
+        TABLE_KEY_WORDS.delKeyWord(keyWordID);
         KEY_WORDS_DIRECTORY.getPanelDirectory().updateUI();
         getWindow().dispose();
     }

@@ -7,26 +7,36 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 import java.util.ArrayList;
-
+/*
+ * Интерфейс для описания запросов для получения(отправки) данных из таблицы Users, в REST-сервер
+ * */
 public interface RestApiForUsersTable {
-
-    @GET("admin/ui/getAllUsers")
+/*
+* <Получение>
+* запросы с помощью которых, можно получить данные из БД
+* */
+    @GET("unauthorized/admin/ui/getAllUsers")
     Call<ArrayList<PojoUsers>> getListAllUsers();
 
-    @POST("admin/ui/addUser")
+
+/*
+* </Получение>
+* */
+
+/*
+* <Отправка>
+* запросы с помощью которых, можно отправить данные в БД
+* */
+    @POST("login/")
+    Call<ResponseBody> authorized(@Query("login") String logon, @Query("password") String password);
+
+    @POST("unauthorized/admin/ui/addUser")
     Call<ResponseBody> addUser(@Query("login") String userLogin ,
                                @Query("admin") boolean userAdmin,
                                @Query("password") String userPassword,
                                @Query("active") boolean userActive);
 
-    @POST("admin/ui/delUser")
-    Call<ResponseBody> delUser(@Query("id") int userID);
-
-    @POST("admin/ui/modifyUser")
-    Call<ResponseBody> modifyUser(@Query("id") int userID,
-                                  @Query("login") String userLogin ,
-                                  @Query("admin") boolean userAdmin,
-                                  @Query("password") String userPassword,
-                                  @Query("active") boolean userActive);
-
+/*
+* </Отправка>
+*/
 }

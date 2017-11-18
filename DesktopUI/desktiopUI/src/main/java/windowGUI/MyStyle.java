@@ -16,12 +16,12 @@ public class MyStyle {
                 listComponent.get(i).setFont(new Font(font, Font.PLAIN, 18));
                 listComponent.get(i).setForeground(Color.DARK_GRAY);
             }
-            if(listComponent.get(i) instanceof JTextField){
+            if(listComponent.get(i) instanceof JTextField || listComponent.get(i) instanceof JPasswordField){
                 listComponent.get(i).setFont(new Font(font, Font.BOLD, 14));
                 listComponent.get(i).setForeground(Color.BLACK);
             }
             if(listComponent.get(i)instanceof JButton){
-                listComponent.get(i).setFont(new Font(font, Font.PLAIN, 18));
+                listComponent.get(i).setFont(new Font(font, Font.PLAIN, 12));
                 listComponent.get(i).setForeground(Color.DARK_GRAY);
             }
             if(listComponent.get(i) instanceof JCheckBox){
@@ -29,7 +29,7 @@ public class MyStyle {
                 listComponent.get(i).setForeground(Color.DARK_GRAY);
             }
             if(listComponent.get(i) instanceof JTabbedPane){
-                listComponent.get(i).setFont(new Font(font, Font.BOLD, 18));
+                listComponent.get(i).setFont(new Font(font, Font.BOLD, 14));
                 listComponent.get(i).setForeground(Color.DARK_GRAY);
             }
             if(listComponent.get(i) instanceof JDateChooser){

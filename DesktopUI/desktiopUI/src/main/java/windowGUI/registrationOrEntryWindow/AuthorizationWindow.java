@@ -2,6 +2,7 @@ package windowGUI.registrationOrEntryWindow;
 
 import windowGUI.ConfigurationsWindowGUI;
 import windowGUI.MyStyle;
+import windowGUI.component.workDB.tables.UsersTable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +20,6 @@ public class AuthorizationWindow {
 
     private static final EntryWindow ENTRY_WINDOW = new EntryWindow();
     private static final RegistrationWindow REGISTRATION_WINDOW = new RegistrationWindow();
-
 
     public AuthorizationWindow() {
         MY_STYLE.setStyle(getListComponents());
@@ -54,7 +54,7 @@ public class AuthorizationWindow {
         return SIZE_HEIGHT;
     }
 
-    public static JFrame getWINDOW() {
+    static JFrame getWINDOW() {
         return WINDOW;
     }
 }

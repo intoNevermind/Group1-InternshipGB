@@ -10,22 +10,23 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-
 import static java.awt.GridBagConstraints.*;
-
+/*
+ * Класс-справочник, отвечающий за функциональную деятельность справочника KeyWords
+ * */
 public class KeyWordsDirectory extends Directory{
-    private static final String TAB_NAME = "Ключевые слова";
+    private static final String NAME_TAB = "Ключевые слова";
 
     private static String namePerson;
     private static String nameKeyWord ;
 
     public KeyWordsDirectory() {
-        setTabName(TAB_NAME);
+        setNameTab(NAME_TAB);
 
         fillOptionsPanel();
 
         addActionListenerForListPerson();
-        addActionListenerForBtnConfirm();
+        getBtnConfirm().addActionListener(this::visibleDataTable);
     }
 
     @Override
@@ -34,6 +35,7 @@ public class KeyWordsDirectory extends Directory{
         getOptionsPanel().add(getHeadLinePerson());
         getGBL().setConstraints(getListPersons(), getCGBL().configGBCTest(2,false));
         getOptionsPanel().add(getListPersons());
+
         getGBL().setConstraints(getBtnConfirm(), getCGBL().configGBCTest(REMAINDER,true));
         getOptionsPanel().add(getBtnConfirm());
     }
@@ -52,6 +54,7 @@ public class KeyWordsDirectory extends Directory{
                     "Не инициализированы поля",
                     JOptionPane.WARNING_MESSAGE);
         }
+
         dataTable = new JTable(getPKeyWordsT().getArrayFillTable(namePerson, getColumnNames().length), getColumnNames());
         dataScrollPane = new JScrollPane(dataTable);
         getPanelDirectory().add(dataScrollPane, BorderLayout.CENTER);

@@ -27,11 +27,9 @@ public abstract class Authorization {
     private final JLabel headLinePasswordRepeat = new JLabel("Повтор");
 
     private final JTextField loginField = new JTextField();
-    private final JTextField passwordField = new JTextField();
+    private final JPasswordField passwordField = new JPasswordField();
     private final JTextField emailField = new JTextField();
-    private final JTextField passwordRepeatField = new JTextField();
-
-    private final JCheckBox remember = new JCheckBox();
+    private final JPasswordField passwordRepeatField = new JPasswordField();
 
     private final JButton btnContinue = new JButton();
 
@@ -58,8 +56,8 @@ public abstract class Authorization {
         listComponent.add(passwordField);
         listComponent.add(emailField);
         listComponent.add(passwordRepeatField);
+        listComponent.add(btnContinue);
 
-        listComponent.add(remember);
         return listComponent;
     }
 
@@ -111,11 +109,8 @@ public abstract class Authorization {
         return passwordRepeatField;
     }
 
-    JCheckBox getRemember() {
-        return remember;
-    }
-
     JButton getBtnContinue() {
         return btnContinue;
     }
+
 }

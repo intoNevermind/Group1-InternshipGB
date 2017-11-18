@@ -5,13 +5,11 @@ import windowGUI.component.workDB.restApi.RestApiForPagesTable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
-
-public class PagesTable extends ConnectServer {
 /*
-<РЕАЛ>
-Часть кода которая будет использоваться с реальными данными из базы
-*/
-    private RestApiForPagesTable restApiForPagesTable = getRetrofit().create(RestApiForPagesTable.class);
+ * Класс-таблица, отвечающий за получение данных из таблицы Pages, в REST-сервер
+ * */
+public class PagesTable extends ConnectServer {
+    private static final RestApiForPagesTable REST_API_FOR_PAGES_TABLE = getRetrofit().create(RestApiForPagesTable.class);
 
     private static final ArrayList<Integer> listID = new ArrayList<>();
     private static final ArrayList<String> listURL = new ArrayList<>();
@@ -32,35 +30,40 @@ public class PagesTable extends ConnectServer {
         infoAllPages();
     }
 
-    private void infoAllPages(){
-//        try {
-//            Response<ArrayList<PojoPages>> response = restApiForPagesTable.getListAllPages().execute();
-//            ArrayList<PojoPages> list = response.body();
-//            for (int i = 0; i < list.size(); i++) {
-//                /*тут будут заполнятся списки*/
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-    }
+    /*
+     * <Получение>
+     * запросы с помощью которых, можно получить данные из БД
+     * */
 
+    /*
+     * метод, заполняющий списки данными из БД
+     * */
+    private void infoAllPages(){
+        //жду пока REST- сервер напишет запрос
+    }
+    /*
+     * </Получение>
+     * */
+
+    /*
+     * <getters>
+     * */
     public ArrayList<Integer> getListID(){
         return listID;
     }
-
     public ArrayList<String> getListURL(){
         return listURL;
     }
-
     public ArrayList<Integer> getListSiteID(){
         return listSiteID;
     }
-
     public ArrayList<Date> getListFoundDateTime(){
         return listFoundDateTime;
     }
-
     public LinkedHashMap<Integer,Date> getListIDAndFoundDateTime() {
         return listIDAndFoundDateTime;
     }
+    /*
+     * </getters>
+     * */
 }

@@ -1,8 +1,8 @@
 package windowGUI.editingDirectoryWindow.add;
 
 import windowGUI.ConfigurationsWindowGUI;
-import windowGUI.component.workDB.tables.PersonTable;
-import windowGUI.component.workDirectory.PersonDirectory;
+import windowGUI.component.workDB.tables.PersonsTable;
+import windowGUI.component.workDirectory.PersonsDirectory;
 import windowGUI.editingDirectoryWindow.EditingDirectoryWindow;
 
 import java.awt.*;
@@ -10,8 +10,8 @@ import java.awt.event.ActionEvent;
 import static java.awt.GridBagConstraints.*;
 
 public class AddPersonWindow extends EditingDirectoryWindow {
-    private static final PersonDirectory PERSON_DIRECTORY = new PersonDirectory();
-    private static final PersonTable TABLE_PERSON = PersonTable.getInstance();
+    private static final PersonsDirectory PERSON_DIRECTORY = new PersonsDirectory();
+    private static final PersonsTable TABLE_PERSON = PersonsTable.getInstance();
 
     public AddPersonWindow(String windowTitle) {
         new ConfigurationsWindowGUI().setConfigWindow(getWindow(), windowTitle, getSizeWidth(), getSizeHeight());

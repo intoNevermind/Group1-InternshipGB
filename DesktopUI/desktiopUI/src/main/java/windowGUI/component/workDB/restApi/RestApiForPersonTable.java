@@ -2,17 +2,20 @@ package windowGUI.component.workDB.restApi;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import java.util.ArrayList;
-
+/*
+ * Интерфейс для описания запросов для получения(отправки) данных из таблицы Person, в REST-сервер
+ * */
 public interface RestApiForPersonTable {
 /*
 * <Получение>
 * запросы с помощью которых, можно получить данные из БД
 * */
-    @GET("admin/ui/getAllPersons")
+    @GET("unauthorized/admin/ui/getAllPersons")
     Call<ArrayList<PojoPersons>> getListAllPersons();
 /*
 * </Получение>
@@ -22,14 +25,14 @@ public interface RestApiForPersonTable {
 * <Отправка>
 * запросы с помощью которых, можно отправить данные в БД
 * */
-    @POST("admin/ui/addPerson")
+    @POST("unauthorized/admin/ui/addPerson")
     Call<ResponseBody> addPerson(@Query("name") String personName ,
-                                 @Query("active") boolean personActive);// добавляет личность и активность в БД
+                                @Query("active") boolean personActive);// добавляет личность и активность в БД
 
-    @POST("admin/ui/delPerson")
+    @POST("unauthorized/admin/ui/delPerson")
     Call<ResponseBody> delPerson(@Query("id") int personID);// удаляет личность по ID из БД
 
-    @POST("admin/ui/modifyPerson")
+    @POST("unauthorized/admin/ui/modifyPerson")
     Call<ResponseBody> modifyPerson(@Query("id") int personID,
                                     @Query("name") String personName ,
                                     @Query("active") boolean personActive);// редактирует имя личности и активность по ID личности(сам ID редоктировать нельзя)

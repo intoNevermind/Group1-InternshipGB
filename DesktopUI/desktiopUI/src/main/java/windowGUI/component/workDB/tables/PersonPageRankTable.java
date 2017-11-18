@@ -6,15 +6,18 @@ import windowGUI.component.workDB.restApi.RestApiForPersonPageRankTable;
 import retrofit2.Response;
 import java.io.IOException;
 import java.util.ArrayList;
-
+/*
+ * Класс-таблица, отвечающий за получение(отправку) данных из таблицы PersonPageRank, в REST-сервер
+ * */
 public class PersonPageRankTable extends ConnectServer {
-    private RestApiForPersonPageRankTable restApiForPersonPageRankTable = getRetrofit().create(RestApiForPersonPageRankTable.class);
+    private static final RestApiForPersonPageRankTable REST_API_FOR_PERSON_PAGE_RANK_TABLE = getRetrofit().create(RestApiForPersonPageRankTable.class);
 
-    private static final ArrayList<Integer> listPersonID = new ArrayList<>();
-    private static final ArrayList<Integer> listPageID = new ArrayList<>();
-    private static final ArrayList<Integer> listRank = new ArrayList<>();
-    private static final PersonTable personTable = PersonTable.getInstance();
-    private static final ArrayList<Integer> listIDPerson = personTable.getListID();
+    private static final ArrayList<Integer> LIST_PERSON_ID = new ArrayList<>();
+    private static final ArrayList<Integer> LIST_PAGE_ID = new ArrayList<>();
+    private static final ArrayList<Integer> LIST_RANK = new ArrayList<>();
+
+    private static final PersonsTable PERSONS_TABLE = PersonsTable.getInstance();
+    private static final ArrayList<Integer> LIST_ID_PERSONS = PERSONS_TABLE.getListID();
 
     private static PersonPageRankTable instance;
 
@@ -28,16 +31,23 @@ public class PersonPageRankTable extends ConnectServer {
     private PersonPageRankTable() {
         infoAllPersonsPageRank();
     }
+    /*
+     * <Получение>
+     * запросы с помощью которых, можно получить данные из БД
+     * */
 
+    /*
+     * метод, заполняющий списки данными из БД
+     * */
     private void infoAllPersonsPageRank(){
         try {
-            for (int i = 0; i <listIDPerson.size() ; i++) {
-                listPersonID.add(listIDPerson.get(i));
-                Response<ArrayList<PojoPersonPageRank>> response = restApiForPersonPageRankTable.getPersonPageRankByPersonId(listIDPerson.get(i)).execute();
+            for (int i = 0; i < LIST_ID_PERSONS.size() ; i++) {
+                LIST_PERSON_ID.add(LIST_ID_PERSONS.get(i));
+                Response<ArrayList<PojoPersonPageRank>> response = REST_API_FOR_PERSON_PAGE_RANK_TABLE.getPersonPageRankByPersonId(LIST_ID_PERSONS.get(i)).execute();
                 ArrayList<PojoPersonPageRank> list = response.body();
                 for (int j = 0; j < list.size(); j++) {
-                    listPageID.add(list.get(j).getPageID());
-                    listRank.add(list.get(j).getRank());
+                    LIST_PAGE_ID.add(list.get(j).getPageID());
+                    LIST_RANK.add(list.get(j).getRank());
                 }
             }
 
@@ -45,16 +55,23 @@ public class PersonPageRankTable extends ConnectServer {
             e.printStackTrace();
         }
     }
+    /*
+     * </Получение>
+     * */
 
+    /*
+     * <getters>
+     * */
     public ArrayList<Integer> getListPersonID() {
-        return listPersonID;
+        return LIST_PERSON_ID;
     }
-
     public ArrayList<Integer> getListPageID() {
-        return listPageID;
+        return LIST_PAGE_ID;
     }
-
     public ArrayList<Integer> getListRank() {
-        return listRank;
+        return LIST_RANK;
     }
+    /*
+     * </getters>
+     * */
 }

@@ -9,13 +9,16 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-
+/*
+ * Класс-справочник, отвечающий за функциональную деятельность справочника Sites
+ * */
 public class SitesDirectory extends Directory{
     private static final String TAB_NAME = "Сайты";
+
     private static String nameSites ;
 
     public SitesDirectory() {
-        setTabName(TAB_NAME);
+        setNameTab(TAB_NAME);
 
         dataTable = new JTable(getPSitesT().getArrayFillTable(getColumnNames().length), getColumnNames());
         dataTable.getSelectionModel().addListSelectionListener(this::initSelectedRow);
@@ -45,7 +48,7 @@ public class SitesDirectory extends Directory{
         }else {
             new DelSiteWindow(getBtnDelete().getText() + " сайт ",
                     nameSites,
-                    getPSitesT().getIDSitesByNameSites(nameSites));
+                    getPSitesT().getIDSiteByNameSite(nameSites));
         }
     }
 
@@ -59,9 +62,9 @@ public class SitesDirectory extends Directory{
         }else {
             new EditSiteWindow(getBtnEdit().getText() + " сайт ",
                     nameSites,
-                    getPSitesT().getIDSitesByNameSites(nameSites),
-                    getPSitesT().getURLSitesByNameSites(nameSites),
-                    getPSitesT().getActiveSitesByNameSites(nameSites));
+                    getPSitesT().getIDSiteByNameSite(nameSites),
+                    getPSitesT().getURLSiteByNameSite(nameSites),
+                    getPSitesT().getActiveSiteByNameSite(nameSites));
         }
     }
 }

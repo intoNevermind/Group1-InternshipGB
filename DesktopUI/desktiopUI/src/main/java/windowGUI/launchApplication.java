@@ -8,7 +8,6 @@ public class launchApplication {
 
     public static void main(String[] args) {
         setStyleLookAndFeel();
-//        new ApplicationWindow();
         new AuthorizationWindow();
     }
 

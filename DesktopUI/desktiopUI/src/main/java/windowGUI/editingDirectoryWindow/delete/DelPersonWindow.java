@@ -1,16 +1,16 @@
 package windowGUI.editingDirectoryWindow.delete;
 
 import windowGUI.ConfigurationsWindowGUI;
-import windowGUI.component.workDB.tables.PersonTable;
-import windowGUI.component.workDirectory.PersonDirectory;
+import windowGUI.component.workDB.tables.PersonsTable;
+import windowGUI.component.workDirectory.PersonsDirectory;
 import windowGUI.editingDirectoryWindow.EditingDirectoryWindow;
 
 import java.awt.event.ActionEvent;
 
 public class DelPersonWindow extends EditingDirectoryWindow {
 
-    private static final PersonDirectory PERSON_DIRECTORY = new PersonDirectory();
-    private static final PersonTable TABLE_PERSON = PersonTable.getInstance();
+    private static final PersonsDirectory PERSON_DIRECTORY = new PersonsDirectory();
+    private static final PersonsTable TABLE_PERSON = PersonsTable.getInstance();
     private int personID;
 
     public DelPersonWindow(String windowTitle,String personName, int personID) {

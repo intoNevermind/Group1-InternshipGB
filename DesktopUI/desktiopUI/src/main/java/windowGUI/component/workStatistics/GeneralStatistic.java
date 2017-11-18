@@ -6,14 +6,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import static java.awt.GridBagConstraints.*;
-
+/*
+ * Класс-статистика, отвечающий за функциональную деятельность Общей статистики
+ * */
 public class GeneralStatistic extends Statistics{
-    private static final String TAB_NAME = "Общая статистика";
+    private static final String NAME_TAB = "Общая статистика";
 
     private static String nameSite;
 
     public GeneralStatistic() {
-        setTabName(TAB_NAME);
+        setTabName(NAME_TAB);
 
         columnNames = new String[]{"Имя", "Количество новых страниц"};
     }
@@ -40,7 +42,7 @@ public class GeneralStatistic extends Statistics{
         if(nameSite == null || nameSite.equals(ProcessingData.getNotChosen())) {
             JOptionPane.showMessageDialog(null,
                     "Для просмотра общей статистики необходимо выбрать \""  + getHeadlineSite().getText() + "\" ",
-                    "Не инициализированы поля",
+                    getEmptyFields(),
                     JOptionPane.WARNING_MESSAGE);
         }
         dataTable = new JTable(getPPersonPageRankT().getArrayFillTable(nameSite, columnNames.length), columnNames);

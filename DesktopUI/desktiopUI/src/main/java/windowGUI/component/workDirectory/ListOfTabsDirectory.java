@@ -14,7 +14,7 @@ public class ListOfTabsDirectory {
     private static final JTabbedPane LIST_OF_TABS = new JTabbedPane(JTabbedPane.TOP, JTabbedPane.SCROLL_TAB_LAYOUT);
 
     private static final SitesDirectory sitesDirectory = new SitesDirectory();
-    private static final PersonDirectory personDirectory = new PersonDirectory();
+    private static final PersonsDirectory personDirectory = new PersonsDirectory();
     private static final KeyWordsDirectory keyWordsDirectory = new KeyWordsDirectory();
 
     public ListOfTabsDirectory() {
@@ -25,9 +25,9 @@ public class ListOfTabsDirectory {
 
     private static void addTabs(){
         LIST_OF_TABS.setVisible(true);
-        LIST_OF_TABS.addTab(sitesDirectory.getTabName(), sitesDirectory.getPanelDirectory());
-        LIST_OF_TABS.addTab(personDirectory.getTabName(),personDirectory.getPanelDirectory());
-        LIST_OF_TABS.addTab(keyWordsDirectory.getTabName(), keyWordsDirectory.getPanelDirectory());
+        LIST_OF_TABS.addTab(sitesDirectory.getNameTab(), sitesDirectory.getPanelDirectory());
+        LIST_OF_TABS.addTab(personDirectory.getNameTab(),personDirectory.getPanelDirectory());
+        LIST_OF_TABS.addTab(keyWordsDirectory.getNameTab(), keyWordsDirectory.getPanelDirectory());
     }
 
     private ArrayList<Component> getListComponents(){

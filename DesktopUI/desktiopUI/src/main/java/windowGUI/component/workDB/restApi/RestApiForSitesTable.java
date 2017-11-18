@@ -6,13 +6,15 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import java.util.ArrayList;
-
+/*
+ * Интерфейс для описания запросов для получения(отправки) данных из таблицы Sites, в REST-сервер
+ * */
 public interface RestApiForSitesTable {
 /*
 * <Получение>
 * запросы с помощью которых, можно получить данные из БД
 * */
-    @GET("admin/ui/getAllSites")
+    @GET("unauthorized/admin/ui/getAllSites")
     Call<ArrayList<PojoSites>> getListAllSites();
 /*
 * </Получение>
@@ -22,15 +24,15 @@ public interface RestApiForSitesTable {
 * <Отправка>
 * запросы с помощью которых, можно отправить данные в БД
 * */
-    @POST("admin/ui/addSite")
+    @POST("unauthorized/admin/ui/addSite")
     Call<ResponseBody> addSite(@Query("name") String siteName ,
                                @Query("url") String siteUrl,
                                @Query("active") boolean siteActive);// добавляет сайт, URL и активность в БД
 
-    @POST("admin/ui/delSite")
+    @POST("unauthorized/admin/ui/delSite")
     Call<ResponseBody> delSite(@Query("id") int siteID);// удаляет сайт по ID из БД
 
-    @POST("admin/ui/modifySite")
+    @POST("unauthorized/admin/ui/modifySite")
     Call<ResponseBody> modifySite(@Query("id") int siteID,
                                   @Query("name") String siteName ,
                                   @Query("url") String siteUrl,

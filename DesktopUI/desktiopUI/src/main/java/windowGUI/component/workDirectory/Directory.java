@@ -12,11 +12,13 @@ import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
-
+/*
+* Родительский класс для классов-справочников
+* */
 public abstract class Directory {
     private static final MyStyle MY_STYLE = new MyStyle();
 
-    private String tabName;
+    private String nameTab;
 
     private static final int PANEL_DIRECTORY_SIZE_WIDTH = ApplicationWindow.getSizeWidth();
     private static final int PANEL_DIRECTORY_SIZE_HEIGHT = ApplicationWindow.getSizeHeight();
@@ -34,7 +36,7 @@ public abstract class Directory {
 
     private final JLabel headLinePerson = new JLabel("Личности");
 
-    private final JComboBox<String> listPersons = new JComboBox<>(P_PERSON_T.getColumnName());
+    private final JComboBox<String> listPersons = new JComboBox<>(P_PERSON_T.getArrayNamePersons());
 
     private final JButton btnConfirm = new JButton("Подтвердить");
     private final JButton btnAdd = new JButton("Добавить");
@@ -49,26 +51,16 @@ public abstract class Directory {
         MY_STYLE.setStyle(getListComponents());
 
         panelDirectory.setPreferredSize(new Dimension(PANEL_DIRECTORY_SIZE_WIDTH, PANEL_DIRECTORY_SIZE_HEIGHT));
-
         panelDirectory.add(optionsPanel, BorderLayout.NORTH);
         panelDirectory.add(btnPanel,BorderLayout.SOUTH);
 
         fillBtnPanel();
-
-        addActionListenerForBtnAdd();
-        addActionListenerForBtnDel();
-        addActionListenerForBtnEdit();
+        addActionListenerForBtn();
     }
 
-    public abstract void visibleWindowAdd(ActionEvent actionEvent);
-    public abstract void visibleWindowDel(ActionEvent actionEvent);
-    public abstract void visibleWindowEdit(ActionEvent actionEvent);
-
-    public void fillOptionsPanel(){}
-    public void initNamePerson(ActionEvent actionEvent){}
-    public void initSelectedRow(ListSelectionEvent selectionEvent){}
-    public void visibleDataTable(ActionEvent actionEvent){}
-
+    /*
+     * метод, отвечающий за передачу всех элементов справочников для установки графического вида
+     * */
     private ArrayList<Component> getListComponents(){
         ArrayList<Component> listComponent = new ArrayList<>();
         listComponent.add(headLinePerson);
@@ -84,12 +76,34 @@ public abstract class Directory {
         return listComponent;
     }
 
+    /*
+     * <абстрактные методы>
+     * */
+    public abstract void visibleWindowAdd(ActionEvent actionEvent);// вызывает окно добавления элемента
+    public abstract void initSelectedRow(ListSelectionEvent selectionEvent);// инициализирует строку таблицы
+    public abstract void visibleWindowDel(ActionEvent actionEvent);// вызывает окно удаления элемента
+    public abstract void visibleWindowEdit(ActionEvent actionEvent);// вызывает окно редактирования элемента
+    /*
+     * </абстрактные методы>
+     * */
+
+    /*
+     * <общие методы>
+     * одинаковые и обязательные для всех справочников
+     * */
+
+    /*
+     * метод, заполняющий панэль кнопок, кнопками
+     * */
     private void fillBtnPanel(){
         getBtnPanel().add(getBtnAdd());
         getBtnPanel().add(getBtnEdit());
         getBtnPanel().add(getBtnDelete());
     }
 
+    /*
+     * метод, удаляющий таблицу с данными
+     * */
     private void removeDataTable(ActionEvent actionEvent) {
         for (int i = 0; i < getPanelDirectory().getComponents().length; i++) {
             if(getPanelDirectory().getComponents()[i].equals(dataScrollPane)){
@@ -99,32 +113,46 @@ public abstract class Directory {
         getPanelDirectory().updateUI();
     }
 
-    private void addActionListenerForBtnAdd(){
+    /*
+     * метод, добавляющий листенеры для кнопок
+     * */
+    private void addActionListenerForBtn(){
         btnAdd.addActionListener(this::visibleWindowAdd);
-    }
-
-    private void addActionListenerForBtnDel(){
         btnDelete.addActionListener(this::visibleWindowDel);
-    }
-
-    private void addActionListenerForBtnEdit(){
         btnEdit.addActionListener(this::visibleWindowEdit);
     }
 
+    /*
+     * </общие методы>\
+     * */
+
+    /*
+     * <специфичные методы>
+     * специфичные методы, которые могут быть в классе-справочнике
+     * */
+    public void fillOptionsPanel(){}// заполняет панель опций
+    public void initNamePerson(ActionEvent actionEvent){}// инициализирует имя личности
+    public void visibleDataTable(ActionEvent actionEvent){}// делает видимой таблицу с данными
+
+    /*
+     * метод, добавляющий листенеры для выпадающего списка личностей
+     * */
     void addActionListenerForListPerson(){
         listPersons.addActionListener(this::initNamePerson);
         listPersons.addActionListener(this::removeDataTable);
     }
+    /*
+     * </специфичные методы>\
+     * */
 
-    void addActionListenerForBtnConfirm(){
-        btnConfirm.addActionListener(this::visibleDataTable);
+    /*
+     * <getters and setters>\
+     * */
+    public String getNameTab() {
+        return nameTab;
     }
-
-    public String getTabName() {
-        return tabName;
-    }
-    void setTabName(String tabName) {
-        this.tabName = tabName;
+    void setNameTab(String nameTab) {
+        this.nameTab = nameTab;
     }
 
     static GridBagLayout getGBL() {
@@ -178,4 +206,7 @@ public abstract class Directory {
     String[] getColumnNames() {
         return columnNames;
     }
+    /*
+     * </getters and setters>\
+     * */
 }

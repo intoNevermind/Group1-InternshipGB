@@ -8,16 +8,16 @@ import windowGUI.component.workDB.restApi.RestApiForUsersTable;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-
+/*
+ * Класс-таблица, отвечающий за получение(отправку) данных из таблицы Users, в REST-сервер
+ * */
 public class UsersTable extends ConnectServer{
-    private RestApiForUsersTable restApiForUsersTable = getRetrofit().create(RestApiForUsersTable.class);
-    private static final ArrayList<Integer> listID = new ArrayList<>();
-    private static final ArrayList<String> listLogin = new ArrayList<>();
-    private static final ArrayList<Boolean> listAdmin = new ArrayList<>();
-    private static final ArrayList<Boolean> listActive = new ArrayList<>();
-    private static final LinkedHashMap<String,Boolean> listLoginAndAdmin = new LinkedHashMap<>();
-    private static final LinkedHashMap<String,Boolean> listLoginAndActive = new LinkedHashMap<>();
-    private static final LinkedHashMap<Integer,String> listIDAndLogin = new LinkedHashMap<>();
+    private static final RestApiForUsersTable REST_API_FOR_USERS_TABLE = getRetrofit().create(RestApiForUsersTable.class);
+    private static final ArrayList<String> LIST_LOGIN = new ArrayList<>();
+    private static final ArrayList<String> LIST_PASSWORD = new ArrayList<>();
+    private static final ArrayList<Boolean> LIST_ACTIVE = new ArrayList<>();
+    private static final LinkedHashMap<String,Boolean> LIST_LOGIN_AND_ACTIVE = new LinkedHashMap<>();
+    private static final LinkedHashMap<String,String> LIST_LOGIN_AND_PASSWORD = new LinkedHashMap<>();
 
     private static UsersTable instance;
 
@@ -32,80 +32,98 @@ public class UsersTable extends ConnectServer{
         infoAllUsers();
     }
 
+    /*
+     * <Получение>
+     * запросы с помощью которых, можно получить данные из БД
+     * */
+
+    /*
+     * метод, заполняющий списки данными из БД
+     * */
     private void infoAllUsers(){
         try {
-            Response<ArrayList<PojoUsers>> response = restApiForUsersTable.getListAllUsers().execute();
+            Response<ArrayList<PojoUsers>> response = REST_API_FOR_USERS_TABLE.getListAllUsers().execute();
             ArrayList<PojoUsers> list = response.body();
             for (int i = 0; i < list.size(); i++) {
-                listID.add(list.get(i).getId());
-                listLogin.add(list.get(i).getLogin());
-                listAdmin.add(list.get(i).getAdmin());
-                listActive.add(list.get(i).getActive());
+                LIST_LOGIN.add(list.get(i).getLogin());
+                LIST_PASSWORD.add(LIST_LOGIN.get(i));
+                LIST_ACTIVE.add(list.get(i).getActive());
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+    /*
+     * </Получение>
+     * */
 
+    /*
+     * <Отправка>
+     * запросы с помощью которых, можно отправить данные в БД
+     * */
+
+    /*
+     * метод, отвечающий за авторизацию
+     * */
+    public boolean authorized(String userLogin, String userPassword){
+        try {
+            Response<ResponseBody> response = REST_API_FOR_USERS_TABLE.authorized(userLogin, userPassword).execute();
+            System.out.println(response.raw());
+            return response.isSuccessful();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /*
+     * метод, добавляющий пользователя
+     * */
     public void addUser(String userLogin , boolean userAdmin, String userPassword, boolean userActive){
         try {
-            Response<ResponseBody> response = restApiForUsersTable.addUser(userLogin, userAdmin,userPassword, userActive).execute();
+            Response<ResponseBody> response = REST_API_FOR_USERS_TABLE.addUser(userLogin, userAdmin,userPassword, userActive).execute();
+            System.out.println(response.raw());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+    /*
+     * </Отправка>
+     * */
 
-    public void delUser(int userID){
-        try {
-            Response<ResponseBody> response = restApiForUsersTable.delUser(userID).execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void modifyUser(int userID, String userLogin , boolean userAdmin, String userPassword, boolean userActive){
-        try {
-            Response<ResponseBody> response = restApiForUsersTable.modifyUser(userID, userLogin, userAdmin, userPassword, userActive).execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public LinkedHashMap<Integer, String> getListIDAndLogin() {
-        for (int i = 0; i < getListID().size(); i++) {
-            listIDAndLogin.put(getListID().get(i), getListLogin().get(i));
-        }
-        return listIDAndLogin;
-    }
-
-    public LinkedHashMap<String, Boolean> getListLoginAndAdmin() {
-        for (int i = 0; i < getListLogin().size(); i++) {
-            listLoginAndAdmin.put(getListLogin().get(i), getListAdmin().get(i));
-        }
-        return listLoginAndAdmin;
-    }
-
+    /*
+     * метод, возвращающий связанный спискок логин и активность пользователя
+     * */
     public LinkedHashMap<String, Boolean> getListLoginAndActive() {
         for (int i = 0; i < getListLogin().size(); i++) {
-            listLoginAndActive.put(getListLogin().get(i), getListActive().get(i));
+            LIST_LOGIN_AND_ACTIVE.put(getListLogin().get(i), getListActive().get(i));
         }
-        return listLoginAndActive;
+        return LIST_LOGIN_AND_ACTIVE;
     }
 
-    private ArrayList<Integer> getListID() {
-        return listID;
+    /*
+     * метод, возвращающий связанный спискок логин и пароль пользователя
+     * */
+    public LinkedHashMap<String, String> getListLoginAndPassword() {
+        for (int i = 0; i < getListLogin().size(); i++) {
+            LIST_LOGIN_AND_PASSWORD.put(getListLogin().get(i), getListPassword().get(i));
+        }
+        return LIST_LOGIN_AND_PASSWORD;
     }
 
-    private ArrayList<String> getListLogin(){
-        return listLogin;
+    /*
+     * <getters>
+     * */
+    public ArrayList<String> getListLogin(){
+        return LIST_LOGIN;
     }
-
-
-    private ArrayList<Boolean> getListAdmin(){
-        return listAdmin;
+    public ArrayList<String> getListPassword(){
+        return LIST_PASSWORD;
     }
-
     private ArrayList<Boolean> getListActive(){
-        return listActive;
+        return LIST_ACTIVE;
     }
+    /*
+     * </getters>
+     * */
 }

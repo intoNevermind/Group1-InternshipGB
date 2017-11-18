@@ -8,11 +8,12 @@ import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.text.SimpleDateFormat;
 import static java.awt.GridBagConstraints.*;
-
+/*
+ * Класс-статистика, отвечающий за функциональную деятельность Ежедневной статистики
+ * */
 public class DailyStatistic extends Statistics{
-    private static final String TAB_NAME = "Ежедневная статистика";
-
-    private static final JLabel numberPagesTotal = new JLabel();
+    private static final String NAME_TAB = "Ежедневная статистика";
+    private static final String FORMAT = "yyyy-MM-dd";
 
     private static String nameSite;
     private static String namePerson;
@@ -20,11 +21,11 @@ public class DailyStatistic extends Statistics{
     private static String finishDate;
 
     public DailyStatistic() {
-        setTabName(TAB_NAME);
+        setTabName(NAME_TAB);
 
         addActionListenerForListPerson();
-        addActionListenerForStartCalendar();
-        addActionListenerForFinishCalendar();
+        addActionListenerForCalendars();
+
         columnNames = new String[]{"Дата", "Количество новых страниц"};
     }
 
@@ -68,25 +69,25 @@ public class DailyStatistic extends Statistics{
 
     @Override
     public void initStartDate(PropertyChangeEvent evt){
-        startDate = new SimpleDateFormat("yyyy-MM-dd").format(getStartCalendar().getDate());
+        startDate = new SimpleDateFormat(FORMAT).format(getStartCalendar().getDate());
     }
 
     @Override
     public void initFinishDate(PropertyChangeEvent evt){
-        finishDate = new SimpleDateFormat("yyyy-MM-dd").format(getFinishCalendar().getDate());
+        finishDate = new SimpleDateFormat(FORMAT).format(getFinishCalendar().getDate());
     }
 
     @Override
     public void visibleDataTable(ActionEvent actionEvent){
         String str = "";
-        if(nameSite == null || nameSite.equals(ProcessingData.getNotChosen())) str += " \"" + getHeadlineSite().getText() + "\" ";
-        if(namePerson == null || nameSite.equals(ProcessingData.getNotChosen())) str += " \"" + getHeadlinePersons().getText() + "\" ";
-        if(startDate == null) str += " \"" + getHeadlineStartPeriod().getText() + "\" ";
-        if(finishDate == null) str += " \"" + getHeadlineFinishPeriod().getText() + "\" ";
+        if(nameSite == null || nameSite.equals(ProcessingData.getNotChosen())) str += " \"" + getHeadlineSite().getText() + "\" \n";
+        if(namePerson == null || namePerson.equals(ProcessingData.getNotChosen())) str += " \"" + getHeadlinePersons().getText() + "\" \n";
+        if(startDate == null) str += " \"" + getHeadlineStartPeriod().getText() + "\" \n";
+        if(finishDate == null) str += " \"" + getHeadlineFinishPeriod().getText() + "\" \n";
         if(!str.equals("")) {
             JOptionPane.showMessageDialog(null,
-                    "Для просмотра ежедневной статистики необходимо выбрать " + str,
-                    "Не инициализированы поля",
+                    "Для просмотра ежедневной статистики необходимо выбрать \n" + str,
+                    getEmptyFields(),
                     JOptionPane.WARNING_MESSAGE);
         }
         dataTable = new JTable(getPPersonPageRankT().getArrayFillTable(nameSite,namePerson,startDate,finishDate, columnNames.length), columnNames);
@@ -94,10 +95,10 @@ public class DailyStatistic extends Statistics{
         getPanelStat().add(dataScrollPane, BorderLayout.CENTER);
         dataScrollPane.setVisible(true);
 
-        numberPagesTotal.setText("Общее количество новых страниц за выбранный период: " +
-                getPPersonPageRankT().getIntNumberPagesTotal(nameSite,namePerson,startDate,finishDate));
-        getPanelStat().add(numberPagesTotal, BorderLayout.SOUTH);
-        numberPagesTotal.setVisible(true);
+        getNumberPagesTotal().setText("Общее количество новых страниц за выбранный период: " +
+                getPPersonPageRankT().getNumberPagesTotal(nameSite,namePerson,startDate,finishDate));
+        getPanelStat().add(getNumberPagesTotal(), BorderLayout.SOUTH);
+        getNumberPagesTotal().setVisible(true);
         getPanelStat().updateUI();
     }
 
