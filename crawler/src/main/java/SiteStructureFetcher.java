@@ -24,6 +24,7 @@ public class SiteStructureFetcher {
     private static final String ROBOTS_TXT = "/robots.txt";
     private static final String SITEMAP = "Sitemap: ";
     private static final String XML = ".xml";
+    private static final String XML_GZ = ".xml.gz";
 
     // Буфер обработанных ссылок из newPagesBuffer
     public Queue<String> fetchedPagesBuffer = new PriorityBlockingQueue<String>();
@@ -42,7 +43,7 @@ public class SiteStructureFetcher {
             if (url.endsWith(ROBOTS_TXT)) {
                 crawlRobotsTxt(str);
             }
-            else if (url.endsWith(XML)) {
+            else if (url.endsWith(XML) || url.endsWith(XML_GZ)) {
                 crawlSitemap(str);
             }
             else {
@@ -222,7 +223,15 @@ public class SiteStructureFetcher {
         try {
             // Скачиваем XML по ссылке
             DocumentBuilder b = f.newDocumentBuilder();
-            Document doc = b.parse(url);
+
+            Document doc = null;
+
+            // Если фалй упакован в GZ, сперва распаковываем.
+            if (url.endsWith(XML_GZ)) {
+                Downloader downloader = new Downloader();
+                doc = b.parse(downloader.downloadGz(url));
+            } else
+                doc = b.parse(url);
             doc.getDocumentElement().normalize();
 
             // Перебираем все элементы с тегами <loc></loc>
