@@ -11,9 +11,15 @@ public class ProcessingData {
     /*
      * перегруженные методы, возвращающийе пустой двойной массив, созданы для переопередения
      * */
-    public Object[][] getArrayFillTable(String name, int numberColumn){ return new Object[0][0]; }
-    public Object[][] getArrayFillTable(String nameSite, String namePerson, String startDate, String finishDate, int numberColumn){ return new Object[0][0]; }
-    public Object[][] getArrayFillTable(int numberColumn){ return new Object[0][0]; }
+    public Object[][] getArrayFillTable(String name, int numberColumn){
+        return new Object[0][0];
+    }
+    public Object[][] getArrayFillTable(String nameSite, String namePerson, String startDate, String finishDate, int numberColumn){
+        return new Object[0][0];
+    }
+    public Object[][] getArrayFillTable(int numberColumn){
+        return new Object[0][0];
+    }
 
     /*
      * метод, преобразующий связанный список в двойной массив
