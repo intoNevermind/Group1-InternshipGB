@@ -72,6 +72,7 @@ public class SitesTable extends ConnectServer {
         try {
             Response<ResponseBody> response = REST_API_FOR_SITES_TABLE.addSite(siteName, siteUrl, siteActive).execute();
             System.out.println(response.raw());
+            System.out.println(response.errorBody());
         } catch (IOException e) {
             e.printStackTrace();
         }
