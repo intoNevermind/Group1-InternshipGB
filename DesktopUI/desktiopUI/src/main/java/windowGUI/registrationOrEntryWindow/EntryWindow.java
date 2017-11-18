@@ -2,16 +2,17 @@ package windowGUI.registrationOrEntryWindow;
 
 import windowGUI.ApplicationWindow;
 import windowGUI.component.workDB.tables.UsersTable;
+import static windowGUI.registrationOrEntryWindow.AuthorizationWindow.getWINDOW;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-
 import static java.awt.GridBagConstraints.EAST;
 import static java.awt.GridBagConstraints.REMAINDER;
-import static windowGUI.registrationOrEntryWindow.AuthorizationWindow.getWINDOW;
-
+/*
+ * Класс-авторизация, отвечающий за функциональную деятельность вкладки Вход
+ * */
 public class EntryWindow extends Authorization {
     private static final String TAB_TITLE = "Вход";
 
@@ -22,24 +23,24 @@ public class EntryWindow extends Authorization {
     private static String userLogin;
     private static String userPassword;
 
-    public EntryWindow() {
+    EntryWindow() {
         setTabTitle(TAB_TITLE);
     }
 
     @Override
     public void fillTabPanel() {
-        getGBL().setConstraints(getHeadLineLogin(),getCGBL().configGBCTest(EAST,1,false));
+        getGBL().setConstraints(getHeadLineLogin(),getCGBL().configGBC(EAST,1,false));
         getPanelTabs().add(getHeadLineLogin());
-        getGBL().setConstraints(getLoginField(), getCGBL().configGBCTest(2,false));
+        getGBL().setConstraints(getLoginField(), getCGBL().configGBC(2,false));
         getPanelTabs().add(getLoginField());
 
-        getGBL().setConstraints(getHeadLinePassword(), getCGBL().configGBCTest(EAST,1,true));
+        getGBL().setConstraints(getHeadLinePassword(), getCGBL().configGBC(EAST,1,true));
         getPanelTabs().add(getHeadLinePassword());
-        getGBL().setConstraints(getPasswordField(), getCGBL().configGBCTest(2,false));
+        getGBL().setConstraints(getPasswordField(), getCGBL().configGBC(2,false));
         getPanelTabs().add(getPasswordField());
 
         getBtnContinue().setText("Войти");
-        getGBL().setConstraints(getBtnContinue(), getCGBL().configGBCTest(REMAINDER,true));
+        getGBL().setConstraints(getBtnContinue(), getCGBL().configGBC(REMAINDER,true));
         getPanelTabs().add(getBtnContinue());
     }
 
@@ -49,6 +50,7 @@ public class EntryWindow extends Authorization {
         if(getLoginField().getText().equals("")) str += " Введите: \"" + getHeadLineLogin().getText() + "\" \n";
         if(getPasswordField().getText().equals("")) str += " Введите:  \"" + getHeadLinePassword().getText() + "\" \n";
         if(!getLoginField().getText().equals(LIST_LOGIN_AND_PASSWORD.get(getPasswordField().getText()))) str += "Логин и пароль не совпадают";
+
         if(!str.equals("")) {
             JOptionPane.showMessageDialog(null,
                     "Вход не возможен \n" + str,
@@ -88,9 +90,4 @@ public class EntryWindow extends Authorization {
         getLoginField().setText(null);
         getPasswordField().setText(null);
     }
-
-    public static String getUserLogin() {
-        return userLogin;
-    }
-
 }

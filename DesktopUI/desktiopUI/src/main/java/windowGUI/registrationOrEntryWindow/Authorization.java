@@ -7,7 +7,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
-
+/*
+ * Родительский класс для классов-авторизаций
+ * */
 public abstract class Authorization {
     private static final MyStyle MY_STYLE = new MyStyle();
 
@@ -41,10 +43,9 @@ public abstract class Authorization {
         fillTabPanel();
         addBtnListener();
     }
-
-    public abstract void fillTabPanel();
-    public abstract void openApplication(ActionEvent actionEvent);
-
+    /*
+     * метод, отвечающий за передачу всех элементов авторизации для установки графического вида
+     * */
     private ArrayList<Component> getListComponents(){
         ArrayList<Component> listComponent = new ArrayList<>();
         listComponent.add(headLineLogin);
@@ -61,8 +62,38 @@ public abstract class Authorization {
         return listComponent;
     }
 
+    /*
+     * <абстрактные методы>
+     * */
+    public abstract void fillTabPanel();//заполняет панель вкладки
+    public abstract void openApplication(ActionEvent actionEvent);//открывает окно приложения
+    /*
+     * </абстрактные методы>
+     * */
+
+    /*
+     * <общие методы>
+     * одинаковые и обязательные для всех авторизаций
+     * */
+
+    /*
+     *метод, добавляющий листенеры для кнопок вход/регистрация
+     * */
     private void addBtnListener(){
         btnContinue.addActionListener(this::openApplication);
+    }
+    /*
+     * </общие методы>
+     * */
+
+    /*
+     * <getters and setters>
+     * */
+    public String getTabTitle() {
+        return tabTitle;
+    }
+    void setTabTitle(String tabTitle) {
+        this.tabTitle = tabTitle;
     }
 
     public static GridBagLayout getGBL() {
@@ -70,13 +101,6 @@ public abstract class Authorization {
     }
     public static ConfigurationGBL getCGBL() {
         return CGBL;
-    }
-
-    public String getTabTitle() {
-        return tabTitle;
-    }
-    void setTabTitle(String tabTitle) {
-        this.tabTitle = tabTitle;
     }
 
     public JPanel getPanelTabs() {
@@ -112,5 +136,7 @@ public abstract class Authorization {
     JButton getBtnContinue() {
         return btnContinue;
     }
-
+    /*
+     * </getters and setters>
+     * */
 }

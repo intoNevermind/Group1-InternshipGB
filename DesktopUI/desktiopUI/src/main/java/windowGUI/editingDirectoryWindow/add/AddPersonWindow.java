@@ -8,10 +8,12 @@ import windowGUI.editingDirectoryWindow.EditingDirectoryWindow;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import static java.awt.GridBagConstraints.*;
-
+/*
+ * Класс-редактор справочников, отвечающий за функциональную деятельность добавления личностей
+ * */
 public class AddPersonWindow extends EditingDirectoryWindow {
     private static final PersonsDirectory PERSON_DIRECTORY = new PersonsDirectory();
-    private static final PersonsTable TABLE_PERSON = PersonsTable.getInstance();
+    private static final PersonsTable PERSON_TABLE = PersonsTable.getInstance();
 
     public AddPersonWindow(String windowTitle) {
         new ConfigurationsWindowGUI().setConfigWindow(getWindow(), windowTitle, getSizeWidth(), getSizeHeight());
@@ -22,26 +24,24 @@ public class AddPersonWindow extends EditingDirectoryWindow {
 
     @Override
     public void fillAddPanels() {
-        getGBL().setConstraints(getHeadLineName(), getCGBL().configGBCTest(WEST,1,false));
+        getGBL().setConstraints(getHeadLineName(), getCGBL().configGBC(WEST,1,false));
         getTextFieldPanel().add(getHeadLineName());
-        getGBL().setConstraints(getNameField(), getCGBL().configGBCTest(REMAINDER,true));
+        getGBL().setConstraints(getNameField(), getCGBL().configGBC(REMAINDER,true));
         getTextFieldPanel().add(getNameField());
 
-        getGBL().setConstraints(getActive(), getCGBL().configGBCTest(REMAINDER,true));
+        getGBL().setConstraints(getActive(), getCGBL().configGBC(REMAINDER,true));
         getTextFieldPanel().add(getActive());
 
-        getGBL().setConstraints(getBtnSave(), getCGBL().configGBCTest(1,true));
+        getGBL().setConstraints(getBtnSave(), getCGBL().configGBC(1,true));
         getBtnPanel().add(getBtnSave());
-        getGBL().setConstraints(getBtnCancel(), getCGBL().configGBCTest(1,false));
+        getGBL().setConstraints(getBtnCancel(), getCGBL().configGBC(1,false));
         getBtnPanel().add(getBtnCancel());
     }
 
     @Override
     public void saveEditing(ActionEvent actionEvent) {
-        if(getNameField().getText() != null){
-            TABLE_PERSON.addPerson(getNameField().getText(),getActive().isSelected());
-            System.out.println(getActive().isSelected());
-        }
+        if(getNameField().getText() != null) PERSON_TABLE.addPerson(getNameField().getText(),getActive().isSelected());
+
         PERSON_DIRECTORY.getPanelDirectory().updateUI();
         getNameField().setText(null);
         getWindow().dispose();

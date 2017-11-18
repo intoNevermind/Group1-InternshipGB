@@ -65,7 +65,7 @@ public abstract class Statistics {
     }
 
     /*
-     * метод, отвечающий за передачу всех элементов справочников для установки графического вида
+     * метод, отвечающий за передачу всех элементов статистик для установки графического вида
      * */
     private ArrayList<Component> getListComponents(){
         ArrayList<Component> listComponent = new ArrayList<>();
@@ -98,7 +98,7 @@ public abstract class Statistics {
 
     /*
      * <общие методы>
-     * одинаковые и обязательные для всех справочников
+     * одинаковые и обязательные для всех статистик
      * */
 
     /*
@@ -126,7 +126,7 @@ public abstract class Statistics {
 
     /*
      * <специфичные методы>
-     * специфичные методы, которые могут быть в классе-справочнике
+     * специфичные методы, которые могут быть в классе-статистике
      * */
     public void initNameSites(ActionEvent actionEvent){}// инициализирует имя сайта
     public void initNamePerson(ActionEvent actionEvent){}// инициализирует имя личности
@@ -156,7 +156,7 @@ public abstract class Statistics {
      * */
 
     /*
-     * <getters and setters>\
+     * <getters and setters>
      * */
     void setTabName(String tabName) {
         this.tabName = tabName;
@@ -164,7 +164,7 @@ public abstract class Statistics {
     public String getTabName() {
         return tabName;
     }
-    public static String getEmptyFields() {
+    static String getEmptyFields() {
         return EMPTY_FIELDS;
     }
 
@@ -220,6 +220,6 @@ public abstract class Statistics {
         return btnConfirm;
     }
     /*
-     * </getters and setters>\
+     * </getters and setters>
      * */
 }

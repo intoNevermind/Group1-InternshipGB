@@ -9,18 +9,20 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import static java.awt.GridBagConstraints.REMAINDER;
 import static java.awt.GridBagConstraints.WEST;
-
+/*
+ * Класс-редактор справочников, отвечающий за функциональную деятельность редактирования личностей
+ * */
 public class EditPersonWindow extends EditingDirectoryWindow {
     private static final PersonsDirectory PERSON_DIRECTORY = new PersonsDirectory();
-    private static final PersonsTable TABLE_PERSON = PersonsTable.getInstance();
-    private String personName;
-    private boolean personActive;
+    private static final PersonsTable PERSON_TABLE = PersonsTable.getInstance();
+    private String namePerson;
+    private boolean activePerson;
     private int personID;
 
-    public EditPersonWindow(String windowTitle, String personName, int personID, boolean personActive) {
-        this.personName = personName;
+    public EditPersonWindow(String windowTitle, String namePerson, int personID, boolean activePerson) {
+        this.namePerson = namePerson;
         this.personID = personID;
-        this.personActive = personActive;
+        this.activePerson = activePerson;
 
         new ConfigurationsWindowGUI().setConfigWindow(getWindow(), windowTitle, getSizeWidth(), getSizeHeight());
 
@@ -30,29 +32,27 @@ public class EditPersonWindow extends EditingDirectoryWindow {
 
     @Override
     public void fillEditPanels() {
-        getGBL().setConstraints(getHeadLineName(), getCGBL().configGBCTest(WEST,1,false));
+        getGBL().setConstraints(getHeadLineName(), getCGBL().configGBC(WEST,1,false));
         getTextFieldPanel().add(getHeadLineName());
-        getNameField().setText(personName);
-        getGBL().setConstraints(getNameField(), getCGBL().configGBCTest(REMAINDER,true));
+        getNameField().setText(namePerson);
+        getGBL().setConstraints(getNameField(), getCGBL().configGBC(REMAINDER,true));
         getTextFieldPanel().add(getNameField());
 
-        getActive().setSelected(personActive);
-        getGBL().setConstraints(getActive(), getCGBL().configGBCTest(REMAINDER,true));
+        getActive().setSelected(activePerson);
+        getGBL().setConstraints(getActive(), getCGBL().configGBC(REMAINDER,true));
         getTextFieldPanel().add(getActive());
 
-        getGBL().setConstraints(getBtnSave(), getCGBL().configGBCTest(1,true));
+        getGBL().setConstraints(getBtnSave(), getCGBL().configGBC(1,true));
         getBtnPanel().add(getBtnSave());
-        getGBL().setConstraints(getBtnCancel(), getCGBL().configGBCTest(1,false));
+        getGBL().setConstraints(getBtnCancel(), getCGBL().configGBC(1,false));
         getBtnPanel().add(getBtnCancel());
     }
 
     @Override
     public void saveEditing(ActionEvent actionEvent) {
-        if(getNameField().getText() != null){
-            TABLE_PERSON.modifyPerson(personID,personName,getActive().isSelected());
-        }
+        if(getNameField().getText() != null) PERSON_TABLE.modifyPerson(personID, namePerson,getActive().isSelected());
+
         PERSON_DIRECTORY.getPanelDirectory().updateUI();
-        getNameField().setText(null);
         getWindow().dispose();
     }
 }

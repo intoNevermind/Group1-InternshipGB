@@ -6,23 +6,25 @@ import windowGUI.component.workDirectory.SitesDirectory;
 import windowGUI.editingDirectoryWindow.EditingDirectoryWindow;
 
 import java.awt.event.ActionEvent;
-
+/*
+ * Класс-редактор справочников, отвечающий за функциональную деятельность удаления сайтов
+ * */
 public class DelSiteWindow extends EditingDirectoryWindow {
     private static final SitesDirectory SITES_DIRECTORY = new SitesDirectory();
-    private static final SitesTable TABLE_SITES = SitesTable.getInstance();
+    private static final SitesTable SITES_TABLE = SitesTable.getInstance();
     private int sitesID;
 
-    public DelSiteWindow(String windowTitle,String sitesName, int sitesID) {
+    public DelSiteWindow(String windowTitle,String nameSites, int sitesID) {
         this.sitesID = sitesID;
 
         new ConfigurationsWindowGUI().setConfigWindow(getWindow(), windowTitle, getSizeWidth(), getSizeHeight());
 
-        fillDelPanels(sitesName);
+        fillDelPanels(nameSites);
     }
 
     @Override
     public void saveEditing(ActionEvent actionEvent) {
-        TABLE_SITES.delSite(sitesID);
+        SITES_TABLE.delSite(sitesID);
         SITES_DIRECTORY.getPanelDirectory().updateUI();
         getWindow().dispose();
     }

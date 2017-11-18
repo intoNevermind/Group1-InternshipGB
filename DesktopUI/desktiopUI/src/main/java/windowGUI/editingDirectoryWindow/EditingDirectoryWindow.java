@@ -7,16 +7,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
-
+/*
+ * Родительский класс для классов-редакторов справочников
+ * */
 public abstract class EditingDirectoryWindow {
+    private static final MyStyle MY_STYLE = new MyStyle();
+
     private static final int SIZE_WIDTH = 600;
     private static final int SIZE_HEIGHT = 200;
-
     private static final int INDENT_WIDTH = 100;
     private static final int FIELD_SIZE_WIDTH = SIZE_WIDTH - INDENT_WIDTH;
     private static final int FIELD_SIZE_HEIGHT = SIZE_HEIGHT / 5;
-
-    private static final MyStyle MY_STYLE = new MyStyle();
 
     private final JFrame window = new JFrame();
 
@@ -47,38 +48,15 @@ public abstract class EditingDirectoryWindow {
         nameField.setPreferredSize(new Dimension(FIELD_SIZE_WIDTH,FIELD_SIZE_HEIGHT));
         urlField.setPreferredSize(new Dimension(FIELD_SIZE_WIDTH,FIELD_SIZE_HEIGHT));
 
-        window.add(btnPanel,BorderLayout.SOUTH);
         addBtnListener();
+
+        window.add(btnPanel,BorderLayout.SOUTH);
         window.setVisible(true);
     }
 
-    public abstract void saveEditing(ActionEvent actionEvent);
-
-    public void fillAddPanels(){}
-    public void fillEditPanels(){}
-
-    protected void fillDelPanels(String elementName){
-        headLineDel.setText("Вы хотите удалить елемент " + elementName + " ?");
-        panelText.add(headLineDel, BorderLayout.CENTER);
-        window.add(panelText, BorderLayout.CENTER);
-        btnSave.setText("Да");
-        GBL.setConstraints(btnSave, CGBL.configGBCTest(1,true));
-        btnPanel.add(btnSave);
-
-        btnCancel.setText("Нет");
-        GBL.setConstraints(btnCancel, CGBL.configGBCTest(1,false));
-        btnPanel.add(btnCancel);
-    }
-
-    private void addBtnListener(){
-        btnSave.addActionListener(this::saveEditing);
-        btnCancel.addActionListener(this::cancelEditing);
-    }
-
-    private void cancelEditing(ActionEvent actionEvent){
-        window.dispose();
-    }
-
+    /*
+     * метод, отвечающий за передачу всех элементов редакторов справочников для установки графического вида
+     * */
     private ArrayList<Component> getListComponents(){
         ArrayList<Component> listComponent = new ArrayList<>();
         listComponent.add(headLineName);
@@ -94,6 +72,67 @@ public abstract class EditingDirectoryWindow {
         return listComponent;
     }
 
+    /*
+     * <абстрактные методы>
+     * */
+    public abstract void saveEditing(ActionEvent actionEvent);// добавляет листенер для кнопки сохранить/да
+    /*
+     * </абстрактные методы>
+     * */
+
+    /*
+     * <общие методы>
+     * одинаковые и обязательные для всех редакторов справочников
+     * */
+
+    /*
+     * метод, заполняющий панель окна удаления
+     * */
+    protected void fillDelPanels(String elementName){
+        headLineDel.setText("Вы хотите удалить елемент " + elementName + " ?");
+        panelText.add(headLineDel, BorderLayout.CENTER);
+        window.add(panelText, BorderLayout.CENTER);
+
+        btnSave.setText("Да");
+        GBL.setConstraints(btnSave, CGBL.configGBC(1,true));
+        btnPanel.add(btnSave);
+
+        btnCancel.setText("Нет");
+        GBL.setConstraints(btnCancel, CGBL.configGBC(1,false));
+        btnPanel.add(btnCancel);
+    }
+
+    /*
+     * метод, добавляющий листенеры для кнопок
+     * */
+    private void addBtnListener(){
+        btnSave.addActionListener(this::saveEditing);
+        btnCancel.addActionListener(this::cancelEditing);
+    }
+
+    /*
+     * метод, добавляющий листенер для кнопки отмена/нет
+     * */
+    private void cancelEditing(ActionEvent actionEvent){
+        window.dispose();
+    }
+    /*
+     * </общие методы>
+     * */
+
+    /*
+     * <специфичные методы>
+     * специфичные методы, которые могут быть в классе-редакторе справочников
+     * */
+    public void fillAddPanels(){}// заполняет панель окна добавления
+    public void fillEditPanels(){}// заполняет панель окна редоктирования
+    /*
+     * </специфичные методы>
+     * */
+
+    /*
+     * <getters and setters>
+     * */
     public static int getSizeWidth() {
         return SIZE_WIDTH;
     }
@@ -143,4 +182,7 @@ public abstract class EditingDirectoryWindow {
     protected JCheckBox getActive() {
         return active;
     }
+    /*
+     * </getters and setters>
+     * */
 }

@@ -11,8 +11,14 @@ public interface RestApiForPagesTable {
 * <Получение>
 * запросы с помощью которых, можно получить данные из БД
 * */
-    @GET("unauthorized/user/ui/getAllPages")
-    Call<ArrayList<PojoPages>> getListAllPages();
+    @GET("unauthorized/user/ui/getIDFromPagesTable")
+    Call<ArrayList<PojoPages>> getListIDFromPagesTable();
+
+    @GET("unauthorized/user/ui/getSiteIDFromPagesTable")
+    Call<ArrayList<PojoPages>> getListSiteIDFromPagesTable();
+
+    @GET("unauthorized/user/ui/getFoundDateTimeFromPagesTable")
+    Call<ArrayList<PojoPages>> getListFoundDateTimeFromPagesTable();
 /*
 * </Получение>
 * */

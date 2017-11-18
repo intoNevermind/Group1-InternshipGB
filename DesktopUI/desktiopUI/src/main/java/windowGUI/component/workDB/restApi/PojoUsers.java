@@ -8,11 +8,9 @@ public class PojoUsers {
     @Expose
     private String login;
 
-
     @SerializedName("active")
     @Expose
     private Boolean active;
-
 
     public String getLogin() {
         return login;

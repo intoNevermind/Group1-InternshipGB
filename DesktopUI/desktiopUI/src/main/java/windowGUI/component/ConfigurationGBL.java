@@ -1,11 +1,16 @@
 package windowGUI.component;
 
 import java.awt.*;
-
+/*
+ * Класс-конфигурация, отвечающий за расположение елементов графического интерфейса
+ * */
 public class ConfigurationGBL {
     private int numberStr = 0;
 
-    public GridBagConstraints configGBCTest(int anchor, int gridWidth, boolean moveToNewLine) {
+    /*
+     * перегруженный метод, используется для настроек расположения компонента
+     * */
+    public GridBagConstraints configGBC(int anchor, int gridWidth, boolean moveToNewLine) {
         GridBagConstraints gbc = new GridBagConstraints();
 
         if (moveToNewLine) numberStr++;
@@ -16,8 +21,9 @@ public class ConfigurationGBL {
         return gbc;
     }
 
-    public GridBagConstraints configGBCTest( int gridWidth, boolean moveToNewLine) {
+    public GridBagConstraints configGBC(int gridWidth, boolean moveToNewLine) {
         GridBagConstraints gbc = new GridBagConstraints();
+
         if (moveToNewLine) numberStr++;
         gbc.gridy = numberStr;
         gbc.gridwidth = gridWidth;

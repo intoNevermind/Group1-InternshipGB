@@ -123,7 +123,7 @@ public abstract class Directory {
     }
 
     /*
-     * </общие методы>\
+     * </общие методы>
      * */
 
     /*
@@ -142,11 +142,11 @@ public abstract class Directory {
         listPersons.addActionListener(this::removeDataTable);
     }
     /*
-     * </специфичные методы>\
+     * </специфичные методы>
      * */
 
     /*
-     * <getters and setters>\
+     * <getters and setters>
      * */
     public String getNameTab() {
         return nameTab;
@@ -207,6 +207,6 @@ public abstract class Directory {
         return columnNames;
     }
     /*
-     * </getters and setters>\
+     * </getters and setters>
      * */
 }

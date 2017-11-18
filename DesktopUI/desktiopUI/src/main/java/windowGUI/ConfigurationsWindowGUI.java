@@ -2,7 +2,9 @@ package windowGUI;
 
 import javax.swing.*;
 import java.awt.*;
-
+/*
+ * Класс-конфигурация, отвечающий за минимальную настройку окон(JFrame)
+ * */
 public class ConfigurationsWindowGUI {
 
     public void setConfigWindow(JFrame window, String windowTitle, int sizeWidth, int sizeHeight){

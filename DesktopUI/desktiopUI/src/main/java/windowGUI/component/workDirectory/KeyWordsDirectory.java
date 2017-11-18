@@ -31,12 +31,12 @@ public class KeyWordsDirectory extends Directory{
 
     @Override
     public void fillOptionsPanel() {
-        getGBL().setConstraints(getHeadLinePerson(),getCGBL().configGBCTest(EAST,1,false));
+        getGBL().setConstraints(getHeadLinePerson(),getCGBL().configGBC(EAST,1,false));
         getOptionsPanel().add(getHeadLinePerson());
-        getGBL().setConstraints(getListPersons(), getCGBL().configGBCTest(2,false));
+        getGBL().setConstraints(getListPersons(), getCGBL().configGBC(2,false));
         getOptionsPanel().add(getListPersons());
 
-        getGBL().setConstraints(getBtnConfirm(), getCGBL().configGBCTest(REMAINDER,true));
+        getGBL().setConstraints(getBtnConfirm(), getCGBL().configGBC(REMAINDER,true));
         getOptionsPanel().add(getBtnConfirm());
     }
 

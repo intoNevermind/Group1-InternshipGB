@@ -9,19 +9,21 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import static java.awt.GridBagConstraints.REMAINDER;
 import static java.awt.GridBagConstraints.WEST;
-
+/*
+ * Класс-редактор справочников, отвечающий за функциональную деятельность редактирования сайтов
+ * */
 public class EditSiteWindow extends EditingDirectoryWindow {
     private static final SitesDirectory SITES_DIRECTORY = new SitesDirectory();
-    private static final SitesTable TABLE_SITES = SitesTable.getInstance();
-    private String sitesName;
-    private String sitesURL;
-    private boolean keyWordActive;
+    private static final SitesTable SITES_TABLE = SitesTable.getInstance();
+    private String nameSites;
+    private String urlSites;
+    private boolean activeKeyWord;
     private int sitesID;
 
-    public EditSiteWindow(String windowTitle, String sitesName, int sitesID, String sitesURL, boolean keyWordActive) {
-        this.sitesName = sitesName;
-        this.sitesURL = sitesURL;
-        this.keyWordActive = keyWordActive;
+    public EditSiteWindow(String windowTitle, String nameSites, int sitesID, String urlSites, boolean activeKeyWord) {
+        this.nameSites = nameSites;
+        this.urlSites = urlSites;
+        this.activeKeyWord = activeKeyWord;
         this.sitesID = sitesID;
 
         new ConfigurationsWindowGUI().setConfigWindow(getWindow(), windowTitle, getSizeWidth(), getSizeHeight());
@@ -32,36 +34,35 @@ public class EditSiteWindow extends EditingDirectoryWindow {
 
     @Override
     public void fillEditPanels() {
-        getGBL().setConstraints(getHeadLineName(), getCGBL().configGBCTest(WEST,1,false));
+        getGBL().setConstraints(getHeadLineName(), getCGBL().configGBC(WEST,1,false));
         getTextFieldPanel().add(getHeadLineName());
-        getNameField().setText(sitesName);
-        getGBL().setConstraints(getNameField(), getCGBL().configGBCTest(REMAINDER,true));
+        getNameField().setText(nameSites);
+        getGBL().setConstraints(getNameField(), getCGBL().configGBC(REMAINDER,true));
         getTextFieldPanel().add(getNameField());
 
-        getGBL().setConstraints(getHeadLineURL(), getCGBL().configGBCTest(WEST,1,true));
+        getGBL().setConstraints(getHeadLineURL(), getCGBL().configGBC(WEST,1,true));
         getTextFieldPanel().add(getHeadLineURL());
-        getUrlField().setText(sitesURL);
-        getGBL().setConstraints(getUrlField(), getCGBL().configGBCTest(REMAINDER,true));
+        getUrlField().setText(urlSites);
+        getGBL().setConstraints(getUrlField(), getCGBL().configGBC(REMAINDER,true));
         getTextFieldPanel().add(getUrlField());
 
-        getActive().setSelected(keyWordActive);
-        getGBL().setConstraints(getActive(), getCGBL().configGBCTest(REMAINDER,true));
+        getActive().setSelected(activeKeyWord);
+        getGBL().setConstraints(getActive(), getCGBL().configGBC(REMAINDER,true));
         getTextFieldPanel().add(getActive());
 
-        getGBL().setConstraints(getBtnSave(), getCGBL().configGBCTest(1,true));
+        getGBL().setConstraints(getBtnSave(), getCGBL().configGBC(1,true));
         getBtnPanel().add(getBtnSave());
-        getGBL().setConstraints(getBtnCancel(), getCGBL().configGBCTest(1,false));
+        getGBL().setConstraints(getBtnCancel(), getCGBL().configGBC(1,false));
         getBtnPanel().add(getBtnCancel());
     }
 
     @Override
     public void saveEditing(ActionEvent actionEvent) {
         if(getNameField().getText() != null &&  getUrlField() != null){
-            TABLE_SITES.modifySite(sitesID,sitesName,sitesURL,getActive().isSelected());
+            SITES_TABLE.modifySite(sitesID,nameSites, urlSites,getActive().isSelected());
         }
+
         SITES_DIRECTORY.getPanelDirectory().updateUI();
-        getNameField().setText(null);
-        getUrlField().setText(null);
         getWindow().dispose();
     }
 }

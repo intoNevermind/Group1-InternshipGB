@@ -31,27 +31,27 @@ public class DailyStatistic extends Statistics{
 
     @Override
     public void fillOptionsPanel() {
-        getGBL().setConstraints(getHeadlineSite(), getCGBL().configGBCTest(EAST,1,false));
+        getGBL().setConstraints(getHeadlineSite(), getCGBL().configGBC(EAST,1,false));
         getOptionsPanel().add(getHeadlineSite());
-        getGBL().setConstraints(getListSite(), getCGBL().configGBCTest(2,false));
+        getGBL().setConstraints(getListSite(), getCGBL().configGBC(2,false));
         getOptionsPanel().add(getListSite());
 
-        getGBL().setConstraints(getHeadlinePersons(), getCGBL().configGBCTest(EAST,1,true));
+        getGBL().setConstraints(getHeadlinePersons(), getCGBL().configGBC(EAST,1,true));
         getOptionsPanel().add(getHeadlinePersons());
-        getGBL().setConstraints(getListPersons(), getCGBL().configGBCTest(2,false));
+        getGBL().setConstraints(getListPersons(), getCGBL().configGBC(2,false));
         getOptionsPanel().add(getListPersons());
 
-        getGBL().setConstraints(getHeadlineStartPeriod(), getCGBL().configGBCTest(EAST,1,true));
+        getGBL().setConstraints(getHeadlineStartPeriod(), getCGBL().configGBC(EAST,1,true));
         getOptionsPanel().add(getHeadlineStartPeriod());
-        getGBL().setConstraints(getStartCalendar(), getCGBL().configGBCTest(2,false));
+        getGBL().setConstraints(getStartCalendar(), getCGBL().configGBC(2,false));
         getOptionsPanel().add(getStartCalendar());
 
-        getGBL().setConstraints(getHeadlineFinishPeriod(), getCGBL().configGBCTest(EAST,1,true));
+        getGBL().setConstraints(getHeadlineFinishPeriod(), getCGBL().configGBC(EAST,1,true));
         getOptionsPanel().add(getHeadlineFinishPeriod());
-        getGBL().setConstraints(getFinishCalendar(), getCGBL().configGBCTest(2,false));
+        getGBL().setConstraints(getFinishCalendar(), getCGBL().configGBC(2,false));
         getOptionsPanel().add(getFinishCalendar());
 
-        getGBL().setConstraints(getBtnConfirm(), getCGBL().configGBCTest(REMAINDER,true));
+        getGBL().setConstraints(getBtnConfirm(), getCGBL().configGBC(REMAINDER,true));
         getOptionsPanel().add(getBtnConfirm());
     }
 

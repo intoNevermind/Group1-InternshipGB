@@ -5,11 +5,16 @@ import com.toedter.calendar.JDateChooser;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-
+/*
+ * Класс, отвечающий за графический вид компонентов приложения
+ * */
 public class MyStyle {
 
     private static final String font = "Arial";
 
+    /*
+     * метод, задающий различным компонентам различные графические установки
+     * */
     public void setStyle(ArrayList<Component> listComponent){
         for (int i = 0; i < listComponent.size(); i++) {
             if(listComponent.get(i) instanceof JLabel){

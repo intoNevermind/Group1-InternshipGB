@@ -22,12 +22,12 @@ public class GeneralStatistic extends Statistics{
 
     @Override
     public void fillOptionsPanel() {
-        getGBL().setConstraints(getHeadlineSite(),getCGBL().configGBCTest(EAST,1,false));
+        getGBL().setConstraints(getHeadlineSite(),getCGBL().configGBC(EAST,1,false));
         getOptionsPanel().add(getHeadlineSite());
-        getGBL().setConstraints(getListSite(),getCGBL().configGBCTest(2,false));
+        getGBL().setConstraints(getListSite(),getCGBL().configGBC(2,false));
         getOptionsPanel().add(getListSite());
 
-        getGBL().setConstraints(getBtnConfirm(),getCGBL().configGBCTest(REMAINDER,true));
+        getGBL().setConstraints(getBtnConfirm(),getCGBL().configGBC(REMAINDER,true));
         getOptionsPanel().add(getBtnConfirm());
     }
 
