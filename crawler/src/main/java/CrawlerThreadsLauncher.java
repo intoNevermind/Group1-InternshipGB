@@ -13,7 +13,7 @@ public class CrawlerThreadsLauncher {
     private Semaphore semaphore;
     private int threadsCount;
 
-    public CrawlerThreadsLauncher(int number){
+    public CrawlerThreadsLauncher(int number) {
         semaphore = new Semaphore(number);
         threadsCount = number;
     }
@@ -25,7 +25,7 @@ public class CrawlerThreadsLauncher {
     //SiteStructureFetcher siteStructureFetcher = new SiteStructureFetcher();
     PersonRankUpdater personRankUpdater = new PersonRankUpdater();
 
-    public void startThreads(){
+    public void startThreads() {
 
         for (int i = 0; i < threadsCount; i++) {
             new Thread(() -> {
@@ -38,14 +38,14 @@ public class CrawlerThreadsLauncher {
 
                     DBWrapper dbWrapper = new DBWrapper();
 
-                    ArrayList<String> sites = null;
+                    ArrayList<Page> sites = null;
 
                     do {
                         sites = dbWrapper.getSiteBucketFromDB(BUCKET_SIZE);
 
                         for (int a = 0; a < sites.size(); a++) {
                             LogWrapper.info(Thread.currentThread().getName() + " - " + sites.get(a));
-                            LinkChecker.addSite(sites.get(a));
+                            LinkChecker.addSite(sites.get(a).getPageUrl());
                         }
 
                         if (sites.size() > 0) {
@@ -53,7 +53,6 @@ public class CrawlerThreadsLauncher {
                                 LogWrapper.info(Thread.currentThread().getName() + " is processing site " + sites.get(j));
                                 SiteStructureFetcher siteStructureFetcher = new SiteStructureFetcher();
                                 siteStructureFetcher.updateSiteStructure(sites.get(j), dbWrapper);
-                                Thread.sleep(1000);
                                 dbWrapper.unlockSite(sites.get(j));
                             }
                         } else {
@@ -64,18 +63,17 @@ public class CrawlerThreadsLauncher {
 
                     LogWrapper.info(Thread.currentThread().getName() + " starting ranks updating");
 
-                    ArrayList<String> pages = null;
+                    ArrayList<Page> pages = null;
 
                     do {
-                       pages = dbWrapper.getPageBucketFromDB(BUCKET_SIZE);
-                       for (int a = 0; a < pages.size(); a++) {
-                           LogWrapper.info(Thread.currentThread().getName() + " - " + pages.get(a));
-                       }
+                        pages = dbWrapper.getPageBucketFromDB(BUCKET_SIZE);
+                        for (int a = 0; a < pages.size(); a++) {
+                            LogWrapper.info(Thread.currentThread().getName() + " - " + pages.get(a));
+                        }
                         if (pages.size() > 0) {
                             for (int j = 0; j < pages.size(); j++) {
                                 LogWrapper.info(Thread.currentThread().getName() + " is processing page " + pages.get(j));
                                 PersonRankUpdater.updatePersonRanks(pages.get(j), dbWrapper);
-                                Thread.sleep(1000);
                                 dbWrapper.unlockPage(pages.get(j));
                             }
                         } else {

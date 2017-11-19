@@ -9,12 +9,9 @@ import sitefetcher.LinkChecker;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.HashSet;
 import java.util.Queue;
-import java.util.Set;
 import java.util.concurrent.PriorityBlockingQueue;
 
 
@@ -34,10 +31,10 @@ public class SiteStructureFetcher {
     // Буфер новых записей в таблице Pages, заполняется не обработанными ссылками
     public Queue<String> newPagesBuffer = new PriorityBlockingQueue<String>();
 
-    public void updateSiteStructure(String url, DBWrapper dbWrapper) {
+    public void updateSiteStructure(Page site, DBWrapper dbWrapper) {
 
         // Проверяем robots.txt и пишем ссылки в буфер
-        checkRobotsTxt(url);
+        checkRobotsTxt(site.getPageUrl());
 
         // Обрабатываем все ссылки из массиве newPagesBuffer
         String str;
@@ -58,7 +55,7 @@ public class SiteStructureFetcher {
         while ((str = fetchedPagesBuffer.poll()) != null) {
             LogWrapper.info("Crawled page " + str);
             if (dbWrapper != null)
-                dbWrapper.addSitePage(url, str);
+                dbWrapper.addSitePage(site, str);
         }
 
         // По итогу все обработанные поптоками страницы перетекают в fetchedPagesBuffer
@@ -74,18 +71,22 @@ public class SiteStructureFetcher {
         } else crawlSitemaps(url, sitemapUrls, dbWrapper);
         */
     }
+/*
+*
+* Убрать, больше не используются
+* */
 
-    private Set<String> fetchSitemaps(String url, DBWrapper dbWrapper) {
+/*    private Set<String> fetchSitemaps(Page site, DBWrapper dbWrapper) {
 
         // Trying to download correspondent robots.txt
         Downloader downloader = new Downloader();
 
         try {
-            String robotsString = downloader.download(url + ROBOTS_TXT);
+            String robotsString = downloader.download(site.getPageUrl() + ROBOTS_TXT);
             // If file exists and not empty
             if (robotsString != null) {
 
-                dbWrapper.addSitePage(url, url + ROBOTS_TXT);
+                dbWrapper.addSitePage(site, site.getPageUrl() + ROBOTS_TXT);
 
                 Set<String> setOfSitemaps = new HashSet<String>();
 
@@ -98,7 +99,7 @@ public class SiteStructureFetcher {
                     if (str.startsWith(SITEMAP)) {
                         str = str.replaceAll(SITEMAP, "");
                         setOfSitemaps.add(str);
-                        dbWrapper.addSitePage(url, str);
+                        dbWrapper.addSitePage(site, str);
                     }
                 }
                 return setOfSitemaps;
@@ -112,7 +113,7 @@ public class SiteStructureFetcher {
         return new HashSet<String>();
     }
 
-    private void crawlSitemaps(String siteUrl, Set<String> urls, DBWrapper dbWrapper) {
+    private void crawlSitemaps(Page site, Set<String> urls, DBWrapper dbWrapper) {
 
         LogWrapper.info("Crawling sitemap!..");
         LogWrapper.info("Sitemap list: " + urls.toString());
@@ -136,7 +137,7 @@ public class SiteStructureFetcher {
                     // Get the "text node" in the loc (only one)
                     Node titleNode = e.getChildNodes().item(0);
                     LogWrapper.info(titleNode.getNodeValue());
-                    dbWrapper.addSitePage(siteUrl, titleNode.getNodeValue());
+                    dbWrapper.addSitePage(site, titleNode.getNodeValue());
                 }
             }
         } catch (Exception e) {
@@ -144,12 +145,14 @@ public class SiteStructureFetcher {
         }
     }
 
-    public void crawlPage(String url, String host, DBWrapper dbWrapper) {
+    public void crawlPage(Page site, String pageUrl, DBWrapper dbWrapper) {
 
         Set<String> linkSet = new HashSet<String>();
 
+        String host = site.getPageUrl().trim().replaceAll("(https|http)://", "");
+
         try {
-            org.jsoup.nodes.Document doc = Jsoup.connect(url).get();
+            org.jsoup.nodes.Document doc = Jsoup.connect(pageUrl).get();
 
             // Extract all href links from url
             Elements links = doc.select("a[href]");
@@ -160,8 +163,8 @@ public class SiteStructureFetcher {
                 if (linkUrl.contains(host)) {
                     LogWrapper.info("Crawling " + linkUrl);
                     linkSet.add(linkUrl);
-                    LogWrapper.info("Adding page " + linkUrl + " for url " + url);
-                    dbWrapper.addSitePage(url, linkUrl);
+                    LogWrapper.info("Adding page " + linkUrl + " for url " + site.getPageUrl());
+                    dbWrapper.addSitePage(site, linkUrl);
                 }
 
             }
@@ -169,7 +172,7 @@ public class SiteStructureFetcher {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     // Добавлены новые версии методов.
 

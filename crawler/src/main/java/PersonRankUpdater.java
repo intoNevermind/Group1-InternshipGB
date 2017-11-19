@@ -1,4 +1,6 @@
 import org.apache.commons.lang.StringUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import java.util.ArrayList;
 
@@ -7,9 +9,9 @@ import java.util.ArrayList;
  */
 public class PersonRankUpdater {
 
-    public static void updatePersonRanks(String url, DBWrapper dbWrapper) {
+    public static void updatePersonRanks(Page page, DBWrapper dbWrapper) {
 
-        String[] keywordEndings = {" ", ",",".",";","<"};
+        String[] keywordEndings = {" ", ",",".",";","-"};
 
         ArrayList<Integer> peronsIds = null;
         ArrayList<String> keywords = null;
@@ -17,36 +19,35 @@ public class PersonRankUpdater {
         peronsIds = dbWrapper.getPersonIDs();
 
         Downloader downloader = new Downloader();
-        String pageContent = "";
+        String pageHTML = "";
 
         try {
-            pageContent = downloader.download(url);
+            pageHTML = downloader.download(page.getPageUrl()) ;
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+        Document document = Jsoup.parse(pageHTML);
+
         int pageRank = 0;
+        String pageText = document.body().text();
 
         for (int i = 0; i < peronsIds.size(); i++) {
-            LogWrapper.info("Looking for person ID " + peronsIds.get(i) + " in url " + url);
+            //LogWrapper.info("Looking for person ID " + peronsIds.get(i) + " in url " + page.getPageUrl());
             pageRank = 0;
             keywords = dbWrapper.getPersonKeywords(peronsIds.get(i));
             for (int j = 0; j < keywords.size(); j++) {
                 for (int k = 0; k < keywordEndings.length; k++) {
-                    LogWrapper.info("Looking for keyword ID " + keywords.get(j) + keywordEndings[k] + " in url " + url);
-                    pageRank += StringUtils.countMatches(pageContent, keywords.get(j) + keywordEndings[k]);
+                    //LogWrapper.info("Looking for keyword ID " + keywords.get(j) + keywordEndings[k] + " in url " + page.getPageUrl());
+                    pageRank += StringUtils.countMatches(pageText, keywords.get(j) + keywordEndings[k]);
                 }
             }
-            LogWrapper.info("Writing rank " + pageRank + " for person ID " + peronsIds.get(i) + " and page " + url
+            LogWrapper.info("Writing rank " + pageRank + " for person ID " + peronsIds.get(i) + " and page " + page.getPageUrl()
                     + " into the database");
-            dbWrapper.updatePersonPageRating(pageRank, peronsIds.get(i), url);
+            //dbWrapper.updatePersonPageRating(pageRank, peronsIds.get(i), page);
         }
 
 
-        //проходим по массиву ссылок
-        //к каждой странице применяем downloader
-        //ищем и считаем ключевые слова
-        //записываем результат в базу
     }
 
 }

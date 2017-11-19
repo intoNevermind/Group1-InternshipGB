@@ -57,6 +57,9 @@ public class LinkChecker implements Runnable{
                 result = true;
                 // И если не удовлетворяет ни одной маске, значит нормальная ссылка.
                 for (String mask : disallowedLinks.get(host)) {
+                    /*
+                    * !!!!11  Некорректная проверка. Disallowed page может быть маской.
+                    * */
                     result = result && (!url.contains(mask));
                 }
                 return result;

@@ -1,10 +1,10 @@
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Properties;
-import java.io.InputStream;
 
 /**
  * Created by ferney on 12.11.17.
@@ -90,7 +90,7 @@ public class DBWrapper {
         }
     }
 
-    public ArrayList<String> getBucketFromDB(int size, int bucketType) {
+    public ArrayList<Page> getBucketFromDB(int size, int bucketType) {
 
         String listSql = getBucketlistSql(bucketType, size);
         String lockSql = getBucketlockSql(bucketType, size);
@@ -102,7 +102,9 @@ public class DBWrapper {
 
         ResultSet listResultSet = null;
 
-        ArrayList<String> result = new ArrayList<>();
+        ArrayList<Page> result = new ArrayList<>();
+        String pageUrl;
+        Long pageId;
 
         try {
 
@@ -115,7 +117,10 @@ public class DBWrapper {
             while (listResultSet.next()) {
                 lockStatement.setInt(1, listResultSet.getInt("ID"));
                 lockStatement.execute();
-                result.add(listResultSet.getString("URL"));
+                //result.add(listResultSet.getString("URL"));
+                pageUrl = listResultSet.getString("URL");
+                pageId = listResultSet.getLong("ID");
+                result.add(new Page(pageId,pageUrl));
             }
 
             connection.commit();
@@ -135,19 +140,19 @@ public class DBWrapper {
         return (result);
     }
 
-    public ArrayList<String> getSiteBucketFromDB(int size) {
+    public ArrayList<Page> getSiteBucketFromDB(int size) {
         return getBucketFromDB(size, BUCKET_TYPE_SITES);
     }
 
-    public ArrayList<String> getPageBucketFromDB(int size) {
+    public ArrayList<Page> getPageBucketFromDB(int size) {
         return getBucketFromDB(size, BUCKET_TYPE_PAGES);
     }
 
     private String getBucketItemUnlockSql(int bucketType) {
         if (bucketType == BUCKET_TYPE_SITES) {
-            return "UPDATE sites SET \"InProgress\" = false WHERE \"URL\" = ?";
+            return "UPDATE sites SET \"InProgress\" = false WHERE \"ID\" = ?";
         } else if (bucketType == BUCKET_TYPE_PAGES) {
-            return "UPDATE pages SET \"InProgress\" = false WHERE \"URL\" = ?";
+            return "UPDATE pages SET \"InProgress\" = false WHERE \"ID\" = ?";
         } else {
             // Unknown bucket type!
             return "";
@@ -155,12 +160,12 @@ public class DBWrapper {
     }
 
 
-    public void unlockBucketItem(String url, int bucketType) {
+    public void unlockBucketItem(Page page, int bucketType) {
         PreparedStatement preparedStatement = null;
 
         try {
             preparedStatement = connection.prepareStatement(getBucketItemUnlockSql(bucketType));
-            preparedStatement.setString(1, url);
+            preparedStatement.setLong(1, page.getPageId());
             preparedStatement.execute();
             connection.commit();
         } catch (SQLException e) {
@@ -175,13 +180,13 @@ public class DBWrapper {
 
     }
 
-    public void addSitePage(String siteUrl, String pageUrl) {
+    public void addSitePage(Page site, String pageUrl) {
         PreparedStatement preparedStatement = null;
 
         try {
             preparedStatement = connection.prepareStatement("INSERT INTO pages (\"SiteID\", \"URL\", \"FoundDateTime\") " +
-                                                            "VALUES ((SELECT \"ID\" FROM sites WHERE \"URL\" = ?), ?, NOW())");
-            preparedStatement.setString(1, siteUrl);
+                                                            "VALUES (?, ?, NOW())");
+            preparedStatement.setLong(1, site.getPageId());
             preparedStatement.setString(2, pageUrl);
 
             LogWrapper.info("Running query " + preparedStatement.toString());
@@ -200,11 +205,11 @@ public class DBWrapper {
         }
     }
 
-    public void setSiteScanDate(String url) {
+    public void setSiteScanDate(Page site) {
         PreparedStatement preparedStatement = null;
         try {
-            preparedStatement = connection.prepareStatement("UPDATE sites SET \"LastUpdated\" = NOW() WHERE \"URL\" = ?");
-            preparedStatement.setString(1, url);
+            preparedStatement = connection.prepareStatement("UPDATE sites SET \"LastUpdated\" = NOW() WHERE \"ID\" = ?");
+            preparedStatement.setLong(1, site.getPageId());
             preparedStatement.execute();
             connection.commit();
         } catch (SQLException e) {
@@ -218,11 +223,11 @@ public class DBWrapper {
         }
     }
 
-    public void setPageScanDate(String url) {
+    public void setPageScanDate(Page page) {
         PreparedStatement preparedStatement = null;
         try {
-            preparedStatement = connection.prepareStatement("UPDATE pages SET \"LastScanDate\" = NOW() WHERE \"URL\" = ?");
-            preparedStatement.setString(1, url);
+            preparedStatement = connection.prepareStatement("UPDATE pages SET \"LastScanDate\" = NOW() WHERE \"ID\" = ?");
+            preparedStatement.setLong(1, page.getPageId());
             preparedStatement.execute();
             connection.commit();
         } catch (SQLException e) {
@@ -237,14 +242,14 @@ public class DBWrapper {
     }
 
 
-    public void unlockSite(String url) {
-        setSiteScanDate(url);
-        unlockBucketItem(url, BUCKET_TYPE_SITES);
+    public void unlockSite(Page site) {
+        setSiteScanDate(site);
+        unlockBucketItem(site, BUCKET_TYPE_SITES);
     }
 
-    public void unlockPage(String url) {
-        unlockBucketItem(url, BUCKET_TYPE_PAGES);
-        setPageScanDate(url);
+    public void unlockPage(Page page) {
+        unlockBucketItem(page, BUCKET_TYPE_PAGES);
+        setPageScanDate(page);
     }
 
     public ArrayList<Integer> getPersonIDs() {
@@ -299,24 +304,24 @@ public class DBWrapper {
         return result;
     }
 
-    public void updatePersonPageRating(int rank, int personId, String pageUrl) {
+    public void updatePersonPageRating(int rank, int personId, Page page) {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {
             preparedStatement =
                     connection.prepareStatement("INSERT INTO personpagerank "
                               +"(\"Rank\", \"PersonID\", \"PageID\") "
-                            + "VALUES (?, ?, (SELECT \"ID\" FROM pages WHERE \"URL\" = ?)) "
+                            + "VALUES (?, ?, ?) "
                             + "ON CONFLICT (\"PersonID\", \"PageID\") DO UPDATE SET \"Rank\" = ? "
                             + "WHERE personpagerank.\"PersonID\" = ? "
-                            + "AND personpagerank.\"PageID\" = (SELECT \"ID\" FROM pages WHERE \"URL\" = ?)");
+                            + "AND personpagerank.\"PageID\" = ?");
 
             preparedStatement.setInt(1, rank);
             preparedStatement.setInt(2, personId);
-            preparedStatement.setString(3, pageUrl);
+            preparedStatement.setLong(3, page.getPageId());
             preparedStatement.setInt(4, rank);
             preparedStatement.setInt(5, personId);
-            preparedStatement.setString(6, pageUrl);
+            preparedStatement.setLong(6, page.getPageId());
 
             LogWrapper.info(preparedStatement.toString());
 
