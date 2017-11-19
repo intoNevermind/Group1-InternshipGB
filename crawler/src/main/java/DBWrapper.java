@@ -59,18 +59,21 @@ public class DBWrapper {
         if (bucketType == BUCKET_TYPE_SITES) {
             return "SELECT \"ID\", \"URL\" FROM sites s " +
                     "WHERE " +
-                      "\"InProgress\" = false " +
+                    "\"InProgress\" = false " +
                     "AND (" +
-                      "(SELECT count(1) FROM pages p WHERE p.\"SiteID\" = s.\"ID\") = 0 " +
-                      "AND \"LastUpdated\" < NOW() - INTERVAL '" + HOURS_BEFORE_UPDATE + " hours') " +
+                    "(SELECT count(1) FROM pages p WHERE p.\"SiteID\" = s.\"ID\") = 0 " +
+                    "AND \"LastUpdated\" < NOW() - INTERVAL '" + HOURS_BEFORE_UPDATE + " hours') " +
                     "LIMIT " + size + " FOR UPDATE";
         } else if (bucketType == BUCKET_TYPE_PAGES) {
-            return "SELECT \"ID\", \"URL\" FROM pages " +
+            return "SELECT pages.\"ID\" as \"ID\", pages.\"URL\" as \"URL\", " +
+                    "sites.\"ID\" as \"SiteID\", sites.\"URL\" as \"SiteURL\"" +
+                    "FROM pages, sites " +
                     "WHERE " +
-                    "(\"LastScanDate\" < NOW() - INTERVAL '" + HOURS_BEFORE_UPDATE + " hours' " +
-                    "OR \"LastScanDate\" IS NULL) " +
-                    "AND \"InProgress\" = false " +
-                    "ORDER BY \"LastScanDate\" " +
+                    "sites.\"ID\" = pages.\"SiteID\" " +
+                    "AND (pages.\"LastScanDate\" < NOW() - INTERVAL '" + HOURS_BEFORE_UPDATE + " hours' " +
+                    "OR pages.\"LastScanDate\" IS NULL) " +
+                    "AND pages.\"InProgress\" = false " +
+                    "ORDER BY pages.\"LastScanDate\" " +
                     "LIMIT " + size + " FOR UPDATE";
         } else {
             // Unknown bucket type!
@@ -90,6 +93,17 @@ public class DBWrapper {
         }
     }
 
+    private Page createNewPage(int bucketType, long pageId, String pageUrl, long siteId, String siteUrl) {
+        if (bucketType == BUCKET_TYPE_PAGES) {
+            return new Page(pageId, pageUrl);
+        } else if (bucketType == BUCKET_TYPE_SITES) {
+            return new Page(pageId, pageUrl, siteId, siteUrl);
+        } else {
+            // unknown bucket type!
+            return null;
+        }
+    }
+
     public ArrayList<Page> getBucketFromDB(int size, int bucketType) {
 
         String listSql = getBucketlistSql(bucketType, size);
@@ -103,8 +117,6 @@ public class DBWrapper {
         ResultSet listResultSet = null;
 
         ArrayList<Page> result = new ArrayList<>();
-        String pageUrl;
-        Long pageId;
 
         try {
 
@@ -118,9 +130,12 @@ public class DBWrapper {
                 lockStatement.setInt(1, listResultSet.getInt("ID"));
                 lockStatement.execute();
                 //result.add(listResultSet.getString("URL"));
-                pageUrl = listResultSet.getString("URL");
-                pageId = listResultSet.getLong("ID");
-                result.add(new Page(pageId,pageUrl));
+                result.add(createNewPage(bucketType,
+                        listResultSet.getLong("ID"),
+                        listResultSet.getString("URL"),
+                        listResultSet.getLong("SiteID"),
+                        listResultSet.getString("SiteURL")
+                        ));
             }
 
             connection.commit();
@@ -185,7 +200,7 @@ public class DBWrapper {
 
         try {
             preparedStatement = connection.prepareStatement("INSERT INTO pages (\"SiteID\", \"URL\", \"FoundDateTime\") " +
-                                                            "VALUES (?, ?, NOW())");
+                    "VALUES (?, ?, NOW())");
             preparedStatement.setLong(1, site.getPageId());
             preparedStatement.setString(2, pageUrl);
 
@@ -197,8 +212,8 @@ public class DBWrapper {
             //e.printStackTrace();
         } finally {
             try {
-               connection.commit();
-               preparedStatement.close();
+                connection.commit();
+                preparedStatement.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -253,9 +268,9 @@ public class DBWrapper {
     }
 
     public ArrayList<Integer> getPersonIDs() {
-      ArrayList<Integer> result = new ArrayList<>();
-      Statement statement = null;
-      ResultSet resultSet = null;
+        ArrayList<Integer> result = new ArrayList<>();
+        Statement statement = null;
+        ResultSet resultSet = null;
         try {
             statement = connection.createStatement();
             statement.execute("SELECT \"ID\" FROM persons");
@@ -265,8 +280,7 @@ public class DBWrapper {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             try {
                 statement.close();
             } catch (SQLException e) {
@@ -293,8 +307,7 @@ public class DBWrapper {
         } catch (SQLException e) {
             e.printStackTrace();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -310,7 +323,7 @@ public class DBWrapper {
         try {
             preparedStatement =
                     connection.prepareStatement("INSERT INTO personpagerank "
-                              +"(\"Rank\", \"PersonID\", \"PageID\") "
+                            + "(\"Rank\", \"PersonID\", \"PageID\") "
                             + "VALUES (?, ?, ?) "
                             + "ON CONFLICT (\"PersonID\", \"PageID\") DO UPDATE SET \"Rank\" = ? "
                             + "WHERE personpagerank.\"PersonID\" = ? "
@@ -331,8 +344,7 @@ public class DBWrapper {
 
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
