@@ -30,23 +30,23 @@ public class UsersUiDbOperation {
     /**
      * Получение общей статистики по всем личностям из таблицы personpagerank.
      *
-     * @param site - имя сайта, по которому пользователь желает посмотреть статистику
+     * @param siteID - индекс сайта, по которому пользователь желает посмотреть статистику
      * @return список всех личностей с их рейтингом, обёрнутых в объекты.
      * @throws SQLException
      */
-    public List<PersonGeneralStatistic> getAllRatesForChoosenSite(String site) throws SQLException {
+    public List<PersonGeneralStatistic> getAllRatesForChoosenSite(Integer siteID) throws SQLException {
         List<PersonGeneralStatistic> resultList = new ArrayList<>();
 
         List<TablePersons> persons = getAllPersons();
 
-        List<Integer> idPages = getAllPagesIDOfSite(getSiteID(site));
+        List<Integer> idPages = getAllPagesIDOfSite(siteID);
 
         for (TablePersons person : persons) {
             Integer rank = 0;
             Integer personID = person.getId();
             for (Integer pageID : idPages) {
-                LOG.info("SELECT \"Rank\" FROM personpagerank WHERE PageID = " + pageID + "AND PersonID =" + personID + ";");
-                String sqlQuery = "SELECT \"Rank\" FROM personpagerank WHERE PageID = ? AND PersonID = ?";
+                LOG.info("SELECT \"Rank\" FROM personpagerank WHERE \"PageID\" = " + pageID + "AND \"PersonID\" =" + personID + ";");
+                String sqlQuery = "SELECT \"Rank\" FROM personpagerank WHERE \"PageID\" = (?) AND \"PersonID\" = (?)";
                 PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
                 preparedStatement.setInt(1, pageID);
                 preparedStatement.setInt(2, personID);
@@ -99,11 +99,11 @@ public class UsersUiDbOperation {
      * @throws SQLException
      */
 
-    private List<Integer> getAllPagesIDOfSite(int siteId) throws SQLException {
+    private List<Integer> getAllPagesIDOfSite(Integer siteId) throws SQLException {
         List<Integer> resultList = new ArrayList<>();
 
-        LOG.info("SELECT \"ID\" FROM pages WHERE SiteID = " + siteId + ";");
-        String sqlQuery = "SELECT \"ID\" FROM pages WHERE SiteID = ?";
+        LOG.info("SELECT \"ID\" FROM pages WHERE \"SiteID\" = " + siteId + ";");
+        String sqlQuery = "SELECT \"ID\" FROM pages WHERE \"SiteID\" = (?)";
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
         preparedStatement.setInt(1, siteId);
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -127,8 +127,8 @@ public class UsersUiDbOperation {
 
     private Integer getSiteID(String site) throws SQLException {
         Integer result = null;
-        LOG.info("SELECT \"ID\" FROM sites WHERE Name = " + site + ";");
-        String sqlQuery = "SELECT \"ID\" FROM sites WHERE Name = ?";
+        LOG.info("SELECT \"ID\" FROM sites WHERE \"Name\" = " + site + ";");
+        String sqlQuery = "SELECT \"ID\" FROM sites WHERE \"Name\" = (?)";
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
         preparedStatement.setString(1, site);
         ResultSet resultSet = preparedStatement.executeQuery();
