@@ -29,7 +29,7 @@ public class TablePersonController {
      *
      * @return список всех ID личностей.
      */
-    @RequestMapping(value = {"/unauthorized/user/ui/getIDFromPersonTable"})
+    @RequestMapping(value = {"/user/ui/getIDFromPersonTable","/unauthorized/user/ui/getIDFromPersonTable"})
     public List<Integer> getIDFromPersonTable() {
         List<Integer> resultList = new ArrayList<>();
         try {
@@ -47,7 +47,7 @@ public class TablePersonController {
      *
      * @return список всех имен личностей.
      */
-    @RequestMapping(value = {"/unauthorized/user/ui/getNameFromPersonTable"})
+    @RequestMapping(value = {"/user/ui/getNameFromPersonTable","/unauthorized/user/ui/getNameFromPersonTable"})
     public List<String> getNameFromPersonTable() {
         List<String> resultList = new ArrayList<>();
         try {
@@ -64,7 +64,7 @@ public class TablePersonController {
      *
      * @return список всех состояний Active личностей.
      */
-    @RequestMapping(value = {"/unauthorized/user/ui/getActiveFromPersonTable"})
+    @RequestMapping(value = {"/user/ui/getActiveFromPersonTable", "/unauthorized/user/ui/getActiveFromPersonTable"})
     public List<Boolean> getActiveFromPersonTable() {
         List<Boolean> resultList = new ArrayList<>();
         try {
