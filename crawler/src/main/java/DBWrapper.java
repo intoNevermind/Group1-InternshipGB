@@ -342,4 +342,23 @@ public class DBWrapper {
 
     }
 
+    public boolean doesPageExist(String url) {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement("SELECT \"ID\" FROM pages WHERE \"URL\" = ?");
+            preparedStatement.setString(1, url);
+            preparedStatement.execute();
+
+            if (preparedStatement.getResultSet().next()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+
+    }
+
 }
