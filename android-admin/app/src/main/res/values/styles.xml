@@ -5,24 +5,20 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textViewStyle">@style/MyTextViewStyle</item>
     </style>
 
     <style name="MyCardViewStyle" parent="Theme.AppCompat.Light">
         <item name="cardCornerRadius">2dp</item>
         <item name="cardElevation">2dp</item>
-        <item name="contentPaddingBottom">24dp</item>
-        <item name="contentPaddingTop">24dp</item>
-        <item name="contentPaddingLeft">16dp</item>
-        <item name="contentPaddingRight">16dp</item>
         <item name="cardBackgroundColor">@color/white</item>
-        <!--<item name="android:layout_margin">4dp</item>-->
     </style>
 
-    <style name="MyTextViewStyle" parent="android:Widget.TextView">
-        <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:textSize">8sp</item>
-        <item name="android:textStyle">bold</item>
+    <style name="MyDialog" parent="@style/Theme.AppCompat.Light.Dialog">
+        <item name="android:windowNoTitle">false</item>
+    </style>
+
+    <style name="ActionBarTheme" parent="AppTheme">
+        <item name="colorControlNormal">@color/white</item>
     </style>
 
 </resources>

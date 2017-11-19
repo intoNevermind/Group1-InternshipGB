@@ -1,3 +1,18 @@
 <resources>
-    <string name="app_name">Android Admin</string>
+    <string name="app_name">GB Admin</string>
+    <string name="base_url">http://54.154.158.193/unauthorized/</string>
+    <string name="user_name">Имя пользователя</string>
+    <string name="password">Пароль</string>
+    <string name="active">Активный</string>
+    <string name="admin">Администратор</string>
+    <string name="url">URL</string>
+    <string name="edit">Редактировать</string>
+    <string name="delete">Удалить</string>
+    <string name="menu">Меню</string>
+    <string name="site_name">Название сайта</string>
+    <string name="person_name">Имя личности</string>
+    <string name="keyword">Ключевое слово</string>
+    <string name="save">Сохранить</string>
+    <string name="add">Добавить</string>
+    <string name="cancel">Отмена</string>
 </resources>
