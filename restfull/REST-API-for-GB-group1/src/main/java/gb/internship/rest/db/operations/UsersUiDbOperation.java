@@ -46,7 +46,7 @@ public class UsersUiDbOperation {
             Integer personID = person.getId();
             for (Integer pageID : idPages) {
                 LOG.info("SELECT \"Rank\" FROM personpagerank WHERE PageID = " + pageID + "AND PersonID =" + personID + ";");
-                String sqlQuery = "SELECT \"Rфтл\" FROM personpagerank WHERE PageID = ? AND PersonID = ?";
+                String sqlQuery = "SELECT \"Rank\" FROM personpagerank WHERE PageID = ? AND PersonID = ?";
                 PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
                 preparedStatement.setInt(1, pageID);
                 preparedStatement.setInt(2, personID);
@@ -109,7 +109,7 @@ public class UsersUiDbOperation {
         ResultSet resultSet = preparedStatement.executeQuery();
 
         while (resultSet.next()) {
-            resultList.add(resultSet.getInt("ID"));
+            resultList.add(resultSet.getInt("id"));
         }
         preparedStatement.close();
 
@@ -134,7 +134,7 @@ public class UsersUiDbOperation {
         ResultSet resultSet = preparedStatement.executeQuery();
 
         while (resultSet.next()) {
-            result = resultSet.getInt("ID");
+            result = resultSet.getInt("id");
         }
         preparedStatement.close();
 
