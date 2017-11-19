@@ -36,7 +36,7 @@ public class CrawlerThreadsLauncher {
 
                     DBWrapper dbWrapper = new DBWrapper();
 
-                    ArrayList<String> sites = null;
+                    ArrayList<Page> sites = null;
 
                     do {
                         sites = dbWrapper.getSiteBucketFromDB(BUCKET_SIZE);
@@ -60,7 +60,7 @@ public class CrawlerThreadsLauncher {
 
                     LogWrapper.info(Thread.currentThread().getName() + " starting ranks updating");
 
-                    ArrayList<String> pages = null;
+                    ArrayList<Page> pages = null;
 
                     do {
                        pages = dbWrapper.getPageBucketFromDB(BUCKET_SIZE);
@@ -71,7 +71,7 @@ public class CrawlerThreadsLauncher {
                             for (int j = 0; j < pages.size(); j++) {
                                 LogWrapper.info(Thread.currentThread().getName() + " is processing page " + pages.get(j));
                                 PersonRankUpdater.updatePersonRanks(pages.get(j), dbWrapper);
-                                Thread.sleep(1000);
+                                //Thread.sleep(1000);
                                 dbWrapper.unlockPage(pages.get(j));
                             }
                         } else {

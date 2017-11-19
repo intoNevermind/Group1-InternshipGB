@@ -20,29 +20,29 @@ public class SiteStructureFetcher {
     private static final String ROBOTS_TXT = "robots.txt";
     private static final String SITEMAP = "Sitemap: ";
 
-    public void updateSiteStructure(String url, DBWrapper dbWrapper) {
-        String host = url.trim().replaceAll("(https|http)://", "");
+    public void updateSiteStructure(Page site, DBWrapper dbWrapper) {
+        //String host = site.getPageUrl().trim().replaceAll("(https|http)://", "");
 
-        Set<String> sitemapUrls = fetchSitemaps(url, dbWrapper);
+        Set<String> sitemapUrls = fetchSitemaps(site, dbWrapper);
 
         if (sitemapUrls.isEmpty()) {
             LogWrapper.info("Captain, sitemaps are empty!!!111");
-            crawlPage(url, host, dbWrapper);
-        } else crawlSitemaps(url, sitemapUrls, dbWrapper);
+            crawlPage(site, site.getPageUrl(), dbWrapper);
+        } else crawlSitemaps(site, sitemapUrls, dbWrapper);
 
     }
 
-    private Set<String> fetchSitemaps(String url, DBWrapper dbWrapper) {
+    private Set<String> fetchSitemaps(Page site, DBWrapper dbWrapper) {
 
         // Trying to download correspondent robots.txt
         Downloader downloader = new Downloader();
 
         try {
-            String robotsString = downloader.download(url + "/" + ROBOTS_TXT);
+            String robotsString = downloader.download(site.getPageUrl() + "/" + ROBOTS_TXT);
             // If file exists and not empty
             if (robotsString != null) {
 
-                dbWrapper.addSitePage(url, url + "/" + ROBOTS_TXT);
+                dbWrapper.addSitePage(site, site.getPageUrl() + "/" + ROBOTS_TXT);
 
                 Set<String> setOfSitemaps = new HashSet<String>();
 
@@ -55,7 +55,7 @@ public class SiteStructureFetcher {
                     if (str.startsWith(SITEMAP)) {
                         str = str.replaceAll(SITEMAP, "");
                         setOfSitemaps.add(str);
-                        dbWrapper.addSitePage(url, str);
+                        dbWrapper.addSitePage(site, str);
                     }
                 }
                 return setOfSitemaps;
@@ -69,7 +69,7 @@ public class SiteStructureFetcher {
         return new HashSet<String>();
     }
 
-    private void crawlSitemaps(String siteUrl, Set<String> urls, DBWrapper dbWrapper) {
+    private void crawlSitemaps(Page site, Set<String> urls, DBWrapper dbWrapper) {
 
         LogWrapper.info("Crawling sitemap!..");
         LogWrapper.info("Sitemap list: " + urls.toString());
@@ -93,7 +93,7 @@ public class SiteStructureFetcher {
                     // Get the "text node" in the loc (only one)
                     Node titleNode = e.getChildNodes().item(0);
                     LogWrapper.info(titleNode.getNodeValue());
-                    dbWrapper.addSitePage(siteUrl, titleNode.getNodeValue());
+                    dbWrapper.addSitePage(site, titleNode.getNodeValue());
                 }
             }
         } catch (Exception e) {
@@ -101,12 +101,15 @@ public class SiteStructureFetcher {
         }
     }
 
-    public void crawlPage(String url, String host, DBWrapper dbWrapper) {
+    public void crawlPage(Page site, String pageUrl, DBWrapper dbWrapper) {
 
         Set<String> linkSet = new HashSet<String>();
 
+        String host = site.getPageUrl().trim().replaceAll("(https|http)://", "");
+
+
         try {
-            org.jsoup.nodes.Document doc = Jsoup.connect(url).get();
+            org.jsoup.nodes.Document doc = Jsoup.connect(pageUrl).get();
 
             // Extract all href links from url
             Elements links = doc.select("a[href]");
@@ -117,8 +120,8 @@ public class SiteStructureFetcher {
                 if (linkUrl.contains(host)) {
                     LogWrapper.info("Crawling " + linkUrl);
                     linkSet.add(linkUrl);
-                    LogWrapper.info("Adding page " + linkUrl + " for url " + url);
-                    dbWrapper.addSitePage(url, linkUrl);
+                    LogWrapper.info("Adding page " + linkUrl + " for url " + pageUrl);
+                    dbWrapper.addSitePage(site, linkUrl);
                 }
 
             }
@@ -127,4 +130,18 @@ public class SiteStructureFetcher {
             e.printStackTrace();
         }
     }
+
+    /*  crawlPage(Page site, String url)
+    *  crawlPage(String siteUrl, String pageUrl)
+    *
+    *
+    * crawlPage(Page{ID=1, URL=meduza.io},url=http://meduza.io) {
+    *   host ... = meduza.io
+    *   ...
+     *
+    *     crawlPage(Page{ID=1, URL=meduza.io},url=http://meduza.io/news)
+    *     crawlPage(Page{ID=1, URL=meduza.io},url=http://meduza.io/stories)
+    *      crawlPage(Page{ID=1, URL=meduza.io/stories},url=http://meduza.io/stories/123)
+    *   * }
+    * */
 }
