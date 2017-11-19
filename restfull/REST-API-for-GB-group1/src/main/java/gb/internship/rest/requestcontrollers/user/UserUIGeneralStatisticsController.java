@@ -30,13 +30,13 @@ public class UserUIGeneralStatisticsController {
     /**
      * Получение общей статистики по всем личностям для выбранного сайта.
      *
-     * @param site     ключевое слово.
+     * @param siteID     site index.
      * @return список всех рейтингов личностей.
      */
     @RequestMapping(value = {"/user/ui/getGeneralStatistics", "/unauthorized/user/ui/getGeneralStatistics"})
-    public ResponseEntity<?> getGeneralStatistic(@RequestParam(value = "site") String site) {
+    public ResponseEntity<?> getGeneralStatistic(@RequestParam(value = "siteID") Integer siteID) {
 
-        if ("".equals(site)) {
+        if (siteID == null) {
             LOG.warn("Error in /user/ui/getGeneralStatistics. sitename is empty.");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Error. site == \"\"");
@@ -44,7 +44,7 @@ public class UserUIGeneralStatisticsController {
 
 
         try {
-            List<PersonGeneralStatistic> resultList = userUiSitesDbOperations.getAllRatesForChoosenSite(site);;
+            List<PersonGeneralStatistic> resultList = userUiSitesDbOperations.getAllRatesForChoosenSite(siteID);;
             return new ResponseEntity<>(resultList, HttpStatus.OK);
         } catch (Exception ex) {
             LOG.warn("Error at run get general Statistic.");
