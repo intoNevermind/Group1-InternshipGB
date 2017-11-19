@@ -34,6 +34,16 @@ class SiteStructureFetcher {
     // Буфер новых записей в таблице Pages, заполняется не обработанными ссылками
     private Queue<String> newPagesBuffer = new PriorityBlockingQueue<String>();
 
+    void dumpPagesToDB(Page site, DBWrapper dbWrapper) {
+        String str;
+        // Пишем все полученные в fetchedPagesBuffer ссылки в базу
+        while ((str = fetchedPagesBuffer.poll()) != null) {
+            LogWrapper.info("Crawled page " + str);
+            if (dbWrapper != null)
+                dbWrapper.addSitePage(site, str);
+        }
+    }
+
     void updateSiteStructure(Page site, DBWrapper dbWrapper) {
 
         // Проверяем robots.txt и пишем ссылки в буфер
@@ -52,13 +62,6 @@ class SiteStructureFetcher {
             else {
                 crawlPage(str);
             }
-        }
-
-        // Пишем все полученные в fetchedPagesBuffer ссылки в базу
-        while ((str = fetchedPagesBuffer.poll()) != null) {
-            LogWrapper.info("Crawled page " + str);
-            if (dbWrapper != null)
-                dbWrapper.addSitePage(site, str);
         }
     }
 
@@ -204,7 +207,7 @@ class SiteStructureFetcher {
         }
     }
 
-    private void crawlPage (String url) {
+    public void crawlPage (String url) {
         if (LinkChecker.isAllowed(url) && !fetchedPagesBuffer.contains(url))
             fetchedPagesBuffer.offer(url);
 
