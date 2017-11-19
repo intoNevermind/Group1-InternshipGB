@@ -4,19 +4,17 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-import static sitefetcher.SitesBufferUpdater.sitesBuffer;
-
-public class LinkChecker implements Runnable{
+public class LinkChecker {
 
     private static final String ROBOTS_TXT = "/robots.txt";
     private static final String DISALLOW = "Disallow: ";
 
     // Список запрщещенных масок ссылок, ключ - host, значенте - набор запрещающих масок
-    public static Map<String, HashSet<String>> disallowedLinks = new HashMap<String, HashSet<String>>();
+    private static Map<String, HashSet<String>> disallowedLinks = new HashMap<String, HashSet<String>>();
 
     public static synchronized void addSite (String host) {
         String robotsUrl = host + ROBOTS_TXT;
-        host = host.trim().replaceAll("(https|http)://", "").replaceAll("/", "");
+        host = host.trim().replaceAll("(https|http)://(www.|)", "").replaceAll("/", "");
         System.out.println("Found host: " + host);
 
         // Если ключ уже есть в базе - выход
@@ -31,14 +29,15 @@ public class LinkChecker implements Runnable{
             // Если файл скачан успешно, записываем ссылки Disallow в disallowedLinks
             disallowedLinks.put(host, new HashSet<String>());
             for (String str : robotsContent.split(System.getProperty("line.separator"))) {
-                str.trim();
+                str = str.trim();
 
                 // Disallow найден
                 if (str.startsWith(DISALLOW)) {
-                    str = str.replaceAll(DISALLOW, "");
+                    // Создаем маску для неразрешенных ссылок.
+                    String regex = ".*" + str.replace(DISALLOW, "").replace("*", ".*");
 
                     // Добавляем в список не разрешенных ссылок
-                    disallowedLinks.get(host).add(str);
+                    disallowedLinks.get(host).add(regex);
                 }
             }
         } catch (Exception e) {
@@ -57,25 +56,12 @@ public class LinkChecker implements Runnable{
                 result = true;
                 // И если не удовлетворяет ни одной маске, значит нормальная ссылка.
                 for (String mask : disallowedLinks.get(host)) {
-                    /*
-                    * !!!!11  Некорректная проверка. Disallowed page может быть маской.
-                    * */
-                    result = result && (!url.contains(mask));
+                    // Проверяем на соответствие по маске.
+                    result = result && (!url.matches(mask));
                 }
                 return result;
             }
         }
         return result;
-    }
-
-    public void run() {
-        // Подключается к базе
-        // Заправшивает спиок всех Sites
-        // Строит DisallowedLinks
-
-        // Для целей тестирования пока берем ссылки из SitesBuffer
-        for (String host : sitesBuffer) {
-            addSite(host);
-        }
     }
 }

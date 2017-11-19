@@ -1,5 +1,7 @@
 import org.junit.Assert;
 import org.junit.Test;
+import sitefetcher.DownloadException;
+import sitefetcher.Downloader;
 
 /**
  * Created by ferney on 28.10.17.

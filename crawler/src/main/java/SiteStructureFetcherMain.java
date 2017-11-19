@@ -1,3 +1,4 @@
+import sitefetcher.Downloader;
 import sitefetcher.LinkChecker;
 
 public class SiteStructureFetcherMain {
@@ -6,8 +7,12 @@ public class SiteStructureFetcherMain {
         Downloader downloader = new Downloader();
         System.out.println(downloader.downloadGz("https://lenta.ru/sitemap.xml.gz"));
 
-        LinkChecker.addSite("https://ria.ru/");
+        String url = "https://sportbox.ru";
+        LinkChecker.addSite(url);
+
+        System.out.println(LinkChecker.isAllowed("https://www.yandex.ru/soft/punto/index.html"));
+
         SiteStructureFetcher siteStructureFetcher = new SiteStructureFetcher();
-        siteStructureFetcher.updateSiteStructure("https://ria.ru/", null);
+        siteStructureFetcher.updateSiteStructure(new Page(0, url), null);
     }
 }

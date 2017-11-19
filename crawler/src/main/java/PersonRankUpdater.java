@@ -1,6 +1,7 @@
 import org.apache.commons.lang.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import sitefetcher.Downloader;
 
 import java.util.ArrayList;
 
