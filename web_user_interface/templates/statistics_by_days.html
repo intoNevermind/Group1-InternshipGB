@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-Главная
+Ежедневная статистика
 {% endblock %}
 
 {% block content %}
@@ -10,6 +10,12 @@
     <div class="col-md-4">
         <p><a href="/statglobal">Общая статистика</a></p>
         <p><b>Ежедневная статистика</b></p>
+        <p>&nbsp;</p>
+        <p><a href="/prefpersons">Личности</a></p>
+        <p><a href="/prefkeywords">Ключевые слова</a></p>
+        <p><a href="/prefsites">Сайты</a></p>
+        <p>&nbsp;</p>
+        <p><a href="/cfgusers">Пользователи</a></p>
     </div>
 
     <!-- Тело статистики -->
@@ -33,12 +39,13 @@
             </p>
             <p>
                 <label>Период&nbsp;с</label>
-                <input type="date">
+                <input type='date' />
                 <label>по</label>
-                <input type="date">
-                <input type="submit" value="Применить">
+                <input type='date' />
             </p>
+            <input type="submit" value="Применить" />
         </form>
+        <p>&nbsp;</p>
         <table class="table">
             <thead class="thead-light">
             <tr>

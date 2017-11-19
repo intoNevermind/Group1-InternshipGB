@@ -8,6 +8,33 @@ from django.db import models
 
 
 # Create your models here.
+class Users(models.Model):
+    """Таблица базы данных, отвечающая за хранение аккаунтов."""
+    
+    class Meta:
+        db_table = 'users'
+    
+    userid = models.AutoField(
+        db_column='ID',
+        primary_key=True
+    )
+    login = models.TextField(
+        db_column='Login',
+        unique=True
+    )
+    isadmin = models.BooleanField(
+        db_column='Admin',
+        default=False
+    )
+    password = models.TextField(
+        db_column='Password'
+    )
+    isactive = models.BooleanField(
+        db_column='Active',
+        default=True
+    )
+
+
 class Persons(models.Model):
     """Таблица базы данных, отвечающая за хранение имен личностей.
     Каждой личности соответствует от 0 до бесконечности ключевых
@@ -15,6 +42,7 @@ class Persons(models.Model):
     
     class Meta:
         db_table = 'persons'
+        unique_together = ('name', 'userid')
     
     id = models.AutoField(
         db_column='ID',
@@ -25,9 +53,14 @@ class Persons(models.Model):
         max_length=2048,
         unique=True
     )
-    active = models.BooleanField(
+    isactive = models.BooleanField(
         db_column='Active',
         default=True
+    )
+    userid = models.ForeignKey(
+        Users,
+        db_column='UserID',
+        on_delete=models.CASCADE
     )
 
 
@@ -59,6 +92,7 @@ class Sites(models.Model):
     
     class Meta:
         db_table = 'sites'
+        unique_together = ('name', 'userid')
     
     id = models.AutoField(
         db_column='ID',
@@ -73,9 +107,14 @@ class Sites(models.Model):
         db_column='URL',
         max_length=2048
     )
-    active = models.BooleanField(
+    isactive = models.BooleanField(
         db_column='Active',
         default=True
+    )
+    userid = models.ForeignKey(
+        Users,
+        db_column='UserID',
+        on_delete=models.CASCADE
     )
 
 
@@ -114,7 +153,8 @@ class PersonPageRank(models.Model):
     
     class Meta:
         db_table = 'personpagerank'
-    
+        unique_together = ('personid', 'pageid')
+        
     personid = models.ForeignKey(
         Persons,
         db_column='PersonID',
@@ -128,4 +168,3 @@ class PersonPageRank(models.Model):
     rank = models.IntegerField(
         db_column='Rank'
     )
-

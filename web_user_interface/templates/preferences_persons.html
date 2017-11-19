@@ -1,17 +1,17 @@
 {% extends "base.html" %}
 
 {% block title %}
-Общая статистика
+Настройки | Справочник "Личности"
 {% endblock %}
 
 {% block content %}
 <div class="container">
     <!-- Меню переключения статистик -->
     <div class="col-md-4">
-        <p><b>Общая статистика</b></p>
+        <p><a href="/statglobal">Общая статистика</a></p>
         <p><a href="/statbydays">Ежедневная статистика</a></p>
         <p>&nbsp;</p>
-        <p><a href="/prefpersons">Личности</a></p>
+        <p><b>Личности</b></p>
         <p><a href="/prefkeywords">Ключевые слова</a></p>
         <p><a href="/prefsites">Сайты</a></p>
         <p>&nbsp;</p>
@@ -20,40 +20,33 @@
 
     <!-- Тело статистики -->
     <div class="col-md-8">
-        <form name="site" action="#">
-            <p>
-                <label>Сайт:</label>
-                <select>
-                    <option selected>lenta.ru</option>
-                    <option>kommersant.ru</option>
-                    <option>kp.ru</option>
-                </select>
-                <input type="submit" value="Применить">
-            </p>
-        </form>
+        <h1>Справочник &laquo;Личности&raquo;</h1>
         <p>&nbsp;</p>
         <table class="table">
             <thead class="thead-light">
             <tr>
-                <th scope="col">Персона</th>
-                <th scope="col">Количество упоминаний</th>
+                <th scope="col">Личности</th>
             </tr>
             </thead>
             <tbody>
             <tr>
                 <td>Чебурашка</td>
-                <td>100500</td>
             </tr>
             <tr>
-                <td>Крокодил Гена</td>
-                <td>50100</td>
+                <td>Путин</td>
             </tr>
             <tr>
-                <td>Старуха Шапокляк</td>
-                <td>50100</td>
+                <td>Бармалей</td>
             </tr>
             </tbody>
         </table>
+        <form name="edit" action="#">
+            <p>
+                <input type="submit" value="Добавить" />
+                <input type="submit" value="Редактировать" />
+                <input type="submit" value="Удалить" />
+            </p>
+        </form>
     </div>
 </div>
 {% endblock %}
