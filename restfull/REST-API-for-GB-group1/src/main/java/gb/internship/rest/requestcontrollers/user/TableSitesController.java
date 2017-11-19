@@ -26,7 +26,7 @@ public class TableSitesController {
      *
      * @return список всех ID сайтов.
      */
-    @RequestMapping(value = {"/unauthorized/user/ui/getIDFromSitesTable"})
+    @RequestMapping(value = {"/user/ui/getIDFromSitesTable","/unauthorized/user/ui/getIDFromSitesTable"})
     public List<Integer> getIDFromSitesTable() {
         List<Integer> resultList = new ArrayList<>();
         try {
@@ -44,7 +44,7 @@ public class TableSitesController {
      *
      * @return список всех имен сайтов.
      */
-    @RequestMapping(value = {"/unauthorized/user/ui/getNameFromSitesTable"})
+    @RequestMapping(value = {"/user/ui/getNameFromSitesTable", "/unauthorized/user/ui/getNameFromSitesTable"})
     public List<String> getNameFromSitesTable() {
         List<String> resultList = new ArrayList<>();
         try {
@@ -63,7 +63,7 @@ public class TableSitesController {
      *
      * @return список всех url сайтов.
      */
-    @RequestMapping(value = {"/unauthorized/user/ui/getURLFromSitesTable"})
+    @RequestMapping(value = {"/user/ui/getURLFromSitesTable", "/unauthorized/user/ui/getURLFromSitesTable"})
     public List<String> getURLFromSitesTable() {
         List<String> resultList = new ArrayList<>();
         try {
@@ -80,7 +80,7 @@ public class TableSitesController {
      *
      * @return список всех состояний Active сайтов.
      */
-    @RequestMapping(value = {"/unauthorized/user/ui/getActiveFromSitesTable"})
+    @RequestMapping(value = {"/user/ui/getActiveFromSitesTable", "/unauthorized/user/ui/getActiveFromSitesTable"})
     public List<Boolean> getActiveFromSitesTable() {
         List<Boolean> resultList = new ArrayList<>();
         try {

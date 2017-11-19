@@ -28,7 +28,7 @@ public class TablePagesController {
      *
      * @return список всех ID страниц.
      */
-    @RequestMapping(value = {"/unauthorized/user/ui/getIDFromPagesTable"})
+    @RequestMapping(value = {"/user/ui/getIDFromPagesTable","/unauthorized/user/ui/getIDFromPagesTable"})
     public List<Integer> getIDFromPagesTable() {
         List<Integer> resultList = new ArrayList<>();
         try {
@@ -47,7 +47,7 @@ public class TablePagesController {
      *
      * @return список всех ID сайтов.
      */
-    @RequestMapping(value = {"/unauthorized/user/ui/getSiteIDFromPagesTable"})
+    @RequestMapping(value = {"/user/ui/getSiteIDFromPagesTable","/unauthorized/user/ui/getSiteIDFromPagesTable"})
     public List<Integer> getSiteIDFromPagesTable() {
         List<Integer> resultList = new ArrayList<>();
         try {
@@ -67,7 +67,7 @@ public class TablePagesController {
      *
      * @return список всех url страниц.
      */
-    @RequestMapping(value = {"/unauthorized/user/ui/getURLFromPagesTable"})
+    @RequestMapping(value = {"/user/ui/getURLFromPagesTable","/unauthorized/user/ui/getURLFromPagesTable"})
     public List<String> getURLFromPagesTable() {
         List<String> resultList = new ArrayList<>();
         try {
@@ -84,7 +84,7 @@ public class TablePagesController {
      *
      * @return список всех FoundDateTime страницы.
      */
-    @RequestMapping(value = {"/unauthorized/user/ui/getFoundDateTimeFromPagesTable"})
+    @RequestMapping(value = {"/user/ui/getFoundDateTimeFromPagesTable","/unauthorized/user/ui/getFoundDateTimeFromPagesTable"})
     public List<Date> getFoundDateTimeFromPagesTable() {
         List<Date> resultList = new ArrayList<>();
         try {
@@ -103,7 +103,7 @@ public class TablePagesController {
      *
      * @return список всех LastScanDate страницы.
      */
-    @RequestMapping(value = {"/unauthorized/user/ui/getLastScanDateFromPagesTable"})
+    @RequestMapping(value = {"/user/ui/getLastScanDateFromPagesTable","/unauthorized/user/ui/getLastScanDateFromPagesTable"})
     public List<Date> getLastScanDateFromPagesTable() {
         List<Date> resultList = new ArrayList<>();
         try {

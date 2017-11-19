@@ -45,14 +45,14 @@ public class UsersUiDbOperation {
             Integer rank = 0;
             Integer personID = person.getId();
             for (Integer pageID : idPages) {
-                LOG.info("SELECT \"RANK\" FROM PersonPageRank WHERE siteId = " + pageID + "AND personId =" + personID + ";");
-                String sqlQuery = "SELECT \"RANK\" FROM pages WHERE siteId = ? AND personId = ?";
+                LOG.info("SELECT \"Rank\" FROM personpagerank WHERE PageID = " + pageID + "AND PersonID =" + personID + ";");
+                String sqlQuery = "SELECT \"Rфтл\" FROM personpagerank WHERE PageID = ? AND PersonID = ?";
                 PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
                 preparedStatement.setInt(1, pageID);
                 preparedStatement.setInt(2, personID);
                 ResultSet resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()) {
-                    rank += resultSet.getInt("RANK");
+                    rank += resultSet.getInt("rank");
                 }
                 preparedStatement.close();
             }
@@ -102,8 +102,8 @@ public class UsersUiDbOperation {
     private List<Integer> getAllPagesIDOfSite(int siteId) throws SQLException {
         List<Integer> resultList = new ArrayList<>();
 
-        LOG.info("SELECT \"ID\" FROM pages WHERE siteId = " + siteId + ";");
-        String sqlQuery = "SELECT \"ID\" FROM pages WHERE siteId = ?";
+        LOG.info("SELECT \"ID\" FROM pages WHERE SiteID = " + siteId + ";");
+        String sqlQuery = "SELECT \"ID\" FROM pages WHERE SiteID = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
         preparedStatement.setInt(1, siteId);
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -127,8 +127,8 @@ public class UsersUiDbOperation {
 
     private Integer getSiteID(String site) throws SQLException {
         Integer result = null;
-        LOG.info("SELECT \"ID\" FROM pages WHERE site = " + site + ";");
-        String sqlQuery = "SELECT \"ID\" FROM pages WHERE site = ?";
+        LOG.info("SELECT \"ID\" FROM sites WHERE Name = " + site + ";");
+        String sqlQuery = "SELECT \"ID\" FROM sites WHERE Name = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
         preparedStatement.setString(1, site);
         ResultSet resultSet = preparedStatement.executeQuery();
