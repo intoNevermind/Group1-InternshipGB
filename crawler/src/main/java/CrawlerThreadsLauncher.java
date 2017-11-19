@@ -8,7 +8,7 @@ import java.util.concurrent.Semaphore;
  */
 public class CrawlerThreadsLauncher {
 
-    final int BUCKET_SIZE = 2;
+    final int BUCKET_SIZE = 100;
 
     private Semaphore semaphore;
     private int threadsCount;
@@ -68,13 +68,13 @@ public class CrawlerThreadsLauncher {
                         do {
                             pages = dbWrapper.getPageBucketFromDB(BUCKET_SIZE);
                             for (int a = 0; a < pages.size(); a++) {
-                                LogWrapper.info(Thread.currentThread().getName() + " - " + pages.get(a));
+                                LogWrapper.info(Thread.currentThread().getName() + " - " + pages.get(a).getPageUrl());
                             }
                             if (pages.size() > 0) {
                                 for (int j = 0; j < pages.size(); j++) {
-                                    LogWrapper.info(Thread.currentThread().getName() + " is processing page " + pages.get(j));
+                                    LogWrapper.info(Thread.currentThread().getName() + " is processing page " + pages.get(j).getPageUrl());
                                     PersonRankUpdater.updatePersonRanks(pages.get(j), dbWrapper);
-                                    LogWrapper.info(Thread.currentThread().getName() + " is updating page " + pages.get(j) + " structure");
+                                    LogWrapper.info(Thread.currentThread().getName() + " is updating page " + pages.get(j).getPageUrl() + " structure");
                                     siteStructureFetcher.crawlPage(pages.get(j).getPageUrl());
                                     siteStructureFetcher.dumpPagesToDB(
                                             new Page(pages.get(j).getSiteId(), pages.get(j).getSiteUrl()),
