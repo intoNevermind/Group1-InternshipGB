@@ -12,23 +12,39 @@ import java.util.*;
  * Класс-обработчик, отвечающий за обработку данных таблицы PersonPageRank
  * */
 public class ProcessingPersonPageRankTable extends ProcessingData{
-    private static final PersonsTable PERSONS_TABLE = PersonsTable.getInstance();
-    private static final LinkedHashMap<Integer,String> LIST_ID_AND_NAME_FROM_PERSONS = PERSONS_TABLE.getListIDAndName();
 
-    private static final PersonPageRankTable PERSON_PAGE_RANK_TABLE = PersonPageRankTable.getInstance();
-    private static final ArrayList<Integer> LIST_PERSON_ID_FROM_PERSON_PAGE_RANK = PERSON_PAGE_RANK_TABLE.getListPersonID();
-    private static final ArrayList<Integer> LIST_PAGE_ID_FROM_PERSON_PAGE_RANK = PERSON_PAGE_RANK_TABLE.getListPageID();
-    private static final ArrayList<Integer> LIST_RANK_FROM_PERSON_PAGE_RANK = PERSON_PAGE_RANK_TABLE.getListRank();
+    private static LinkedHashMap<Integer,String> listIdAndNameFromSites;
 
-    private static final PagesTable PAGES_TABLE = PagesTable.getInstance();
-    private static final ArrayList<Integer> LIST_SITES_ID_FROM_PAGES = PAGES_TABLE.getListSiteID();
-    private static final ArrayList<Integer> LIST_ID_FROM_PAGES = PAGES_TABLE.getListID();
-    private static final LinkedHashMap<Integer,Date> LIST_ID_AND_FOUND_DATE_TIME_FROM_PAGES = PAGES_TABLE.getListIDAndFoundDateTime();
+    private static LinkedHashMap<Integer,String> listIdAndNameFromPersons;
 
-    private static final SitesTable SITES_TABLE = SitesTable.getInstance();
-    private static final LinkedHashMap<Integer,String> LIST_ID_AND_NAME_FROM_SITES = SITES_TABLE.getListIDAndName();
+    private static ArrayList<Integer> listPersonIdFromPersonPageRank;
+    private static ArrayList<Integer> listPageIdFromPersonPageRank;
+    private static ArrayList<Integer> listRankFromPersonPageRank;
+
+    private static ArrayList<Integer> listSitesIdFromPages;
+    private static ArrayList<Integer> listIdFromPages;
+    private static LinkedHashMap<Integer,Date> listIDAndFoundDateTime;
 
     private static final String formatDate = "yyyy-MM-dd";
+
+    public ProcessingPersonPageRankTable() {
+        System.out.println("конструктор ProcessingPersonPageRankTable");
+        SitesTable.infoAllSites();
+        listIdAndNameFromSites = SitesTable.getListIDAndName();
+
+        PersonsTable.infoAllPersons();
+        listIdAndNameFromPersons = PersonsTable.getListIDAndName();
+
+        PersonPageRankTable.infoAllPersonsPageRank();
+        listPersonIdFromPersonPageRank = PersonPageRankTable.getListPersonID();
+        listPageIdFromPersonPageRank = PersonPageRankTable.getListPageID();
+        listRankFromPersonPageRank = PersonPageRankTable.getListRank();
+
+        PagesTable.infoAllPages();
+        listSitesIdFromPages = PagesTable.getListSiteID();
+        listIdFromPages = PagesTable.getListID();
+        listIDAndFoundDateTime = PagesTable.getListIDAndFoundDateTime();
+    }
 
     /*
     *  метод, возвращающий список имен личностей и количество упоминаний о них по имени сайта,
@@ -68,7 +84,7 @@ public class ProcessingPersonPageRankTable extends ProcessingData{
 
             for(int j = 0; j < getListDistinctNamePersons().size(); j++) {
                 if(nameSite.equals(getListNameSites().get(i)) && getListDistinctNamePersons().get(j).equals(getListNamePersons().get(i))){
-                    number += LIST_RANK_FROM_PERSON_PAGE_RANK.get(i);
+                    number += listRankFromPersonPageRank.get(i);
                     listNamePersonAndRank.put(getListDistinctNamePersons().get(j), number);
                 }
             }
@@ -167,12 +183,12 @@ public class ProcessingPersonPageRankTable extends ProcessingData{
      * */
     private ArrayList<Date> getListDate(){
         ArrayList<Date> listDate = new ArrayList<>();
-        Object[] keysListIDAndDate = LIST_ID_AND_FOUND_DATE_TIME_FROM_PAGES.keySet().toArray();
+        Object[] keysListIDAndDate = listIDAndFoundDateTime.keySet().toArray();
 
-        for(int i = 0; i < LIST_PAGE_ID_FROM_PERSON_PAGE_RANK.size(); i++) {
-            for(int j = 0; j < LIST_ID_AND_FOUND_DATE_TIME_FROM_PAGES.size(); j++) {
-                if(LIST_PAGE_ID_FROM_PERSON_PAGE_RANK.get(i) == keysListIDAndDate[j]){
-                    listDate.add(LIST_ID_AND_FOUND_DATE_TIME_FROM_PAGES.get(j+1));
+        for(int i = 0; i < listPageIdFromPersonPageRank.size(); i++) {
+            for(int j = 0; j < listIDAndFoundDateTime.size(); j++) {
+                if(listPageIdFromPersonPageRank.get(i) == keysListIDAndDate[j]){
+                    listDate.add(listIDAndFoundDateTime.get(j+1));
                 }
             }
         }
@@ -184,12 +200,12 @@ public class ProcessingPersonPageRankTable extends ProcessingData{
      * */
     private ArrayList<String> getListNamePersons(){
         ArrayList<String> listNamePersons = new ArrayList<>();
-        Object[] keysListIDAndNamePersons = LIST_ID_AND_NAME_FROM_PERSONS.keySet().toArray();
+        Object[] keysListIDAndNamePersons = listIdAndNameFromPersons.keySet().toArray();
 
-        for(int i = 0; i < LIST_PERSON_ID_FROM_PERSON_PAGE_RANK.size(); i++) {
+        for(int i = 0; i < listPersonIdFromPersonPageRank.size(); i++) {
             for(int j = 0; j < keysListIDAndNamePersons.length; j++) {
-                if(keysListIDAndNamePersons[j] == LIST_PERSON_ID_FROM_PERSON_PAGE_RANK.get(i)){
-                    listNamePersons.add(LIST_ID_AND_NAME_FROM_PERSONS.get(j+1));
+                if(keysListIDAndNamePersons[j] == listPersonIdFromPersonPageRank.get(i)){
+                    listNamePersons.add(listIdAndNameFromPersons.get(j+1));
                 }
             }
         }
@@ -215,12 +231,12 @@ public class ProcessingPersonPageRankTable extends ProcessingData{
      * */
     private ArrayList<String> getListNameSites(){
         ArrayList<String> listNameSites = new ArrayList<>();
-        Object[] keysListIDAndNameSites = LIST_ID_AND_NAME_FROM_SITES.keySet().toArray();
+        Object[] keysListIDAndNameSites = listIdAndNameFromSites.keySet().toArray();
 
         for(int i = 0; i < getListSitesID().size(); i++) {
             for(int j = 0; j < keysListIDAndNameSites.length; j++) {
                 if(keysListIDAndNameSites[j] == getListSitesID().get(i)){
-                    listNameSites.add(LIST_ID_AND_NAME_FROM_SITES.get(j+1));
+                    listNameSites.add(listIdAndNameFromSites.get(j+1));
                 }
             }
         }
@@ -233,10 +249,10 @@ public class ProcessingPersonPageRankTable extends ProcessingData{
     private ArrayList<Integer> getListSitesID(){
         ArrayList<Integer> listSitesID = new ArrayList<>();
 
-        for(int i = 0; i < LIST_PAGE_ID_FROM_PERSON_PAGE_RANK.size(); i++) {
-            for(int j = 0; j < LIST_ID_FROM_PAGES.size(); j++) {
-                if(LIST_PAGE_ID_FROM_PERSON_PAGE_RANK.get(i).equals(LIST_ID_FROM_PAGES.get(j))){
-                    listSitesID.add(LIST_SITES_ID_FROM_PAGES.get(j));
+        for(int i = 0; i < listPageIdFromPersonPageRank.size(); i++) {
+            for(int j = 0; j < listIdFromPages.size(); j++) {
+                if(listPageIdFromPersonPageRank.get(i).equals(listIdFromPages.get(j))){
+                    listSitesID.add(listSitesIdFromPages.get(j));
                 }
             }
         }

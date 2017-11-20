@@ -53,6 +53,7 @@ public abstract class Directory {
         panelDirectory.setPreferredSize(new Dimension(PANEL_DIRECTORY_SIZE_WIDTH, PANEL_DIRECTORY_SIZE_HEIGHT));
         panelDirectory.add(optionsPanel, BorderLayout.NORTH);
         panelDirectory.add(btnPanel,BorderLayout.SOUTH);
+        panelDirectory.updateUI();
 
         fillBtnPanel();
         addActionListenerForBtn();
@@ -96,30 +97,23 @@ public abstract class Directory {
      * метод, заполняющий панэль кнопок, кнопками
      * */
     private void fillBtnPanel(){
-        getBtnPanel().add(getBtnAdd());
-        getBtnPanel().add(getBtnEdit());
-        getBtnPanel().add(getBtnDelete());
+        btnPanel.add(btnAdd);
+        btnPanel.add(btnEdit);
+        btnPanel.add(btnDelete);
     }
 
-    /*
-     * метод, удаляющий таблицу с данными
-     * */
-    private void removeDataTable(ActionEvent actionEvent) {
-        for (int i = 0; i < getPanelDirectory().getComponents().length; i++) {
-            if(getPanelDirectory().getComponents()[i].equals(dataScrollPane)){
-                getPanelDirectory().remove(dataScrollPane);
-            }
-        }
-        getPanelDirectory().updateUI();
-    }
+
 
     /*
      * метод, добавляющий листенеры для кнопок
      * */
     private void addActionListenerForBtn(){
         btnAdd.addActionListener(this::visibleWindowAdd);
+        btnAdd.addActionListener(this::removeDataTable);
         btnDelete.addActionListener(this::visibleWindowDel);
+        btnDelete.addActionListener(this::removeDataTable);
         btnEdit.addActionListener(this::visibleWindowEdit);
+        btnEdit.addActionListener(this::removeDataTable);
     }
 
     /*
@@ -140,6 +134,18 @@ public abstract class Directory {
     void addActionListenerForListPerson(){
         listPersons.addActionListener(this::initNamePerson);
         listPersons.addActionListener(this::removeDataTable);
+    }
+
+    /*
+     * метод, удаляющий таблицу с данными
+     * */
+    private void removeDataTable(ActionEvent actionEvent) {
+        for (int i = 0; i <  panelDirectory.getComponents().length; i++) {
+            if( panelDirectory.getComponents()[i].equals(dataScrollPane)){
+                panelDirectory.remove(dataScrollPane);
+            }
+        }
+        panelDirectory.updateUI();
     }
     /*
      * </специфичные методы>

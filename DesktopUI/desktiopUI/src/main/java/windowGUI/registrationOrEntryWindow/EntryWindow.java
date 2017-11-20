@@ -16,15 +16,22 @@ import static java.awt.GridBagConstraints.REMAINDER;
 public class EntryWindow extends Authorization {
     private static final String TAB_TITLE = "Вход";
 
-    private static final UsersTable USERS_TABLE = UsersTable.getInstance();
-    private static final ArrayList<String> LIST_LOGIN = USERS_TABLE.getListLogin();
-    private static final LinkedHashMap<String,String> LIST_LOGIN_AND_PASSWORD  = USERS_TABLE.getListLoginAndPassword();
+
+//    private static final ArrayList<String> LIST_LOGIN = UsersTable.getListLogin();
+//    private static final LinkedHashMap<String,String> LIST_LOGIN_AND_PASSWORD  = UsersTable.getListLoginAndPassword();
 
     private static String userLogin;
     private static String userPassword;
+    private static ArrayList<String> listLogin;
+    private static LinkedHashMap<String,String> listLoginAndPassword;
 
     EntryWindow() {
         setTabTitle(TAB_TITLE);
+
+        System.out.println("конструктор ВХОД");
+        UsersTable.infoAllUsers();
+        listLogin = UsersTable.getListLogin();
+        listLoginAndPassword  = UsersTable.getListLoginAndPassword();
     }
 
     @Override
@@ -46,10 +53,12 @@ public class EntryWindow extends Authorization {
 
     @Override
     public void openApplication(ActionEvent actionEvent) {
+
+        System.out.println(listLogin);
         String str = "";
         if(getLoginField().getText().equals("")) str += " Введите: \"" + getHeadLineLogin().getText() + "\" \n";
         if(getPasswordField().getText().equals("")) str += " Введите:  \"" + getHeadLinePassword().getText() + "\" \n";
-        if(!getLoginField().getText().equals(LIST_LOGIN_AND_PASSWORD.get(getPasswordField().getText()))) str += "Логин и пароль не совпадают";
+        if(!getLoginField().getText().equals(listLoginAndPassword.get(getPasswordField().getText()))) str += "Логин и пароль не совпадают";
 
         if(!str.equals("")) {
             JOptionPane.showMessageDialog(null,
@@ -57,10 +66,10 @@ public class EntryWindow extends Authorization {
                     "Ошибка при входе",
                     JOptionPane.WARNING_MESSAGE);
         }else {
-            for (int i = 0; i < LIST_LOGIN.size(); i++) {
-                if (getLoginField().getText().equals(LIST_LOGIN.get(i)) && getLoginField().getText().equals(LIST_LOGIN_AND_PASSWORD.get(getPasswordField().getText()))) {
-                    userLogin = LIST_LOGIN.get(i);
-                    userPassword = LIST_LOGIN_AND_PASSWORD.get(userLogin);
+            for (int i = 0; i < listLogin.size(); i++) {
+                if (getLoginField().getText().equals(listLogin.get(i)) && getLoginField().getText().equals(listLoginAndPassword.get(getPasswordField().getText()))) {
+                    userLogin = listLogin.get(i);
+                    userPassword = listLoginAndPassword.get(userLogin);
                     break;
                 }else {
                     userLogin = null;
@@ -68,7 +77,8 @@ public class EntryWindow extends Authorization {
                 }
             }
             if (userLogin != null && userPassword != null) {
-//                if(USERS_TABLE.authorized(userLogin, userPassword)){
+//                if(UsersTable.authorized(userLogin, userPassword)){
+                System.out.println(userLogin);
                     new ApplicationWindow(userLogin);
                     getLoginField().setText(null);
                     getWINDOW().dispose();

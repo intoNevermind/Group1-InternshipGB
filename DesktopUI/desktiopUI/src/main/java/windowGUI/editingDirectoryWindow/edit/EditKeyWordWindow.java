@@ -5,6 +5,7 @@ import windowGUI.component.workDB.tables.KeyWordsTable;
 import windowGUI.component.workDirectory.KeyWordsDirectory;
 import windowGUI.editingDirectoryWindow.EditingDirectoryWindow;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import static java.awt.GridBagConstraints.REMAINDER;
@@ -14,17 +15,18 @@ import static java.awt.GridBagConstraints.WEST;
  * */
 public class EditKeyWordWindow extends EditingDirectoryWindow {
     private static final KeyWordsDirectory KEY_WORDS_DIRECTORY = new KeyWordsDirectory();
-    private static final KeyWordsTable TABLE_KEY_WORDS = KeyWordsTable.getInstance();
     private String nameKeyWords;
     private int keyWordID;
     private int personID;
 
-    public EditKeyWordWindow(String windowTitle, String nameKeyWords, int keyWordID, int personID) {
+    public EditKeyWordWindow(String windowTitle, String nameKeyWords,int keyWordID, int personID) {
         this.nameKeyWords = nameKeyWords;
         this.keyWordID = keyWordID;
         this.personID = personID;
 
         new ConfigurationsWindowGUI().setConfigWindow(getWindow(), windowTitle, getSizeWidth(), getSizeHeight());
+        System.out.println("Конструктор Редактирования ключевого слова");
+        KeyWordsTable.infoAllKeyWords();
 
         fillEditPanels();
         getWindow().add(getTextFieldPanel(), BorderLayout.CENTER);
@@ -47,7 +49,7 @@ public class EditKeyWordWindow extends EditingDirectoryWindow {
 
     @Override
     public void saveEditing(ActionEvent actionEvent) {
-        if(getNameField().getText() != null ) TABLE_KEY_WORDS.modifyKeyWord(keyWordID, nameKeyWords,personID);
+        if(getNameField().getText() != null ) KeyWordsTable.modifyKeyWord(keyWordID, nameKeyWords,personID);
 
         KEY_WORDS_DIRECTORY.getPanelDirectory().updateUI();
         getWindow().dispose();

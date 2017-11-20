@@ -11,20 +11,21 @@ import java.awt.event.ActionEvent;
  * */
 public class DelSiteWindow extends EditingDirectoryWindow {
     private static final SitesDirectory SITES_DIRECTORY = new SitesDirectory();
-    private static final SitesTable SITES_TABLE = SitesTable.getInstance();
     private int sitesID;
 
     public DelSiteWindow(String windowTitle,String nameSites, int sitesID) {
         this.sitesID = sitesID;
 
         new ConfigurationsWindowGUI().setConfigWindow(getWindow(), windowTitle, getSizeWidth(), getSizeHeight());
+        System.out.println("конструктор Удаления сайта");
+        SitesTable.infoAllSites();
 
         fillDelPanels(nameSites);
     }
 
     @Override
     public void saveEditing(ActionEvent actionEvent) {
-        SITES_TABLE.delSite(sitesID);
+        SitesTable.delSite(sitesID);
         SITES_DIRECTORY.getPanelDirectory().updateUI();
         getWindow().dispose();
     }

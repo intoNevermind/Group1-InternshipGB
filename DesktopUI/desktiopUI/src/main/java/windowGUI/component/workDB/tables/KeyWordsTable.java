@@ -1,5 +1,7 @@
 package windowGUI.component.workDB.tables;
 
+import retrofit2.Call;
+import retrofit2.Callback;
 import windowGUI.component.workDB.restApi.PojoKeyWords;
 import windowGUI.component.workDB.restApi.RestApiForKeyWordsTable;
 
@@ -8,6 +10,8 @@ import retrofit2.Response;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
+
 /*
  * Класс-таблица, отвечающий за получение(отправку) данных из таблицы KeyWords, в REST-сервер
  * */
@@ -18,19 +22,6 @@ public class KeyWordsTable extends ConnectServer {
     private static final ArrayList<Integer> LIST_PERSON_ID = new ArrayList<>();
     private static final LinkedHashMap<Integer,String> LIST_ID_AND_NAME = new LinkedHashMap<>();
 
-    private static KeyWordsTable instance;
-
-    public static KeyWordsTable getInstance() {
-        if(instance == null){
-            instance = new KeyWordsTable();
-        }
-        return instance;
-    }
-
-    private KeyWordsTable() {
-        infoAllKeyWords();
-    }
-
     /*
      * <Получение>
      * запросы с помощью которых, можно получить данные из БД
@@ -39,7 +30,10 @@ public class KeyWordsTable extends ConnectServer {
     /*
      * метод, заполняющий списки данными из БД
      * */
-    private void infoAllKeyWords(){
+    public static void infoAllKeyWords(){
+        LIST_ID.clear();
+        LIST_NAME.clear();
+        LIST_PERSON_ID.clear();
         try {
             Response<ArrayList<PojoKeyWords>> response = REST_API_FOR_KEY_WORDS_TABLE.getListAllKeyWords().execute();
             ArrayList<PojoKeyWords> list = response.body();
@@ -47,6 +41,7 @@ public class KeyWordsTable extends ConnectServer {
                 LIST_ID.add(list.get(i).getId());
                 LIST_NAME.add(list.get(i).getName());
                 LIST_PERSON_ID.add(list.get(i).getPersonId());
+
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -64,9 +59,10 @@ public class KeyWordsTable extends ConnectServer {
     /*
      * метод, добавляющий ключевое слово
      * */
-    public void addKeyWord(String keyWordName, int personID){
+    public static void addKeyWord(String nameKeyWord, int personID){
+        Response<ResponseBody> response = null;
         try {
-            Response<ResponseBody> response = REST_API_FOR_KEY_WORDS_TABLE.addKeyWord(keyWordName,personID).execute();
+            response = REST_API_FOR_KEY_WORDS_TABLE.addKeyWord(nameKeyWord,personID).execute();
             System.out.println(response.raw());
         } catch (IOException e) {
             e.printStackTrace();
@@ -76,7 +72,7 @@ public class KeyWordsTable extends ConnectServer {
     /*
      * метод, удаляющий ключевое слово
      * */
-    public void delKeyWord(int keyWordID){
+    public static void delKeyWord(int keyWordID){
         try {
             Response<ResponseBody> response = REST_API_FOR_KEY_WORDS_TABLE.delKeyWord(keyWordID).execute();
             System.out.println(response.raw());
@@ -88,9 +84,9 @@ public class KeyWordsTable extends ConnectServer {
     /*
      * метод, редактирующий ключевое слово
      * */
-    public void modifyKeyWord(int keyWordID, String keyWordName , int personID){
+    public static void modifyKeyWord(int keyWordID, String nameKeyWord , int personID){
         try {
-            Response<ResponseBody> response = REST_API_FOR_KEY_WORDS_TABLE.modifyKeyWord(keyWordID, keyWordName, personID).execute();
+            Response<ResponseBody> response = REST_API_FOR_KEY_WORDS_TABLE.modifyKeyWord(keyWordID, nameKeyWord,personID).execute();
             System.out.println(response.raw());
         } catch (IOException e) {
             e.printStackTrace();
@@ -103,9 +99,9 @@ public class KeyWordsTable extends ConnectServer {
     /*
      * метод, возвращающий связанный спискок ID и имени ключевого слова
      * */
-    public LinkedHashMap<Integer, String> getListIDAndName() {
+    public static LinkedHashMap<Integer, String> getListIDAndName() {
         for (int i = 0; i < LIST_ID.size(); i++) {
-            LIST_ID_AND_NAME.put(getListID().get(i),getListName().get(i));
+            LIST_ID_AND_NAME.put(LIST_ID.get(i),LIST_NAME.get(i));
         }
         return LIST_ID_AND_NAME;
     }
@@ -113,13 +109,13 @@ public class KeyWordsTable extends ConnectServer {
     /*
      * <getters>
      * */
-    private ArrayList<Integer> getListID() {
+    private static ArrayList<Integer> getListID() {
         return LIST_ID;
     }
-    public ArrayList<String> getListName(){
+    public static ArrayList<String> getListName(){
         return LIST_NAME;
     }
-    public ArrayList<Integer> getListPersonID(){
+    public static ArrayList<Integer> getListPersonID(){
         return LIST_PERSON_ID;
     }
     /*

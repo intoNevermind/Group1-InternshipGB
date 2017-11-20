@@ -14,7 +14,7 @@ import static java.awt.GridBagConstraints.WEST;
  * */
 public class EditSiteWindow extends EditingDirectoryWindow {
     private static final SitesDirectory SITES_DIRECTORY = new SitesDirectory();
-    private static final SitesTable SITES_TABLE = SitesTable.getInstance();
+
     private String nameSites;
     private String urlSites;
     private boolean activeKeyWord;
@@ -27,6 +27,8 @@ public class EditSiteWindow extends EditingDirectoryWindow {
         this.sitesID = sitesID;
 
         new ConfigurationsWindowGUI().setConfigWindow(getWindow(), windowTitle, getSizeWidth(), getSizeHeight());
+        System.out.println("конструктор Редактирования сайта");
+        SitesTable.infoAllSites();
 
         fillEditPanels();
         getWindow().add(getTextFieldPanel(), BorderLayout.CENTER);
@@ -58,8 +60,9 @@ public class EditSiteWindow extends EditingDirectoryWindow {
 
     @Override
     public void saveEditing(ActionEvent actionEvent) {
+
         if(getNameField().getText() != null &&  getUrlField() != null){
-            SITES_TABLE.modifySite(sitesID,nameSites, urlSites,getActive().isSelected());
+            SitesTable.modifySite(sitesID,nameSites, urlSites,getActive().isSelected());
         }
 
         SITES_DIRECTORY.getPanelDirectory().updateUI();

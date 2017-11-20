@@ -54,6 +54,11 @@ public class KeyWordsDirectory extends Directory{
                     "Не инициализированы поля",
                     JOptionPane.WARNING_MESSAGE);
         }
+        for (int i = 0; i <  getPanelDirectory().getComponents().length; i++) {
+            if( getPanelDirectory().getComponents()[i].equals(dataScrollPane)){
+                getPanelDirectory().remove(dataScrollPane);
+            }
+        }
 
         dataTable = new JTable(getPKeyWordsT().getArrayFillTable(namePerson, getColumnNames().length), getColumnNames());
         dataScrollPane = new JScrollPane(dataTable);
@@ -107,6 +112,7 @@ public class KeyWordsDirectory extends Directory{
                     nameKeyWord,
                     getPKeyWordsT().getIDKeyWordByNameKeyWord(nameKeyWord),
                     getPPersonT().getIDPersonByNamePerson(namePerson));
+
         }
     }
 }

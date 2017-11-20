@@ -14,7 +14,7 @@ import static java.awt.GridBagConstraints.WEST;
  * */
 public class EditPersonWindow extends EditingDirectoryWindow {
     private static final PersonsDirectory PERSON_DIRECTORY = new PersonsDirectory();
-    private static final PersonsTable PERSON_TABLE = PersonsTable.getInstance();
+
     private String namePerson;
     private boolean activePerson;
     private int personID;
@@ -25,6 +25,8 @@ public class EditPersonWindow extends EditingDirectoryWindow {
         this.activePerson = activePerson;
 
         new ConfigurationsWindowGUI().setConfigWindow(getWindow(), windowTitle, getSizeWidth(), getSizeHeight());
+        System.out.println("Конструктор редактирования личности");
+        PersonsTable.infoAllPersons();
 
         fillEditPanels();
         getWindow().add(getTextFieldPanel(), BorderLayout.CENTER);
@@ -50,7 +52,7 @@ public class EditPersonWindow extends EditingDirectoryWindow {
 
     @Override
     public void saveEditing(ActionEvent actionEvent) {
-        if(getNameField().getText() != null) PERSON_TABLE.modifyPerson(personID, namePerson,getActive().isSelected());
+        if(getNameField().getText() != null) PersonsTable.modifyPerson(personID, namePerson,getActive().isSelected());
 
         PERSON_DIRECTORY.getPanelDirectory().updateUI();
         getWindow().dispose();

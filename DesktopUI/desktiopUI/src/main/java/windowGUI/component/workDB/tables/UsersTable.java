@@ -1,6 +1,8 @@
 package windowGUI.component.workDB.tables;
 
 import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 import windowGUI.component.workDB.restApi.PojoUsers;
 import windowGUI.component.workDB.restApi.RestApiForUsersTable;
@@ -19,19 +21,6 @@ public class UsersTable extends ConnectServer{
     private static final LinkedHashMap<String,Boolean> LIST_LOGIN_AND_ACTIVE = new LinkedHashMap<>();
     private static final LinkedHashMap<String,String> LIST_LOGIN_AND_PASSWORD = new LinkedHashMap<>();
 
-    private static UsersTable instance;
-
-    public static UsersTable getInstance() {
-        if(instance == null){
-            instance = new UsersTable();
-        }
-        return instance;
-    }
-
-    private UsersTable() {
-        infoAllUsers();
-    }
-
     /*
      * <Получение>
      * запросы с помощью которых, можно получить данные из БД
@@ -40,7 +29,10 @@ public class UsersTable extends ConnectServer{
     /*
      * метод, заполняющий списки данными из БД
      * */
-    private void infoAllUsers(){
+    public static void infoAllUsers(){
+        LIST_LOGIN.clear();
+        LIST_PASSWORD.clear();
+        LIST_ACTIVE.clear();
         try {
             Response<ArrayList<PojoUsers>> response = REST_API_FOR_USERS_TABLE.getListAllUsers().execute();
             ArrayList<PojoUsers> list = response.body();
@@ -63,23 +55,31 @@ public class UsersTable extends ConnectServer{
      * */
 
     /*
-     * метод, отвечающий за авторизацию
+     * метод, отвечающий за авторизацию, запрос не работает(REST-сервер еще не написал запрос)
      * */
-    public boolean authorized(String userLogin, String userPassword){
-        try {
-            Response<ResponseBody> response = REST_API_FOR_USERS_TABLE.authorized(userLogin, userPassword).execute();
-            System.out.println(response.raw());
-            return response.isSuccessful();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
+    private static boolean b = false;
+    public static boolean authorized(String userLogin, String userPassword){
+
+            REST_API_FOR_USERS_TABLE.authorized(userLogin, userPassword).enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    System.out.println(response.raw());
+                    if(response.isSuccessful()){
+                        b = true;
+                    }
+                }
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                }
+            });
+            return b;
     }
 
     /*
      * метод, добавляющий пользователя
      * */
-    public void addUser(String userLogin , boolean userAdmin, String userPassword, boolean userActive){
+    public static void addUser(String userLogin , boolean userAdmin, String userPassword, boolean userActive){
         try {
             Response<ResponseBody> response = REST_API_FOR_USERS_TABLE.addUser(userLogin, userAdmin,userPassword, userActive).execute();
             System.out.println(response.raw());
@@ -94,7 +94,7 @@ public class UsersTable extends ConnectServer{
     /*
      * метод, возвращающий связанный спискок логин и активность пользователя
      * */
-    public LinkedHashMap<String, Boolean> getListLoginAndActive() {
+    public static LinkedHashMap<String, Boolean> getListLoginAndActive() {
         for (int i = 0; i < getListLogin().size(); i++) {
             LIST_LOGIN_AND_ACTIVE.put(getListLogin().get(i), getListActive().get(i));
         }
@@ -104,7 +104,7 @@ public class UsersTable extends ConnectServer{
     /*
      * метод, возвращающий связанный спискок логин и пароль пользователя
      * */
-    public LinkedHashMap<String, String> getListLoginAndPassword() {
+    public static LinkedHashMap<String, String> getListLoginAndPassword() {
         for (int i = 0; i < getListLogin().size(); i++) {
             LIST_LOGIN_AND_PASSWORD.put(getListLogin().get(i), getListPassword().get(i));
         }
@@ -114,13 +114,13 @@ public class UsersTable extends ConnectServer{
     /*
      * <getters>
      * */
-    public ArrayList<String> getListLogin(){
+    public static ArrayList<String> getListLogin(){
         return LIST_LOGIN;
     }
-    public ArrayList<String> getListPassword(){
+    private static ArrayList<String> getListPassword(){
         return LIST_PASSWORD;
     }
-    private ArrayList<Boolean> getListActive(){
+    private static ArrayList<Boolean> getListActive(){
         return LIST_ACTIVE;
     }
     /*

@@ -16,21 +16,7 @@ public class PersonPageRankTable extends ConnectServer {
     private static final ArrayList<Integer> LIST_PAGE_ID = new ArrayList<>();
     private static final ArrayList<Integer> LIST_RANK = new ArrayList<>();
 
-    private static final PersonsTable PERSONS_TABLE = PersonsTable.getInstance();
-    private static final ArrayList<Integer> LIST_ID_PERSONS = PERSONS_TABLE.getListID();
 
-    private static PersonPageRankTable instance;
-
-    public static PersonPageRankTable getInstance() {
-        if(instance == null){
-            instance = new PersonPageRankTable();
-        }
-        return instance;
-    }
-
-    private PersonPageRankTable() {
-        infoAllPersonsPageRank();
-    }
     /*
      * <Получение>
      * запросы с помощью которых, можно получить данные из БД
@@ -39,20 +25,24 @@ public class PersonPageRankTable extends ConnectServer {
     /*
      * метод, заполняющий списки данными из БД
      * */
-    private void infoAllPersonsPageRank(){
-        try {
-            for (int i = 0; i < LIST_ID_PERSONS.size() ; i++) {
-                LIST_PERSON_ID.add(LIST_ID_PERSONS.get(i));
-                Response<ArrayList<PojoPersonPageRank>> response = REST_API_FOR_PERSON_PAGE_RANK_TABLE.getPersonPageRankByPersonId(LIST_ID_PERSONS.get(i)).execute();
+    public static void infoAllPersonsPageRank(){
+        LIST_PERSON_ID.clear();
+        LIST_PAGE_ID.clear();
+        LIST_RANK.clear();
+        PersonsTable.infoAllPersons();
+        ArrayList<Integer> listIdPersons = PersonsTable.getListID();
+        for (int i = 0; i < listIdPersons.size() ; i++) {
+            LIST_PERSON_ID.add(listIdPersons.get(i));
+            try {
+                Response<ArrayList<PojoPersonPageRank>> response = REST_API_FOR_PERSON_PAGE_RANK_TABLE.getPersonPageRankByPersonId(listIdPersons.get(i)).execute();
                 ArrayList<PojoPersonPageRank> list = response.body();
                 for (int j = 0; j < list.size(); j++) {
                     LIST_PAGE_ID.add(list.get(j).getPageID());
                     LIST_RANK.add(list.get(j).getRank());
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
     /*
@@ -62,13 +52,13 @@ public class PersonPageRankTable extends ConnectServer {
     /*
      * <getters>
      * */
-    public ArrayList<Integer> getListPersonID() {
+    public static ArrayList<Integer> getListPersonID() {
         return LIST_PERSON_ID;
     }
-    public ArrayList<Integer> getListPageID() {
+    public static ArrayList<Integer> getListPageID() {
         return LIST_PAGE_ID;
     }
-    public ArrayList<Integer> getListRank() {
+    public static ArrayList<Integer> getListRank() {
         return LIST_RANK;
     }
     /*

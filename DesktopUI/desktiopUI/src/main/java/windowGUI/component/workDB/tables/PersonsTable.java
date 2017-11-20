@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 import windowGUI.component.workDB.restApi.PojoPersons;
 import windowGUI.component.workDB.restApi.RestApiForPersonTable;
@@ -18,19 +20,6 @@ public class PersonsTable extends ConnectServer {
     private static final LinkedHashMap<Integer,String> LIST_ID_AND_NAME = new LinkedHashMap<>();
     private static final LinkedHashMap<String,Boolean> LIST_NAME_AND_ACTIVE = new LinkedHashMap<>();
 
-    private static PersonsTable instance;
-
-    public static PersonsTable getInstance() {
-        if(instance == null){
-            instance = new PersonsTable();
-        }
-        return instance;
-    }
-
-    private PersonsTable() {
-        infoAllPersons();
-    }
-
     /*
      * <Получение>
      * запросы с помощью которых, можно получить данные из БД
@@ -39,7 +28,10 @@ public class PersonsTable extends ConnectServer {
     /*
      * метод, заполняющий списки данными из БД
      * */
-    private void infoAllPersons(){
+    public static void infoAllPersons(){
+        LIST_ID.clear();
+        LIST_NAME.clear();
+        LIST_ACTIVE.clear();
         try {
             Response<ArrayList<PojoPersons>> response = REST_API_FOR_PERSON_TABLE.getListAllPersons().execute();
             ArrayList<PojoPersons> list = response.body();
@@ -64,7 +56,7 @@ public class PersonsTable extends ConnectServer {
     /*
      * метод, добавляющий личность
      * */
-    public void addPerson(String personName, boolean personActive){
+    public static void addPerson(String personName, boolean personActive){
         try {
             Response<ResponseBody> response = REST_API_FOR_PERSON_TABLE.addPerson(personName, personActive).execute();
             System.out.println(response.raw());
@@ -76,7 +68,7 @@ public class PersonsTable extends ConnectServer {
     /*
      * метод, удаляющий личность
      * */
-    public void delPerson(int personID){
+    public static void delPerson(int personID){
         try {
             Response<ResponseBody> response = REST_API_FOR_PERSON_TABLE.delPerson(personID).execute();
             System.out.println(response.raw());
@@ -88,7 +80,7 @@ public class PersonsTable extends ConnectServer {
     /*
      * метод, редактирующий личность
      * */
-    public void modifyPerson(int personID, String personName, boolean personActive){
+    public static void modifyPerson(int personID, String personName, boolean personActive){
         try {
             Response<ResponseBody> response = REST_API_FOR_PERSON_TABLE.modifyPerson(personID, personName, personActive).execute();
             System.out.println(response.raw());
@@ -103,7 +95,7 @@ public class PersonsTable extends ConnectServer {
     /*
      * метод, возвращающий связанный спискок ID и имени личности
      * */
-    public LinkedHashMap<Integer, String> getListIDAndName() {
+    public static LinkedHashMap<Integer, String> getListIDAndName() {
         for (int i = 0; i < getListID().size(); i++) {
             LIST_ID_AND_NAME.put(getListID().get(i),getListName().get(i));
         }
@@ -113,7 +105,7 @@ public class PersonsTable extends ConnectServer {
     /*
      * метод, возвращающий связанный спискок имени и фктивности личности
      * */
-    public LinkedHashMap<String, Boolean> getListNameAndActive() {
+    public static LinkedHashMap<String, Boolean> getListNameAndActive() {
         for (int i = 0; i < getListID().size(); i++) {
             LIST_NAME_AND_ACTIVE.put(getListName().get(i),getListActive().get(i));
         }
@@ -123,13 +115,13 @@ public class PersonsTable extends ConnectServer {
     /*
      * <getters>
      * */
-    public ArrayList<Integer> getListID() {
+    public static ArrayList<Integer> getListID() {
         return LIST_ID;
     }
-    public ArrayList<String> getListName(){
+    public static ArrayList<String> getListName(){
         return LIST_NAME;
     }
-    private ArrayList<Boolean> getListActive(){
+    private static ArrayList<Boolean> getListActive(){
         return LIST_ACTIVE;
     }
     /*

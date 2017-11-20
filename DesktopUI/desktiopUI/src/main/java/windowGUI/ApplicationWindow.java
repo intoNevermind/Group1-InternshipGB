@@ -8,6 +8,8 @@ import windowGUI.registrationOrEntryWindow.AuthorizationWindow;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.image.ImageObserver;
+import java.text.AttributedCharacterIterator;
 import java.util.ArrayList;
 /*
  * Класс-окно, отвечающий за окно приложения

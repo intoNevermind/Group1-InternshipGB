@@ -24,15 +24,15 @@ public interface RestApiForSitesTable {
 * <Отправка>
 * запросы с помощью которых, можно отправить данные в БД
 * */
-    @POST("unauthorized/admin/ui/addSite")
+    @GET("unauthorized/admin/ui/addSite")
     Call<ResponseBody> addSite(@Query("name") String siteName ,
                                @Query("url") String siteUrl,
                                @Query("active") boolean siteActive);// добавляет сайт, URL и активность в БД
 
-    @POST("unauthorized/admin/ui/delSite")
+    @GET("unauthorized/admin/ui/delSite")
     Call<ResponseBody> delSite(@Query("id") int siteID);// удаляет сайт по ID из БД
 
-    @POST("unauthorized/admin/ui/modifySite")
+    @GET("unauthorized/admin/ui/modifySite")
     Call<ResponseBody> modifySite(@Query("id") int siteID,
                                   @Query("name") String siteName ,
                                   @Query("url") String siteUrl,

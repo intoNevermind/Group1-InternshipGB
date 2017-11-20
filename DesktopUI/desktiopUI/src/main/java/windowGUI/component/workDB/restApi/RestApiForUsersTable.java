@@ -27,10 +27,10 @@ public interface RestApiForUsersTable {
 * <Отправка>
 * запросы с помощью которых, можно отправить данные в БД
 * */
-    @POST("login/")
+    @GET("login/")
     Call<ResponseBody> authorized(@Query("login") String logon, @Query("password") String password);
 
-    @POST("unauthorized/admin/ui/addUser")
+    @GET("unauthorized/admin/ui/addUser")
     Call<ResponseBody> addUser(@Query("login") String userLogin ,
                                @Query("admin") boolean userAdmin,
                                @Query("password") String userPassword,

@@ -8,22 +8,31 @@ import java.util.LinkedHashMap;
  * Класс-обработчик, отвечающий за обработку данных таблицы Sites
  * */
 public class ProcessingSitesTable extends ProcessingData{
-    private static final SitesTable SITES_TABLE = SitesTable.getInstance();
-    private static final ArrayList<String> LIST_NAME_FROM_SITES = SITES_TABLE.getListName();
-    private static final LinkedHashMap<Integer, String> LIST_ID_AND_NAME_FROM_SITES = SITES_TABLE.getListIDAndName();
-    private static final LinkedHashMap<String, String> LIST_NAME_AND_URL_FROM_SITES = SITES_TABLE.getListNameAndURL();
-    private static final LinkedHashMap<String, Boolean> LIST_NAME_AND_ACTIVE_FROM_SITES = SITES_TABLE.getListNameAndActive();
+
+    private static ArrayList<String> listNameFromSites;
+    private static LinkedHashMap<Integer, String> listIdAndNameFromSites;
+    private static LinkedHashMap<String, String> listNameAndUrlFromSites;
+    private static LinkedHashMap<String, Boolean> listNameAndActiveFromSites;
+
+    public ProcessingSitesTable() {
+        System.out.println("конструктор ProcessingSitesTable");
+        SitesTable.infoAllSites();
+        listNameFromSites = SitesTable.getListName();
+        listIdAndNameFromSites = SitesTable.getListIDAndName();
+        listNameAndUrlFromSites = SitesTable.getListNameAndURL();
+        listNameAndActiveFromSites = SitesTable.getListNameAndActive();
+    }
 
     /*
      * метод, возвращающий массив имен сайтов для выпадающего списка сайтов, в классах Statistics
      * */
     public String[] getArrayNameSites(){
-        String[] nameSites = new String[LIST_NAME_FROM_SITES.size()+1];
+        String[] nameSites = new String[listNameFromSites.size()+1];
         nameSites[0] = getNotChosen();
 
-        for (int i = 0; i < LIST_NAME_FROM_SITES.size(); i++) {
-            if(LIST_NAME_AND_ACTIVE_FROM_SITES.get(LIST_NAME_FROM_SITES.get(i)))
-            nameSites[i+1] = LIST_NAME_FROM_SITES.get(i);
+        for (int i = 0; i < listNameFromSites.size(); i++) {
+            if(listNameAndActiveFromSites.get(listNameFromSites.get(i)))
+            nameSites[i+1] = listNameFromSites.get(i);
         }
         return nameSites;
     }
@@ -35,14 +44,14 @@ public class ProcessingSitesTable extends ProcessingData{
     public Object[][] getArrayFillTable(int numberColumn){
         if(numberColumn < 1) return super.getArrayFillTable(numberColumn);
 
-        return convertingListToArray(LIST_NAME_FROM_SITES,numberColumn);
+        return convertingListToArray(listNameFromSites,numberColumn);
     }
 
     /*
      * метод, возвращающий ID сайта по имени сайта
      * */
     public int getIDSiteByNameSite(String nameSites){
-        return getIDByName(nameSites, LIST_ID_AND_NAME_FROM_SITES);
+        return getIDByName(nameSites, listIdAndNameFromSites);
     }
 
     /*
@@ -53,10 +62,10 @@ public class ProcessingSitesTable extends ProcessingData{
 
         String URL = "";
 
-        Object[] keysListNameAndURL = LIST_NAME_AND_URL_FROM_SITES.keySet().toArray();
-        for (int i = 0; i < LIST_NAME_AND_URL_FROM_SITES.size(); i++) {
+        Object[] keysListNameAndURL = listNameAndUrlFromSites.keySet().toArray();
+        for (int i = 0; i < listNameAndUrlFromSites.size(); i++) {
             if(nameSites.equals(keysListNameAndURL[i])){
-                URL = LIST_NAME_AND_URL_FROM_SITES.get(nameSites);
+                URL = listNameAndUrlFromSites.get(nameSites);
             }
         }
         return URL;
@@ -66,6 +75,6 @@ public class ProcessingSitesTable extends ProcessingData{
      * метод, возвращающий активность сайта по имени сайта
      * */
     public boolean getActiveSiteByNameSite(String nameSites){
-        return getActiveByName(nameSites, LIST_NAME_AND_ACTIVE_FROM_SITES);
+        return getActiveByName(nameSites, listNameAndActiveFromSites);
     }
 }

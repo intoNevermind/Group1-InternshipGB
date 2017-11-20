@@ -24,14 +24,14 @@ public interface RestApiForKeyWordsTable {
 * <Отправка>
 * запросы с помощью которых, можно отправить данные в БД
 * */
-    @POST("unauthorized/admin/ui/addKeyword")
+    @GET("unauthorized/admin/ui/addKeyword")
     Call<ResponseBody> addKeyWord(@Query("name") String keyWordName ,
                                   @Query("personId") int personID);
 
-    @POST("unauthorized/admin/ui/delKeyword")
+    @GET("unauthorized/admin/ui/delKeyword")
     Call<ResponseBody> delKeyWord(@Query("id") int keyWordID);
 
-    @POST("unauthorized/admin/ui/modifyKeyword")
+    @GET("unauthorized/admin/ui/modifyKeyword")
     Call<ResponseBody> modifyKeyWord(@Query("id") int keyWordID,
                                      @Query("name") String keyWordName ,
                                      @Query("personId") int personID);

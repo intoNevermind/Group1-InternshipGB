@@ -16,15 +16,17 @@ import static java.awt.GridBagConstraints.REMAINDER;
 public class RegistrationWindow extends Authorization {
     private static final String TAB_TITLE = "Регистрация";
 
-    private static final UsersTable USERS_TABLE = UsersTable.getInstance();
-    private static final ArrayList<String> LIST_LOGIN = USERS_TABLE.getListLogin();
-    private static final LinkedHashMap<String,String> LIST_LOGIN_AND_PASSWORD  = USERS_TABLE.getListLoginAndPassword();
-
     private static String userLogin;
     private static String userPassword;
+    private static ArrayList<String> listLogin;
+
 
     RegistrationWindow() {
         setTabTitle(TAB_TITLE);
+
+        System.out.println("конструктор Регистрация");
+        UsersTable.infoAllUsers();
+        listLogin = UsersTable.getListLogin();
     }
 
     @Override
@@ -71,8 +73,8 @@ public class RegistrationWindow extends Authorization {
             getEmailField().setText(getEmailField().getText());
 
         }else {
-            for (int i = 0; i < LIST_LOGIN.size(); i++) {
-                if (getLoginField().getText().equals(LIST_LOGIN.get(i))) {
+            for (int i = 0; i < listLogin.size(); i++) {
+                if (getLoginField().getText().equals(listLogin.get(i))) {
                     userLogin = null;
                     userPassword = null;
                     break;
@@ -83,7 +85,7 @@ public class RegistrationWindow extends Authorization {
             }
             if(userLogin != null && userPassword != null) {
 //                if(USERS_TABLE.authorized(userLogin, userPassword)){
-                USERS_TABLE.addUser(userLogin, false, userPassword, true);
+                UsersTable.addUser(userLogin, false, userPassword, true);
                 JOptionPane.showMessageDialog(null,
                         "Ваш аккаунт создан",
                         "Новый аккаунт",

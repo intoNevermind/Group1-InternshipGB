@@ -13,11 +13,13 @@ import static java.awt.GridBagConstraints.*;
  * */
 public class AddKeyWordWindow extends EditingDirectoryWindow {
     private static final KeyWordsDirectory KEY_WORDS_DIRECTORY = new KeyWordsDirectory();
-    private static final KeyWordsTable KEY_WORDS_TABLE = KeyWordsTable.getInstance();
+
     private int personID;
 
     public AddKeyWordWindow(String windowTitle, int personID) {
         this.personID = personID;
+        System.out.println("Конструктор Добавления ключевого слова");
+        KeyWordsTable.infoAllKeyWords();
 
         new ConfigurationsWindowGUI().setConfigWindow(getWindow(), windowTitle, getSizeWidth(), getSizeHeight());
 
@@ -40,7 +42,7 @@ public class AddKeyWordWindow extends EditingDirectoryWindow {
 
     @Override
     public void saveEditing(ActionEvent actionEvent) {
-        if(getNameField().getText() != null) KEY_WORDS_TABLE.addKeyWord(getNameField().getText(), personID);
+        if(getNameField().getText() != null) KeyWordsTable.addKeyWord(getNameField().getText(), personID);
 
         KEY_WORDS_DIRECTORY.getPanelDirectory().updateUI();
         getNameField().setText(null);

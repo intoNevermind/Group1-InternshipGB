@@ -2,6 +2,8 @@ package windowGUI.editingDirectoryWindow;
 
 import windowGUI.MyStyle;
 import windowGUI.component.ConfigurationGBL;
+import windowGUI.component.workDB.processingData.ProcessingData;
+import windowGUI.component.workDirectory.KeyWordsDirectory;
 
 import javax.swing.*;
 import java.awt.*;

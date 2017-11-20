@@ -2,9 +2,7 @@ package windowGUI.component.workDB.restApi;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.POST;
 import retrofit2.http.Query;
 import java.util.ArrayList;
 /*
@@ -25,14 +23,14 @@ public interface RestApiForPersonTable {
 * <Отправка>
 * запросы с помощью которых, можно отправить данные в БД
 * */
-    @POST("unauthorized/admin/ui/addPerson")
+    @GET("unauthorized/admin/ui/addPerson")
     Call<ResponseBody> addPerson(@Query("name") String personName ,
                                 @Query("active") boolean personActive);// добавляет личность и активность в БД
 
-    @POST("unauthorized/admin/ui/delPerson")
+    @GET("unauthorized/admin/ui/delPerson")
     Call<ResponseBody> delPerson(@Query("id") int personID);// удаляет личность по ID из БД
 
-    @POST("unauthorized/admin/ui/modifyPerson")
+    @GET("unauthorized/admin/ui/modifyPerson")
     Call<ResponseBody> modifyPerson(@Query("id") int personID,
                                     @Query("name") String personName ,
                                     @Query("active") boolean personActive);// редактирует имя личности и активность по ID личности(сам ID редоктировать нельзя)

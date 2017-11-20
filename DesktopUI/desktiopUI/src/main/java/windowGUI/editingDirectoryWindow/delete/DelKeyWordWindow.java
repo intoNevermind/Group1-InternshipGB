@@ -11,20 +11,22 @@ import java.awt.event.ActionEvent;
  * */
 public class DelKeyWordWindow extends EditingDirectoryWindow {
     private static final KeyWordsDirectory KEY_WORDS_DIRECTORY = new KeyWordsDirectory();
-    private static final KeyWordsTable KEY_WORDS_TABLE = KeyWordsTable.getInstance();
+
     private int keyWordID;
 
     public DelKeyWordWindow(String windowTitle,String nameKeyWord, int keyWordID) {
         this.keyWordID = keyWordID;
 
         new ConfigurationsWindowGUI().setConfigWindow(getWindow(), windowTitle, getSizeWidth(), getSizeHeight());
+        System.out.println("Конструктор Удаления ключевого слова");
+        KeyWordsTable.infoAllKeyWords();
 
         fillDelPanels(nameKeyWord);
     }
 
     @Override
     public void saveEditing(ActionEvent actionEvent) {
-        KEY_WORDS_TABLE.delKeyWord(keyWordID);
+        KeyWordsTable.delKeyWord(keyWordID);
         KEY_WORDS_DIRECTORY.getPanelDirectory().updateUI();
         getWindow().dispose();
     }

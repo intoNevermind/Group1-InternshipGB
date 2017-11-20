@@ -1,5 +1,7 @@
 package windowGUI.component.workDB.tables;
 
+import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 import windowGUI.component.workDB.restApi.PojoPages;
 import windowGUI.component.workDB.restApi.RestApiForPagesTable;
@@ -19,18 +21,6 @@ public class PagesTable extends ConnectServer {
     private static final ArrayList<Date> LIST_FOUND_DATE_TIME = new ArrayList<>();
     private static final LinkedHashMap<Integer,Date> LIST_ID_AND_FOUND_DATE_TIME = new LinkedHashMap<>();
 
-    private static PagesTable instance;
-
-    public static PagesTable getInstance() {
-        if(instance == null){
-            instance = new PagesTable();
-        }
-        return instance;
-    }
-
-    private PagesTable() {
-//        infoAllPages();// запросы еще не работают
-    }
 
     /*
      * <Получение>
@@ -38,30 +28,40 @@ public class PagesTable extends ConnectServer {
      * */
 
     /*
-     * метод, заполняющий списки данными из БД
+     * метод, заполняющий списки данными из БД(REST-сервер еще не написал запрос)
      * */
-    private void infoAllPages(){
-        try {
-            Response<ArrayList<PojoPages>> responseID = REST_API_FOR_PAGES_TABLE.getListIDFromPagesTable().execute();
-            ArrayList<PojoPages> listID = responseID.body();
-            for (int i = 0; i < listID.size(); i++) {
-                LIST_ID.add(listID.get(i).getId());
-            }
-
-            Response<ArrayList<PojoPages>> responseSiteID = REST_API_FOR_PAGES_TABLE.getListSiteIDFromPagesTable().execute();
-            ArrayList<PojoPages> listSiteID = responseSiteID.body();
-            for (int i = 0; i < listSiteID.size(); i++) {
-                LIST_SITE_ID.add(listSiteID.get(i).getSiteId());
-            }
-
-            Response<ArrayList<PojoPages>> responseFoundDateTime = REST_API_FOR_PAGES_TABLE.getListFoundDateTimeFromPagesTable().execute();
-            ArrayList<PojoPages> listFoundDateTime = responseFoundDateTime.body();
-            for (int i = 0; i < listFoundDateTime.size(); i++) {
-                LIST_FOUND_DATE_TIME.add(listFoundDateTime.get(i).getFoundDateTime());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public static void infoAllPages(){
+//        LIST_ID.clear();
+//        LIST_SITE_ID.clear();
+//        LIST_FOUND_DATE_TIME.clear();
+//        try {
+//            Response<ArrayList<PojoPages>> responseID = REST_API_FOR_PAGES_TABLE.getListIDFromPagesTable().execute();
+//            ArrayList<PojoPages> listID = responseID.body();
+//            if(listID.size() > 0){
+//                for (int i = 0; i < listID.size(); i++) {
+//                    LIST_ID.add(listID.get(i).getId());
+//                }
+//            }
+//
+//            Response<ArrayList<PojoPages>> responseSiteID = REST_API_FOR_PAGES_TABLE.getListSiteIDFromPagesTable().execute();
+//            ArrayList<PojoPages> listSiteID = responseSiteID.body();
+//            if(listSiteID.size() > 0){
+//                for (int i = 0; i < listSiteID.size(); i++) {
+//                    LIST_SITE_ID.add(listSiteID.get(i).getSiteId());
+//                }
+//            }
+//
+//            Response<ArrayList<PojoPages>> responseFoundDateTime = REST_API_FOR_PAGES_TABLE.getListFoundDateTimeFromPagesTable().execute();
+//            ArrayList<PojoPages> listFoundDateTime = responseFoundDateTime.body();
+//            if(listFoundDateTime.size() > 0){
+//                for (int i = 0; i < listFoundDateTime.size(); i++) {
+//                    LIST_FOUND_DATE_TIME.add(listFoundDateTime.get(i).getFoundDateTime());
+//                }
+//            }
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     /*
@@ -71,9 +71,9 @@ public class PagesTable extends ConnectServer {
     /*
      * метод, возвращающий связанный спискок ID и даты публикации
      * */
-    public LinkedHashMap<Integer, Date> getListIDAndFoundDateTime() {
-        for (int i = 0; i < getListID().size(); i++) {
-            LIST_ID_AND_FOUND_DATE_TIME.put(getListID().get(i),getListFoundDateTime().get(i));
+    public static LinkedHashMap<Integer, Date> getListIDAndFoundDateTime() {
+        for (int i = 0; i < LIST_ID.size(); i++) {
+            LIST_ID_AND_FOUND_DATE_TIME.put(LIST_ID.get(i),LIST_FOUND_DATE_TIME.get(i));
         }
         return LIST_ID_AND_FOUND_DATE_TIME;
     }
@@ -81,13 +81,13 @@ public class PagesTable extends ConnectServer {
     /*
      * <getters>
      * */
-    public ArrayList<Integer> getListID(){
+    public static ArrayList<Integer> getListID(){
         return LIST_ID;
     }
-    public ArrayList<Integer> getListSiteID(){
+    public static ArrayList<Integer> getListSiteID(){
         return LIST_SITE_ID;
     }
-    private ArrayList<Date> getListFoundDateTime(){
+    private static ArrayList<Date> getListFoundDateTime(){
         return LIST_FOUND_DATE_TIME;
     }
     /*
