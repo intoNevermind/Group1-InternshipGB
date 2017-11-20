@@ -13,16 +13,20 @@ import java.sql.SQLException;
 
 /**
  * Тестирование класса UsersUiDbOperation.
+ *
+ * @author Aleksandr Vvedensky
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class UsersUiDbOperationTests {
     UsersUiDbOperation uiDbOperation = new UsersUiDbOperation();
 
+    /**
+     * Тестирование получения из базы ключевых слов по идентификатору пользователя.
+     */
     @Test
     public void test_getKeywordsByPersonId() {
         try {
-            System.err.println(System.getProperty("user.dir"));
             Assert.assertTrue(!uiDbOperation.getKeywordsByPersonId(1).isEmpty());
         } catch (SQLException e) {
             Assert.fail();
