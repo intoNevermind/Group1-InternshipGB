@@ -63,6 +63,8 @@ class SiteStructureFetcher {
                 crawlPage(str);
             }
         }
+
+        dumpPagesToDB(site, dbWrapper);
     }
 
     // Добавлены новые версии методов.
