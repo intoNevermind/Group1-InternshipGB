@@ -16,7 +16,7 @@ import java.util.Properties;
 /**
  * Обёртка над базой для получения Connection.
  *
- * @author Aleksandr Vvedensk
+ * @author Aleksandr Vvedensky
  */
 public class DbWrapper {
     private Log LOG = LogFactory.getLog(DbWrapper.class);
