@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}
+Настройки | Справочник "Сайты"
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Меню переключения статистик -->
+    <div class="col-md-4">
+        <p><a href="/statglobal">Общая статистика</a></p>
+        <p><a href="/statbydays">Ежедневная статистика</a></p>
+        <p>&nbsp;</p>
+        <p><a href="/prefpersons">Личности</a></p>
+        <p><a href="/prefkeywords">Ключевые слова</a></p>
+        <p><b>Сайты</b></p>
+        <p>&nbsp;</p>
+        <p><a href="/cfgusers">Пользователи</a></p>
+    </div>
+
+    <!-- Тело статистики -->
+    <div class="col-md-8">
+        <h1>Справочник &laquo;Сайты&raquo;</h1>
+        <p>&nbsp;</p>
+        <table class="table">
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">Сайты</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>lenta.ru</td>
+            </tr>
+            <tr>
+                <td>kommersant.ru</td>
+            </tr>
+            <tr>
+                <td>kp.ru</td>
+            </tr>
+            </tbody>
+        </table>
+        <form name="edit" action="#">
+            <p>
+                <input type="submit" value="Добавить" />
+                <input type="submit" value="Редактировать" />
+                <input type="submit" value="Удалить" />
+            </p>
+        </form>
+    </div>
+</div>
+{% endblock %}

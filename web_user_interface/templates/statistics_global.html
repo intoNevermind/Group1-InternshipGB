@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}
+Общая статистика
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Меню переключения статистик -->
+    <div class="col-md-4">
+        <p><b>Общая статистика</b></p>
+        <p><a href="/statbydays">Ежедневная статистика</a></p>
+        <p>&nbsp;</p>
+        <p><a href="/prefpersons">Личности</a></p>
+        <p><a href="/prefkeywords">Ключевые слова</a></p>
+        <p><a href="/prefsites">Сайты</a></p>
+        <p>&nbsp;</p>
+        <p><a href="/cfgusers">Пользователи</a></p>
+    </div>
+
+    <!-- Тело статистики -->
+    <div class="col-md-8">
+        <form name="site" action="#">
+            <p>
+                <label>Сайт:</label>
+                <select>
+                    <option selected>lenta.ru</option>
+                    <option>kommersant.ru</option>
+                    <option>kp.ru</option>
+                </select>
+                <input type="submit" value="Применить">
+            </p>
+        </form>
+        <p>&nbsp;</p>
+        <table class="table">
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">Персона</th>
+                <th scope="col">Количество упоминаний</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Чебурашка</td>
+                <td>100500</td>
+            </tr>
+            <tr>
+                <td>Крокодил Гена</td>
+                <td>50100</td>
+            </tr>
+            <tr>
+                <td>Старуха Шапокляк</td>
+                <td>50100</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

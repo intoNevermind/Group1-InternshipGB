@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}
+Администрирование | Пользователи
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Меню переключения статистик -->
+    <div class="col-md-4">
+        <p><a href="/statglobal">Общая статистика</a></p>
+        <p><a href="/statbydays">Ежедневная статистика</a></p>
+        <p>&nbsp;</p>
+        <p><b>Личности</b></p>
+        <p><a href="/prefkeywords">Ключевые слова</a></p>
+        <p><a href="/prefsites">Сайты</a></p>
+        <p>&nbsp;</p>
+        <p><a href="/cfgusers">Пользователи</a></p>
+    </div>
+
+    <!-- Тело статистики -->
+    <div class="col-md-8">
+        <h1>Управление пользователями</h1>
+        <p>&nbsp;</p>
+        <table class="table">
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">Логин</th>
+                <th scope="col">Доступ</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>krokodala</td>
+                <td>обычный</td>
+            </tr>
+            <tr>
+                <td>us3rr1ng</td>
+                <td>обычный</td>
+            </tr>
+            <tr>
+                <td>kolia</td>
+                <td>административный</td>
+            </tr>
+            <tr>
+                <td>liuba</td>
+                <td>обычный</td>
+            </tr>
+            </tbody>
+        </table>
+        <form name="edit" action="#">
+            <p>
+                <input type="submit" value="Добавить" />
+                <input type="submit" value="Редактировать" />
+                <input type="submit" value="Удалить" />
+            </p>
+        </form>
+    </div>
+</div>
+{% endblock %}
