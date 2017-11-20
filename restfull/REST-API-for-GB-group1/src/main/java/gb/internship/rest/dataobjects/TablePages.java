@@ -23,6 +23,9 @@ public class TablePages {
         this.lastScanDate = lastScanDate;
     }
 
+    public TablePages(Date lastscandate, String name) {
+    }
+
     public int getId() {
         return id;
     }
