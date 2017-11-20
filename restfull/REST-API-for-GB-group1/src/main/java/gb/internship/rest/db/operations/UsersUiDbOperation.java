@@ -2,7 +2,6 @@ package gb.internship.rest.db.operations;
 
 import gb.internship.rest.dataobjects.*;
 import gb.internship.rest.db.DbWrapper;
-import javafx.scene.control.Tab;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
