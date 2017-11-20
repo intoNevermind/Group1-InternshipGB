@@ -60,6 +60,7 @@ public class PersonsTable extends ConnectServer {
         try {
             Response<ResponseBody> response = REST_API_FOR_PERSON_TABLE.addPerson(personName, personActive).execute();
             System.out.println(response.raw());
+            response.body().close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -72,6 +73,7 @@ public class PersonsTable extends ConnectServer {
         try {
             Response<ResponseBody> response = REST_API_FOR_PERSON_TABLE.delPerson(personID).execute();
             System.out.println(response.raw());
+            response.body().close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -84,6 +86,7 @@ public class PersonsTable extends ConnectServer {
         try {
             Response<ResponseBody> response = REST_API_FOR_PERSON_TABLE.modifyPerson(personID, personName, personActive).execute();
             System.out.println(response.raw());
+            response.body().close();
         } catch (IOException e) {
             e.printStackTrace();
         }

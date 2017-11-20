@@ -63,7 +63,9 @@ public class KeyWordsTable extends ConnectServer {
         Response<ResponseBody> response = null;
         try {
             response = REST_API_FOR_KEY_WORDS_TABLE.addKeyWord(nameKeyWord,personID).execute();
+
             System.out.println(response.raw());
+            response.body().close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -76,6 +78,7 @@ public class KeyWordsTable extends ConnectServer {
         try {
             Response<ResponseBody> response = REST_API_FOR_KEY_WORDS_TABLE.delKeyWord(keyWordID).execute();
             System.out.println(response.raw());
+            response.body().close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -88,6 +91,7 @@ public class KeyWordsTable extends ConnectServer {
         try {
             Response<ResponseBody> response = REST_API_FOR_KEY_WORDS_TABLE.modifyKeyWord(keyWordID, nameKeyWord,personID).execute();
             System.out.println(response.raw());
+            response.body().close();
         } catch (IOException e) {
             e.printStackTrace();
         }

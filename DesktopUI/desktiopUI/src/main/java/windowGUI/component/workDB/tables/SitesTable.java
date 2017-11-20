@@ -63,6 +63,7 @@ public class SitesTable extends ConnectServer {
         try {
             Response<ResponseBody> response = REST_API_FOR_SITES_TABLE.addSite(siteName, siteUrl, siteActive).execute();
             System.out.println(response.raw());
+            response.body().close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -75,6 +76,7 @@ public class SitesTable extends ConnectServer {
         try {
             Response<ResponseBody> response = REST_API_FOR_SITES_TABLE.delSite(siteID).execute();
             System.out.println(response.raw());
+            response.body().close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -87,6 +89,7 @@ public class SitesTable extends ConnectServer {
         try {
             Response<ResponseBody> response = REST_API_FOR_SITES_TABLE.modifySite(siteID, siteName, siteUrl, siteActive).execute();
             System.out.println(response.raw());
+            response.body().close();
         } catch (IOException e) {
             e.printStackTrace();
         }

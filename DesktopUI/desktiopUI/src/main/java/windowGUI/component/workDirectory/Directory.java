@@ -109,11 +109,11 @@ public abstract class Directory {
      * */
     private void addActionListenerForBtn(){
         btnAdd.addActionListener(this::visibleWindowAdd);
-        btnAdd.addActionListener(this::removeDataTable);
+//        btnAdd.addActionListener(this::removeDataTable);
         btnDelete.addActionListener(this::visibleWindowDel);
-        btnDelete.addActionListener(this::removeDataTable);
+//        btnDelete.addActionListener(this::removeDataTable);
         btnEdit.addActionListener(this::visibleWindowEdit);
-        btnEdit.addActionListener(this::removeDataTable);
+//        btnEdit.addActionListener(this::removeDataTable);
     }
 
     /*
