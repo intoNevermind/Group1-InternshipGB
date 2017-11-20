@@ -154,4 +154,29 @@ public class AdminUiKeywordController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(updatedRows);
     }
+
+    /**
+     * Получение списка ключевых слов по идентификатору личности.
+     *
+     * @param id уникальный иднтификатр личности.
+     * @return Список TableKeywords или ошибку.
+     */
+    @RequestMapping(value = {"/admin/ui/getKeywordsByPersonId", "/unauthorized/admin/ui/getKeywordsByPersonId"})
+    public ResponseEntity<?> getKeywordsByPersonId(@RequestParam(value = "id") Integer id) {
+        if (id == null) {
+            LOG.warn("Error in /admin/ui/getKeywordsByPersonId. id == null");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error in /admin/ui/getKeywordsByPersonId. id == null");
+        }
+
+        try {
+            List<TableKeywords> resultList = adminUiDbOperations.getKeywordsByPersonId(id);
+            return new ResponseEntity<>(resultList, HttpStatus.OK);
+        } catch (SQLException e) {
+            LOG.warn("Error at run getKeywordsByPersonId.");
+            e.printStackTrace();
+            return new ResponseEntity<>("Error at run getKeywordsByPersonId.", HttpStatus.BAD_REQUEST);
+        }
+
+    }
 }

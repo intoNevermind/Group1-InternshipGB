@@ -280,6 +280,33 @@ public class AdminUiDbOperations {
     }
 
     /**
+     * Получение списка ключевых слов по идентификатору личности.
+     *
+     * @param id идентификатор личности.
+     * @return список ключевых слов.
+     * @throws SQLException
+     */
+    public List<TableKeywords> getKeywordsByPersonId(int id) throws SQLException {
+        List<TableKeywords> resultList = new ArrayList<>();
+
+        LOG.info("SELECT \"ID\", \"Name\", \"PersonID\" FROM keywords WHERE \"PersonID\" = " + id);
+        String sqlQuery = "SELECT \"ID\", \"Name\", \"PersonID\" FROM keywords WHERE \"PersonID\" = (?);";
+
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setInt(1, id);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        while (resultSet.next()) {
+            resultList.add(new TableKeywords(resultSet.getInt("ID"),
+                    resultSet.getInt("PersonID"),
+                    resultSet.getString("Name")));
+        }
+        preparedStatement.close();
+
+        return resultList;
+    }
+
+    /**
      * Получение списка всех пользователей.
      *
      * @return список всех пользователей.
