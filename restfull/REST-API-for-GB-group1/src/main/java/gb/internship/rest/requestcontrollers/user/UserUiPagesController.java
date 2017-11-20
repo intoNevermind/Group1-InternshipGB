@@ -29,26 +29,21 @@ public class UserUiPagesController {
        usersUiDbOperation = new UsersUiDbOperation();
    }
 
+//
+//   @RequestMapping (value = {"{/user/ui/getPersonsOfLastScanDate",
+//           "/unauthorized/user/ui/getPersonsOfLastScanDate"})
+//        public  List<TablePages> getPersons(){
+//       List<TablePages> resultlist = new ArrayList<>();
+//       try {
+//           resultlist = usersUiDbOperation.getPersonsOfLastScanDate();
+//
+//       }catch (SQLException e){
+//           e.printStackTrace();
+//            }
+//            return resultlist;
+//   }
 
-   @RequestMapping (value = {"{/user/ui/getPersonsOfLastScanDate",
-           "/unauthorized/user/ui/getPersonsOfLastScanDate"})
-        public  List<TablePages> getPersons(){
-       List<TablePages> resultlist = new ArrayList<>();
-       try {
-           resultlist = UsersUiDbOperation.getPersonsOfLastScanDate();
-
-       }catch (SQLException e){
-           e.printStackTrace();
-            }
-            return resultlist;
-   }
-
-
-
-
-
-
-    }
+}
 
 
 
