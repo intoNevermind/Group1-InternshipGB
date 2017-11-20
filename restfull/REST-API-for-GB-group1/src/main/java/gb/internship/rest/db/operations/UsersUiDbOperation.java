@@ -1,10 +1,8 @@
 package gb.internship.rest.db.operations;
 
-import gb.internship.rest.dataobjects.PersonGeneralStatistic;
-import gb.internship.rest.dataobjects.TableKeywords;
-import gb.internship.rest.dataobjects.TablePersonPageRank;
-import gb.internship.rest.dataobjects.TablePersons;
+import gb.internship.rest.dataobjects.*;
 import gb.internship.rest.db.DbWrapper;
+import javafx.scene.control.Tab;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -147,17 +145,19 @@ public class UsersUiDbOperation {
      * Получаем ежедневную статистику
      */
 
-    private Date getPersonsOfLastScanDate(java.util.Date lastscandate, String name) throws SQLException {
-        Date result = null;
+    public List<TablePages> getPersonsOfLastScanDate(Date lastscandate, String name) throws SQLException {
+        List<TablePages> result = new ArrayList<>();
         LOG.info("SELECT * FROM (SELECT * FROM pages WHERE lastscandate = " + lastscandate + " SELECT * FROM persons WHERE name = " + name + ";");
         String sqlQuery = "SELECT * FROM (SELECT * FROM pages WHERE lastscandate = ? SELECT * FROM persons WHERE name =?)";
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-        preparedStatement.setDate(1, (Date) lastscandate);
+        preparedStatement.setDate(1, lastscandate);
         preparedStatement.setString(2, name);
         ResultSet resultSet = preparedStatement.executeQuery();
 
         while (resultSet.next()) {
-            result = resultSet.getDate("lastscandate");
+            result.add(new TablePages(resultSet.getDate("lastscandate"),
+                    resultSet.getString("name")));
+
         }
         preparedStatement.close();
 
