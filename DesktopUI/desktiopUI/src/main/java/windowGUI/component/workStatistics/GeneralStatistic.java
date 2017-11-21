@@ -13,6 +13,9 @@ public class GeneralStatistic extends Statistics{
     private static final String NAME_TAB = "Общая статистика";
 
     private static String nameSite;
+    private JTable dataTable;
+    private JScrollPane dataScrollPane;
+    private String[] columnNames;
 
     public GeneralStatistic() {
         setTabName(NAME_TAB);
@@ -29,6 +32,8 @@ public class GeneralStatistic extends Statistics{
 
         getGBL().setConstraints(getBtnConfirm(),getCGBL().configGBC(REMAINDER,true));
         getOptionsPanel().add(getBtnConfirm());
+        getGBL().setConstraints(getBtnRefresh(), getCGBL().configGBC(REMAINDER,true));
+        getOptionsPanel().add(getBtnRefresh());
     }
 
     @Override
@@ -45,10 +50,21 @@ public class GeneralStatistic extends Statistics{
                     getEmptyFields(),
                     JOptionPane.WARNING_MESSAGE);
         }
+        removeDataTable(dataScrollPane);
+        initDataTable();
+    }
+
+    @Override
+    public void refreshDataTable(ActionEvent actionEvent) {
+        removeDataTable(dataScrollPane);
+        initDataTable();
+    }
+
+    @Override
+    public void initDataTable() {
         dataTable = new JTable(getPPersonPageRankT().getArrayFillTable(nameSite, columnNames.length), columnNames);
         dataScrollPane = new JScrollPane(dataTable);
         getPanelStat().add(dataScrollPane, BorderLayout.CENTER);
-        dataScrollPane.setVisible(true);
         getPanelStat().updateUI();
     }
 }

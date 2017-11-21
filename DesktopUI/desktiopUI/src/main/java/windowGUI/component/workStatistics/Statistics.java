@@ -47,10 +47,7 @@ public abstract class Statistics {
     private final MyCalendar finishCalendar = new MyCalendar();
 
     private final JButton btnConfirm = new JButton(" Подтвердить");
-
-    String[] columnNames;
-    JTable dataTable;
-    JScrollPane dataScrollPane;
+    private final JButton btnRefresh = new JButton("Обновить");
 
     Statistics() {
         MY_STYLE.setStyle(getListComponents());
@@ -61,7 +58,7 @@ public abstract class Statistics {
         fillOptionsPanel();
 
         addActionListenerForListSite();
-        btnConfirm.addActionListener(this::visibleDataTable);
+        addActionListenerForBtn();
     }
 
     /*
@@ -82,8 +79,8 @@ public abstract class Statistics {
         listComponent.add(finishCalendar);
 
         listComponent.add(btnConfirm);
+        listComponent.add(btnRefresh);
 
-        listComponent.add(dataTable);
         return listComponent;
     }
 
@@ -91,6 +88,8 @@ public abstract class Statistics {
      * <абстрактные методы>
      * */
     public abstract void fillOptionsPanel();// заполняет панэль опций
+    public abstract void initDataTable();// инициализирует таблицу данных
+    public abstract void refreshDataTable(ActionEvent actionEvent);//обновляет таблицу данных
     public abstract void visibleDataTable(ActionEvent actionEvent);//делает видимой таблицу с данными
     /*
      * </абстрактные методы>
@@ -104,7 +103,7 @@ public abstract class Statistics {
     /*
      * метод, удаляющий таблицу с данными
      * */
-    private void removeDataTable(ActionEvent actionEvent) {
+    void removeDataTable(JScrollPane dataScrollPane) {
         for (int i = 0; i < getPanelStat().getComponents().length; i++) {
             if(getPanelStat().getComponents()[i].equals(dataScrollPane)){
                 getPanelStat().remove(dataScrollPane);
@@ -118,7 +117,14 @@ public abstract class Statistics {
      * */
     private void addActionListenerForListSite(){
         listSite.addActionListener(this::initNameSites);
-        listSite.addActionListener(this::removeDataTable);
+    }
+
+    /*
+     * метод, добавляющий листенеры для кнопок
+     * */
+    private void addActionListenerForBtn(){
+        btnConfirm.addActionListener(this::visibleDataTable);
+        btnRefresh.addActionListener(this::refreshDataTable);
     }
     /*
      * </общие методы>
@@ -132,14 +138,13 @@ public abstract class Statistics {
     public void initNamePerson(ActionEvent actionEvent){}// инициализирует имя личности
     public void initStartDate(PropertyChangeEvent evt){}// инициализирует начальную дату
     public void initFinishDate(PropertyChangeEvent evt){}// инициализирует конечную дату
-    public void removeDataTable(PropertyChangeEvent evt){}// удаляет таблицу с данными(перегруженный)
+    public void outTotalNumberPages(){}// выводит общее количество найденных страниц
 
-     /*
+    /*
      * метод, добавляющий листенеры для выпадающего списка личностей
      * */
     void addActionListenerForListPerson(){
         listPersons.addActionListener(this::initNamePerson);
-        listPersons.addActionListener(this::removeDataTable);
     }
 
     /*
@@ -147,9 +152,7 @@ public abstract class Statistics {
      * */
     void addActionListenerForCalendars(){
         startCalendar.getDateEditor().addPropertyChangeListener("date",this::initStartDate);
-        startCalendar.getDateEditor().addPropertyChangeListener("date", this::removeDataTable);
         finishCalendar.getDateEditor().addPropertyChangeListener("date",this::initFinishDate);
-        finishCalendar.getDateEditor().addPropertyChangeListener("date", this::removeDataTable);
     }
     /*
      * </специфичные методы>
@@ -218,6 +221,9 @@ public abstract class Statistics {
 
     JButton getBtnConfirm() {
         return btnConfirm;
+    }
+    JButton getBtnRefresh() {
+        return btnRefresh;
     }
     /*
      * </getters and setters>

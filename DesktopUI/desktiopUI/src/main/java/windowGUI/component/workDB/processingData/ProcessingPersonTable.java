@@ -11,14 +11,14 @@ public class ProcessingPersonTable extends ProcessingData{
 
     private static ArrayList<String> listNameFromPersons;
     private static LinkedHashMap<Integer, String> listIdAndNameFromPersons;
-    private static LinkedHashMap<String, Boolean> LISTlistNameAndActiveFromPersons;
+    private static LinkedHashMap<String, Boolean> listNameAndActiveFromPersons;
 
     public ProcessingPersonTable() {
         System.out.println("конструктор ProcessingPersonTable");
         PersonsTable.infoAllPersons();
         listNameFromPersons = PersonsTable.getListName();
         listIdAndNameFromPersons = PersonsTable.getListIDAndName();
-        LISTlistNameAndActiveFromPersons = PersonsTable.getListNameAndActive();
+        listNameAndActiveFromPersons = PersonsTable.getListNameAndActive();
     }
 
     /*
@@ -29,7 +29,7 @@ public class ProcessingPersonTable extends ProcessingData{
         namePersons[0] = getNotChosen();
 
         for (int i = 0; i < listNameFromPersons.size(); i++) {
-            if(LISTlistNameAndActiveFromPersons.get(listNameFromPersons.get(i)))
+            if(listNameAndActiveFromPersons.get(listNameFromPersons.get(i)))
             namePersons[i+1] = listNameFromPersons.get(i);
         }
         return namePersons;
@@ -56,6 +56,6 @@ public class ProcessingPersonTable extends ProcessingData{
      * метод, возвращающий активность личности по имени личности
      * */
     public boolean getActivePersonByNamePerson(String namePerson){
-        return getActiveByName(namePerson, LISTlistNameAndActiveFromPersons);
+        return getActiveByName(namePerson, listNameAndActiveFromPersons);
     }
 }

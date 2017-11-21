@@ -83,7 +83,11 @@ public class UsersTable extends ConnectServer{
         try {
             Response<ResponseBody> response = REST_API_FOR_USERS_TABLE.addUser(userLogin, userAdmin,userPassword, userActive).execute();
             System.out.println(response.raw());
-            response.body().close();
+            if (response.isSuccessful()){
+                response.body().string();
+            }else {
+                response.body().close();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

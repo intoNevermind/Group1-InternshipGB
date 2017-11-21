@@ -12,7 +12,7 @@ import java.awt.event.ActionEvent;
 public class DelPersonWindow extends EditingDirectoryWindow {
 
     private static final PersonsDirectory PERSON_DIRECTORY = new PersonsDirectory();
-    private static final PersonsTable PERSON_TABLE = new PersonsTable();
+
     private int personID;
 
     public DelPersonWindow(String windowTitle,String namePerson, int personID) {
@@ -28,7 +28,7 @@ public class DelPersonWindow extends EditingDirectoryWindow {
     @Override
     public void saveEditing(ActionEvent actionEvent) {
         PersonsTable.delPerson(personID);
-        PERSON_DIRECTORY.getPanelDirectory().updateUI();
+        PERSON_DIRECTORY.visibleDataTable(actionEvent);
         getWindow().dispose();
     }
 }

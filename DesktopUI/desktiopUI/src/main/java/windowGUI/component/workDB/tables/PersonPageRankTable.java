@@ -32,11 +32,12 @@ public class PersonPageRankTable extends ConnectServer {
         PersonsTable.infoAllPersons();
         ArrayList<Integer> listIdPersons = PersonsTable.getListID();
         for (int i = 0; i < listIdPersons.size() ; i++) {
-            LIST_PERSON_ID.add(listIdPersons.get(i));
             try {
                 Response<ArrayList<PojoPersonPageRank>> response = REST_API_FOR_PERSON_PAGE_RANK_TABLE.getPersonPageRankByPersonId(listIdPersons.get(i)).execute();
+
                 ArrayList<PojoPersonPageRank> list = response.body();
                 for (int j = 0; j < list.size(); j++) {
+                    LIST_PERSON_ID.add(listIdPersons.get(i));
                     LIST_PAGE_ID.add(list.get(j).getPageID());
                     LIST_RANK.add(list.get(j).getRank());
                 }

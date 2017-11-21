@@ -19,14 +19,13 @@ public class KeyWordsDirectory extends Directory{
 
     private static String namePerson;
     private static String nameKeyWord ;
+    private JTable dataTable;
+    private JScrollPane dataScrollPane;
 
     public KeyWordsDirectory() {
         setNameTab(NAME_TAB);
 
-        fillOptionsPanel();
-
         addActionListenerForListPerson();
-        getBtnConfirm().addActionListener(this::visibleDataTable);
     }
 
     @Override
@@ -38,6 +37,8 @@ public class KeyWordsDirectory extends Directory{
 
         getGBL().setConstraints(getBtnConfirm(), getCGBL().configGBC(REMAINDER,true));
         getOptionsPanel().add(getBtnConfirm());
+        getGBL().setConstraints(getBtnRefresh(), getCGBL().configGBC(REMAINDER,true));
+        getOptionsPanel().add(getBtnRefresh());
     }
 
     @Override
@@ -54,12 +55,13 @@ public class KeyWordsDirectory extends Directory{
                     "Не инициализированы поля",
                     JOptionPane.WARNING_MESSAGE);
         }
-        for (int i = 0; i <  getPanelDirectory().getComponents().length; i++) {
-            if( getPanelDirectory().getComponents()[i].equals(dataScrollPane)){
-                getPanelDirectory().remove(dataScrollPane);
-            }
-        }
 
+        removeDataTable(dataScrollPane);
+        initDataTable();
+    }
+
+    @Override
+    public void initDataTable(){
         dataTable = new JTable(getPKeyWordsT().getArrayFillTable(namePerson, getColumnNames().length), getColumnNames());
         dataScrollPane = new JScrollPane(dataTable);
         getPanelDirectory().add(dataScrollPane, BorderLayout.CENTER);
@@ -69,13 +71,19 @@ public class KeyWordsDirectory extends Directory{
     }
 
     @Override
+    public void refreshDataTable(ActionEvent actionEvent) {
+        removeDataTable(dataScrollPane);
+        initDataTable();
+    }
+
+    @Override
     public void visibleWindowAdd(ActionEvent actionEvent){
         if(namePerson == null || namePerson.equals("Не выбранно")){
             JOptionPane.showMessageDialog(null,
                     "Для добавления ключевых слов необходимо выбрать \""  + getHeadLinePerson().getText() + "\" ",
                     "Не инициализированы поля",
                     JOptionPane.WARNING_MESSAGE);
-        }else {
+        }else{
             new AddKeyWordWindow(getBtnAdd().getText() + " новое ключевое слово для личности: " + namePerson,
                     getPPersonT().getIDPersonByNamePerson(namePerson));
         }
@@ -95,8 +103,9 @@ public class KeyWordsDirectory extends Directory{
                     "Для удаления ключевого слова необходимо выбрать ключевое слово из списка",
                     "Не инициализированы поля",
                     JOptionPane.WARNING_MESSAGE);
-        }else {
+        }else{
             new DelKeyWordWindow(getBtnDelete().getText() + " ключевое слово ", nameKeyWord, getPKeyWordsT().getIDKeyWordByNameKeyWord(nameKeyWord));
+            nameKeyWord = null;
         }
     }
 
@@ -107,12 +116,12 @@ public class KeyWordsDirectory extends Directory{
                     "Для редактирования ключевого слова необходимо выбрать ключевое слово из списка",
                     "Не инициализированы поля",
                     JOptionPane.WARNING_MESSAGE);
-        }else {
+        }else{
             new EditKeyWordWindow(getBtnEdit().getText() + " ключевое слово ",
                     nameKeyWord,
                     getPKeyWordsT().getIDKeyWordByNameKeyWord(nameKeyWord),
                     getPPersonT().getIDPersonByNamePerson(namePerson));
-
+            nameKeyWord = null;
         }
     }
 }

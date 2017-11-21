@@ -48,7 +48,6 @@ public class AddSiteWindow extends EditingDirectoryWindow {
     public void saveEditing(ActionEvent actionEvent) {
         if(getNameField().getText() != null) SitesTable.addSite(getNameField().getText(), getUrlField().getText(),getActive().isSelected());
 
-        SITES_DIRECTORY.getPanelDirectory().updateUI();
         getNameField().setText(null);
         getWindow().dispose();
     }

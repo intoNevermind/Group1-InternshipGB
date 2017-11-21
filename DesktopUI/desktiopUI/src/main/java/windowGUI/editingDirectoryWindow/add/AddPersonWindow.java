@@ -42,8 +42,7 @@ public class AddPersonWindow extends EditingDirectoryWindow {
     @Override
     public void saveEditing(ActionEvent actionEvent) {
         if(getNameField().getText() != null) PersonsTable.addPerson(getNameField().getText(),getActive().isSelected());
-
-        PERSON_DIRECTORY.getPanelDirectory().updateUI();
+        PERSON_DIRECTORY.visibleDataTable(actionEvent);
         getNameField().setText(null);
         getWindow().dispose();
     }

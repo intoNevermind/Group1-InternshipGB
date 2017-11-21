@@ -39,13 +39,12 @@ public abstract class Directory {
     private final JComboBox<String> listPersons = new JComboBox<>(P_PERSON_T.getArrayNamePersons());
 
     private final JButton btnConfirm = new JButton("Подтвердить");
+    private final JButton btnRefresh = new JButton("Обновить");
     private final JButton btnAdd = new JButton("Добавить");
     private final JButton btnDelete = new JButton("Удалить");
     private final JButton btnEdit = new JButton("Редактировать");
-    private final String[] columnNames = new String[]{"Наименование"};
 
-    JTable dataTable;
-    JScrollPane dataScrollPane;
+    private final String[] columnNames = new String[]{"Наименование"};
 
     Directory() {
         MY_STYLE.setStyle(getListComponents());
@@ -53,9 +52,10 @@ public abstract class Directory {
         panelDirectory.setPreferredSize(new Dimension(PANEL_DIRECTORY_SIZE_WIDTH, PANEL_DIRECTORY_SIZE_HEIGHT));
         panelDirectory.add(optionsPanel, BorderLayout.NORTH);
         panelDirectory.add(btnPanel,BorderLayout.SOUTH);
-        panelDirectory.updateUI();
 
+        fillOptionsPanel();
         fillBtnPanel();
+
         addActionListenerForBtn();
     }
 
@@ -69,19 +69,22 @@ public abstract class Directory {
         listComponent.add(listPersons);
 
         listComponent.add(btnConfirm);
+        listComponent.add(btnRefresh);
         listComponent.add(btnAdd);
         listComponent.add(btnDelete);
         listComponent.add(btnEdit);
 
-        listComponent.add(dataTable);
         return listComponent;
     }
 
     /*
      * <абстрактные методы>
      * */
-    public abstract void visibleWindowAdd(ActionEvent actionEvent);// вызывает окно добавления элемента
+    public abstract void fillOptionsPanel();// заполняет панель опций
+    public abstract void initDataTable();// инициализирует таблицу данных
+    public abstract void refreshDataTable(ActionEvent actionEvent);//обновляет таблицу данных
     public abstract void initSelectedRow(ListSelectionEvent selectionEvent);// инициализирует строку таблицы
+    public abstract void visibleWindowAdd(ActionEvent actionEvent);// вызывает окно добавления элемента
     public abstract void visibleWindowDel(ActionEvent actionEvent);// вызывает окно удаления элемента
     public abstract void visibleWindowEdit(ActionEvent actionEvent);// вызывает окно редактирования элемента
     /*
@@ -102,20 +105,28 @@ public abstract class Directory {
         btnPanel.add(btnDelete);
     }
 
-
-
     /*
      * метод, добавляющий листенеры для кнопок
      * */
     private void addActionListenerForBtn(){
+        btnConfirm.addActionListener(this::visibleDataTable);
+        btnRefresh.addActionListener(this::refreshDataTable);
         btnAdd.addActionListener(this::visibleWindowAdd);
-//        btnAdd.addActionListener(this::removeDataTable);
         btnDelete.addActionListener(this::visibleWindowDel);
-//        btnDelete.addActionListener(this::removeDataTable);
         btnEdit.addActionListener(this::visibleWindowEdit);
-//        btnEdit.addActionListener(this::removeDataTable);
     }
 
+    /*
+     * метод, удаляющий таблицу с данными
+     * */
+    void removeDataTable(JScrollPane dataScrollPane){
+        for (int i = 0; i <  getPanelDirectory().getComponents().length; i++) {
+            if( getPanelDirectory().getComponents()[i].equals(dataScrollPane)){
+                getPanelDirectory().remove(dataScrollPane);
+            }
+        }
+        getPanelDirectory().updateUI();
+    }
     /*
      * </общие методы>
      * */
@@ -124,7 +135,7 @@ public abstract class Directory {
      * <специфичные методы>
      * специфичные методы, которые могут быть в классе-справочнике
      * */
-    public void fillOptionsPanel(){}// заполняет панель опций
+
     public void initNamePerson(ActionEvent actionEvent){}// инициализирует имя личности
     public void visibleDataTable(ActionEvent actionEvent){}// делает видимой таблицу с данными
 
@@ -133,20 +144,8 @@ public abstract class Directory {
      * */
     void addActionListenerForListPerson(){
         listPersons.addActionListener(this::initNamePerson);
-        listPersons.addActionListener(this::removeDataTable);
     }
 
-    /*
-     * метод, удаляющий таблицу с данными
-     * */
-    private void removeDataTable(ActionEvent actionEvent) {
-        for (int i = 0; i <  panelDirectory.getComponents().length; i++) {
-            if( panelDirectory.getComponents()[i].equals(dataScrollPane)){
-                panelDirectory.remove(dataScrollPane);
-            }
-        }
-        panelDirectory.updateUI();
-    }
     /*
      * </специфичные методы>
      * */
@@ -174,9 +173,6 @@ public abstract class Directory {
     JPanel getOptionsPanel() {
         return optionsPanel;
     }
-    private JPanel getBtnPanel() {
-        return btnPanel;
-    }
 
     static ProcessingPersonTable getPPersonT() {
         return P_PERSON_T;
@@ -198,6 +194,9 @@ public abstract class Directory {
 
     JButton getBtnConfirm() {
         return btnConfirm;
+    }
+    JButton getBtnRefresh() {
+        return btnRefresh;
     }
     JButton getBtnAdd() {
         return btnAdd;

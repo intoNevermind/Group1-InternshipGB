@@ -18,10 +18,10 @@ public class AddKeyWordWindow extends EditingDirectoryWindow {
 
     public AddKeyWordWindow(String windowTitle, int personID) {
         this.personID = personID;
-        System.out.println("Конструктор Добавления ключевого слова");
-        KeyWordsTable.infoAllKeyWords();
 
         new ConfigurationsWindowGUI().setConfigWindow(getWindow(), windowTitle, getSizeWidth(), getSizeHeight());
+
+        KeyWordsTable.infoAllKeyWords();
 
         fillAddPanels();
         getWindow().add(getTextFieldPanel(), BorderLayout.CENTER);
@@ -44,7 +44,7 @@ public class AddKeyWordWindow extends EditingDirectoryWindow {
     public void saveEditing(ActionEvent actionEvent) {
         if(getNameField().getText() != null) KeyWordsTable.addKeyWord(getNameField().getText(), personID);
 
-        KEY_WORDS_DIRECTORY.getPanelDirectory().updateUI();
+        KEY_WORDS_DIRECTORY.visibleDataTable(actionEvent);
         getNameField().setText(null);
         getWindow().dispose();
     }

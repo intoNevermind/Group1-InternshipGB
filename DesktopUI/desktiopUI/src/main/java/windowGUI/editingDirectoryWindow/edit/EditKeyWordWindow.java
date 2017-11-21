@@ -25,7 +25,7 @@ public class EditKeyWordWindow extends EditingDirectoryWindow {
         this.personID = personID;
 
         new ConfigurationsWindowGUI().setConfigWindow(getWindow(), windowTitle, getSizeWidth(), getSizeHeight());
-        System.out.println("Конструктор Редактирования ключевого слова");
+
         KeyWordsTable.infoAllKeyWords();
 
         fillEditPanels();
@@ -51,7 +51,8 @@ public class EditKeyWordWindow extends EditingDirectoryWindow {
     public void saveEditing(ActionEvent actionEvent) {
         if(getNameField().getText() != null ) KeyWordsTable.modifyKeyWord(keyWordID, nameKeyWords,personID);
 
-        KEY_WORDS_DIRECTORY.getPanelDirectory().updateUI();
+        KEY_WORDS_DIRECTORY.visibleDataTable(actionEvent);
+        getNameField().setText(null);
         getWindow().dispose();
     }
 }

@@ -18,7 +18,7 @@ public class DelKeyWordWindow extends EditingDirectoryWindow {
         this.keyWordID = keyWordID;
 
         new ConfigurationsWindowGUI().setConfigWindow(getWindow(), windowTitle, getSizeWidth(), getSizeHeight());
-        System.out.println("Конструктор Удаления ключевого слова");
+
         KeyWordsTable.infoAllKeyWords();
 
         fillDelPanels(nameKeyWord);
@@ -27,7 +27,7 @@ public class DelKeyWordWindow extends EditingDirectoryWindow {
     @Override
     public void saveEditing(ActionEvent actionEvent) {
         KeyWordsTable.delKeyWord(keyWordID);
-        KEY_WORDS_DIRECTORY.getPanelDirectory().updateUI();
+        KEY_WORDS_DIRECTORY.visibleDataTable(actionEvent);
         getWindow().dispose();
     }
 }

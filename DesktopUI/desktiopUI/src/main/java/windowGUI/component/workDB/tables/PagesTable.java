@@ -31,37 +31,37 @@ public class PagesTable extends ConnectServer {
      * метод, заполняющий списки данными из БД(REST-сервер еще не написал запрос)
      * */
     public static void infoAllPages(){
-//        LIST_ID.clear();
-//        LIST_SITE_ID.clear();
-//        LIST_FOUND_DATE_TIME.clear();
-//        try {
-//            Response<ArrayList<PojoPages>> responseID = REST_API_FOR_PAGES_TABLE.getListIDFromPagesTable().execute();
-//            ArrayList<PojoPages> listID = responseID.body();
-//            if(listID.size() > 0){
-//                for (int i = 0; i < listID.size(); i++) {
-//                    LIST_ID.add(listID.get(i).getId());
-//                }
-//            }
-//
-//            Response<ArrayList<PojoPages>> responseSiteID = REST_API_FOR_PAGES_TABLE.getListSiteIDFromPagesTable().execute();
-//            ArrayList<PojoPages> listSiteID = responseSiteID.body();
-//            if(listSiteID.size() > 0){
-//                for (int i = 0; i < listSiteID.size(); i++) {
-//                    LIST_SITE_ID.add(listSiteID.get(i).getSiteId());
-//                }
-//            }
-//
-//            Response<ArrayList<PojoPages>> responseFoundDateTime = REST_API_FOR_PAGES_TABLE.getListFoundDateTimeFromPagesTable().execute();
-//            ArrayList<PojoPages> listFoundDateTime = responseFoundDateTime.body();
-//            if(listFoundDateTime.size() > 0){
-//                for (int i = 0; i < listFoundDateTime.size(); i++) {
-//                    LIST_FOUND_DATE_TIME.add(listFoundDateTime.get(i).getFoundDateTime());
-//                }
-//            }
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        LIST_ID.clear();
+        LIST_SITE_ID.clear();
+        LIST_FOUND_DATE_TIME.clear();
+        try {
+            Response<ArrayList<PojoPages>> responseID = REST_API_FOR_PAGES_TABLE.getListIDFromPagesTable().execute();
+            ArrayList<PojoPages> listID = responseID.body();
+            if(listID.size() > 0){
+                for (int i = 0; i < listID.size(); i++) {
+                    LIST_ID.add(listID.get(i).getId());
+                }
+            }
+
+            Response<ArrayList<PojoPages>> responseSiteID = REST_API_FOR_PAGES_TABLE.getListSiteIDFromPagesTable().execute();
+            ArrayList<PojoPages> listSiteID = responseSiteID.body();
+            if(listSiteID.size() > 0){
+                for (int i = 0; i < listSiteID.size(); i++) {
+                    LIST_SITE_ID.add(listSiteID.get(i).getSiteId());
+                }
+            }
+
+            Response<ArrayList<PojoPages>> responseFoundDateTime = REST_API_FOR_PAGES_TABLE.getListFoundDateTimeFromPagesTable().execute();
+            ArrayList<PojoPages> listFoundDateTime = responseFoundDateTime.body();
+            if(listFoundDateTime.size() > 0){
+                for (int i = 0; i < listFoundDateTime.size(); i++) {
+                    LIST_FOUND_DATE_TIME.add(listFoundDateTime.get(i).getFoundDateTime());
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /*

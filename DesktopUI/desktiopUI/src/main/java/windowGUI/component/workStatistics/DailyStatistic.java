@@ -19,6 +19,9 @@ public class DailyStatistic extends Statistics{
     private static String namePerson;
     private static String startDate;
     private static String finishDate;
+    private JTable dataTable;
+    private JScrollPane dataScrollPane;
+    private String[] columnNames;
 
     public DailyStatistic() {
         setTabName(NAME_TAB);
@@ -53,6 +56,8 @@ public class DailyStatistic extends Statistics{
 
         getGBL().setConstraints(getBtnConfirm(), getCGBL().configGBC(REMAINDER,true));
         getOptionsPanel().add(getBtnConfirm());
+        getGBL().setConstraints(getBtnRefresh(), getCGBL().configGBC(REMAINDER,true));
+        getOptionsPanel().add(getBtnRefresh());
     }
 
     @Override
@@ -90,25 +95,32 @@ public class DailyStatistic extends Statistics{
                     getEmptyFields(),
                     JOptionPane.WARNING_MESSAGE);
         }
+
+        removeDataTable(dataScrollPane);
+        initDataTable();
+        outTotalNumberPages();
+    }
+
+    @Override
+    public void refreshDataTable(ActionEvent actionEvent) {
+        removeDataTable(dataScrollPane);
+        initDataTable();
+        outTotalNumberPages();
+    }
+
+    @Override
+    public void initDataTable() {
         dataTable = new JTable(getPPersonPageRankT().getArrayFillTable(nameSite,namePerson,startDate,finishDate, columnNames.length), columnNames);
         dataScrollPane = new JScrollPane(dataTable);
         getPanelStat().add(dataScrollPane, BorderLayout.CENTER);
-        dataScrollPane.setVisible(true);
+    }
 
+    @Override
+    public void outTotalNumberPages(){
         getNumberPagesTotal().setText("Общее количество новых страниц за выбранный период: " +
                 getPPersonPageRankT().getNumberPagesTotal(nameSite,namePerson,startDate,finishDate));
         getPanelStat().add(getNumberPagesTotal(), BorderLayout.SOUTH);
         getNumberPagesTotal().setVisible(true);
-        getPanelStat().updateUI();
-    }
-
-    @Override
-    public void removeDataTable(PropertyChangeEvent evt){
-        for (int i = 0; i < getPanelStat().getComponents().length; i++) {
-            if(getPanelStat().getComponents()[i].equals(dataScrollPane)){
-                getPanelStat().remove(dataScrollPane);
-            }
-        }
         getPanelStat().updateUI();
     }
 }

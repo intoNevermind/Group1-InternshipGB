@@ -1,7 +1,5 @@
 package windowGUI.component.workDB.tables;
 
-import retrofit2.Call;
-import retrofit2.Callback;
 import windowGUI.component.workDB.restApi.PojoKeyWords;
 import windowGUI.component.workDB.restApi.RestApiForKeyWordsTable;
 
@@ -10,7 +8,6 @@ import retrofit2.Response;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 
 /*
  * Класс-таблица, отвечающий за получение(отправку) данных из таблицы KeyWords, в REST-сервер
@@ -36,12 +33,12 @@ public class KeyWordsTable extends ConnectServer {
         LIST_PERSON_ID.clear();
         try {
             Response<ArrayList<PojoKeyWords>> response = REST_API_FOR_KEY_WORDS_TABLE.getListAllKeyWords().execute();
+
             ArrayList<PojoKeyWords> list = response.body();
             for (int i = 0; i < list.size(); i++) {
                 LIST_ID.add(list.get(i).getId());
                 LIST_NAME.add(list.get(i).getName());
                 LIST_PERSON_ID.add(list.get(i).getPersonId());
-
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -60,12 +57,11 @@ public class KeyWordsTable extends ConnectServer {
      * метод, добавляющий ключевое слово
      * */
     public static void addKeyWord(String nameKeyWord, int personID){
-        Response<ResponseBody> response = null;
         try {
-            response = REST_API_FOR_KEY_WORDS_TABLE.addKeyWord(nameKeyWord,personID).execute();
+            Response<ResponseBody> response = REST_API_FOR_KEY_WORDS_TABLE.addKeyWord(nameKeyWord,personID).execute();
 
-            System.out.println(response.raw());
-            response.body().close();
+            if (response.isSuccessful())response.body().string();
+            else response.body().close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -77,8 +73,9 @@ public class KeyWordsTable extends ConnectServer {
     public static void delKeyWord(int keyWordID){
         try {
             Response<ResponseBody> response = REST_API_FOR_KEY_WORDS_TABLE.delKeyWord(keyWordID).execute();
-            System.out.println(response.raw());
-            response.body().close();
+
+            if (response.isSuccessful())response.body().string();
+            else response.body().close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -90,8 +87,9 @@ public class KeyWordsTable extends ConnectServer {
     public static void modifyKeyWord(int keyWordID, String nameKeyWord , int personID){
         try {
             Response<ResponseBody> response = REST_API_FOR_KEY_WORDS_TABLE.modifyKeyWord(keyWordID, nameKeyWord,personID).execute();
-            System.out.println(response.raw());
-            response.body().close();
+
+            if (response.isSuccessful())response.body().string();
+            else response.body().close();
         } catch (IOException e) {
             e.printStackTrace();
         }

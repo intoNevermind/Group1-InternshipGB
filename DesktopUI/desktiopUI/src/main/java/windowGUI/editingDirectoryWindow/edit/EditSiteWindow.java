@@ -65,7 +65,7 @@ public class EditSiteWindow extends EditingDirectoryWindow {
             SitesTable.modifySite(sitesID,nameSites, urlSites,getActive().isSelected());
         }
 
-        SITES_DIRECTORY.getPanelDirectory().updateUI();
+        getNameField().setText(null);
         getWindow().dispose();
     }
 }

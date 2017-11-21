@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 import windowGUI.component.workDB.restApi.PojoPersons;
 import windowGUI.component.workDB.restApi.RestApiForPersonTable;
@@ -34,6 +32,7 @@ public class PersonsTable extends ConnectServer {
         LIST_ACTIVE.clear();
         try {
             Response<ArrayList<PojoPersons>> response = REST_API_FOR_PERSON_TABLE.getListAllPersons().execute();
+
             ArrayList<PojoPersons> list = response.body();
             for (int i = 0; i < list.size(); i++) {
                 LIST_ID.add(list.get(i).getId());
@@ -59,8 +58,9 @@ public class PersonsTable extends ConnectServer {
     public static void addPerson(String personName, boolean personActive){
         try {
             Response<ResponseBody> response = REST_API_FOR_PERSON_TABLE.addPerson(personName, personActive).execute();
-            System.out.println(response.raw());
-            response.body().close();
+
+            if (response.isSuccessful())response.body().string();
+            else response.body().close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -72,8 +72,9 @@ public class PersonsTable extends ConnectServer {
     public static void delPerson(int personID){
         try {
             Response<ResponseBody> response = REST_API_FOR_PERSON_TABLE.delPerson(personID).execute();
-            System.out.println(response.raw());
-            response.body().close();
+
+            if (response.isSuccessful())response.body().string();
+            else response.body().close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -85,8 +86,9 @@ public class PersonsTable extends ConnectServer {
     public static void modifyPerson(int personID, String personName, boolean personActive){
         try {
             Response<ResponseBody> response = REST_API_FOR_PERSON_TABLE.modifyPerson(personID, personName, personActive).execute();
-            System.out.println(response.raw());
-            response.body().close();
+
+            if (response.isSuccessful())response.body().string();
+            else response.body().close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -104,7 +106,6 @@ public class PersonsTable extends ConnectServer {
         }
         return LIST_ID_AND_NAME;
     }
-
     /*
      * метод, возвращающий связанный спискок имени и фктивности личности
      * */

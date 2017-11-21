@@ -49,7 +49,7 @@ public class ProcessingKeyWordsTable extends ProcessingData{
 
         for (int i = 0; i < listPersonIdFromKeyWords.size(); i++) {
             for (int j = 0; j < listIdAndNameFromPersons.size(); j++) {
-                if (namePerson.equals(listIdAndNameFromPersons.get(j+1))
+                if (namePerson.equals(listIdAndNameFromPersons.get(keysFromListIDAndNamePersons[j]))
                         && keysFromListIDAndNamePersons[j] == listPersonIdFromKeyWords.get(i))
                     listNameKeyWordsByNamePerson.add(listNameFromKeyWords.get(i));
             }
