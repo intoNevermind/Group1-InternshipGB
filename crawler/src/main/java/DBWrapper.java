@@ -323,11 +323,12 @@ public class DBWrapper {
         try {
             preparedStatement =
                     connection.prepareStatement("INSERT INTO personpagerank "
-                            + "(\"Rank\", \"PersonID\", \"PageID\") "
-                            + "VALUES (?, ?, ?) "
-                            + "ON CONFLICT (\"PersonID\", \"PageID\") DO UPDATE SET \"Rank\" = ? "
+                            + "(\"Rank\", \"PersonID\", \"PageID\", \"RankDate\") "
+                            + "VALUES (?, ?, ?, NOW()) "
+                            + "ON CONFLICT (\"PersonID\", \"PageID\", \"RankDate\") DO UPDATE SET \"Rank\" = ? "
                             + "WHERE personpagerank.\"PersonID\" = ? "
-                            + "AND personpagerank.\"PageID\" = ?");
+                            + "AND personpagerank.\"PageID\" = ? "
+                            + "AND personpagerank.\"RankDate\" = NOW()");
 
             preparedStatement.setInt(1, rank);
             preparedStatement.setInt(2, personId);
