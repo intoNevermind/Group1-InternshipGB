@@ -43,6 +43,8 @@ public class AddPersonWindow extends EditingDirectoryWindow {
     public void saveEditing(ActionEvent actionEvent) {
         if(getNameField().getText() != null) PersonsTable.addPerson(getNameField().getText(),getActive().isSelected());
 
+        PersonsTable.infoAllPersons();
+
         PERSON_DIRECTORY.visibleDataTable(actionEvent);
         getNameField().setText(null);
         getWindow().dispose();

@@ -99,7 +99,7 @@ public class SitesTable extends ConnectServer {
     public static void modifySite(int siteID, String siteName, String siteUrl, boolean siteActive){
         try {
             Response<ResponseBody> response = REST_API_FOR_SITES_TABLE.modifySite(siteID, siteName, siteUrl, siteActive).execute();
-
+            System.out.println(response.raw());
             if (response.isSuccessful())response.body().string();
             else response.body().close();
         } catch (IOException e) {

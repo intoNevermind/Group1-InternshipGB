@@ -16,7 +16,7 @@ public class AddSiteWindow extends EditingDirectoryWindow {
 
     public AddSiteWindow(String windowTitle) {
         new ConfigurationsWindowGUI().setConfigWindow(getWindow(), windowTitle, getSizeWidth(), getSizeHeight());
-        System.out.println("конструктор Добавление сайта");
+
         SitesTable.infoAllSites();
 
         fillAddPanels();
@@ -47,6 +47,8 @@ public class AddSiteWindow extends EditingDirectoryWindow {
     @Override
     public void saveEditing(ActionEvent actionEvent) {
         if(getNameField().getText() != null) SitesTable.addSite(getNameField().getText(), getUrlField().getText(),getActive().isSelected());
+
+        SitesTable.infoAllSites();
 
         SITES_DIRECTORY.visibleDataTable(actionEvent);
         getNameField().setText(null);

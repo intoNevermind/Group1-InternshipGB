@@ -93,7 +93,7 @@ public class PersonsTable extends ConnectServer {
     public static void modifyPerson(int personID, String personName, boolean personActive){
         try {
             Response<ResponseBody> response = REST_API_FOR_PERSON_TABLE.modifyPerson(personID, personName, personActive).execute();
-
+            System.out.println(response.raw());
             if (response.isSuccessful())response.body().string();
             else response.body().close();
         } catch (IOException e) {

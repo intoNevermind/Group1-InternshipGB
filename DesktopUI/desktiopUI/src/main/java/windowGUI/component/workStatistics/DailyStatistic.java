@@ -37,7 +37,9 @@ public class DailyStatistic extends Statistics{
     public void fillOptionsPanel() {
         getGBL().setConstraints(getHeadlineSite(), getCGBL().configGBC(EAST,1,false));
         getOptionsPanel().add(getHeadlineSite());
-        getGBL().setConstraints(getListSite(), getCGBL().configGBC(2,false));
+
+        setListSite(new JComboBox<>(getPSitesT().getArrayNameSites()));
+        getGBL().setConstraints(getListSite() , getCGBL().configGBC(2,false));
         getOptionsPanel().add(getListSite());
 
         getGBL().setConstraints(getHeadlinePersons(), getCGBL().configGBC(EAST,1,true));
@@ -103,7 +105,7 @@ public class DailyStatistic extends Statistics{
                     getEmptyFields(),
                     JOptionPane.WARNING_MESSAGE);
         }
-       refreshDataTable(actionEvent);
+        refreshDataTable(actionEvent);
     }
 
     @Override

@@ -42,8 +42,8 @@ public abstract class Statistics {
     private final JLabel headlineFinishPeriod = new JLabel(" по: ");
     private final JLabel numberPagesTotal = new JLabel();
 
-    private final JComboBox<Object> listSite = new JComboBox<>(P_SITES_T.getArrayNameSites());
-    private final JComboBox<Object> listPersons = new JComboBox<>(P_PERSON_T.getArrayNamePersons());
+    private JComboBox<Object> listSite = new JComboBox<>(P_SITES_T.getArrayNameSites());
+    private JComboBox<Object> listPersons = new JComboBox<>(P_PERSON_T.getArrayNamePersons());
 
     private final MyCalendar startCalendar = new MyCalendar();
     private final MyCalendar finishCalendar = new MyCalendar();
@@ -187,6 +187,12 @@ public abstract class Statistics {
         return optionsPanel;
     }
 
+    public ProcessingSitesTable getPSitesT() {
+        return P_SITES_T;
+    }
+    public ProcessingPersonTable getPPersonT() {
+        return P_PERSON_T;
+    }
     static ProcessingGeneralStatisticsTable getPGeneralStatisticsT() {
         return P_GENERAL_STATISTICS_T;
     }
@@ -210,6 +216,12 @@ public abstract class Statistics {
         return numberPagesTotal;
     }
 
+    public void setListSite(JComboBox<Object> listSite) {
+        this.listSite = listSite;
+    }
+    public void setListPersons(JComboBox<Object> listPersons) {
+        this.listPersons = listPersons;
+    }
     JComboBox<Object> getListSite() {
         return listSite;
     }

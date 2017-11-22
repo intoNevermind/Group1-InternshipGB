@@ -28,6 +28,8 @@ public class DelPersonWindow extends EditingDirectoryWindow {
     @Override
     public void saveEditing(ActionEvent actionEvent) {
         PersonsTable.delPerson(personID);
+
+        PersonsTable.infoAllPersons();
         PERSON_DIRECTORY.visibleDataTable(actionEvent);
         getWindow().dispose();
     }

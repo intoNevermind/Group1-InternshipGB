@@ -8,21 +8,15 @@ import java.util.LinkedHashMap;
  * Класс-обработчик, отвечающий за обработку данных таблицы Person
  * */
 public class ProcessingPersonTable extends ProcessingData{
-    private static ArrayList<String> listNameFromPersons;
-    private static LinkedHashMap<Integer, String> listIdAndNameFromPersons;
-    private static LinkedHashMap<String, Boolean> listNameAndActiveFromPersons;
-
-    public ProcessingPersonTable() {
-        PersonsTable.infoAllPersons();
-        listNameFromPersons = PersonsTable.getListName();
-        listIdAndNameFromPersons = PersonsTable.getListIDAndName();
-        listNameAndActiveFromPersons = PersonsTable.getListNameAndActive();
-    }
 
     /*
      * метод, возвращающий массив имен личностей для выпадающего списка личностей, в классах Directory и Statistics
      * */
     public String[] getArrayNamePersons(){
+        PersonsTable.infoAllPersons();
+        ArrayList<String> listNameFromPersons = PersonsTable.getListName();
+        LinkedHashMap<String, Boolean> listNameAndActiveFromPersons = PersonsTable.getListNameAndActive();
+
         String[] namePersons = new String[listNameFromPersons.size()+1];
         namePersons[0] = getNotChosen();
 
@@ -38,6 +32,9 @@ public class ProcessingPersonTable extends ProcessingData{
      * */
     @Override
     public Object[][] getArrayFillTable(int numberColumn){
+        PersonsTable.infoAllPersons();
+        ArrayList<String> listNameFromPersons = PersonsTable.getListName();
+
         if(numberColumn < 1) return super.getArrayFillTable(numberColumn);
 
         return convertingListToArray(listNameFromPersons,numberColumn);
@@ -47,6 +44,9 @@ public class ProcessingPersonTable extends ProcessingData{
      * метод, возвращающий ID личности по имени личности
      * */
     public int getIDPersonByNamePerson(String namePerson){
+        PersonsTable.infoAllPersons();
+        LinkedHashMap<Integer, String> listIdAndNameFromPersons = PersonsTable.getListIDAndName();
+
        return getIDByName(namePerson, listIdAndNameFromPersons);
     }
 
@@ -54,6 +54,9 @@ public class ProcessingPersonTable extends ProcessingData{
      * метод, возвращающий активность личности по имени личности
      * */
     public boolean getActivePersonByNamePerson(String namePerson){
+        PersonsTable.infoAllPersons();
+        LinkedHashMap<String, Boolean> listNameAndActiveFromPersons = PersonsTable.getListNameAndActive();
+
         return getActiveByName(namePerson, listNameAndActiveFromPersons);
     }
 }

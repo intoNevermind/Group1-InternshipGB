@@ -27,6 +27,8 @@ public class DelKeyWordWindow extends EditingDirectoryWindow {
     @Override
     public void saveEditing(ActionEvent actionEvent) {
         KeyWordsTable.delKeyWord(keyWordID);
+
+        KeyWordsTable.infoAllKeyWords();
         KEY_WORDS_DIRECTORY.visibleDataTable(actionEvent);
         getWindow().dispose();
     }

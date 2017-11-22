@@ -60,7 +60,11 @@ public class EditSiteWindow extends EditingDirectoryWindow {
 
     @Override
     public void saveEditing(ActionEvent actionEvent) {
-        if(getNameField().getText() != null &&  getUrlField() != null)SitesTable.modifySite(sitesID,nameSites, urlSites,getActive().isSelected());
+        if(getNameField().getText() != null &&  getUrlField().getText() != null){
+            SitesTable.modifySite(sitesID, getNameField().getText(), getUrlField().getText(), getActive().isSelected());
+        }
+
+        SitesTable.infoAllSites();
 
         SITES_DIRECTORY.visibleDataTable(actionEvent);
         getNameField().setText(null);

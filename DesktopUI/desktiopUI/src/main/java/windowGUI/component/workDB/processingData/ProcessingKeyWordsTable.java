@@ -9,20 +9,6 @@ import java.util.LinkedHashMap;
 * Класс-обработчик, отвечающий за обработку данных таблицы KeyWords
 * */
 public class ProcessingKeyWordsTable extends ProcessingData{
-    private static LinkedHashMap<Integer,String> listIdAndNameFromPersons;
-    private static ArrayList<Integer> listPersonIdFromKeyWords;
-    private static ArrayList<String> listNameFromKeyWords;
-    private static LinkedHashMap<Integer, String> listIdAndNameFromKeyWords;
-
-    public ProcessingKeyWordsTable() {
-        KeyWordsTable.infoAllKeyWords();
-        listPersonIdFromKeyWords = KeyWordsTable.getListPersonID();
-        listNameFromKeyWords = KeyWordsTable.getListName();
-        listIdAndNameFromKeyWords = KeyWordsTable.getListIDAndName();
-
-        PersonsTable.infoAllPersons();
-        listIdAndNameFromPersons = PersonsTable.getListIDAndName();
-    }
 
     /*
      * метод, возвращающий список имен ключевых слов по имени личности, преобразованный в двойной массив, для заполнения JTable класса KeyWordsDirectory строками
@@ -39,6 +25,13 @@ public class ProcessingKeyWordsTable extends ProcessingData{
      * метод, определяющий список имен ключевых слов по имени личности
      * */
     private ArrayList<String> getListNameKeyWordsByNamePerson(String namePerson){
+        PersonsTable.infoAllPersons();
+        KeyWordsTable.infoAllKeyWords();
+
+        LinkedHashMap<Integer,String> listIdAndNameFromPersons = PersonsTable.getListIDAndName();
+        ArrayList<Integer> listPersonIdFromKeyWords = KeyWordsTable.getListPersonID();
+        ArrayList<String> listNameFromKeyWords = KeyWordsTable.getListName();
+
         ArrayList<String> listNameKeyWordsByNamePerson = new ArrayList<>();
         Object[] keysFromListIDAndNamePersons = listIdAndNameFromPersons.keySet().toArray();
 
@@ -56,6 +49,9 @@ public class ProcessingKeyWordsTable extends ProcessingData{
      * метод, возвращающий список ID ключевго слова по имени ключевого слова
      * */
     public int getIDKeyWordByNameKeyWord(String nameKeyWord){
+        KeyWordsTable.infoAllKeyWords();
+        LinkedHashMap<Integer, String> listIdAndNameFromKeyWords = KeyWordsTable.getListIDAndName();
+
         return getIDByName(nameKeyWord, listIdAndNameFromKeyWords);
     }
 }

@@ -48,8 +48,9 @@ public class EditKeyWordWindow extends EditingDirectoryWindow {
 
     @Override
     public void saveEditing(ActionEvent actionEvent) {
-        if(getNameField().getText() != null ) KeyWordsTable.modifyKeyWord(keyWordID, nameKeyWords,personID);
+        if(getNameField().getText() != null ) KeyWordsTable.modifyKeyWord(keyWordID, getNameField().getText(),personID);
 
+        KeyWordsTable.infoAllKeyWords();
         KEY_WORDS_DIRECTORY.visibleDataTable(actionEvent);
         getNameField().setText(null);
         getWindow().dispose();
