@@ -165,8 +165,7 @@ public class AdminUiKeywordController {
      * @param id уникальный иднтификатр личности.
      * @return Список TableKeywords или ошибку.
      */
-    @RequestMapping(value = {"/admin/ui/getKeywordsByPersonId", "/unauthorized/admin/ui/getKeywordsByPersonId",
-            "/user/ui/getKeywordsByPersonId", "/unauthorized/user/ui/getKeywordsByPersonId"})
+    @RequestMapping(value = {"/admin/ui/getKeywordsByPersonId", "/unauthorized/admin/ui/getKeywordsByPersonId"})
     public ResponseEntity<?> getKeywordsByPersonId(@RequestParam(value = "id") Integer id) {
         if (id == null) {
             LOG.warn("Error in /admin/ui/getKeywordsByPersonId. id == null");
