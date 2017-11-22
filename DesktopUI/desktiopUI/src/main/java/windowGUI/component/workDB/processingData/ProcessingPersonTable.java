@@ -8,13 +8,11 @@ import java.util.LinkedHashMap;
  * Класс-обработчик, отвечающий за обработку данных таблицы Person
  * */
 public class ProcessingPersonTable extends ProcessingData{
-
     private static ArrayList<String> listNameFromPersons;
     private static LinkedHashMap<Integer, String> listIdAndNameFromPersons;
     private static LinkedHashMap<String, Boolean> listNameAndActiveFromPersons;
 
     public ProcessingPersonTable() {
-        System.out.println("конструктор ProcessingPersonTable");
         PersonsTable.infoAllPersons();
         listNameFromPersons = PersonsTable.getListName();
         listIdAndNameFromPersons = PersonsTable.getListIDAndName();

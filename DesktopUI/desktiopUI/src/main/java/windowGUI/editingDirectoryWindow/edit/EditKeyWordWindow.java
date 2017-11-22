@@ -5,7 +5,6 @@ import windowGUI.component.workDB.tables.KeyWordsTable;
 import windowGUI.component.workDirectory.KeyWordsDirectory;
 import windowGUI.editingDirectoryWindow.EditingDirectoryWindow;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import static java.awt.GridBagConstraints.REMAINDER;

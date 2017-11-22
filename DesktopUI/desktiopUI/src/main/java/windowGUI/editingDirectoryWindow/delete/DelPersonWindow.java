@@ -19,7 +19,7 @@ public class DelPersonWindow extends EditingDirectoryWindow {
         this.personID = personID;
 
         new ConfigurationsWindowGUI().setConfigWindow(getWindow(), windowTitle, getSizeWidth(), getSizeHeight());
-        System.out.println("Конструктор удаления личности");
+
         PersonsTable.infoAllPersons();
 
         fillDelPanels(namePerson);

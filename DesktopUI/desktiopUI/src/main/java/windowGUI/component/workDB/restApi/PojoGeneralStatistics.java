@@ -3,7 +3,7 @@ package windowGUI.component.workDB.restApi;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class PojoSites {
+public class PojoGeneralStatistics {
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -12,13 +12,9 @@ public class PojoSites {
     @Expose
     private String name;
 
-    @SerializedName("url")
+    @SerializedName("generalRank")
     @Expose
-    private String url;
-
-    @SerializedName("active")
-    @Expose
-    private Boolean active;
+    private Integer generalRank;
 
     public Integer getId() {
         return id;
@@ -26,11 +22,8 @@ public class PojoSites {
     public String getName() {
         return name;
     }
-    public String getUrl() {
-        return url;
-    }
-    public Boolean getActive() {
-        return active;
+    public Integer getGeneralRank() {
+        return generalRank;
     }
 
     public void setId(Integer id) {
@@ -39,11 +32,7 @@ public class PojoSites {
     public void setName(String name) {
         this.name = name;
     }
-    public void setUrl(String url) {
-        this.url = url;
+    public void setGeneralRank(Integer generalRank) {
+        this.generalRank = generalRank;
     }
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
-
 }

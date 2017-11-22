@@ -14,6 +14,7 @@ public class ConfigurationGBL {
         GridBagConstraints gbc = new GridBagConstraints();
 
         if (moveToNewLine) numberStr++;
+
         gbc.gridy = numberStr;
         gbc.gridwidth = gridWidth;
         gbc.anchor = anchor;
@@ -25,6 +26,7 @@ public class ConfigurationGBL {
         GridBagConstraints gbc = new GridBagConstraints();
 
         if (moveToNewLine) numberStr++;
+
         gbc.gridy = numberStr;
         gbc.gridwidth = gridWidth;
         gbc.fill = GridBagConstraints.BOTH;

@@ -19,32 +19,49 @@ public class KeyWordsDirectory extends Directory{
 
     private static String namePerson;
     private static String nameKeyWord ;
+
     private JTable dataTable;
     private JScrollPane dataScrollPane;
 
     public KeyWordsDirectory() {
         setNameTab(NAME_TAB);
-
         addActionListenerForListPerson();
     }
 
     @Override
     public void fillOptionsPanel() {
         getGBL().setConstraints(getHeadLinePerson(),getCGBL().configGBC(EAST,1,false));
-        getOptionsPanel().add(getHeadLinePerson());
+        getPanelOptions().add(getHeadLinePerson());
         getGBL().setConstraints(getListPersons(), getCGBL().configGBC(2,false));
-        getOptionsPanel().add(getListPersons());
+        getPanelOptions().add(getListPersons());
 
-        getGBL().setConstraints(getBtnConfirm(), getCGBL().configGBC(REMAINDER,true));
-        getOptionsPanel().add(getBtnConfirm());
-        getGBL().setConstraints(getBtnRefresh(), getCGBL().configGBC(REMAINDER,true));
-        getOptionsPanel().add(getBtnRefresh());
+        getGBL().setConstraints(getBtnConfirm(), getCGBL().configGBC(2,true));
+        getPanelOptions().add(getBtnConfirm());
+        getGBL().setConstraints(getBtnRefresh(), getCGBL().configGBC(2,false));
+        getPanelOptions().add(getBtnRefresh());
     }
 
     @Override
     public void initNamePerson(ActionEvent actionEvent) {
         JComboBox box = (JComboBox)actionEvent.getSource();
         namePerson = (String)box.getSelectedItem();
+    }
+
+    @Override
+    public void initDataTable(){
+        dataTable = new JTable(getPKeyWordsT().getArrayFillTable(namePerson, getNamesColumn().length), getNamesColumn());
+        dataScrollPane = new JScrollPane(dataTable);
+        getPanelDirectory().add(dataScrollPane, BorderLayout.CENTER);
+        dataTable.getSelectionModel().addListSelectionListener(this::initSelectedRow);
+        dataScrollPane.setVisible(true);
+        getPanelDirectory().updateUI();
+    }
+
+    @Override
+    public void initSelectedRow(ListSelectionEvent selectionEvent){
+        TableModel model = dataTable.getModel();
+        Object value = model.getValueAt(dataTable.getSelectedRow(), 0);
+        nameKeyWord = (String) value;
     }
 
     @Override
@@ -55,19 +72,7 @@ public class KeyWordsDirectory extends Directory{
                     "Не инициализированы поля",
                     JOptionPane.WARNING_MESSAGE);
         }
-
-        removeDataTable(dataScrollPane);
-        initDataTable();
-    }
-
-    @Override
-    public void initDataTable(){
-        dataTable = new JTable(getPKeyWordsT().getArrayFillTable(namePerson, getColumnNames().length), getColumnNames());
-        dataScrollPane = new JScrollPane(dataTable);
-        getPanelDirectory().add(dataScrollPane, BorderLayout.CENTER);
-        dataTable.getSelectionModel().addListSelectionListener(this::initSelectedRow);
-        dataScrollPane.setVisible(true);
-        getPanelDirectory().updateUI();
+        refreshDataTable(actionEvent);
     }
 
     @Override
@@ -87,13 +92,6 @@ public class KeyWordsDirectory extends Directory{
             new AddKeyWordWindow(getBtnAdd().getText() + " новое ключевое слово для личности: " + namePerson,
                     getPPersonT().getIDPersonByNamePerson(namePerson));
         }
-    }
-
-    @Override
-    public void initSelectedRow(ListSelectionEvent selectionEvent){
-        TableModel model = dataTable.getModel();
-        Object value = model.getValueAt(dataTable.getSelectedRow(), 0);
-        nameKeyWord = (String) value;
     }
 
     @Override

@@ -2,8 +2,6 @@ package windowGUI.editingDirectoryWindow;
 
 import windowGUI.MyStyle;
 import windowGUI.component.ConfigurationGBL;
-import windowGUI.component.workDB.processingData.ProcessingData;
-import windowGUI.component.workDirectory.KeyWordsDirectory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -70,6 +68,7 @@ public abstract class EditingDirectoryWindow {
 
         listComponent.add(btnSave);
         listComponent.add(btnCancel);
+
         listComponent.add(active);
         return listComponent;
     }
@@ -111,13 +110,6 @@ public abstract class EditingDirectoryWindow {
         btnSave.addActionListener(this::saveEditing);
         btnCancel.addActionListener(this::cancelEditing);
     }
-
-    /*
-     * метод, добавляющий листенер для кнопки отмена/нет
-     * */
-    private void cancelEditing(ActionEvent actionEvent){
-        window.dispose();
-    }
     /*
      * </общие методы>
      * */
@@ -128,6 +120,13 @@ public abstract class EditingDirectoryWindow {
      * */
     public void fillAddPanels(){}// заполняет панель окна добавления
     public void fillEditPanels(){}// заполняет панель окна редоктирования
+
+    /*
+     * метод, добавляющий листенер для кнопки отмена/нет
+     * */
+    private void cancelEditing(ActionEvent actionEvent){
+        window.dispose();
+    }
     /*
      * </специфичные методы>
      * */

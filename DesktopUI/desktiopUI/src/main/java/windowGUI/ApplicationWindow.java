@@ -8,8 +8,6 @@ import windowGUI.registrationOrEntryWindow.AuthorizationWindow;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.image.ImageObserver;
-import java.text.AttributedCharacterIterator;
 import java.util.ArrayList;
 /*
  * Класс-окно, отвечающий за окно приложения
@@ -19,7 +17,7 @@ public class ApplicationWindow {
 
     private static final String WINDOW_TITLE = "Статистика";
 
-    private static final int SIZE_WIDTH = 700;
+    private static final int SIZE_WIDTH = 800;
     private static final int SIZE_HEIGHT = 500;
 
     private static final JFrame WINDOW = new JFrame();

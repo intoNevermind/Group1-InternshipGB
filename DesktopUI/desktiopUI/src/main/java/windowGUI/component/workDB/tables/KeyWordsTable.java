@@ -8,12 +8,12 @@ import retrofit2.Response;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-
 /*
  * Класс-таблица, отвечающий за получение(отправку) данных из таблицы KeyWords, в REST-сервер
  * */
 public class KeyWordsTable extends ConnectServer {
     private static final RestApiForKeyWordsTable REST_API_FOR_KEY_WORDS_TABLE = getRetrofit().create(RestApiForKeyWordsTable.class);
+
     private static final ArrayList<Integer> LIST_ID = new ArrayList<>();
     private static final ArrayList<String> LIST_NAME = new ArrayList<>();
     private static final ArrayList<Integer> LIST_PERSON_ID = new ArrayList<>();
@@ -31,6 +31,8 @@ public class KeyWordsTable extends ConnectServer {
         LIST_ID.clear();
         LIST_NAME.clear();
         LIST_PERSON_ID.clear();
+        LIST_ID_AND_NAME.clear();
+
         try {
             Response<ArrayList<PojoKeyWords>> response = REST_API_FOR_KEY_WORDS_TABLE.getListAllKeyWords().execute();
 
@@ -39,6 +41,7 @@ public class KeyWordsTable extends ConnectServer {
                 LIST_ID.add(list.get(i).getId());
                 LIST_NAME.add(list.get(i).getName());
                 LIST_PERSON_ID.add(list.get(i).getPersonId());
+                LIST_ID_AND_NAME.put(LIST_ID.get(i),LIST_NAME.get(i));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -99,26 +102,16 @@ public class KeyWordsTable extends ConnectServer {
      * */
 
     /*
-     * метод, возвращающий связанный спискок ID и имени ключевого слова
-     * */
-    public static LinkedHashMap<Integer, String> getListIDAndName() {
-        for (int i = 0; i < LIST_ID.size(); i++) {
-            LIST_ID_AND_NAME.put(LIST_ID.get(i),LIST_NAME.get(i));
-        }
-        return LIST_ID_AND_NAME;
-    }
-
-    /*
      * <getters>
      * */
-    private static ArrayList<Integer> getListID() {
-        return LIST_ID;
-    }
     public static ArrayList<String> getListName(){
         return LIST_NAME;
     }
     public static ArrayList<Integer> getListPersonID(){
         return LIST_PERSON_ID;
+    }
+    public static LinkedHashMap<Integer, String> getListIDAndName() {
+        return LIST_ID_AND_NAME;
     }
     /*
      * </getters>

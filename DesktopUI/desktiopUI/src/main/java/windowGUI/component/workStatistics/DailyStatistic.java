@@ -19,17 +19,18 @@ public class DailyStatistic extends Statistics{
     private static String namePerson;
     private static String startDate;
     private static String finishDate;
-    private JTable dataTable;
+
     private JScrollPane dataScrollPane;
-    private String[] columnNames;
+    private String[] namesColumn;
 
     public DailyStatistic() {
         setTabName(NAME_TAB);
 
+        addActionListenerForListSite();
         addActionListenerForListPerson();
         addActionListenerForCalendars();
 
-        columnNames = new String[]{"Дата", "Количество новых страниц"};
+        namesColumn = new String[]{"Дата", "Количество новых страниц"};
     }
 
     @Override
@@ -54,9 +55,9 @@ public class DailyStatistic extends Statistics{
         getGBL().setConstraints(getFinishCalendar(), getCGBL().configGBC(2,false));
         getOptionsPanel().add(getFinishCalendar());
 
-        getGBL().setConstraints(getBtnConfirm(), getCGBL().configGBC(REMAINDER,true));
+        getGBL().setConstraints(getBtnConfirm(), getCGBL().configGBC(2,true));
         getOptionsPanel().add(getBtnConfirm());
-        getGBL().setConstraints(getBtnRefresh(), getCGBL().configGBC(REMAINDER,true));
+        getGBL().setConstraints(getBtnRefresh(), getCGBL().configGBC(2,false));
         getOptionsPanel().add(getBtnRefresh());
     }
 
@@ -83,6 +84,13 @@ public class DailyStatistic extends Statistics{
     }
 
     @Override
+    public void initDataTable() {
+        JTable dataTable = new JTable(getPDailyStatisticsT().getArrayFillTable(nameSite, namePerson, startDate, finishDate, namesColumn.length), namesColumn);
+        dataScrollPane = new JScrollPane(dataTable);
+        getPanelStat().add(dataScrollPane, BorderLayout.CENTER);
+    }
+
+    @Override
     public void visibleDataTable(ActionEvent actionEvent){
         String str = "";
         if(nameSite == null || nameSite.equals(ProcessingData.getNotChosen())) str += " \"" + getHeadlineSite().getText() + "\" \n";
@@ -95,10 +103,16 @@ public class DailyStatistic extends Statistics{
                     getEmptyFields(),
                     JOptionPane.WARNING_MESSAGE);
         }
+       refreshDataTable(actionEvent);
+    }
 
-        removeDataTable(dataScrollPane);
-        initDataTable();
-        outTotalNumberPages();
+    @Override
+    public void outTotalNumberPages(){
+        getNumberPagesTotal().setText("Общее количество новых страниц за выбранный период: " +
+                getPDailyStatisticsT().getNumberPagesTotal());
+        getPanelStat().add(getNumberPagesTotal(), BorderLayout.SOUTH);
+        getNumberPagesTotal().setVisible(true);
+        getPanelStat().updateUI();
     }
 
     @Override
@@ -106,21 +120,5 @@ public class DailyStatistic extends Statistics{
         removeDataTable(dataScrollPane);
         initDataTable();
         outTotalNumberPages();
-    }
-
-    @Override
-    public void initDataTable() {
-        dataTable = new JTable(getPPersonPageRankT().getArrayFillTable(nameSite,namePerson,startDate,finishDate, columnNames.length), columnNames);
-        dataScrollPane = new JScrollPane(dataTable);
-        getPanelStat().add(dataScrollPane, BorderLayout.CENTER);
-    }
-
-    @Override
-    public void outTotalNumberPages(){
-        getNumberPagesTotal().setText("Общее количество новых страниц за выбранный период: " +
-                getPPersonPageRankT().getNumberPagesTotal(nameSite,namePerson,startDate,finishDate));
-        getPanelStat().add(getNumberPagesTotal(), BorderLayout.SOUTH);
-        getNumberPagesTotal().setVisible(true);
-        getPanelStat().updateUI();
     }
 }

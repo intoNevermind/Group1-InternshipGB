@@ -27,8 +27,8 @@ public abstract class Directory {
     private static final ConfigurationGBL CGBL = new ConfigurationGBL();
 
     private final JPanel panelDirectory = new JPanel(new BorderLayout());
-    private final JPanel optionsPanel = new JPanel(GBL);
-    private final JPanel btnPanel = new JPanel(new FlowLayout());
+    private final JPanel panelOptions = new JPanel(GBL);
+    private final JPanel panelBtn = new JPanel(new FlowLayout());
 
     private static final ProcessingPersonTable P_PERSON_T = new ProcessingPersonTable();
     private static final ProcessingKeyWordsTable P_KEY_WORDS_T = new ProcessingKeyWordsTable();
@@ -44,14 +44,14 @@ public abstract class Directory {
     private final JButton btnDelete = new JButton("Удалить");
     private final JButton btnEdit = new JButton("Редактировать");
 
-    private final String[] columnNames = new String[]{"Наименование"};
+    private final String[] namesColumn = new String[]{"Наименование"};
 
     Directory() {
         MY_STYLE.setStyle(getListComponents());
 
         panelDirectory.setPreferredSize(new Dimension(PANEL_DIRECTORY_SIZE_WIDTH, PANEL_DIRECTORY_SIZE_HEIGHT));
-        panelDirectory.add(optionsPanel, BorderLayout.NORTH);
-        panelDirectory.add(btnPanel,BorderLayout.SOUTH);
+        panelDirectory.add(panelOptions, BorderLayout.NORTH);
+        panelDirectory.add(panelBtn,BorderLayout.SOUTH);
 
         fillOptionsPanel();
         fillBtnPanel();
@@ -81,9 +81,12 @@ public abstract class Directory {
      * <абстрактные методы>
      * */
     public abstract void fillOptionsPanel();// заполняет панель опций
+
     public abstract void initDataTable();// инициализирует таблицу данных
-    public abstract void refreshDataTable(ActionEvent actionEvent);//обновляет таблицу данных
     public abstract void initSelectedRow(ListSelectionEvent selectionEvent);// инициализирует строку таблицы
+
+    public abstract void refreshDataTable(ActionEvent actionEvent);//обновляет таблицу данных
+
     public abstract void visibleWindowAdd(ActionEvent actionEvent);// вызывает окно добавления элемента
     public abstract void visibleWindowDel(ActionEvent actionEvent);// вызывает окно удаления элемента
     public abstract void visibleWindowEdit(ActionEvent actionEvent);// вызывает окно редактирования элемента
@@ -100,9 +103,9 @@ public abstract class Directory {
      * метод, заполняющий панэль кнопок, кнопками
      * */
     private void fillBtnPanel(){
-        btnPanel.add(btnAdd);
-        btnPanel.add(btnEdit);
-        btnPanel.add(btnDelete);
+        panelBtn.add(btnAdd);
+        panelBtn.add(btnEdit);
+        panelBtn.add(btnDelete);
     }
 
     /*
@@ -127,6 +130,7 @@ public abstract class Directory {
         }
         getPanelDirectory().updateUI();
     }
+
     /*
      * </общие методы>
      * */
@@ -135,7 +139,6 @@ public abstract class Directory {
      * <специфичные методы>
      * специфичные методы, которые могут быть в классе-справочнике
      * */
-
     public void initNamePerson(ActionEvent actionEvent){}// инициализирует имя личности
     public void visibleDataTable(ActionEvent actionEvent){}// делает видимой таблицу с данными
 
@@ -145,7 +148,6 @@ public abstract class Directory {
     void addActionListenerForListPerson(){
         listPersons.addActionListener(this::initNamePerson);
     }
-
     /*
      * </специфичные методы>
      * */
@@ -170,8 +172,8 @@ public abstract class Directory {
     public JPanel getPanelDirectory() {
         return panelDirectory;
     }
-    JPanel getOptionsPanel() {
-        return optionsPanel;
+    JPanel getPanelOptions() {
+        return panelOptions;
     }
 
     static ProcessingPersonTable getPPersonT() {
@@ -208,8 +210,8 @@ public abstract class Directory {
         return btnEdit;
     }
 
-    String[] getColumnNames() {
-        return columnNames;
+    String[] getNamesColumn() {
+        return namesColumn;
     }
     /*
      * </getters and setters>

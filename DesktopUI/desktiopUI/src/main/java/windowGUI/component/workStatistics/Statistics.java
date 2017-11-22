@@ -3,7 +3,8 @@ package windowGUI.component.workStatistics;
 import windowGUI.ApplicationWindow;
 import windowGUI.MyStyle;
 import windowGUI.component.ConfigurationGBL;
-import windowGUI.component.workDB.processingData.ProcessingPersonPageRankTable;
+import windowGUI.component.workDB.processingData.ProcessingDailyStatisticsTable;
+import windowGUI.component.workDB.processingData.ProcessingGeneralStatisticsTable;
 import windowGUI.component.workDB.processingData.ProcessingPersonTable;
 import windowGUI.component.workDB.processingData.ProcessingSitesTable;
 
@@ -30,7 +31,8 @@ public abstract class Statistics {
     private final JPanel panelStat = new JPanel(new BorderLayout());
     private final JPanel optionsPanel = new JPanel(GBL);
 
-    private static final ProcessingPersonPageRankTable P_PERSON_PAGE_RANK_T = new ProcessingPersonPageRankTable();
+    private static final ProcessingGeneralStatisticsTable P_GENERAL_STATISTICS_T = new ProcessingGeneralStatisticsTable();
+    private static final ProcessingDailyStatisticsTable P_DAILY_STATISTICS_T = new ProcessingDailyStatisticsTable();
     private static final ProcessingSitesTable P_SITES_T = new ProcessingSitesTable();
     private static final ProcessingPersonTable P_PERSON_T = new ProcessingPersonTable();
 
@@ -57,7 +59,6 @@ public abstract class Statistics {
 
         fillOptionsPanel();
 
-        addActionListenerForListSite();
         addActionListenerForBtn();
     }
 
@@ -89,8 +90,8 @@ public abstract class Statistics {
      * */
     public abstract void fillOptionsPanel();// заполняет панэль опций
     public abstract void initDataTable();// инициализирует таблицу данных
-    public abstract void refreshDataTable(ActionEvent actionEvent);//обновляет таблицу данных
     public abstract void visibleDataTable(ActionEvent actionEvent);//делает видимой таблицу с данными
+    public abstract void refreshDataTable(ActionEvent actionEvent);//обновляет таблицу данных
     /*
      * </абстрактные методы>
      * */
@@ -113,13 +114,6 @@ public abstract class Statistics {
     }
 
     /*
-     * метод, добавляющий листенеры для выпадающего списка сайтов
-     * */
-    private void addActionListenerForListSite(){
-        listSite.addActionListener(this::initNameSites);
-    }
-
-    /*
      * метод, добавляющий листенеры для кнопок
      * */
     private void addActionListenerForBtn(){
@@ -134,11 +128,19 @@ public abstract class Statistics {
      * <специфичные методы>
      * специфичные методы, которые могут быть в классе-статистике
      * */
+
     public void initNameSites(ActionEvent actionEvent){}// инициализирует имя сайта
     public void initNamePerson(ActionEvent actionEvent){}// инициализирует имя личности
     public void initStartDate(PropertyChangeEvent evt){}// инициализирует начальную дату
     public void initFinishDate(PropertyChangeEvent evt){}// инициализирует конечную дату
     public void outTotalNumberPages(){}// выводит общее количество найденных страниц
+
+    /*
+     * метод, добавляющий листенеры для выпадающего списка сайтов
+     * */
+    void addActionListenerForListSite(){
+        listSite.addActionListener(this::initNameSites);
+    }
 
     /*
      * метод, добавляющий листенеры для выпадающего списка личностей
@@ -185,8 +187,11 @@ public abstract class Statistics {
         return optionsPanel;
     }
 
-    static ProcessingPersonPageRankTable getPPersonPageRankT() {
-        return P_PERSON_PAGE_RANK_T;
+    static ProcessingGeneralStatisticsTable getPGeneralStatisticsT() {
+        return P_GENERAL_STATISTICS_T;
+    }
+    static ProcessingDailyStatisticsTable getPDailyStatisticsT() {
+        return P_DAILY_STATISTICS_T;
     }
 
     JLabel getHeadlineSite() {

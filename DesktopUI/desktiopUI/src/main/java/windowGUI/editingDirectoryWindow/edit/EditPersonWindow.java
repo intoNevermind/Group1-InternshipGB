@@ -25,7 +25,7 @@ public class EditPersonWindow extends EditingDirectoryWindow {
         this.activePerson = activePerson;
 
         new ConfigurationsWindowGUI().setConfigWindow(getWindow(), windowTitle, getSizeWidth(), getSizeHeight());
-        System.out.println("Конструктор редактирования личности");
+
         PersonsTable.infoAllPersons();
 
         fillEditPanels();
@@ -53,6 +53,7 @@ public class EditPersonWindow extends EditingDirectoryWindow {
     @Override
     public void saveEditing(ActionEvent actionEvent) {
         if(getNameField().getText() != null) PersonsTable.modifyPerson(personID, namePerson,getActive().isSelected());
+
         PERSON_DIRECTORY.visibleDataTable(actionEvent);
         getNameField().setText(null);
         getWindow().dispose();

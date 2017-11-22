@@ -21,7 +21,6 @@ public class ListOfTabsDirectory {
 
     public ListOfTabsDirectory() {
         MY_STYLE.setStyle(getListComponents());
-
         addTabs();
     }
 
@@ -38,7 +37,6 @@ public class ListOfTabsDirectory {
      * метод, заполняющий панель вкладок
      * */
     private static void addTabs(){
-        LIST_OF_TABS.setVisible(true);
         LIST_OF_TABS.addTab(SITES_DIRECTORY.getNameTab(), SITES_DIRECTORY.getPanelDirectory());
         LIST_OF_TABS.addTab(PERSONS_DIRECTORY.getNameTab(), PERSONS_DIRECTORY.getPanelDirectory());
         LIST_OF_TABS.addTab(KEY_WORDS_DIRECTORY.getNameTab(), KEY_WORDS_DIRECTORY.getPanelDirectory());

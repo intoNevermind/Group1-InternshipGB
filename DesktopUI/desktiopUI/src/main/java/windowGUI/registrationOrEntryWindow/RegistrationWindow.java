@@ -1,13 +1,12 @@
 package windowGUI.registrationOrEntryWindow;
 
-import static windowGUI.registrationOrEntryWindow.AuthorizationWindow.getWINDOW;
 import windowGUI.ApplicationWindow;
 import windowGUI.component.workDB.tables.UsersTable;
+import static windowGUI.registrationOrEntryWindow.AuthorizationWindow.getWINDOW;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import static java.awt.GridBagConstraints.EAST;
 import static java.awt.GridBagConstraints.REMAINDER;
 /*
@@ -20,12 +19,11 @@ public class RegistrationWindow extends Authorization {
     private static String userPassword;
     private static ArrayList<String> listLogin;
 
-
     RegistrationWindow() {
         setTabTitle(TAB_TITLE);
 
-        System.out.println("конструктор Регистрация");
         UsersTable.infoAllUsers();
+
         listLogin = UsersTable.getListLogin();
     }
 
@@ -72,7 +70,7 @@ public class RegistrationWindow extends Authorization {
                     JOptionPane.WARNING_MESSAGE);
             getEmailField().setText(getEmailField().getText());
 
-        }else {
+        }else{
             for (int i = 0; i < listLogin.size(); i++) {
                 if (getLoginField().getText().equals(listLogin.get(i))) {
                     userLogin = null;
@@ -84,7 +82,6 @@ public class RegistrationWindow extends Authorization {
                 }
             }
             if(userLogin != null && userPassword != null) {
-//                if(USERS_TABLE.authorized(userLogin, userPassword)){
                 UsersTable.addUser(userLogin, false, userPassword, true);
                 JOptionPane.showMessageDialog(null,
                         "Ваш аккаунт создан",
@@ -93,12 +90,6 @@ public class RegistrationWindow extends Authorization {
                 new ApplicationWindow(userLogin);
                 getLoginField().setText(null);
                 getWINDOW().dispose();
-//                }else{
-//                    JOptionPane.showMessageDialog(null,
-//                            "Не удалось авторизовать пользователя",
-//                            "Ошибка авторизации",
-//                            JOptionPane.WARNING_MESSAGE);
-//                }
             }else{
                 JOptionPane.showMessageDialog(null,
                         "Такое имя пользователя уже зарегестрированно",

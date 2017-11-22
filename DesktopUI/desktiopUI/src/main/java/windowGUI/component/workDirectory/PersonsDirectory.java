@@ -10,7 +10,6 @@ import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import static java.awt.GridBagConstraints.REMAINDER;
-
 /*
  * Класс-справочник, отвечающий за функциональную деятельность справочника Persons
  * */
@@ -18,6 +17,7 @@ public class PersonsDirectory extends Directory{
     private static final String NAME_TAB = "Личности";
 
     private static String namePerson ;
+
     private JTable dataTable;
     private JScrollPane dataScrollPane;
 
@@ -28,21 +28,15 @@ public class PersonsDirectory extends Directory{
     @Override
     public void fillOptionsPanel() {
         getGBL().setConstraints(getBtnRefresh(), getCGBL().configGBC(REMAINDER,false));
-        getOptionsPanel().add(getBtnRefresh());
+        getPanelOptions().add(getBtnRefresh());
     }
 
     @Override
     public void initDataTable(){
-        dataTable = new JTable(getPPersonT().getArrayFillTable(getColumnNames().length), getColumnNames());
+        dataTable = new JTable(getPPersonT().getArrayFillTable(getNamesColumn().length), getNamesColumn());
         dataTable.getSelectionModel().addListSelectionListener(this::initSelectedRow);
         dataScrollPane = new JScrollPane(dataTable);
         getPanelDirectory().add(dataScrollPane, BorderLayout.CENTER);
-    }
-
-    @Override
-    public void refreshDataTable(ActionEvent actionEvent) {
-        removeDataTable(dataScrollPane);
-        initDataTable();
     }
 
     @Override
@@ -50,6 +44,12 @@ public class PersonsDirectory extends Directory{
         TableModel model = dataTable.getModel();
         Object value = model.getValueAt(dataTable.getSelectedRow(), 0);
         namePerson = (String) value;
+    }
+
+    @Override
+    public void refreshDataTable(ActionEvent actionEvent) {
+        removeDataTable(dataScrollPane);
+        initDataTable();
     }
 
     @Override

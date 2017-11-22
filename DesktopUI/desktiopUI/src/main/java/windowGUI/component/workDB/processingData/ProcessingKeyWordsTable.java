@@ -9,16 +9,12 @@ import java.util.LinkedHashMap;
 * Класс-обработчик, отвечающий за обработку данных таблицы KeyWords
 * */
 public class ProcessingKeyWordsTable extends ProcessingData{
-
     private static LinkedHashMap<Integer,String> listIdAndNameFromPersons;
-
     private static ArrayList<Integer> listPersonIdFromKeyWords;
     private static ArrayList<String> listNameFromKeyWords;
     private static LinkedHashMap<Integer, String> listIdAndNameFromKeyWords;
 
     public ProcessingKeyWordsTable() {
-        System.out.println("Конструктор ProcessingKeyWordsTable");
-
         KeyWordsTable.infoAllKeyWords();
         listPersonIdFromKeyWords = KeyWordsTable.getListPersonID();
         listNameFromKeyWords = KeyWordsTable.getListName();
@@ -26,7 +22,6 @@ public class ProcessingKeyWordsTable extends ProcessingData{
 
         PersonsTable.infoAllPersons();
         listIdAndNameFromPersons = PersonsTable.getListIDAndName();
-
     }
 
     /*

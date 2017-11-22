@@ -13,14 +13,13 @@ public class GeneralStatistic extends Statistics{
     private static final String NAME_TAB = "Общая статистика";
 
     private static String nameSite;
-    private JTable dataTable;
     private JScrollPane dataScrollPane;
-    private String[] columnNames;
+    private String[] namesColumn;
 
     public GeneralStatistic() {
         setTabName(NAME_TAB);
-
-        columnNames = new String[]{"Имя", "Количество новых страниц"};
+        addActionListenerForListSite();
+        namesColumn = new String[]{"Имя", "Количество новых страниц"};
     }
 
     @Override
@@ -30,9 +29,9 @@ public class GeneralStatistic extends Statistics{
         getGBL().setConstraints(getListSite(),getCGBL().configGBC(2,false));
         getOptionsPanel().add(getListSite());
 
-        getGBL().setConstraints(getBtnConfirm(),getCGBL().configGBC(REMAINDER,true));
+        getGBL().setConstraints(getBtnConfirm(),getCGBL().configGBC(2,true));
         getOptionsPanel().add(getBtnConfirm());
-        getGBL().setConstraints(getBtnRefresh(), getCGBL().configGBC(REMAINDER,true));
+        getGBL().setConstraints(getBtnRefresh(), getCGBL().configGBC(2,false));
         getOptionsPanel().add(getBtnRefresh());
     }
 
@@ -43,6 +42,14 @@ public class GeneralStatistic extends Statistics{
     }
 
     @Override
+    public void initDataTable() {
+        JTable dataTable = new JTable(getPGeneralStatisticsT().getArrayFillTable(nameSite, namesColumn.length), namesColumn);
+        dataScrollPane = new JScrollPane(dataTable);
+        getPanelStat().add(dataScrollPane, BorderLayout.CENTER);
+        getPanelStat().updateUI();
+    }
+
+    @Override
     public void visibleDataTable(ActionEvent actionEvent){
         if(nameSite == null || nameSite.equals(ProcessingData.getNotChosen())) {
             JOptionPane.showMessageDialog(null,
@@ -50,21 +57,12 @@ public class GeneralStatistic extends Statistics{
                     getEmptyFields(),
                     JOptionPane.WARNING_MESSAGE);
         }
-        removeDataTable(dataScrollPane);
-        initDataTable();
+        refreshDataTable(actionEvent);
     }
 
     @Override
     public void refreshDataTable(ActionEvent actionEvent) {
         removeDataTable(dataScrollPane);
         initDataTable();
-    }
-
-    @Override
-    public void initDataTable() {
-        dataTable = new JTable(getPPersonPageRankT().getArrayFillTable(nameSite, columnNames.length), columnNames);
-        dataScrollPane = new JScrollPane(dataTable);
-        getPanelStat().add(dataScrollPane, BorderLayout.CENTER);
-        getPanelStat().updateUI();
     }
 }

@@ -26,7 +26,7 @@ public class DelSiteWindow extends EditingDirectoryWindow {
     @Override
     public void saveEditing(ActionEvent actionEvent) {
         SitesTable.delSite(sitesID);
-
+        SITES_DIRECTORY.visibleDataTable(actionEvent);
         getWindow().dispose();
     }
 }

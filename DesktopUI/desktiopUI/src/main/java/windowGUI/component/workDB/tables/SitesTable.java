@@ -13,6 +13,7 @@ import java.util.LinkedHashMap;
  * */
 public class SitesTable extends ConnectServer {
     private static final RestApiForSitesTable REST_API_FOR_SITES_TABLE = getRetrofit().create(RestApiForSitesTable.class);
+
     private static final ArrayList<Integer> LIST_ID = new ArrayList<>();
     private static final ArrayList<String> LIST_NAME = new ArrayList<>();
     private static final ArrayList<String> LIST_URL = new ArrayList<>();
@@ -34,14 +35,22 @@ public class SitesTable extends ConnectServer {
         LIST_NAME.clear();
         LIST_URL.clear();
         LIST_ACTIVE.clear();
+        LIST_ID_AND_NAME.clear();
+        LIST_NAME_AND_URL.clear();
+        LIST_NAME_AND_ACTIVE.clear();
+
         try {
             Response<ArrayList<PojoSites>> response = REST_API_FOR_SITES_TABLE.getListAllSites().execute();
+
             ArrayList<PojoSites> list = response.body();
             for (int i = 0; i < list.size(); i++) {
                 LIST_ID.add(list.get(i).getId());
                 LIST_NAME.add(list.get(i).getName());
                 LIST_URL.add(list.get(i).getUrl());
                 LIST_ACTIVE.add(list.get(i).getActive());
+                LIST_ID_AND_NAME.put(LIST_ID.get(i), LIST_NAME.get(i));
+                LIST_NAME_AND_URL.put(LIST_NAME.get(i), LIST_URL.get(i));
+                LIST_NAME_AND_ACTIVE.put(LIST_NAME.get(i), LIST_ACTIVE.get(i));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -62,12 +71,9 @@ public class SitesTable extends ConnectServer {
     public static void addSite(String siteName, String siteUrl, boolean siteActive){
         try {
             Response<ResponseBody> response = REST_API_FOR_SITES_TABLE.addSite(siteName, siteUrl, siteActive).execute();
-            System.out.println(response.raw());
-            if (response.isSuccessful()){
-                response.body().string();
-            }else {
-                response.body().close();
-            }
+
+            if (response.isSuccessful())response.body().string();
+            else response.body().close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -79,12 +85,9 @@ public class SitesTable extends ConnectServer {
     public static void delSite(int siteID){
         try {
             Response<ResponseBody> response = REST_API_FOR_SITES_TABLE.delSite(siteID).execute();
-            System.out.println(response.raw());
-            if (response.isSuccessful()){
-                response.body().string();
-            }else {
-                response.body().close();
-            }
+
+            if (response.isSuccessful())response.body().string();
+            else response.body().close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -96,12 +99,9 @@ public class SitesTable extends ConnectServer {
     public static void modifySite(int siteID, String siteName, String siteUrl, boolean siteActive){
         try {
             Response<ResponseBody> response = REST_API_FOR_SITES_TABLE.modifySite(siteID, siteName, siteUrl, siteActive).execute();
-            System.out.println(response.raw());
-            if (response.isSuccessful()){
-                response.body().string();
-            }else {
-                response.body().close();
-            }
+
+            if (response.isSuccessful())response.body().string();
+            else response.body().close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -111,49 +111,19 @@ public class SitesTable extends ConnectServer {
      * */
 
     /*
-     * метод, возвращающий связанный спискок ID и имени сайта
-     * */
-    public static LinkedHashMap<Integer, String> getListIDAndName() {
-        for (int i = 0; i < getListID().size(); i++) {
-            LIST_ID_AND_NAME.put(getListID().get(i), getListName().get(i));
-        }
-        return LIST_ID_AND_NAME;
-    }
-
-    /*
-     * метод, возвращающий связанный имени и URL сайта
-     * */
-    public static LinkedHashMap<String, String> getListNameAndURL() {
-        for (int i = 0; i < getListName().size(); i++) {
-            LIST_NAME_AND_URL.put(getListName().get(i), getListURL().get(i));
-        }
-        return LIST_NAME_AND_URL;
-    }
-
-    /*
-     * метод, возвращающий связанный имени и активности сайта
-     * */
-    public static LinkedHashMap<String, Boolean> getListNameAndActive() {
-        for (int i = 0; i < getListName().size(); i++) {
-            LIST_NAME_AND_ACTIVE.put(getListName().get(i), getListActive().get(i));
-        }
-        return LIST_NAME_AND_ACTIVE;
-    }
-
-    /*
      * <getters>
      * */
-    private static ArrayList<Integer> getListID() {
-        return LIST_ID;
-    }
     public static ArrayList<String> getListName(){
         return LIST_NAME;
     }
-    private static ArrayList<String> getListURL(){
-        return LIST_URL;
+    public static LinkedHashMap<Integer, String> getListIDAndName() {
+        return LIST_ID_AND_NAME;
     }
-    private static ArrayList<Boolean> getListActive() {
-        return LIST_ACTIVE;
+    public static LinkedHashMap<String, String> getListNameAndURL() {
+        return LIST_NAME_AND_URL;
+    }
+    public static LinkedHashMap<String, Boolean> getListNameAndActive() {
+        return LIST_NAME_AND_ACTIVE;
     }
     /*
      * </getters>

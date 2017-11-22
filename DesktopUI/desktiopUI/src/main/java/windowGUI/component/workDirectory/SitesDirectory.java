@@ -10,7 +10,6 @@ import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import static java.awt.GridBagConstraints.REMAINDER;
-
 /*
  * Класс-справочник, отвечающий за функциональную деятельность справочника Sites
  * */
@@ -18,6 +17,7 @@ public class SitesDirectory extends Directory{
     private static final String TAB_NAME = "Сайты";
 
     private static String nameSites ;
+
     private JTable dataTable;
     private JScrollPane dataScrollPane;
 
@@ -28,21 +28,15 @@ public class SitesDirectory extends Directory{
     @Override
     public void fillOptionsPanel() {
         getGBL().setConstraints(getBtnRefresh(), getCGBL().configGBC(REMAINDER,false));
-        getOptionsPanel().add(getBtnRefresh());
+        getPanelOptions().add(getBtnRefresh());
     }
 
     @Override
     public void initDataTable(){
-        dataTable = new JTable(getPSitesT().getArrayFillTable(getColumnNames().length), getColumnNames());
+        dataTable = new JTable(getPSitesT().getArrayFillTable(getNamesColumn().length), getNamesColumn());
         dataTable.getSelectionModel().addListSelectionListener(this::initSelectedRow);
         dataScrollPane = new JScrollPane(dataTable);
         getPanelDirectory().add(dataScrollPane, BorderLayout.CENTER);
-    }
-
-    @Override
-    public void refreshDataTable(ActionEvent actionEvent) {
-        removeDataTable(dataScrollPane);
-        initDataTable();
     }
 
     @Override
@@ -50,6 +44,12 @@ public class SitesDirectory extends Directory{
         TableModel model = dataTable.getModel();
         Object value = model.getValueAt(dataTable.getSelectedRow(), 0);
         nameSites = (String) value;
+    }
+
+    @Override
+    public void refreshDataTable(ActionEvent actionEvent) {
+        removeDataTable(dataScrollPane);
+        initDataTable();
     }
 
     @Override

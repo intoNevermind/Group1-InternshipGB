@@ -8,14 +8,12 @@ import java.util.LinkedHashMap;
  * Класс-обработчик, отвечающий за обработку данных таблицы Sites
  * */
 public class ProcessingSitesTable extends ProcessingData{
-
     private static ArrayList<String> listNameFromSites;
     private static LinkedHashMap<Integer, String> listIdAndNameFromSites;
     private static LinkedHashMap<String, String> listNameAndUrlFromSites;
     private static LinkedHashMap<String, Boolean> listNameAndActiveFromSites;
 
     public ProcessingSitesTable() {
-        System.out.println("конструктор ProcessingSitesTable");
         SitesTable.infoAllSites();
         listNameFromSites = SitesTable.getListName();
         listIdAndNameFromSites = SitesTable.getListIDAndName();
@@ -61,8 +59,8 @@ public class ProcessingSitesTable extends ProcessingData{
         if (nameSites == null || nameSites.equals(getNotChosen())) return "";
 
         String URL = "";
-
         Object[] keysListNameAndURL = listNameAndUrlFromSites.keySet().toArray();
+
         for (int i = 0; i < listNameAndUrlFromSites.size(); i++) {
             if(nameSites.equals(keysListNameAndURL[i])){
                 URL = listNameAndUrlFromSites.get(nameSites);

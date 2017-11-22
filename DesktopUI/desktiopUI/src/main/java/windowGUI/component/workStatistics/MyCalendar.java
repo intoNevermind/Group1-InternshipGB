@@ -6,7 +6,6 @@ import com.toedter.calendar.JDateChooser;
  * Класс-календарь, отвечающий за функциональную деятельность календаря
  * */
 public class MyCalendar extends JDateChooser{
-
     private static final int X = 20;
     private static final int Y = 20;
     private static final int SIZE_WIDTH = 200;

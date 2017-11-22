@@ -27,7 +27,7 @@ public class EditSiteWindow extends EditingDirectoryWindow {
         this.sitesID = sitesID;
 
         new ConfigurationsWindowGUI().setConfigWindow(getWindow(), windowTitle, getSizeWidth(), getSizeHeight());
-        System.out.println("конструктор Редактирования сайта");
+
         SitesTable.infoAllSites();
 
         fillEditPanels();
@@ -60,11 +60,9 @@ public class EditSiteWindow extends EditingDirectoryWindow {
 
     @Override
     public void saveEditing(ActionEvent actionEvent) {
+        if(getNameField().getText() != null &&  getUrlField() != null)SitesTable.modifySite(sitesID,nameSites, urlSites,getActive().isSelected());
 
-        if(getNameField().getText() != null &&  getUrlField() != null){
-            SitesTable.modifySite(sitesID,nameSites, urlSites,getActive().isSelected());
-        }
-
+        SITES_DIRECTORY.visibleDataTable(actionEvent);
         getNameField().setText(null);
         getWindow().dispose();
     }

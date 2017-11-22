@@ -16,7 +16,7 @@ public class AddPersonWindow extends EditingDirectoryWindow {
 
     public AddPersonWindow(String windowTitle) {
         new ConfigurationsWindowGUI().setConfigWindow(getWindow(), windowTitle, getSizeWidth(), getSizeHeight());
-        System.out.println("Конструктор добавления личности");
+
         PersonsTable.infoAllPersons();
 
         fillAddPanels();
@@ -42,6 +42,7 @@ public class AddPersonWindow extends EditingDirectoryWindow {
     @Override
     public void saveEditing(ActionEvent actionEvent) {
         if(getNameField().getText() != null) PersonsTable.addPerson(getNameField().getText(),getActive().isSelected());
+
         PERSON_DIRECTORY.visibleDataTable(actionEvent);
         getNameField().setText(null);
         getWindow().dispose();
