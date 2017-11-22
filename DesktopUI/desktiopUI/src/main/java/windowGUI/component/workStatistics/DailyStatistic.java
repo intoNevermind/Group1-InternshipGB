@@ -20,20 +20,26 @@ public class DailyStatistic extends Statistics{
     private static String startDate;
     private static String finishDate;
 
+    private JScrollPane dataScrollPane;
+    private String[] namesColumn;
+
     public DailyStatistic() {
         setTabName(NAME_TAB);
 
+        addActionListenerForListSite();
         addActionListenerForListPerson();
         addActionListenerForCalendars();
 
-        columnNames = new String[]{"Дата", "Количество новых страниц"};
+        namesColumn = new String[]{"Дата", "Количество новых страниц"};
     }
 
     @Override
     public void fillOptionsPanel() {
         getGBL().setConstraints(getHeadlineSite(), getCGBL().configGBC(EAST,1,false));
         getOptionsPanel().add(getHeadlineSite());
-        getGBL().setConstraints(getListSite(), getCGBL().configGBC(2,false));
+
+        setListSite(new JComboBox<>(getPSitesT().getArrayNameSites()));
+        getGBL().setConstraints(getListSite() , getCGBL().configGBC(2,false));
         getOptionsPanel().add(getListSite());
 
         getGBL().setConstraints(getHeadlinePersons(), getCGBL().configGBC(EAST,1,true));
@@ -51,8 +57,10 @@ public class DailyStatistic extends Statistics{
         getGBL().setConstraints(getFinishCalendar(), getCGBL().configGBC(2,false));
         getOptionsPanel().add(getFinishCalendar());
 
-        getGBL().setConstraints(getBtnConfirm(), getCGBL().configGBC(REMAINDER,true));
+        getGBL().setConstraints(getBtnConfirm(), getCGBL().configGBC(2,true));
         getOptionsPanel().add(getBtnConfirm());
+        getGBL().setConstraints(getBtnRefresh(), getCGBL().configGBC(2,false));
+        getOptionsPanel().add(getBtnRefresh());
     }
 
     @Override
@@ -78,6 +86,13 @@ public class DailyStatistic extends Statistics{
     }
 
     @Override
+    public void initDataTable() {
+        JTable dataTable = new JTable(getPDailyStatisticsT().getArrayFillTable(nameSite, namePerson, startDate, finishDate, namesColumn.length), namesColumn);
+        dataScrollPane = new JScrollPane(dataTable);
+        getPanelStat().add(dataScrollPane, BorderLayout.CENTER);
+    }
+
+    @Override
     public void visibleDataTable(ActionEvent actionEvent){
         String str = "";
         if(nameSite == null || nameSite.equals(ProcessingData.getNotChosen())) str += " \"" + getHeadlineSite().getText() + "\" \n";
@@ -90,25 +105,22 @@ public class DailyStatistic extends Statistics{
                     getEmptyFields(),
                     JOptionPane.WARNING_MESSAGE);
         }
-        dataTable = new JTable(getPPersonPageRankT().getArrayFillTable(nameSite,namePerson,startDate,finishDate, columnNames.length), columnNames);
-        dataScrollPane = new JScrollPane(dataTable);
-        getPanelStat().add(dataScrollPane, BorderLayout.CENTER);
-        dataScrollPane.setVisible(true);
+        refreshDataTable(actionEvent);
+    }
 
+    @Override
+    public void outTotalNumberPages(){
         getNumberPagesTotal().setText("Общее количество новых страниц за выбранный период: " +
-                getPPersonPageRankT().getNumberPagesTotal(nameSite,namePerson,startDate,finishDate));
+                getPDailyStatisticsT().getNumberPagesTotal());
         getPanelStat().add(getNumberPagesTotal(), BorderLayout.SOUTH);
         getNumberPagesTotal().setVisible(true);
         getPanelStat().updateUI();
     }
 
     @Override
-    public void removeDataTable(PropertyChangeEvent evt){
-        for (int i = 0; i < getPanelStat().getComponents().length; i++) {
-            if(getPanelStat().getComponents()[i].equals(dataScrollPane)){
-                getPanelStat().remove(dataScrollPane);
-            }
-        }
-        getPanelStat().updateUI();
+    public void refreshDataTable(ActionEvent actionEvent) {
+        removeDataTable(dataScrollPane);
+        initDataTable();
+        outTotalNumberPages();
     }
 }

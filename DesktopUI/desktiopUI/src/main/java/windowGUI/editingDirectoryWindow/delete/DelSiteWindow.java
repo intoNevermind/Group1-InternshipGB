@@ -17,7 +17,7 @@ public class DelSiteWindow extends EditingDirectoryWindow {
         this.sitesID = sitesID;
 
         new ConfigurationsWindowGUI().setConfigWindow(getWindow(), windowTitle, getSizeWidth(), getSizeHeight());
-        System.out.println("конструктор Удаления сайта");
+
         SitesTable.infoAllSites();
 
         fillDelPanels(nameSites);
@@ -26,7 +26,9 @@ public class DelSiteWindow extends EditingDirectoryWindow {
     @Override
     public void saveEditing(ActionEvent actionEvent) {
         SitesTable.delSite(sitesID);
-        SITES_DIRECTORY.getPanelDirectory().updateUI();
+
+        SitesTable.infoAllSites();
+        SITES_DIRECTORY.visibleDataTable(actionEvent);
         getWindow().dispose();
     }
 }

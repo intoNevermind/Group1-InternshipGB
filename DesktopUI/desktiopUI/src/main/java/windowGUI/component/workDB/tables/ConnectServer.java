@@ -10,6 +10,7 @@ class ConnectServer {
             .baseUrl("http://54.154.158.193/")
             .addConverterFactory(GsonConverterFactory.create())
             .build();
+
     /*
      * <getters>
      * */

@@ -8,8 +8,6 @@ import windowGUI.registrationOrEntryWindow.AuthorizationWindow;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.image.ImageObserver;
-import java.text.AttributedCharacterIterator;
 import java.util.ArrayList;
 /*
  * Класс-окно, отвечающий за окно приложения
@@ -19,17 +17,13 @@ public class ApplicationWindow {
 
     private static final String WINDOW_TITLE = "Статистика";
 
-    private static final int SIZE_WIDTH = 700;
+    private static final int SIZE_WIDTH = 800;
     private static final int SIZE_HEIGHT = 500;
 
     private static final JFrame WINDOW = new JFrame();
-
     private static final JTabbedPane LIST_OF_TABS = new JTabbedPane(JTabbedPane.LEFT, JTabbedPane.SCROLL_TAB_LAYOUT);
-
     private static final JPanel RESTART_PANEL = new JPanel(new FlowLayout());
-
     private static final JLabel HEAD_LINE_RESTART = new JLabel();
-
     private static final JButton BTN_RESTART = new JButton("Сменить учетную запись");
 
     private static final DailyStatistic DAILY_STATISTIC = new DailyStatistic();
@@ -43,11 +37,10 @@ public class ApplicationWindow {
         new ConfigurationsWindowGUI().setConfigWindow(WINDOW, WINDOW_TITLE,SIZE_WIDTH, SIZE_HEIGHT);
 
         fillTabs();
+        fillRestart();
 
         HEAD_LINE_RESTART.setText("Пользователь: " + nameUser + "   ");
         BTN_RESTART.addActionListener(this::openAuthorizationWindow);
-
-        fillRestart();
 
         WINDOW.setVisible(true);
     }

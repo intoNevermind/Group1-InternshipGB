@@ -3,7 +3,8 @@ package windowGUI.component.workStatistics;
 import windowGUI.ApplicationWindow;
 import windowGUI.MyStyle;
 import windowGUI.component.ConfigurationGBL;
-import windowGUI.component.workDB.processingData.ProcessingPersonPageRankTable;
+import windowGUI.component.workDB.processingData.ProcessingDailyStatisticsTable;
+import windowGUI.component.workDB.processingData.ProcessingGeneralStatisticsTable;
 import windowGUI.component.workDB.processingData.ProcessingPersonTable;
 import windowGUI.component.workDB.processingData.ProcessingSitesTable;
 
@@ -30,7 +31,8 @@ public abstract class Statistics {
     private final JPanel panelStat = new JPanel(new BorderLayout());
     private final JPanel optionsPanel = new JPanel(GBL);
 
-    private static final ProcessingPersonPageRankTable P_PERSON_PAGE_RANK_T = new ProcessingPersonPageRankTable();
+    private static final ProcessingGeneralStatisticsTable P_GENERAL_STATISTICS_T = new ProcessingGeneralStatisticsTable();
+    private static final ProcessingDailyStatisticsTable P_DAILY_STATISTICS_T = new ProcessingDailyStatisticsTable();
     private static final ProcessingSitesTable P_SITES_T = new ProcessingSitesTable();
     private static final ProcessingPersonTable P_PERSON_T = new ProcessingPersonTable();
 
@@ -40,17 +42,14 @@ public abstract class Statistics {
     private final JLabel headlineFinishPeriod = new JLabel(" по: ");
     private final JLabel numberPagesTotal = new JLabel();
 
-    private final JComboBox<Object> listSite = new JComboBox<>(P_SITES_T.getArrayNameSites());
-    private final JComboBox<Object> listPersons = new JComboBox<>(P_PERSON_T.getArrayNamePersons());
+    private JComboBox<Object> listSite = new JComboBox<>(P_SITES_T.getArrayNameSites());
+    private JComboBox<Object> listPersons = new JComboBox<>(P_PERSON_T.getArrayNamePersons());
 
     private final MyCalendar startCalendar = new MyCalendar();
     private final MyCalendar finishCalendar = new MyCalendar();
 
     private final JButton btnConfirm = new JButton(" Подтвердить");
-
-    String[] columnNames;
-    JTable dataTable;
-    JScrollPane dataScrollPane;
+    private final JButton btnRefresh = new JButton("Обновить");
 
     Statistics() {
         MY_STYLE.setStyle(getListComponents());
@@ -60,8 +59,7 @@ public abstract class Statistics {
 
         fillOptionsPanel();
 
-        addActionListenerForListSite();
-        btnConfirm.addActionListener(this::visibleDataTable);
+        addActionListenerForBtn();
     }
 
     /*
@@ -82,8 +80,8 @@ public abstract class Statistics {
         listComponent.add(finishCalendar);
 
         listComponent.add(btnConfirm);
+        listComponent.add(btnRefresh);
 
-        listComponent.add(dataTable);
         return listComponent;
     }
 
@@ -91,7 +89,9 @@ public abstract class Statistics {
      * <абстрактные методы>
      * */
     public abstract void fillOptionsPanel();// заполняет панэль опций
+    public abstract void initDataTable();// инициализирует таблицу данных
     public abstract void visibleDataTable(ActionEvent actionEvent);//делает видимой таблицу с данными
+    public abstract void refreshDataTable(ActionEvent actionEvent);//обновляет таблицу данных
     /*
      * </абстрактные методы>
      * */
@@ -104,7 +104,7 @@ public abstract class Statistics {
     /*
      * метод, удаляющий таблицу с данными
      * */
-    private void removeDataTable(ActionEvent actionEvent) {
+    void removeDataTable(JScrollPane dataScrollPane) {
         for (int i = 0; i < getPanelStat().getComponents().length; i++) {
             if(getPanelStat().getComponents()[i].equals(dataScrollPane)){
                 getPanelStat().remove(dataScrollPane);
@@ -114,11 +114,11 @@ public abstract class Statistics {
     }
 
     /*
-     * метод, добавляющий листенеры для выпадающего списка сайтов
+     * метод, добавляющий листенеры для кнопок
      * */
-    private void addActionListenerForListSite(){
-        listSite.addActionListener(this::initNameSites);
-        listSite.addActionListener(this::removeDataTable);
+    private void addActionListenerForBtn(){
+        btnConfirm.addActionListener(this::visibleDataTable);
+        btnRefresh.addActionListener(this::refreshDataTable);
     }
     /*
      * </общие методы>
@@ -128,18 +128,25 @@ public abstract class Statistics {
      * <специфичные методы>
      * специфичные методы, которые могут быть в классе-статистике
      * */
+
     public void initNameSites(ActionEvent actionEvent){}// инициализирует имя сайта
     public void initNamePerson(ActionEvent actionEvent){}// инициализирует имя личности
     public void initStartDate(PropertyChangeEvent evt){}// инициализирует начальную дату
     public void initFinishDate(PropertyChangeEvent evt){}// инициализирует конечную дату
-    public void removeDataTable(PropertyChangeEvent evt){}// удаляет таблицу с данными(перегруженный)
+    public void outTotalNumberPages(){}// выводит общее количество найденных страниц
 
-     /*
+    /*
+     * метод, добавляющий листенеры для выпадающего списка сайтов
+     * */
+    void addActionListenerForListSite(){
+        listSite.addActionListener(this::initNameSites);
+    }
+
+    /*
      * метод, добавляющий листенеры для выпадающего списка личностей
      * */
     void addActionListenerForListPerson(){
         listPersons.addActionListener(this::initNamePerson);
-        listPersons.addActionListener(this::removeDataTable);
     }
 
     /*
@@ -147,9 +154,7 @@ public abstract class Statistics {
      * */
     void addActionListenerForCalendars(){
         startCalendar.getDateEditor().addPropertyChangeListener("date",this::initStartDate);
-        startCalendar.getDateEditor().addPropertyChangeListener("date", this::removeDataTable);
         finishCalendar.getDateEditor().addPropertyChangeListener("date",this::initFinishDate);
-        finishCalendar.getDateEditor().addPropertyChangeListener("date", this::removeDataTable);
     }
     /*
      * </специфичные методы>
@@ -182,8 +187,17 @@ public abstract class Statistics {
         return optionsPanel;
     }
 
-    static ProcessingPersonPageRankTable getPPersonPageRankT() {
-        return P_PERSON_PAGE_RANK_T;
+    public ProcessingSitesTable getPSitesT() {
+        return P_SITES_T;
+    }
+    public ProcessingPersonTable getPPersonT() {
+        return P_PERSON_T;
+    }
+    static ProcessingGeneralStatisticsTable getPGeneralStatisticsT() {
+        return P_GENERAL_STATISTICS_T;
+    }
+    static ProcessingDailyStatisticsTable getPDailyStatisticsT() {
+        return P_DAILY_STATISTICS_T;
     }
 
     JLabel getHeadlineSite() {
@@ -202,6 +216,12 @@ public abstract class Statistics {
         return numberPagesTotal;
     }
 
+    public void setListSite(JComboBox<Object> listSite) {
+        this.listSite = listSite;
+    }
+    public void setListPersons(JComboBox<Object> listPersons) {
+        this.listPersons = listPersons;
+    }
     JComboBox<Object> getListSite() {
         return listSite;
     }
@@ -218,6 +238,9 @@ public abstract class Statistics {
 
     JButton getBtnConfirm() {
         return btnConfirm;
+    }
+    JButton getBtnRefresh() {
+        return btnRefresh;
     }
     /*
      * </getters and setters>

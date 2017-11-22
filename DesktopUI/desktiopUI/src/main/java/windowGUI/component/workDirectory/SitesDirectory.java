@@ -9,6 +9,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import static java.awt.GridBagConstraints.REMAINDER;
 /*
  * Класс-справочник, отвечающий за функциональную деятельность справочника Sites
  * */
@@ -17,18 +18,25 @@ public class SitesDirectory extends Directory{
 
     private static String nameSites ;
 
+    private JTable dataTable;
+    private JScrollPane dataScrollPane;
+
     public SitesDirectory() {
         setNameTab(TAB_NAME);
-
-        dataTable = new JTable(getPSitesT().getArrayFillTable(getColumnNames().length), getColumnNames());
-        dataTable.getSelectionModel().addListSelectionListener(this::initSelectedRow);
-        dataScrollPane = new JScrollPane(dataTable);
-        getPanelDirectory().add(dataScrollPane, BorderLayout.CENTER);
     }
 
     @Override
-    public void visibleWindowAdd(ActionEvent actionEvent) {
-        new AddSiteWindow(getBtnAdd().getText() + " новую личность");
+    public void fillOptionsPanel() {
+        getGBL().setConstraints(getBtnRefresh(), getCGBL().configGBC(REMAINDER,false));
+        getPanelOptions().add(getBtnRefresh());
+    }
+
+    @Override
+    public void initDataTable(){
+        dataTable = new JTable(getPSitesT().getArrayFillTable(getNamesColumn().length), getNamesColumn());
+        dataTable.getSelectionModel().addListSelectionListener(this::initSelectedRow);
+        dataScrollPane = new JScrollPane(dataTable);
+        getPanelDirectory().add(dataScrollPane, BorderLayout.CENTER);
     }
 
     @Override
@@ -36,6 +44,17 @@ public class SitesDirectory extends Directory{
         TableModel model = dataTable.getModel();
         Object value = model.getValueAt(dataTable.getSelectedRow(), 0);
         nameSites = (String) value;
+    }
+
+    @Override
+    public void refreshDataTable(ActionEvent actionEvent) {
+        removeDataTable(dataScrollPane);
+        initDataTable();
+    }
+
+    @Override
+    public void visibleWindowAdd(ActionEvent actionEvent) {
+        new AddSiteWindow(getBtnAdd().getText() + " новую личность");
     }
 
     @Override
@@ -49,6 +68,7 @@ public class SitesDirectory extends Directory{
             new DelSiteWindow(getBtnDelete().getText() + " сайт ",
                     nameSites,
                     getPSitesT().getIDSiteByNameSite(nameSites));
+            nameSites = null;
         }
     }
 
@@ -65,6 +85,7 @@ public class SitesDirectory extends Directory{
                     getPSitesT().getIDSiteByNameSite(nameSites),
                     getPSitesT().getURLSiteByNameSite(nameSites),
                     getPSitesT().getActiveSiteByNameSite(nameSites));
+            nameSites = null;
         }
     }
 }
