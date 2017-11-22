@@ -56,7 +56,7 @@ public class UserUIGeneralStatisticsController {
     }
 
     /**
-     * Получение общей статистики по всем личностям для выбранного сайта.
+     * Получение ежедневной статистики по всем личностям для выбранного сайта в выбранный диапазон дат.
      *
      * @param siteID     site index.
      * @param dateFrom
@@ -83,10 +83,8 @@ public class UserUIGeneralStatisticsController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Error. site == \"\"");
         }
-
-
         try {
-            List<PersonDailyStatistic> resultList = userUiSitesDbOperations.getPersonDailyStatistic(siteID,dateFrom,dateTo);;
+            List<PersonDailyStatistic> resultList = userUiSitesDbOperations.getPersonDailyStatistic(siteID,dateFrom,dateTo);
             return new ResponseEntity<>(resultList, HttpStatus.OK);
         } catch (Exception ex) {
             LOG.warn("Error at run get daily Statistic.");
