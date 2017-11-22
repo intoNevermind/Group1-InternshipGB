@@ -33,7 +33,8 @@ public class AdminUiKeywordController {
      *
      * @return список всех ключевых слов.
      */
-    @RequestMapping(value = {"/admin/ui/getAllKeywords", "/unauthorized/admin/ui/getAllKeywords"})
+    @RequestMapping(value = {"/admin/ui/getAllKeywords", "/unauthorized/admin/ui/getAllKeywords",
+            "/user/ui/getAllKeywords", "/unauthorized/user/ui/getAllKeywords"})
     public List<TableKeywords> getAllKeywords() {
         List<TableKeywords> resultList = new ArrayList<>();
         try {
@@ -53,7 +54,8 @@ public class AdminUiKeywordController {
      * @param personId идентификатор личности.
      * @return сообщение о статусе выполнения.
      */
-    @RequestMapping(value = {"/admin/ui/addKeyword", "/unauthorized/admin/ui/addKeyword"})
+    @RequestMapping(value = {"/admin/ui/addKeyword", "/unauthorized/admin/ui/addKeyword",
+            "/user/ui/addKeyword", "/unauthorized/user/ui/addKeyword"})
     public ResponseEntity addKeyword(@RequestParam(value = "name") String name,
                                      @RequestParam(value = "personId") Integer personId) {
 
@@ -88,7 +90,8 @@ public class AdminUiKeywordController {
      * @return сообщение о статусе выполнения.
      * В случае корректного выполнения в теле ответа возвращается количество удалёных записей.
      */
-    @RequestMapping(value = {"/admin/ui/delKeyword", "/unauthorized/admin/ui/delKeyword"})
+    @RequestMapping(value = {"/admin/ui/delKeyword", "/unauthorized/admin/ui/delKeyword",
+            "/user/ui/delKeyword", "/unauthorized/user/ui/getKeyword"})
     public ResponseEntity delKeyword(@RequestParam(value = "id") Integer id) {
         int deletedRows;
 
@@ -119,7 +122,8 @@ public class AdminUiKeywordController {
      * @return сообщение о статусе выполнения.
      * В случае корректного выполнения в теле ответа возвращается количество удалёных записей.
      */
-    @RequestMapping(value = {"/admin/ui/modifyKeyword", "/unauthorized/admin/ui/modifyKeyword"})
+    @RequestMapping(value = {"/admin/ui/modifyKeyword", "/unauthorized/admin/ui/modifyKeyword",
+            "/user/ui/modifyKeyword", "/unauthorized/user/ui/modifyKeyword"})
     public ResponseEntity modifySite(@RequestParam(value = "id") Integer id,
                                      @RequestParam(value = "name") String name,
                                      @RequestParam(value = "personId") Integer personId) {
@@ -161,7 +165,8 @@ public class AdminUiKeywordController {
      * @param id уникальный иднтификатр личности.
      * @return Список TableKeywords или ошибку.
      */
-    @RequestMapping(value = {"/admin/ui/getKeywordsByPersonId", "/unauthorized/admin/ui/getKeywordsByPersonId"})
+    @RequestMapping(value = {"/admin/ui/getKeywordsByPersonId", "/unauthorized/admin/ui/getKeywordsByPersonId",
+            "/user/ui/getKeywordsByPersonId", "/unauthorized/user/ui/getKeywordsByPersonId"})
     public ResponseEntity<?> getKeywordsByPersonId(@RequestParam(value = "id") Integer id) {
         if (id == null) {
             LOG.warn("Error in /admin/ui/getKeywordsByPersonId. id == null");
