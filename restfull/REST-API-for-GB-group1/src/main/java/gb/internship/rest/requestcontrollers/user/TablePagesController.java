@@ -1,11 +1,11 @@
 package gb.internship.rest.requestcontrollers.user;
 
 import gb.internship.rest.db.operations.TablePagesDbOperations;
-import gb.internship.rest.db.operations.TableSitesOperations;
 import gb.internship.rest.requestcontrollers.admin.AdminUiPersonController;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,6 +14,7 @@ import java.util.List;
 /**
  * Created by agcheb on 18.11.17.
  */
+@RestController
 public class TablePagesController {
     private Log LOG = LogFactory.getLog(AdminUiPersonController.class);
     private TablePagesDbOperations tablePagesDbOperations;

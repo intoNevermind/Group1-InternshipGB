@@ -1,9 +1,6 @@
 package gb.internship.rest.db.operations;
 
-import gb.internship.rest.dataobjects.PersonGeneralStatistic;
-import gb.internship.rest.dataobjects.TableKeywords;
-import gb.internship.rest.dataobjects.TablePersonPageRank;
-import gb.internship.rest.dataobjects.TablePersons;
+import gb.internship.rest.dataobjects.*;
 import gb.internship.rest.db.DbWrapper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -28,6 +25,7 @@ public class UsersUiDbOperation {
     }
 
     /**
+     * @author agcheb
      * Получение общей статистики по всем личностям из таблицы personpagerank.
      *
      * @param siteID - индекс сайта, по которому пользователь желает посмотреть статистику
@@ -62,6 +60,7 @@ public class UsersUiDbOperation {
     }
 
     /**
+     *
      * Получение всех личносетй из таблицы persons.
      *
      * @return список всех личности, обёрнутых в объекты.
@@ -140,24 +139,65 @@ public class UsersUiDbOperation {
 
         return result;
     }
+    /**
+     * Ежедневная статистика
+     * @author agcheb
+     *
+     * @param siteID - id сайта, по которому просматривается статистика
+     * @param dateFrom  - дата начиная с которой просматривается статистика
+     * @param dateTo  - дата до которой рассматривается статистика
+     *
+     */
 
+    public List<PersonDailyStatistic> getPersonDailyStatistic(Integer siteID, Date dateFrom, Date dateTo) throws SQLException {
+        List<PersonDailyStatistic> resultList = new ArrayList<>();
+
+        LOG.info("select ppr.\"RankDate\", pr.\"Name\" as \"Person\", s.\"Name\" as \"Site\", sum(ppr.\"Rank\") " +
+                "from personpagerank ppr, persons pr, pages p, sites s " +
+                "where s.\"ID\" = p.\"SiteID\" and p.\"ID\" = ppr.\"PageID\" AND pr.\"ID\" = ppr.\"PersonID\" " +
+                "and s.\"ID\" = " + siteID + "and ppr.\"RankDate\" between " +dateFrom +" and " + dateTo +
+                " group by pr.\"Name\", s.\"Name\", ppr.\"RankDate\" order by sum(ppr.\"Rank\") desc;");
+
+        String sqlQuery = "select ppr.\"RankDate\" as \"DateRank\", pr.\"Name\" as \"Person\", s.\"Name\" as \"Site\", sum(ppr.\"Rank\") as \"DailyRank\" " +
+                "from personpagerank ppr, persons pr, pages p, sites s " +
+                "where s.\"ID\" = p.\"SiteID\" and p.\"ID\" = ppr.\"PageID\" AND pr.\"ID\" = ppr.\"PersonID\" " +
+                "and s.\"ID\" = (?) and ppr.\"RankDate\" between (?) and (?)" +
+                " group by pr.\"Name\", s.\"Name\", ppr.\"RankDate\" order by sum(ppr.\"Rank\") desc;";
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setInt(1, siteID);
+        preparedStatement.setDate(2,dateFrom);
+        preparedStatement.setDate(3,dateTo);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        while (resultSet.next()) {
+            resultList.add(new PersonDailyStatistic(resultSet.getString("person"),
+                    resultSet.getDate("daterank"),
+                    resultSet.getInt("dailyrank")));
+        }
+        preparedStatement.close();
+
+        return resultList;
+
+    }
 
     /**
      * @author Баранов
      * Получаем ежедневную статистику
      */
 
-    private Date getPersonsOfLastScanDate(java.util.Date lastscandate, String name) throws SQLException {
-        Date result = null;
+    public List<TablePages> getPersonsOfLastScanDate(Date lastscandate, String name) throws SQLException {
+        List<TablePages> result = new ArrayList<>();
         LOG.info("SELECT * FROM (SELECT * FROM pages WHERE lastscandate = " + lastscandate + " SELECT * FROM persons WHERE name = " + name + ";");
         String sqlQuery = "SELECT * FROM (SELECT * FROM pages WHERE lastscandate = ? SELECT * FROM persons WHERE name =?)";
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-        preparedStatement.setDate(1, (Date) lastscandate);
+        preparedStatement.setDate(1, lastscandate);
         preparedStatement.setString(2, name);
         ResultSet resultSet = preparedStatement.executeQuery();
 
         while (resultSet.next()) {
-            result = resultSet.getDate("lastscandate");
+            result.add(new TablePages(resultSet.getDate("lastscandate"),
+                    resultSet.getString("name")));
+
         }
         preparedStatement.close();
 

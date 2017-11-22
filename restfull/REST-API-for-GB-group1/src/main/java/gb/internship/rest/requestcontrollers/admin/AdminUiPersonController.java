@@ -33,7 +33,8 @@ public class AdminUiPersonController {
      *
      * @return список всех личностей.
      */
-    @RequestMapping(value = {"/admin/ui/getAllPersons", "/unauthorized/admin/ui/getAllPersons"})
+    @RequestMapping(value = {"/admin/ui/getAllPersons", "/unauthorized/admin/ui/getAllPersons",
+            "/user/ui/getAllPersons", "/unauthorized/user/ui/getAllPersons"})
     public List<TablePersons> getAllPersons() {
         List<TablePersons> resultList = new ArrayList<>();
         try {
@@ -51,7 +52,8 @@ public class AdminUiPersonController {
      * @param active активен.
      * @return сообщение о статусе выполнения.
      */
-    @RequestMapping(value = {"/admin/ui/addPerson", "/unauthorized/admin/ui/addPerson"})
+    @RequestMapping(value = {"/admin/ui/addPerson", "/unauthorized/admin/ui/addPerson",
+            "/user/ui/addPerson", "/unauthorized/user/ui/addPerson"})
     public ResponseEntity addPerson(@RequestParam(value = "name") String name,
                                     @RequestParam(value = "active") String active) {
 
@@ -88,7 +90,8 @@ public class AdminUiPersonController {
      * @return сообщение о статусе выполнения.
      * В случае корректного выполнения в теле ответа возвращается количество удалёных записей.
      */
-    @RequestMapping(value = {"/admin/ui/delPerson", "/unauthorized/admin/ui/delPerson"})
+    @RequestMapping(value = {"/admin/ui/delPerson", "/unauthorized/admin/ui/delPerson",
+            "/user/ui/delPerson", "/unauthorized/user/ui/delPerson"})
     public ResponseEntity delPerson(@RequestParam(value = "id") Integer id) {
         int deletedRows;
 
@@ -110,7 +113,8 @@ public class AdminUiPersonController {
                 .body(deletedRows);
     }
 
-    @RequestMapping(value = {"/admin/ui/modifyPerson", "/unauthorized/admin/ui/modifyPerson"})
+    @RequestMapping(value = {"/admin/ui/modifyPerson", "/unauthorized/admin/ui/modifyPerson",
+            "/user/ui/modifyPerson", "/unauthorized/user/ui/modifyPerson"})
     public ResponseEntity modifySite(@RequestParam(value = "id") Integer id,
                                      @RequestParam(value = "name") String name,
                                      @RequestParam(value = "active") String active) {
