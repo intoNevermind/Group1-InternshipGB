@@ -40,30 +40,29 @@ public class PersonRankUpdater {
 
             personsIds = dbWrapper.getPersonIDs();
             int pageRank = 0;
-            String[] keywordEndings = {" ", ",",".",";","-"};
+
 
             for (int i = 0; i < personsIds.size(); i++) {
                 //LogWrapper.info("Looking for person ID " + peronsIds.get(i) + " in url " + page.getPageUrl());
                 pageRank = 0;
                 keywords = dbWrapper.getPersonKeywords(personsIds.get(i));
                 for (int j = 0; j < keywords.size(); j++) {
-                    for (int k = 0; k < keywordEndings.length; k++) {
-                        //LogWrapper.info("Looking for keyword ID " + keywords.get(j) + keywordEndings[k] + " in url " + page.getPageUrl());
-                        pageRank += StringUtils.countMatches(pageText, keywords.get(j) + keywordEndings[k]);
-                    }
+                    pageRank += countKeyRangs(keywords.get(j), pageText);
                 }
                 LogWrapper.info("Writing rank " + pageRank + " for person ID " + personsIds.get(i) + " and page " + page.getPageUrl()
                         + " into the database");
                 dbWrapper.updatePersonPageRating(pageRank, personsIds.get(i), page);
             }
+       }
 
-
+        public static int countKeyRangs(String keyWord, String pageText){
+            String[] keywordEndings = {" ", ",",".", ":", ";","-"};
+            int result = 0;
+            for (int k = 0; k < keywordEndings.length; k++) {
+                //LogWrapper.info("Looking for keyword ID " + keywords.get(j) + keywordEndings[k] + " in url " + page.getPageUrl());
+                 result += StringUtils.countMatches(pageText, keyWord + keywordEndings[k]);
+            }
+            return result;
         }
-
-
-
-
-
-
 
 }
