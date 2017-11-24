@@ -1,7 +1,7 @@
 package windowGUI.registrationOrEntryWindow;
 
 import windowGUI.MyStyle;
-import windowGUI.component.ConfigurationGBL;
+import windowGUI.ConfigurationGBL;
 
 import javax.swing.*;
 import java.awt.*;

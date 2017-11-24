@@ -2,7 +2,8 @@ package windowGUI.editingDirectoryWindow.edit;
 
 import windowGUI.ConfigurationsWindowGUI;
 import windowGUI.component.workDB.tables.PersonsTable;
-import windowGUI.component.workDirectory.PersonsDirectory;
+import windowGUI.component.workDirectory.KeyWordsDirectory;
+import windowGUI.component.workStatistics.DailyStatistic;
 import windowGUI.editingDirectoryWindow.EditingDirectoryWindow;
 
 import java.awt.*;
@@ -13,7 +14,6 @@ import static java.awt.GridBagConstraints.WEST;
  * Класс-редактор справочников, отвечающий за функциональную деятельность редактирования личностей
  * */
 public class EditPersonWindow extends EditingDirectoryWindow {
-    private static final PersonsDirectory PERSON_DIRECTORY = new PersonsDirectory();
 
     private String namePerson;
     private boolean activePerson;
@@ -52,10 +52,18 @@ public class EditPersonWindow extends EditingDirectoryWindow {
 
     @Override
     public void saveEditing(ActionEvent actionEvent) {
-        if(getNameField().getText() != null) PersonsTable.modifyPerson(personID, getNameField().getText(),getActive().isSelected());
+        if(getNameField().getText() != null) {
+            PersonsTable.modifyPerson(personID, getNameField().getText(),getActive().isSelected());
+            if (getActive().isSelected()){
+                KeyWordsDirectory.LIST_BEFORE_NAME_PERSONS.add(namePerson);
+                KeyWordsDirectory.LIST_AFTER_NAME_PERSONS.add(getNameField().getText());
+                DailyStatistic.listBeforeNamePersons.add(namePerson);
+                DailyStatistic.listAfterNamePersons.add(getNameField().getText());
+            }
+        }
 
-        PersonsTable.infoAllPersons();
-        PERSON_DIRECTORY.visibleDataTable(actionEvent);
+
+
         getNameField().setText(null);
         getWindow().dispose();
     }

@@ -33,11 +33,12 @@ public class ProcessingPersonTable extends ProcessingData{
     @Override
     public Object[][] getArrayFillTable(int numberColumn){
         PersonsTable.infoAllPersons();
-        ArrayList<String> listNameFromPersons = PersonsTable.getListName();
+//        ArrayList<String> listNameFromPersons = PersonsTable.getListName();
+        LinkedHashMap<String, Boolean> listNameAndActiveFromPersons = PersonsTable.getListNameAndActive();
 
         if(numberColumn < 1) return super.getArrayFillTable(numberColumn);
 
-        return convertingListToArray(listNameFromPersons,numberColumn);
+        return convertingListToArray(listNameAndActiveFromPersons,numberColumn);
     }
 
     /*

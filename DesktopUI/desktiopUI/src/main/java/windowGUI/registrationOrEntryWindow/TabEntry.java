@@ -11,10 +11,10 @@ import static java.awt.GridBagConstraints.REMAINDER;
 /*
  * Класс-авторизация, отвечающий за функциональную деятельность вкладки Вход
  * */
-public class EntryWindow extends Authorization {
+public class TabEntry extends Authorization {
     private static final String TAB_TITLE = "Вход";
 
-    EntryWindow() {
+    TabEntry() {
         setTabTitle(TAB_TITLE);
 
         UsersTable.infoAllUsers();

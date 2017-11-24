@@ -24,12 +24,12 @@ public class ProcessingData {
     /*
      * метод, преобразующий связанный список в двойной массив
      * */
-    Object[][] convertingListToArray(LinkedHashMap list, int numberCount){
+    Object[][] convertingListToArray(LinkedHashMap list, int numberColumn){
         Object[] keysList = list.keySet().toArray();
-        Object[][] arr = new Object[list.size()][numberCount];
+        Object[][] arr = new Object[list.size()][numberColumn];
 
         for(int i = 0; i < list.size(); i++) {
-            for(int j = 0; j < numberCount; j++) {
+            for(int j = 0; j < numberColumn; j++) {
                 if(j == 0) arr[i][j] = keysList[i];
                 else arr[i][j] = list.get(keysList[i]);
             }
@@ -49,6 +49,36 @@ public class ProcessingData {
             }
         }
         return arr;
+    }
+
+    /*
+     * метод, преобразующий список в двойной массив
+     * */
+    Object[][] convertingListToArray(LinkedHashMap list, ArrayList<Boolean> listActive, int numberColumn ){
+        Object[][] arr = new Object[list.size()][numberColumn];
+        ArrayList<Object> listUnionAllValues = unionAllValues(list,listActive);
+        int numberOfValues = 0;
+
+        for(int j = 0; j < numberColumn; j++) {
+            for(int i = 0; i < list.size(); i++) {
+                arr[i][j] = listUnionAllValues.get(numberOfValues);
+                numberOfValues++;
+            }
+        }
+        return arr;
+    }
+
+    private ArrayList<Object> unionAllValues(LinkedHashMap list, ArrayList<Boolean> active){
+        ArrayList<Object> listUnionAllValues = new ArrayList<>();
+
+        listUnionAllValues.addAll(list.keySet());
+        listUnionAllValues.addAll(list.values());
+
+        for (int i = 0; i < active.size(); i++) {
+            if(active.get(i)) listUnionAllValues.add("Да");
+            else listUnionAllValues.add("Нет");
+        }
+        return listUnionAllValues;
     }
 
     /*

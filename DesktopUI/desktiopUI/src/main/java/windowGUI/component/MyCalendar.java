@@ -1,4 +1,4 @@
-package windowGUI.component.workStatistics;
+package windowGUI.component;
 
 import java.awt.*;
 import com.toedter.calendar.JDateChooser;
@@ -12,7 +12,7 @@ public class MyCalendar extends JDateChooser{
     private static final int SIZE_HEIGHT = 200;
     private static final String FORMAT = "yyyy-MM-dd";
 
-        MyCalendar() {
+        public MyCalendar() {
             setBounds(X, Y, SIZE_WIDTH, SIZE_HEIGHT);
             setDateFormatString(FORMAT);
 

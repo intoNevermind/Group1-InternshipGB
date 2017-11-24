@@ -1,38 +1,55 @@
 package windowGUI.component.workStatistics;
 
+import windowGUI.component.ListSites;
+import windowGUI.component.WorkWithItemsJComboBox;
 import windowGUI.component.workDB.processingData.ProcessingData;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+
 import static java.awt.GridBagConstraints.*;
 /*
  * Класс-статистика, отвечающий за функциональную деятельность Общей статистики
  * */
-public class GeneralStatistic extends Statistics{
+public class GeneralStatistic extends Statistics implements ListSites{
     private static final String NAME_TAB = "Общая статистика";
+    private static final String[] NAME_COLUMNS = new String[]{"Имя", "Количество новых страниц"};
 
     private static String nameSite;
+
     private JScrollPane dataScrollPane;
-    private String[] namesColumn;
+
+    public static ArrayList<String> listAddNameSites = new ArrayList<>();
+    public static ArrayList<String> listDelNameSites = new ArrayList<>();
+    public static ArrayList<String> listBeforeNameSites = new ArrayList<>();
+    public static ArrayList<String> listAfterNameSites = new ArrayList<>();
+
+    private static final WorkWithItemsJComboBox WORK_WITH_ITEMS_J_COMBO_BOX = new WorkWithItemsJComboBox();
 
     public GeneralStatistic() {
         setTabName(NAME_TAB);
-        addActionListenerForListSite();
-        namesColumn = new String[]{"Имя", "Количество новых страниц"};
+
+        addActionListenerForListSites();
     }
 
     @Override
     public void fillOptionsPanel() {
         getGBL().setConstraints(getHeadlineSite(),getCGBL().configGBC(EAST,1,false));
         getOptionsPanel().add(getHeadlineSite());
-        getGBL().setConstraints(getListSite(),getCGBL().configGBC(2,false));
-        getOptionsPanel().add(getListSite());
+        getGBL().setConstraints(getListSites(),getCGBL().configGBC(2,false));
+        getOptionsPanel().add(getListSites());
 
         getGBL().setConstraints(getBtnConfirm(),getCGBL().configGBC(2,true));
         getOptionsPanel().add(getBtnConfirm());
         getGBL().setConstraints(getBtnRefresh(), getCGBL().configGBC(2,false));
         getOptionsPanel().add(getBtnRefresh());
+    }
+
+    @Override
+    public void addActionListenerForListSites() {
+        getListSites().addActionListener(this::initNameSites);
     }
 
     @Override
@@ -43,7 +60,7 @@ public class GeneralStatistic extends Statistics{
 
     @Override
     public void initDataTable() {
-        JTable dataTable = new JTable(getPGeneralStatisticsT().getArrayFillTable(nameSite, namesColumn.length), namesColumn);
+        JTable dataTable = new JTable(getPGeneralStatisticsT().getArrayFillTable(nameSite, NAME_COLUMNS.length), NAME_COLUMNS);
         dataScrollPane = new JScrollPane(dataTable);
         getPanelStat().add(dataScrollPane, BorderLayout.CENTER);
         getPanelStat().updateUI();
@@ -57,12 +74,14 @@ public class GeneralStatistic extends Statistics{
                     getEmptyFields(),
                     JOptionPane.WARNING_MESSAGE);
         }
-        refreshDataTable(actionEvent);
+        refresh(actionEvent);
     }
 
     @Override
-    public void refreshDataTable(ActionEvent actionEvent) {
+    public void refresh(ActionEvent actionEvent) {
         removeDataTable(dataScrollPane);
         initDataTable();
+
+        WORK_WITH_ITEMS_J_COMBO_BOX.refreshList(listAddNameSites,listDelNameSites,listBeforeNameSites, listAfterNameSites, getListSites());
     }
 }

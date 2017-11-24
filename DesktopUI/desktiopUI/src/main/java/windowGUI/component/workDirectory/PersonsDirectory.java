@@ -15,13 +15,14 @@ import static java.awt.GridBagConstraints.REMAINDER;
  * */
 public class PersonsDirectory extends Directory{
     private static final String NAME_TAB = "Личности";
+    private static final String[] NAME_COLUMNS = new String[]{"Наименование", "Статус"};
 
     private static String namePerson ;
 
     private JTable dataTable;
     private JScrollPane dataScrollPane;
 
-    public PersonsDirectory() {
+    PersonsDirectory() {
         setNameTab(NAME_TAB);
     }
 
@@ -33,7 +34,7 @@ public class PersonsDirectory extends Directory{
 
     @Override
     public void initDataTable(){
-        dataTable = new JTable(getPPersonT().getArrayFillTable(getNamesColumn().length), getNamesColumn());
+        dataTable = new JTable(getPPersonT().getArrayFillTable(NAME_COLUMNS.length), NAME_COLUMNS);
         dataTable.getSelectionModel().addListSelectionListener(this::initSelectedRow);
         dataScrollPane = new JScrollPane(dataTable);
         getPanelDirectory().add(dataScrollPane, BorderLayout.CENTER);
@@ -44,12 +45,6 @@ public class PersonsDirectory extends Directory{
         TableModel model = dataTable.getModel();
         Object value = model.getValueAt(dataTable.getSelectedRow(), 0);
         namePerson = (String) value;
-    }
-
-    @Override
-    public void refreshDataTable(ActionEvent actionEvent) {
-        removeDataTable(dataScrollPane);
-        initDataTable();
     }
 
     @Override
@@ -85,5 +80,11 @@ public class PersonsDirectory extends Directory{
                     getPPersonT().getActivePersonByNamePerson(namePerson));
             namePerson = null;
         }
+    }
+
+    @Override
+    public void refresh(ActionEvent actionEvent) {
+        removeDataTable(dataScrollPane);
+        initDataTable();
     }
 }

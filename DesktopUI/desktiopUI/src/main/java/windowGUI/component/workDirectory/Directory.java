@@ -2,7 +2,7 @@ package windowGUI.component.workDirectory;
 
 import windowGUI.ApplicationWindow;
 import windowGUI.MyStyle;
-import windowGUI.component.ConfigurationGBL;
+import windowGUI.ConfigurationGBL;
 import windowGUI.component.workDB.processingData.ProcessingKeyWordsTable;
 import windowGUI.component.workDB.processingData.ProcessingPersonTable;
 import windowGUI.component.workDB.processingData.ProcessingSitesTable;
@@ -10,7 +10,7 @@ import windowGUI.component.workDB.processingData.ProcessingSitesTable;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
-import java.awt.event.ActionEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 /*
 * Родительский класс для классов-справочников
@@ -36,15 +36,14 @@ public abstract class Directory {
 
     private final JLabel headLinePerson = new JLabel("Личности");
 
-    private final JComboBox<String> listPersons = new JComboBox<>(P_PERSON_T.getArrayNamePersons());
+
+    private final JComboBox<Object> listPersons = new JComboBox<>(P_PERSON_T.getArrayNamePersons());
 
     private final JButton btnConfirm = new JButton("Подтвердить");
     private final JButton btnRefresh = new JButton("Обновить");
     private final JButton btnAdd = new JButton("Добавить");
     private final JButton btnDelete = new JButton("Удалить");
     private final JButton btnEdit = new JButton("Редактировать");
-
-    private final String[] namesColumn = new String[]{"Наименование"};
 
     Directory() {
         MY_STYLE.setStyle(getListComponents());
@@ -85,11 +84,11 @@ public abstract class Directory {
     public abstract void initDataTable();// инициализирует таблицу данных
     public abstract void initSelectedRow(ListSelectionEvent selectionEvent);// инициализирует строку таблицы
 
-    public abstract void refreshDataTable(ActionEvent actionEvent);//обновляет таблицу данных
-
     public abstract void visibleWindowAdd(ActionEvent actionEvent);// вызывает окно добавления элемента
     public abstract void visibleWindowDel(ActionEvent actionEvent);// вызывает окно удаления элемента
     public abstract void visibleWindowEdit(ActionEvent actionEvent);// вызывает окно редактирования элемента
+
+    public abstract void refresh(ActionEvent actionEvent);//обновляет справочник
     /*
      * </абстрактные методы>
      * */
@@ -112,8 +111,7 @@ public abstract class Directory {
      * метод, добавляющий листенеры для кнопок
      * */
     private void addActionListenerForBtn(){
-        btnConfirm.addActionListener(this::visibleDataTable);
-        btnRefresh.addActionListener(this::refreshDataTable);
+        btnRefresh.addActionListener(this::refresh);
         btnAdd.addActionListener(this::visibleWindowAdd);
         btnDelete.addActionListener(this::visibleWindowDel);
         btnEdit.addActionListener(this::visibleWindowEdit);
@@ -130,26 +128,8 @@ public abstract class Directory {
         }
         getPanelDirectory().updateUI();
     }
-
     /*
      * </общие методы>
-     * */
-
-    /*
-     * <специфичные методы>
-     * специфичные методы, которые могут быть в классе-справочнике
-     * */
-    public void initNamePerson(ActionEvent actionEvent){}// инициализирует имя личности
-    public void visibleDataTable(ActionEvent actionEvent){}// делает видимой таблицу с данными
-
-    /*
-     * метод, добавляющий листенеры для выпадающего списка личностей
-     * */
-    void addActionListenerForListPerson(){
-        listPersons.addActionListener(this::initNamePerson);
-    }
-    /*
-     * </специфичные методы>
      * */
 
     /*
@@ -190,7 +170,7 @@ public abstract class Directory {
         return headLinePerson;
     }
 
-    JComboBox<String> getListPersons() {
+    JComboBox<Object> getListPersons() {
         return listPersons;
     }
 
@@ -208,10 +188,6 @@ public abstract class Directory {
     }
     JButton getBtnEdit() {
         return btnEdit;
-    }
-
-    String[] getNamesColumn() {
-        return namesColumn;
     }
     /*
      * </getters and setters>

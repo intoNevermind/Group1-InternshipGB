@@ -1,7 +1,7 @@
 package windowGUI.editingDirectoryWindow;
 
 import windowGUI.MyStyle;
-import windowGUI.component.ConfigurationGBL;
+import windowGUI.ConfigurationGBL;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,7 +38,7 @@ public abstract class EditingDirectoryWindow {
     private final JButton btnSave = new JButton("Сохранить");
     private final JButton btnCancel = new JButton("Отмена");
 
-    private final JCheckBox active = new JCheckBox("Отображать эту запись в списке.");
+    private final JCheckBox active = new JCheckBox("Активный элемент");
 
     public EditingDirectoryWindow() {
         MY_STYLE.setStyle(getListComponents());

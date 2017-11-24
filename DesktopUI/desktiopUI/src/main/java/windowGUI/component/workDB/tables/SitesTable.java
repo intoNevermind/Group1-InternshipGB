@@ -116,6 +116,9 @@ public class SitesTable extends ConnectServer {
     public static ArrayList<String> getListName(){
         return LIST_NAME;
     }
+    public static ArrayList<Boolean> getListActive() {
+        return LIST_ACTIVE;
+    }
     public static LinkedHashMap<Integer, String> getListIDAndName() {
         return LIST_ID_AND_NAME;
     }

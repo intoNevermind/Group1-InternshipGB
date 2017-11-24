@@ -2,17 +2,19 @@ package windowGUI.editingDirectoryWindow.add;
 
 import windowGUI.ConfigurationsWindowGUI;
 import windowGUI.component.workDB.tables.KeyWordsTable;
-import windowGUI.component.workDirectory.KeyWordsDirectory;
+import windowGUI.component.workDB.tables.PersonsTable;
 import windowGUI.editingDirectoryWindow.EditingDirectoryWindow;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+
 import static java.awt.GridBagConstraints.*;
 /*
  * Класс-редактор справочников, отвечающий за функциональную деятельность добавления ключевых слов
  * */
 public class AddKeyWordWindow extends EditingDirectoryWindow {
-    private static final KeyWordsDirectory KEY_WORDS_DIRECTORY = new KeyWordsDirectory();
 
     private int personID;
 
@@ -42,12 +44,10 @@ public class AddKeyWordWindow extends EditingDirectoryWindow {
 
     @Override
     public void saveEditing(ActionEvent actionEvent) {
-        if(getNameField().getText() != null) KeyWordsTable.addKeyWord(getNameField().getText(), personID);
+        if(getNameField().getText() != null ) KeyWordsTable.addKeyWord(getNameField().getText(), personID);
 
-        KeyWordsTable.infoAllKeyWords();
-
-        KEY_WORDS_DIRECTORY.visibleDataTable(actionEvent);
         getNameField().setText(null);
         getWindow().dispose();
     }
+
 }

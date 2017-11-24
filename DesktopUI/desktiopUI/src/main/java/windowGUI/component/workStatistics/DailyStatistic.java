@@ -1,5 +1,9 @@
 package windowGUI.component.workStatistics;
 
+import windowGUI.component.ListPerson;
+import windowGUI.component.ListSites;
+import windowGUI.component.WorkCalendar;
+import windowGUI.component.WorkWithItemsJComboBox;
 import windowGUI.component.workDB.processingData.ProcessingData;
 
 import javax.swing.*;
@@ -7,12 +11,15 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+
 import static java.awt.GridBagConstraints.*;
 /*
  * Класс-статистика, отвечающий за функциональную деятельность Ежедневной статистики
  * */
-public class DailyStatistic extends Statistics{
+public class DailyStatistic extends Statistics implements ListSites, ListPerson, WorkCalendar{
     private static final String NAME_TAB = "Ежедневная статистика";
+    private static final String[] NAME_COLUMNS = new String[]{"Дата", "Количество новых страниц"};;
     private static final String FORMAT = "yyyy-MM-dd";
 
     private static String nameSite;
@@ -21,16 +28,25 @@ public class DailyStatistic extends Statistics{
     private static String finishDate;
 
     private JScrollPane dataScrollPane;
-    private String[] namesColumn;
+
+    public static ArrayList<String> listAddNamePersons = new ArrayList<>();
+    public static ArrayList<String> listDelNamePersons = new ArrayList<>();
+    public static ArrayList<String> listBeforeNamePersons = new ArrayList<>();
+    public static ArrayList<String> listAfterNamePersons = new ArrayList<>();
+
+    public static ArrayList<String> listAddNameSites = new ArrayList<>();
+    public static ArrayList<String> listDelNameSites = new ArrayList<>();
+    public static ArrayList<String> listBeforeNameSites = new ArrayList<>();
+    public static ArrayList<String> listAfterNameSites = new ArrayList<>();
+
+    private static final WorkWithItemsJComboBox WORK_WITH_ITEMS_J_COMBO_BOX = new WorkWithItemsJComboBox();
 
     public DailyStatistic() {
         setTabName(NAME_TAB);
 
-        addActionListenerForListSite();
+        addActionListenerForListSites();
         addActionListenerForListPerson();
         addActionListenerForCalendars();
-
-        namesColumn = new String[]{"Дата", "Количество новых страниц"};
     }
 
     @Override
@@ -38,9 +54,8 @@ public class DailyStatistic extends Statistics{
         getGBL().setConstraints(getHeadlineSite(), getCGBL().configGBC(EAST,1,false));
         getOptionsPanel().add(getHeadlineSite());
 
-        setListSite(new JComboBox<>(getPSitesT().getArrayNameSites()));
-        getGBL().setConstraints(getListSite() , getCGBL().configGBC(2,false));
-        getOptionsPanel().add(getListSite());
+        getGBL().setConstraints(getListSites() , getCGBL().configGBC(2,false));
+        getOptionsPanel().add(getListSites());
 
         getGBL().setConstraints(getHeadlinePersons(), getCGBL().configGBC(EAST,1,true));
         getOptionsPanel().add(getHeadlinePersons());
@@ -61,6 +76,22 @@ public class DailyStatistic extends Statistics{
         getOptionsPanel().add(getBtnConfirm());
         getGBL().setConstraints(getBtnRefresh(), getCGBL().configGBC(2,false));
         getOptionsPanel().add(getBtnRefresh());
+    }
+
+    @Override
+    public void addActionListenerForListPerson() {
+        getListPersons().addActionListener(this::initNamePerson);
+    }
+
+    @Override
+    public void addActionListenerForListSites() {
+        getListSites().addActionListener(this::initNameSites);
+    }
+
+    @Override
+    public void addActionListenerForCalendars(){
+        getStartCalendar().getDateEditor().addPropertyChangeListener("date",this::initStartDate);
+        getFinishCalendar().getDateEditor().addPropertyChangeListener("date",this::initFinishDate);
     }
 
     @Override
@@ -87,7 +118,7 @@ public class DailyStatistic extends Statistics{
 
     @Override
     public void initDataTable() {
-        JTable dataTable = new JTable(getPDailyStatisticsT().getArrayFillTable(nameSite, namePerson, startDate, finishDate, namesColumn.length), namesColumn);
+        JTable dataTable = new JTable(getPDailyStatisticsT().getArrayFillTable(nameSite, namePerson, startDate, finishDate, NAME_COLUMNS.length), NAME_COLUMNS);
         dataScrollPane = new JScrollPane(dataTable);
         getPanelStat().add(dataScrollPane, BorderLayout.CENTER);
     }
@@ -105,22 +136,28 @@ public class DailyStatistic extends Statistics{
                     getEmptyFields(),
                     JOptionPane.WARNING_MESSAGE);
         }
-        refreshDataTable(actionEvent);
+        refresh(actionEvent);
     }
 
     @Override
-    public void outTotalNumberPages(){
+    public void refresh(ActionEvent actionEvent) {
+        removeDataTable(dataScrollPane);
+        initDataTable();
+
+        WORK_WITH_ITEMS_J_COMBO_BOX.refreshList(listAddNameSites,listDelNameSites,listBeforeNameSites, listAfterNameSites, getListSites());
+        WORK_WITH_ITEMS_J_COMBO_BOX.refreshList(listAddNamePersons,listDelNamePersons,listBeforeNamePersons, listAfterNamePersons, getListPersons());
+
+        outTotalNumberPages();
+    }
+
+    /*
+     * метод, показывающий количество страниц за период вообщем
+     * */
+    private void outTotalNumberPages(){
         getNumberPagesTotal().setText("Общее количество новых страниц за выбранный период: " +
                 getPDailyStatisticsT().getNumberPagesTotal());
         getPanelStat().add(getNumberPagesTotal(), BorderLayout.SOUTH);
         getNumberPagesTotal().setVisible(true);
         getPanelStat().updateUI();
-    }
-
-    @Override
-    public void refreshDataTable(ActionEvent actionEvent) {
-        removeDataTable(dataScrollPane);
-        initDataTable();
-        outTotalNumberPages();
     }
 }

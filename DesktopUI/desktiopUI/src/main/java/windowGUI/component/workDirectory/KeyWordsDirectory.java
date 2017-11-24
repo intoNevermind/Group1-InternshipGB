@@ -1,5 +1,7 @@
 package windowGUI.component.workDirectory;
 
+import windowGUI.component.ListPerson;
+import windowGUI.component.WorkWithItemsJComboBox;
 import windowGUI.component.workDB.processingData.ProcessingData;
 import windowGUI.editingDirectoryWindow.add.AddKeyWordWindow;
 import windowGUI.editingDirectoryWindow.delete.DelKeyWordWindow;
@@ -10,12 +12,15 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+
 import static java.awt.GridBagConstraints.*;
 /*
  * Класс-справочник, отвечающий за функциональную деятельность справочника KeyWords
  * */
-public class KeyWordsDirectory extends Directory{
+public class KeyWordsDirectory extends Directory implements ListPerson{
     private static final String NAME_TAB = "Ключевые слова";
+    private static final String[] NAME_COLUMNS = new String[]{"Наименование"};
 
     private static String namePerson;
     private static String nameKeyWord ;
@@ -23,9 +28,18 @@ public class KeyWordsDirectory extends Directory{
     private JTable dataTable;
     private JScrollPane dataScrollPane;
 
-    public KeyWordsDirectory() {
+    public static final ArrayList<String> LIST_ADD_NAME_PERSONS = new ArrayList<>();
+    public static final ArrayList<String> LIST_DEL_NAME_PERSONS = new ArrayList<>();
+    public static final ArrayList<String> LIST_BEFORE_NAME_PERSONS = new ArrayList<>();
+    public static final ArrayList<String> LIST_AFTER_NAME_PERSONS = new ArrayList<>();
+
+    private static final WorkWithItemsJComboBox WORK_WITH_ITEMS_J_COMBO_BOX = new WorkWithItemsJComboBox();
+
+    KeyWordsDirectory() {
         setNameTab(NAME_TAB);
+
         addActionListenerForListPerson();
+        addActionListenerForBtnConfirm();
     }
 
     @Override
@@ -42,6 +56,18 @@ public class KeyWordsDirectory extends Directory{
     }
 
     @Override
+    public void addActionListenerForListPerson() {
+        getListPersons().addActionListener(this::initNamePerson);
+    }
+
+    /*
+     * метод, добавляющий листенер на кнопку "Продолжить"
+     * */
+    private void addActionListenerForBtnConfirm() {
+        getBtnConfirm().addActionListener(this::visibleDataTable);
+    }
+
+    @Override
     public void initNamePerson(ActionEvent actionEvent) {
         JComboBox box = (JComboBox)actionEvent.getSource();
         namePerson = (String)box.getSelectedItem();
@@ -49,7 +75,7 @@ public class KeyWordsDirectory extends Directory{
 
     @Override
     public void initDataTable(){
-        dataTable = new JTable(getPKeyWordsT().getArrayFillTable(namePerson, getNamesColumn().length), getNamesColumn());
+        dataTable = new JTable(getPKeyWordsT().getArrayFillTable(namePerson, NAME_COLUMNS.length), NAME_COLUMNS);
         dataScrollPane = new JScrollPane(dataTable);
         getPanelDirectory().add(dataScrollPane, BorderLayout.CENTER);
         dataTable.getSelectionModel().addListSelectionListener(this::initSelectedRow);
@@ -64,21 +90,17 @@ public class KeyWordsDirectory extends Directory{
         nameKeyWord = (String) value;
     }
 
-    @Override
-    public void visibleDataTable(ActionEvent actionEvent){
+    /*
+     * метод, показывающий таблицу с данными
+     * */
+    private void visibleDataTable(ActionEvent actionEvent){
         if(namePerson == null || namePerson.equals(ProcessingData.getNotChosen())){
             JOptionPane.showMessageDialog(null,
                     "Для просмотра ключевых слов необходимо выбрать \""  + getHeadLinePerson().getText() + "\" ",
                     "Не инициализированы поля",
                     JOptionPane.WARNING_MESSAGE);
         }
-        refreshDataTable(actionEvent);
-    }
-
-    @Override
-    public void refreshDataTable(ActionEvent actionEvent) {
-        removeDataTable(dataScrollPane);
-        initDataTable();
+        refresh(actionEvent);
     }
 
     @Override
@@ -121,5 +143,12 @@ public class KeyWordsDirectory extends Directory{
                     getPPersonT().getIDPersonByNamePerson(namePerson));
             nameKeyWord = null;
         }
+    }
+
+    @Override
+    public void refresh(ActionEvent actionEvent) {
+        removeDataTable(dataScrollPane);
+        initDataTable();
+        WORK_WITH_ITEMS_J_COMBO_BOX.refreshList(LIST_ADD_NAME_PERSONS, LIST_DEL_NAME_PERSONS, LIST_BEFORE_NAME_PERSONS, LIST_AFTER_NAME_PERSONS, getListPersons());
     }
 }

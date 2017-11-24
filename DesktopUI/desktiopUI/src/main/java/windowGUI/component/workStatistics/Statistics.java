@@ -2,7 +2,8 @@ package windowGUI.component.workStatistics;
 
 import windowGUI.ApplicationWindow;
 import windowGUI.MyStyle;
-import windowGUI.component.ConfigurationGBL;
+import windowGUI.ConfigurationGBL;
+import windowGUI.component.MyCalendar;
 import windowGUI.component.workDB.processingData.ProcessingDailyStatisticsTable;
 import windowGUI.component.workDB.processingData.ProcessingGeneralStatisticsTable;
 import windowGUI.component.workDB.processingData.ProcessingPersonTable;
@@ -11,7 +12,6 @@ import windowGUI.component.workDB.processingData.ProcessingSitesTable;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 /*
  * Родительский класс для классов-статистик
@@ -42,8 +42,8 @@ public abstract class Statistics {
     private final JLabel headlineFinishPeriod = new JLabel(" по: ");
     private final JLabel numberPagesTotal = new JLabel();
 
-    private JComboBox<Object> listSite = new JComboBox<>(P_SITES_T.getArrayNameSites());
-    private JComboBox<Object> listPersons = new JComboBox<>(P_PERSON_T.getArrayNamePersons());
+    private final JComboBox<Object> listSites = new JComboBox<>(P_SITES_T.getArrayNameSites());
+    private final JComboBox<Object> listPersons = new JComboBox<>(P_PERSON_T.getArrayNamePersons());
 
     private final MyCalendar startCalendar = new MyCalendar();
     private final MyCalendar finishCalendar = new MyCalendar();
@@ -73,7 +73,7 @@ public abstract class Statistics {
         listComponent.add(headlineFinishPeriod);
         listComponent.add(numberPagesTotal);
 
-        listComponent.add(listSite);
+        listComponent.add(listSites);
         listComponent.add(listPersons);
 
         listComponent.add(startCalendar);
@@ -90,8 +90,8 @@ public abstract class Statistics {
      * */
     public abstract void fillOptionsPanel();// заполняет панэль опций
     public abstract void initDataTable();// инициализирует таблицу данных
-    public abstract void visibleDataTable(ActionEvent actionEvent);//делает видимой таблицу с данными
-    public abstract void refreshDataTable(ActionEvent actionEvent);//обновляет таблицу данных
+    public abstract void visibleDataTable(ActionEvent actionEvent);//показывает таблицу с данными
+    public abstract void refresh(ActionEvent actionEvent);//обновляет статистику
     /*
      * </абстрактные методы>
      * */
@@ -100,6 +100,14 @@ public abstract class Statistics {
      * <общие методы>
      * одинаковые и обязательные для всех статистик
      * */
+
+    /*
+     * метод, добавляющий листенеры для кнопок
+     * */
+    private void addActionListenerForBtn(){
+        btnConfirm.addActionListener(this::visibleDataTable);
+        btnRefresh.addActionListener(this::refresh);
+    }
 
     /*
      * метод, удаляющий таблицу с данными
@@ -112,52 +120,8 @@ public abstract class Statistics {
         }
         getPanelStat().updateUI();
     }
-
-    /*
-     * метод, добавляющий листенеры для кнопок
-     * */
-    private void addActionListenerForBtn(){
-        btnConfirm.addActionListener(this::visibleDataTable);
-        btnRefresh.addActionListener(this::refreshDataTable);
-    }
     /*
      * </общие методы>
-     * */
-
-    /*
-     * <специфичные методы>
-     * специфичные методы, которые могут быть в классе-статистике
-     * */
-
-    public void initNameSites(ActionEvent actionEvent){}// инициализирует имя сайта
-    public void initNamePerson(ActionEvent actionEvent){}// инициализирует имя личности
-    public void initStartDate(PropertyChangeEvent evt){}// инициализирует начальную дату
-    public void initFinishDate(PropertyChangeEvent evt){}// инициализирует конечную дату
-    public void outTotalNumberPages(){}// выводит общее количество найденных страниц
-
-    /*
-     * метод, добавляющий листенеры для выпадающего списка сайтов
-     * */
-    void addActionListenerForListSite(){
-        listSite.addActionListener(this::initNameSites);
-    }
-
-    /*
-     * метод, добавляющий листенеры для выпадающего списка личностей
-     * */
-    void addActionListenerForListPerson(){
-        listPersons.addActionListener(this::initNamePerson);
-    }
-
-    /*
-     * метод, добавляющий листенеры для календарей
-     * */
-    void addActionListenerForCalendars(){
-        startCalendar.getDateEditor().addPropertyChangeListener("date",this::initStartDate);
-        finishCalendar.getDateEditor().addPropertyChangeListener("date",this::initFinishDate);
-    }
-    /*
-     * </специфичные методы>
      * */
 
     /*
@@ -187,12 +151,6 @@ public abstract class Statistics {
         return optionsPanel;
     }
 
-    public ProcessingSitesTable getPSitesT() {
-        return P_SITES_T;
-    }
-    public ProcessingPersonTable getPPersonT() {
-        return P_PERSON_T;
-    }
     static ProcessingGeneralStatisticsTable getPGeneralStatisticsT() {
         return P_GENERAL_STATISTICS_T;
     }
@@ -216,14 +174,8 @@ public abstract class Statistics {
         return numberPagesTotal;
     }
 
-    public void setListSite(JComboBox<Object> listSite) {
-        this.listSite = listSite;
-    }
-    public void setListPersons(JComboBox<Object> listPersons) {
-        this.listPersons = listPersons;
-    }
-    JComboBox<Object> getListSite() {
-        return listSite;
+    JComboBox<Object> getListSites() {
+        return listSites;
     }
     JComboBox<Object> getListPersons() {
         return listPersons;

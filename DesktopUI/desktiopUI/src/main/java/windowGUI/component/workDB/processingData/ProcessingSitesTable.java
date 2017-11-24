@@ -33,11 +33,11 @@ public class ProcessingSitesTable extends ProcessingData{
     @Override
     public Object[][] getArrayFillTable(int numberColumn){
         SitesTable.infoAllSites();
-        ArrayList<String> listNameFromSites = SitesTable.getListName();
-
+        LinkedHashMap<String, String> listNameAndUrlFromSites = SitesTable.getListNameAndURL();
+        ArrayList<Boolean> listActiveFromSites = SitesTable.getListActive();
         if(numberColumn < 1) return super.getArrayFillTable(numberColumn);
 
-        return convertingListToArray(listNameFromSites,numberColumn);
+        return convertingListToArray(listNameAndUrlFromSites,listActiveFromSites, numberColumn);
     }
 
     /*

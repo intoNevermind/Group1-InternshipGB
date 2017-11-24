@@ -12,14 +12,14 @@ import static java.awt.GridBagConstraints.REMAINDER;
 /*
  * Класс-авторизация, отвечающий за функциональную деятельность вкладки Вход
  * */
-public class RegistrationWindow extends Authorization {
+public class TabRegistration extends Authorization {
     private static final String TAB_TITLE = "Регистрация";
 
     private static String userLogin;
     private static String userPassword;
     private static ArrayList<String> listLogin;
 
-    RegistrationWindow() {
+    TabRegistration() {
         setTabTitle(TAB_TITLE);
 
         UsersTable.infoAllUsers();
