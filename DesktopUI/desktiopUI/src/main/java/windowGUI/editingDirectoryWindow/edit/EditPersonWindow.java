@@ -1,9 +1,9 @@
 package windowGUI.editingDirectoryWindow.edit;
 
 import windowGUI.ConfigurationsWindowGUI;
-import windowGUI.component.workDB.tables.PersonsTable;
-import windowGUI.component.workDirectory.KeyWordsDirectory;
-import windowGUI.component.workStatistics.DailyStatistic;
+import windowGUI.component.workWithDB.tables.PersonsTable;
+import windowGUI.component.workWithDirectory.KeyWordsDirectory;
+import windowGUI.component.workWithStatistics.DailyStatistic;
 import windowGUI.editingDirectoryWindow.EditingDirectoryWindow;
 
 import java.awt.*;
@@ -57,12 +57,13 @@ public class EditPersonWindow extends EditingDirectoryWindow {
             if (getActive().isSelected()){
                 KeyWordsDirectory.LIST_BEFORE_NAME_PERSONS.add(namePerson);
                 KeyWordsDirectory.LIST_AFTER_NAME_PERSONS.add(getNameField().getText());
-                DailyStatistic.listBeforeNamePersons.add(namePerson);
-                DailyStatistic.listAfterNamePersons.add(getNameField().getText());
+                DailyStatistic.LIST_BEFORE_NAME_PERSONS.add(namePerson);
+                DailyStatistic.LIST_AFTER_NAME_PERSONS.add(getNameField().getText());
+            }else {
+                KeyWordsDirectory.LIST_DEL_NAME_PERSONS.add(namePerson);
+                DailyStatistic.LIST_DEL_NAME_PERSONS.add(namePerson);
             }
         }
-
-
 
         getNameField().setText(null);
         getWindow().dispose();

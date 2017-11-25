@@ -1,10 +1,9 @@
 package windowGUI.editingDirectoryWindow.edit;
 
 import windowGUI.ConfigurationsWindowGUI;
-import windowGUI.component.workDB.tables.SitesTable;
-import windowGUI.component.workDirectory.KeyWordsDirectory;
-import windowGUI.component.workStatistics.DailyStatistic;
-import windowGUI.component.workStatistics.GeneralStatistic;
+import windowGUI.component.workWithDB.tables.SitesTable;
+import windowGUI.component.workWithStatistics.DailyStatistic;
+import windowGUI.component.workWithStatistics.GeneralStatistic;
 import windowGUI.editingDirectoryWindow.EditingDirectoryWindow;
 
 import java.awt.*;
@@ -64,10 +63,13 @@ public class EditSiteWindow extends EditingDirectoryWindow {
         if(getNameField().getText() != null &&  getUrlField().getText() != null){
             SitesTable.modifySite(sitesID, getNameField().getText(), getUrlField().getText(), getActive().isSelected());
             if (getActive().isSelected()){
-                DailyStatistic.listBeforeNameSites.add(nameSites);
-                DailyStatistic.listAfterNameSites.add(getNameField().getText());
-                GeneralStatistic.listBeforeNameSites.add(nameSites);
-                GeneralStatistic.listAfterNameSites.add(getNameField().getText());
+                DailyStatistic.LIST_BEFORE_NAME_SITES.add(nameSites);
+                DailyStatistic.LIST_AFTER_NAME_SITES.add(getNameField().getText());
+                GeneralStatistic.LIST_BEFORE_NAME_SITES.add(nameSites);
+                GeneralStatistic.LIST_AFTER_NAME_SITES.add(getNameField().getText());
+            }else {
+                DailyStatistic.LIST_DEL_NAME_SITES.add(nameSites);
+                GeneralStatistic.LIST_DEL_NAME_SITES.add(nameSites);
             }
         }
 

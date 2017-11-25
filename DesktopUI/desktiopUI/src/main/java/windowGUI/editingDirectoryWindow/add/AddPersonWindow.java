@@ -1,9 +1,9 @@
 package windowGUI.editingDirectoryWindow.add;
 
 import windowGUI.ConfigurationsWindowGUI;
-import windowGUI.component.workDB.tables.PersonsTable;
-import windowGUI.component.workDirectory.KeyWordsDirectory;
-import windowGUI.component.workStatistics.DailyStatistic;
+import windowGUI.component.workWithDB.tables.PersonsTable;
+import windowGUI.component.workWithDirectory.KeyWordsDirectory;
+import windowGUI.component.workWithStatistics.DailyStatistic;
 import windowGUI.editingDirectoryWindow.EditingDirectoryWindow;
 
 import java.awt.*;
@@ -46,7 +46,7 @@ public class AddPersonWindow extends EditingDirectoryWindow {
             PersonsTable.addPerson(getNameField().getText(),getActive().isSelected());
             if (getActive().isSelected()){
                 KeyWordsDirectory.LIST_ADD_NAME_PERSONS.add(getNameField().getText());
-                DailyStatistic.listAddNamePersons.add(getNameField().getText());
+                DailyStatistic.LIST_ADD_NAME_PERSONS.add(getNameField().getText());
             }
         }
 

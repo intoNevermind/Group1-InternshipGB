@@ -1,10 +1,9 @@
 package windowGUI.editingDirectoryWindow.add;
 
 import windowGUI.ConfigurationsWindowGUI;
-import windowGUI.component.workDB.tables.SitesTable;
-import windowGUI.component.workDirectory.KeyWordsDirectory;
-import windowGUI.component.workStatistics.DailyStatistic;
-import windowGUI.component.workStatistics.GeneralStatistic;
+import windowGUI.component.workWithDB.tables.SitesTable;
+import windowGUI.component.workWithStatistics.DailyStatistic;
+import windowGUI.component.workWithStatistics.GeneralStatistic;
 import windowGUI.editingDirectoryWindow.EditingDirectoryWindow;
 
 import java.awt.*;
@@ -50,8 +49,8 @@ public class AddSiteWindow extends EditingDirectoryWindow {
         if(getNameField().getText() != null){
             SitesTable.addSite(getNameField().getText(), getUrlField().getText(),getActive().isSelected());
             if (getActive().isSelected()){
-                DailyStatistic.listAddNameSites.add(getNameField().getText());
-                GeneralStatistic.listAddNameSites.add(getNameField().getText());
+                DailyStatistic.LIST_ADD_NAME_SITES.add(getNameField().getText());
+                GeneralStatistic.liLIST_ADD_NAME_SITES.add(getNameField().getText());
             }
         }
 

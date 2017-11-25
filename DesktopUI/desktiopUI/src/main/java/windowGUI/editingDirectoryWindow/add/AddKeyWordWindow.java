@@ -1,14 +1,11 @@
 package windowGUI.editingDirectoryWindow.add;
 
 import windowGUI.ConfigurationsWindowGUI;
-import windowGUI.component.workDB.tables.KeyWordsTable;
-import windowGUI.component.workDB.tables.PersonsTable;
+import windowGUI.component.workWithDB.tables.KeyWordsTable;
 import windowGUI.editingDirectoryWindow.EditingDirectoryWindow;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 
 import static java.awt.GridBagConstraints.*;
 /*

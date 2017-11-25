@@ -1,9 +1,9 @@
 package windowGUI.editingDirectoryWindow.delete;
 
 import windowGUI.ConfigurationsWindowGUI;
-import windowGUI.component.workDB.tables.SitesTable;
-import windowGUI.component.workStatistics.DailyStatistic;
-import windowGUI.component.workStatistics.GeneralStatistic;
+import windowGUI.component.workWithDB.tables.SitesTable;
+import windowGUI.component.workWithStatistics.DailyStatistic;
+import windowGUI.component.workWithStatistics.GeneralStatistic;
 import windowGUI.editingDirectoryWindow.EditingDirectoryWindow;
 
 import java.awt.event.ActionEvent;
@@ -29,8 +29,8 @@ public class DelSiteWindow extends EditingDirectoryWindow {
     public void saveEditing(ActionEvent actionEvent) {
         SitesTable.delSite(sitesID);
 
-        DailyStatistic.listDelNameSites.add(nameSites);
-        GeneralStatistic.listDelNameSites.add(nameSites);
+        DailyStatistic.LIST_DEL_NAME_SITES.add(nameSites);
+        GeneralStatistic.LIST_DEL_NAME_SITES.add(nameSites);
 
         getWindow().dispose();
     }

@@ -1,7 +1,7 @@
 package windowGUI.editingDirectoryWindow.edit;
 
 import windowGUI.ConfigurationsWindowGUI;
-import windowGUI.component.workDB.tables.KeyWordsTable;
+import windowGUI.component.workWithDB.tables.KeyWordsTable;
 import windowGUI.editingDirectoryWindow.EditingDirectoryWindow;
 
 import java.awt.*;

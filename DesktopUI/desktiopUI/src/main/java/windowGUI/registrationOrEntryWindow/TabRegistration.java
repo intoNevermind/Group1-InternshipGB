@@ -1,7 +1,7 @@
 package windowGUI.registrationOrEntryWindow;
 
 import windowGUI.ApplicationWindow;
-import windowGUI.component.workDB.tables.UsersTable;
+import windowGUI.component.workWithDB.tables.UsersTable;
 import static windowGUI.registrationOrEntryWindow.AuthorizationWindow.getWINDOW;
 
 import javax.swing.*;
