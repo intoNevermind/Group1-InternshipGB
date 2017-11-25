@@ -35,6 +35,10 @@ public class TokenInterceptor implements Interceptor {
     public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
         Log.d("LOGLOG", "request: " + request);
+        for (int i = 0; i < request.headers().size(); i++) {
+            String name = request.headers().name(i);
+            Log.d("LOGLOG", String.format("request header: %d, name: %s, value: %s", i, name, request.headers().get(name)));
+        }
         Log.d("LOGLOG", "request header: " + request.header(WebApi.X_CSRF_TOKEN));
         Request modifiedRequest = request;
 
@@ -46,6 +50,11 @@ public class TokenInterceptor implements Interceptor {
 
 
         Response response = chain.proceed(modifiedRequest);
+
+        for (int i = 0; i < response.headers().size(); i++) {
+            String name = response.headers().name(i);
+            Log.d("LOGLOG", String.format("response header: %d, name: %s, value: %s", i, name, response.headers().get(name)));
+        }
 
         if (("text/html;charset=UTF-8").equals(response.header("Content-Type"))) {
             String token = Jsoup

@@ -22,8 +22,11 @@ public interface WebApi {
 
     String X_CSRF_TOKEN = "X-CSRF-TOKEN";
 
+    @GET("login")
+    Call<ResponseBody> login();
+
     @POST("login")
-    Call<ErrorResponse> login(//@Header(X_CSRF_TOKEN) String token,
+    Call<ResponseBody> login(//@Header(X_CSRF_TOKEN) String token,
                               @Query("username") String username,
                               @Query("password") String password);
 

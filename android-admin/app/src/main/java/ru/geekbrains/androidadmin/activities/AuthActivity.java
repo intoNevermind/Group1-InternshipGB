@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import org.jsoup.Jsoup;
+
 import java.io.IOException;
 
 import okhttp3.ResponseBody;
@@ -39,38 +41,32 @@ public class AuthActivity extends BaseActivity {
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-//                    Response<ResponseBody> response = webApi.login(token,
-//                            binding.etLogin.getText().toString(),
-//                            binding.etPassword.getText().toString()).execute();
-//                    if (!response.isSuccessful()) throw new RuntimeException("Не удалось авторизоваться");
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Response<ResponseBody> response = webApi.login().execute();
+                            String token = Jsoup
+                                    .parse(response.body().string())
+                                    .body()
+                                    .selectFirst("input[name=_csrf]")
+                                    .attr("value");
+                            App.setToken(token);
+//                            do {
+                                response = webApi.login(//token,
+                                        binding.etLogin.getText().toString(),
+                                        binding.etPassword.getText().toString()).execute();
+                                if (!response.isSuccessful() && response.code() != 403)
+                                    throw new RuntimeException("Не удалось авторизоваться: " + response.errorBody().string());
+//                            } while (response.code() == 403);
 
-                    webApi.login(//token,
-                            binding.etLogin.getText().toString(),
-                            binding.etPassword.getText().toString()).enqueue(new Callback<ErrorResponse>() {
-                        @Override
-                        public void onResponse(@NonNull Call<ErrorResponse> call, @NonNull Response<ErrorResponse> response) {
-                            if (!response.isSuccessful() && response.code() != 403)
-//                                throw new RuntimeException("Не удалось авторизоваться, code = " + response.code());
-                                try {
-                                    throw new RuntimeException(String.format("Не удалось авторизоваться, code: %d, body: %s",
-                                            response.code(), response.errorBody().string()));
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            finish();
+                            startActivity(new Intent(AuthActivity.this, MainActivity.class));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            showErrorDialog(e);
                         }
-
-                        @Override
-                        public void onFailure(@NonNull Call<ErrorResponse> call, @NonNull Throwable t) {
-                            if (t instanceof IllegalStateException) finish();
-                            else showErrorDialog(t);
-                        }
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    showErrorDialog(e);
-                }
+                    }
+                }).start();
             }
         });
     }
