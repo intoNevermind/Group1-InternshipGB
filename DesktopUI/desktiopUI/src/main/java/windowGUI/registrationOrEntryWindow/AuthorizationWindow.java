@@ -20,8 +20,8 @@ public class AuthorizationWindow {
     private static final JFrame WINDOW = new JFrame();
     private static final JTabbedPane LIST_OF_TABS = new JTabbedPane();
 
-    private static final EntryWindow ENTRY_WINDOW = new EntryWindow();
-    private static final RegistrationWindow REGISTRATION_WINDOW = new RegistrationWindow();
+    private static final TabEntry ENTRY_WINDOW = new TabEntry();
+    private static final TabRegistration REGISTRATION_WINDOW = new TabRegistration();
 
     public AuthorizationWindow() {
         MY_STYLE.setStyle(getListComponents());

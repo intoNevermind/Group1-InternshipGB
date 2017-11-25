@@ -1,18 +1,19 @@
 package windowGUI.editingDirectoryWindow.add;
 
 import windowGUI.ConfigurationsWindowGUI;
-import windowGUI.component.workDB.tables.PersonsTable;
-import windowGUI.component.workDirectory.PersonsDirectory;
+import windowGUI.component.workWithDB.tables.PersonsTable;
+import windowGUI.component.workWithDirectory.KeyWordsDirectory;
+import windowGUI.component.workWithStatistics.DailyStatistic;
 import windowGUI.editingDirectoryWindow.EditingDirectoryWindow;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+
 import static java.awt.GridBagConstraints.*;
 /*
  * Класс-редактор справочников, отвечающий за функциональную деятельность добавления личностей
  * */
 public class AddPersonWindow extends EditingDirectoryWindow {
-    private static final PersonsDirectory PERSON_DIRECTORY = new PersonsDirectory();
 
     public AddPersonWindow(String windowTitle) {
         new ConfigurationsWindowGUI().setConfigWindow(getWindow(), windowTitle, getSizeWidth(), getSizeHeight());
@@ -41,11 +42,14 @@ public class AddPersonWindow extends EditingDirectoryWindow {
 
     @Override
     public void saveEditing(ActionEvent actionEvent) {
-        if(getNameField().getText() != null) PersonsTable.addPerson(getNameField().getText(),getActive().isSelected());
+        if(getNameField().getText() != null) {
+            PersonsTable.addPerson(getNameField().getText(),getActive().isSelected());
+            if (getActive().isSelected()){
+                KeyWordsDirectory.LIST_ADD_NAME_PERSONS.add(getNameField().getText());
+                DailyStatistic.LIST_ADD_NAME_PERSONS.add(getNameField().getText());
+            }
+        }
 
-        PersonsTable.infoAllPersons();
-
-        PERSON_DIRECTORY.visibleDataTable(actionEvent);
         getNameField().setText(null);
         getWindow().dispose();
     }

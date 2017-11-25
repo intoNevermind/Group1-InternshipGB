@@ -1,7 +1,7 @@
 package windowGUI.editingDirectoryWindow;
 
 import windowGUI.MyStyle;
-import windowGUI.component.ConfigurationGBL;
+import windowGUI.ConfigurationGBL;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,7 +38,7 @@ public abstract class EditingDirectoryWindow {
     private final JButton btnSave = new JButton("Сохранить");
     private final JButton btnCancel = new JButton("Отмена");
 
-    private final JCheckBox active = new JCheckBox("Отображать эту запись в списке.");
+    private final JCheckBox active = new JCheckBox("Активный элемент");
 
     public EditingDirectoryWindow() {
         MY_STYLE.setStyle(getListComponents());
@@ -87,6 +87,31 @@ public abstract class EditingDirectoryWindow {
      * */
 
     /*
+     * метод, добавляющий листенеры для кнопок
+     * */
+    private void addBtnListener(){
+        btnSave.addActionListener(this::saveEditing);
+        btnCancel.addActionListener(this::cancelEditing);
+    }
+
+    /*
+     * метод, добавляющий листенер для кнопки отмена/нет
+     * */
+    private void cancelEditing(ActionEvent actionEvent){
+        window.dispose();
+    }
+    /*
+     * </общие методы>
+     * */
+
+    /*
+     * <специфичные методы>
+     * специфичные методы, которые могут быть в классе-редакторе справочников
+     * */
+    public void fillAddPanels(){}// заполняет панель окна добавления
+    public void fillEditPanels(){}// заполняет панель окна редоктирования
+
+    /*
      * метод, заполняющий панель окна удаления
      * */
     protected void fillDelPanels(String elementName){
@@ -101,31 +126,6 @@ public abstract class EditingDirectoryWindow {
         btnCancel.setText("Нет");
         GBL.setConstraints(btnCancel, CGBL.configGBC(1,false));
         btnPanel.add(btnCancel);
-    }
-
-    /*
-     * метод, добавляющий листенеры для кнопок
-     * */
-    private void addBtnListener(){
-        btnSave.addActionListener(this::saveEditing);
-        btnCancel.addActionListener(this::cancelEditing);
-    }
-    /*
-     * </общие методы>
-     * */
-
-    /*
-     * <специфичные методы>
-     * специфичные методы, которые могут быть в классе-редакторе справочников
-     * */
-    public void fillAddPanels(){}// заполняет панель окна добавления
-    public void fillEditPanels(){}// заполняет панель окна редоктирования
-
-    /*
-     * метод, добавляющий листенер для кнопки отмена/нет
-     * */
-    private void cancelEditing(ActionEvent actionEvent){
-        window.dispose();
     }
     /*
      * </специфичные методы>

@@ -1,8 +1,9 @@
 package windowGUI.editingDirectoryWindow.add;
 
 import windowGUI.ConfigurationsWindowGUI;
-import windowGUI.component.workDB.tables.SitesTable;
-import windowGUI.component.workDirectory.SitesDirectory;
+import windowGUI.component.workWithDB.tables.SitesTable;
+import windowGUI.component.workWithStatistics.DailyStatistic;
+import windowGUI.component.workWithStatistics.GeneralStatistic;
 import windowGUI.editingDirectoryWindow.EditingDirectoryWindow;
 
 import java.awt.*;
@@ -12,7 +13,6 @@ import static java.awt.GridBagConstraints.*;
  * Класс-редактор справочников, отвечающий за функциональную деятельность добавления сайтов
  * */
 public class AddSiteWindow extends EditingDirectoryWindow {
-    private static final SitesDirectory SITES_DIRECTORY = new SitesDirectory();
 
     public AddSiteWindow(String windowTitle) {
         new ConfigurationsWindowGUI().setConfigWindow(getWindow(), windowTitle, getSizeWidth(), getSizeHeight());
@@ -46,11 +46,14 @@ public class AddSiteWindow extends EditingDirectoryWindow {
 
     @Override
     public void saveEditing(ActionEvent actionEvent) {
-        if(getNameField().getText() != null) SitesTable.addSite(getNameField().getText(), getUrlField().getText(),getActive().isSelected());
+        if(getNameField().getText() != null){
+            SitesTable.addSite(getNameField().getText(), getUrlField().getText(),getActive().isSelected());
+            if (getActive().isSelected()){
+                DailyStatistic.LIST_ADD_NAME_SITES.add(getNameField().getText());
+                GeneralStatistic.liLIST_ADD_NAME_SITES.add(getNameField().getText());
+            }
+        }
 
-        SitesTable.infoAllSites();
-
-        SITES_DIRECTORY.visibleDataTable(actionEvent);
         getNameField().setText(null);
         getWindow().dispose();
     }

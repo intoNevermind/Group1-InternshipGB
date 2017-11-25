@@ -1,8 +1,7 @@
 package windowGUI.editingDirectoryWindow.edit;
 
 import windowGUI.ConfigurationsWindowGUI;
-import windowGUI.component.workDB.tables.KeyWordsTable;
-import windowGUI.component.workDirectory.KeyWordsDirectory;
+import windowGUI.component.workWithDB.tables.KeyWordsTable;
 import windowGUI.editingDirectoryWindow.EditingDirectoryWindow;
 
 import java.awt.*;
@@ -13,7 +12,6 @@ import static java.awt.GridBagConstraints.WEST;
  * Класс-редактор справочников, отвечающий за функциональную деятельность редактирования ключевых слов
  * */
 public class EditKeyWordWindow extends EditingDirectoryWindow {
-    private static final KeyWordsDirectory KEY_WORDS_DIRECTORY = new KeyWordsDirectory();
     private String nameKeyWords;
     private int keyWordID;
     private int personID;
@@ -50,8 +48,6 @@ public class EditKeyWordWindow extends EditingDirectoryWindow {
     public void saveEditing(ActionEvent actionEvent) {
         if(getNameField().getText() != null ) KeyWordsTable.modifyKeyWord(keyWordID, getNameField().getText(),personID);
 
-        KeyWordsTable.infoAllKeyWords();
-        KEY_WORDS_DIRECTORY.visibleDataTable(actionEvent);
         getNameField().setText(null);
         getWindow().dispose();
     }
