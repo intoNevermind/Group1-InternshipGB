@@ -15,4 +15,6 @@
     <string name="save">Сохранить</string>
     <string name="add">Добавить</string>
     <string name="cancel">Отмена</string>
+    <string name="login">Логин</string>
+    <string name="enter">Войти</string>
 </resources>

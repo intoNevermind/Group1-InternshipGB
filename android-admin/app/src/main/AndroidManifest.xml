@@ -13,13 +13,15 @@
         android:theme="@style/AppTheme"
         android:name=".App">
         <activity android:name=".activities.MainActivity">
+        </activity>
+        <activity android:name=".activities.EditPersonKeywordsActivity"/>
+        <activity android:name=".activities.AuthActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.EditPersonKeywordsActivity"/>
     </application>
 
 </manifest>

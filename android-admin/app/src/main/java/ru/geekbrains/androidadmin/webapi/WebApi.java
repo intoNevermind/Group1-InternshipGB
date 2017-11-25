@@ -5,7 +5,10 @@ import java.util.List;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
+import ru.geekbrains.androidadmin.model.ErrorResponse;
 import ru.geekbrains.androidadmin.model.Keyword;
 import ru.geekbrains.androidadmin.model.Person;
 import ru.geekbrains.androidadmin.model.Site;
@@ -16,6 +19,13 @@ import ru.geekbrains.androidadmin.model.User;
  */
 
 public interface WebApi {
+
+    String X_CSRF_TOKEN = "X-CSRF-TOKEN";
+
+    @POST("login")
+    Call<ErrorResponse> login(//@Header(X_CSRF_TOKEN) String token,
+                              @Query("username") String username,
+                              @Query("password") String password);
 
     // get all
     @GET("admin/ui/getAllUsers")

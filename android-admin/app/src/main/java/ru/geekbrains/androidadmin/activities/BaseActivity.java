@@ -48,34 +48,35 @@ public class BaseActivity extends AppCompatActivity {
             progressDialog.dismiss();
     }
 
-    protected void showErrorDialog(String title, String message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(title);
-        builder.setMessage(message);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+    protected void showErrorDialog(final String title, final String message) {
+        runOnUiThread(new Runnable() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.cancel();
+            public void run() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(BaseActivity.this);
+                builder.setTitle(title);
+                AlertDialog.Builder builder1 = builder.setMessage(message);
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                builder.create().show();
             }
         });
-        builder.create().show();
     }
 
     protected void showErrorDialog(Throwable t) {
         showErrorDialog("Exception", String.format("%s\n%s", t.getClass().getSimpleName(), t.getMessage()));
     }
 
-    public void showUserDialog(User user) {
-    }
+    public void showUserDialog(User user) {}
 
-    public void showSiteDialog(Site site) {
-    }
+    public void showSiteDialog(Site site) {}
 
-    public void showPersonDialog(Person person) {
-    }
+    public void showPersonDialog(Person person) {}
 
-    public void showKeywordDialog(Keyword keyword) {
-    }
+    public void showKeywordDialog(Keyword keyword) {}
 
     public void showPopupMenu(View view, final Object data) {
         PopupMenu popupMenu = new PopupMenu(this, view);

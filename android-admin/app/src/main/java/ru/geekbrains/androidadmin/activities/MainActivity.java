@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -89,6 +90,10 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                     if (!usersResponse.isSuccessful()) sb.append("Ошибка при загрузке списка пользователей");
                     if (!sitesResponse.isSuccessful()) sb.append("\nОшибка при загрузке списка сайтов");
                     if (!personsResponse.isSuccessful()) sb.append("\nОшибка при загрузке списка личностей");
+                    Log.d("LOGLOG", "usersResponse code = " + usersResponse.code());
+                    Log.d("LOGLOG", "sitesResponse code = " + sitesResponse.code());
+                    Log.d("LOGLOG", "personsResponse code = " + personsResponse.code());
+
                     if (sb.length() > 0) throw new RuntimeException(sb.toString());
                     users.clear();
                     sites.clear();
@@ -112,6 +117,12 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 } catch (Exception e) {
                     e.printStackTrace();
                     showErrorDialog(e);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            binding.swipeRefresh.setRefreshing(false);
+                        }
+                    });
                 }
             }
         }).start();
