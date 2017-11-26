@@ -47,6 +47,7 @@ public class ProcessingPersonTable extends ProcessingData{
 
         return listUnionAllValues;
     }
+
     /*
      * метод, возвращающий ID личности по имени личности
      * */
