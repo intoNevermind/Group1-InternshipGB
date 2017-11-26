@@ -25,7 +25,6 @@ import ru.geekbrains.androidadmin.R;
 import ru.geekbrains.androidadmin.adapters.MyRecyclerViewAdapter;
 import ru.geekbrains.androidadmin.databinding.ActivityEditPersonKeywordsBinding;
 import ru.geekbrains.androidadmin.databinding.DialogKeywordBinding;
-import ru.geekbrains.androidadmin.databinding.DialogPersonBinding;
 import ru.geekbrains.androidadmin.fragments.BaseFragment;
 import ru.geekbrains.androidadmin.model.Keyword;
 
@@ -64,7 +63,7 @@ public class EditPersonKeywordsActivity extends BaseActivity implements SwipeRef
         actionBar.setTitle(String.format("Кл. слова для \"%s\"", personName));
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        keywordsFragment = BaseFragment.newInstance(keywords, new Keyword(),this);
+        keywordsFragment = BaseFragment.newInstance(keywords, new Keyword(), this);
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.container, keywordsFragment)
@@ -97,7 +96,8 @@ public class EditPersonKeywordsActivity extends BaseActivity implements SwipeRef
                 keywords.clear();
                 List<Keyword> newKeywords = response.body();
                 List<Keyword> filteredKeywords = new ArrayList<>();
-                if (newKeywords == null) throw new RuntimeException("От сервера вместо списка ключевых слов пришел null");
+                if (newKeywords == null)
+                    throw new RuntimeException("От сервера вместо списка ключевых слов пришел null");
                 for (int i = 0; i < newKeywords.size(); i++) {
                     Keyword keyword = newKeywords.get(i);
                     if (keyword.getPersonId().equals(personId)) filteredKeywords.add(keyword);
@@ -135,8 +135,7 @@ public class EditPersonKeywordsActivity extends BaseActivity implements SwipeRef
         if (keyword != null) {
             binding.etName.setText(keyword.getName());
             binding.btnOk.setText(R.string.save);
-        }
-        else {
+        } else {
             binding.btnOk.setText(R.string.add);
         }
         binding.btnCancel.setText(R.string.cancel);

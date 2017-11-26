@@ -1,20 +1,16 @@
 package ru.geekbrains.androidadmin.activities;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
-import android.view.ContextThemeWrapper;
-import android.view.Gravity;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
 import java.io.IOException;
 
-import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 import ru.geekbrains.androidadmin.App;
@@ -46,19 +42,25 @@ public class BaseActivity extends AppCompatActivity {
     protected void closeProgressDialog() {
         if (progressDialog != null)
             progressDialog.dismiss();
+        progressDialog = null;
     }
 
-    protected void showErrorDialog(String title, String message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(title);
-        builder.setMessage(message);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+    protected void showErrorDialog(final String title, final String message) {
+        runOnUiThread(new Runnable() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.cancel();
+            public void run() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(BaseActivity.this);
+                builder.setTitle(title);
+                AlertDialog.Builder builder1 = builder.setMessage(message);
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                builder.create().show();
             }
         });
-        builder.create().show();
     }
 
     protected void showErrorDialog(Throwable t) {
@@ -137,5 +139,6 @@ public class BaseActivity extends AppCompatActivity {
         popupMenu.show();
     }
 
-    protected void updateData() {}
+    protected void updateData() {
+    }
 }

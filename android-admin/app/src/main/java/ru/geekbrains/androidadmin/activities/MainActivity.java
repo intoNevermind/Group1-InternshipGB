@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -51,8 +52,8 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         MyViewPagerAdapter vpAdapter = new MyViewPagerAdapter(getSupportFragmentManager());
 
         usersFragment = BaseFragment.newInstance(users, new User(), this);
-        sitesFragment = BaseFragment.newInstance(sites, new Site(),this);
-        personsFragment = BaseFragment.newInstance(persons, new Person(),this);
+        sitesFragment = BaseFragment.newInstance(sites, new Site(), this);
+        personsFragment = BaseFragment.newInstance(persons, new Person(), this);
 
         vpAdapter.addFragment(usersFragment, "Пользователи");
         vpAdapter.addFragment(sitesFragment, "Сайты");
@@ -86,9 +87,16 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                     Response<List<Site>> sitesResponse = api.getAllSites().execute();
                     Response<List<Person>> personsResponse = api.getAllPersons().execute();
                     StringBuilder sb = new StringBuilder();
-                    if (!usersResponse.isSuccessful()) sb.append("Ошибка при загрузке списка пользователей");
-                    if (!sitesResponse.isSuccessful()) sb.append("\nОшибка при загрузке списка сайтов");
-                    if (!personsResponse.isSuccessful()) sb.append("\nОшибка при загрузке списка личностей");
+                    if (!usersResponse.isSuccessful())
+                        sb.append("Ошибка при загрузке списка пользователей");
+                    if (!sitesResponse.isSuccessful())
+                        sb.append("\nОшибка при загрузке списка сайтов");
+                    if (!personsResponse.isSuccessful())
+                        sb.append("\nОшибка при загрузке списка личностей");
+                    Log.d("LOGLOG", "usersResponse code = " + usersResponse.code());
+                    Log.d("LOGLOG", "sitesResponse code = " + sitesResponse.code());
+                    Log.d("LOGLOG", "personsResponse code = " + personsResponse.code());
+
                     if (sb.length() > 0) throw new RuntimeException(sb.toString());
                     users.clear();
                     sites.clear();
@@ -112,6 +120,12 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 } catch (Exception e) {
                     e.printStackTrace();
                     showErrorDialog(e);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            binding.swipeRefresh.setRefreshing(false);
+                        }
+                    });
                 }
             }
         }).start();
@@ -135,8 +149,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             binding.cbAdmin.setChecked(user.getAdmin());
             binding.cbActive.setChecked(user.getActive());
             binding.btnOk.setText(R.string.save);
-        }
-        else {
+        } else {
             binding.btnOk.setText(R.string.add);
         }
         binding.btnCancel.setText(R.string.cancel);
@@ -149,7 +162,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                     binding.etUsername.requestFocus();
                     return;
                 }
-                if (TextUtils.isEmpty(binding.etPassword.getText())){
+                if (TextUtils.isEmpty(binding.etPassword.getText())) {
                     binding.etPassword.setError("Введите пароль");
                     binding.etPassword.requestFocus();
                     return;
@@ -215,8 +228,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             binding.etUrl.setText(site.getUrl());
             binding.cbActive.setChecked(site.getActive());
             binding.btnOk.setText(R.string.save);
-        }
-        else {
+        } else {
             binding.btnOk.setText(R.string.add);
         }
         binding.btnCancel.setText(R.string.cancel);
@@ -229,7 +241,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                     binding.etName.requestFocus();
                     return;
                 }
-                if (TextUtils.isEmpty(binding.etUrl.getText())){
+                if (TextUtils.isEmpty(binding.etUrl.getText())) {
                     binding.etUrl.setError("Введите адрес");
                     binding.etUrl.requestFocus();
                     return;
@@ -292,8 +304,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             binding.etName.setText(person.getName());
             binding.cbActive.setChecked(person.getActive());
             binding.btnOk.setText(R.string.save);
-        }
-        else {
+        } else {
             binding.btnOk.setText(R.string.add);
         }
         binding.btnCancel.setText(R.string.cancel);
