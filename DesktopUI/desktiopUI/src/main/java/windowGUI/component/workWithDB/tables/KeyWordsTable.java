@@ -1,7 +1,7 @@
 package windowGUI.component.workWithDB.tables;
 
-import windowGUI.component.workWithDB.restApi.PojoKeyWords;
-import windowGUI.component.workWithDB.restApi.RestApiForKeyWordsTable;
+import windowGUI.component.workWithDB.restApi.pojo.PojoKeyWords;
+import windowGUI.component.workWithDB.restApi.QueriesForKeyWordsTable;
 
 import okhttp3.ResponseBody;
 import retrofit2.Response;
@@ -12,12 +12,12 @@ import java.util.LinkedHashMap;
  * Класс-таблица, отвечающий за получение(отправку) данных из таблицы KeyWords, в REST-сервер
  * */
 public class KeyWordsTable extends ConnectServer {
-    private static final RestApiForKeyWordsTable REST_API_FOR_KEY_WORDS_TABLE = getRetrofit().create(RestApiForKeyWordsTable.class);
+    private static final QueriesForKeyWordsTable QUERIES_FOR_KEY_WORDS_TABLE = getRetrofit().create(QueriesForKeyWordsTable.class);
 
     private static final ArrayList<Integer> LIST_ID = new ArrayList<>();
     private static final ArrayList<String> LIST_NAME = new ArrayList<>();
     private static final ArrayList<Integer> LIST_PERSON_ID = new ArrayList<>();
-    private static final LinkedHashMap<Integer,String> LIST_ID_AND_NAME = new LinkedHashMap<>();
+    private static final LinkedHashMap<Integer, String> LIST_ID_AND_NAME = new LinkedHashMap<>();
 
     /*
      * <Получение>
@@ -34,14 +34,14 @@ public class KeyWordsTable extends ConnectServer {
         LIST_ID_AND_NAME.clear();
 
         try {
-            Response<ArrayList<PojoKeyWords>> response = REST_API_FOR_KEY_WORDS_TABLE.getListAllKeyWords().execute();
+            Response<ArrayList<PojoKeyWords>> response = QUERIES_FOR_KEY_WORDS_TABLE.getListAllKeyWords().execute();
 
             ArrayList<PojoKeyWords> list = response.body();
             for (int i = 0; i < list.size(); i++) {
                 LIST_ID.add(list.get(i).getId());
                 LIST_NAME.add(list.get(i).getName());
                 LIST_PERSON_ID.add(list.get(i).getPersonId());
-                LIST_ID_AND_NAME.put(LIST_ID.get(i),LIST_NAME.get(i));
+                LIST_ID_AND_NAME.put(LIST_ID.get(i), LIST_NAME.get(i));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -61,9 +61,9 @@ public class KeyWordsTable extends ConnectServer {
      * */
     public static void addKeyWord(String nameKeyWord, int personID){
         try {
-            Response<ResponseBody> response = REST_API_FOR_KEY_WORDS_TABLE.addKeyWord(nameKeyWord,personID).execute();
+            Response<ResponseBody> response = QUERIES_FOR_KEY_WORDS_TABLE.addKeyWord(nameKeyWord,personID).execute();
 
-            if (response.isSuccessful())response.body().string();
+            if(response.isSuccessful()) response.body().string();
             else response.body().close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -75,9 +75,9 @@ public class KeyWordsTable extends ConnectServer {
      * */
     public static void delKeyWord(int keyWordID){
         try {
-            Response<ResponseBody> response = REST_API_FOR_KEY_WORDS_TABLE.delKeyWord(keyWordID).execute();
+            Response<ResponseBody> response = QUERIES_FOR_KEY_WORDS_TABLE.delKeyWord(keyWordID).execute();
 
-            if (response.isSuccessful())response.body().string();
+            if(response.isSuccessful()) response.body().string();
             else response.body().close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -89,9 +89,9 @@ public class KeyWordsTable extends ConnectServer {
      * */
     public static void modifyKeyWord(int keyWordID, String nameKeyWord , int personID){
         try {
-            Response<ResponseBody> response = REST_API_FOR_KEY_WORDS_TABLE.modifyKeyWord(keyWordID, nameKeyWord,personID).execute();
+            Response<ResponseBody> response = QUERIES_FOR_KEY_WORDS_TABLE.modifyKeyWord(keyWordID, nameKeyWord,personID).execute();
 
-            if (response.isSuccessful())response.body().string();
+            if(response.isSuccessful()) response.body().string();
             else response.body().close();
         } catch (IOException e) {
             e.printStackTrace();

@@ -51,6 +51,7 @@ public class TabEntry extends Authorization {
         }else {
             if(UsersTable.isAuthorized(getLoginField().getText(), getPasswordField().getText())){
                 new ApplicationWindow(getLoginField().getText());
+
                 getLoginField().setText(null);
                 getWINDOW().dispose();
             }else{
@@ -60,6 +61,7 @@ public class TabEntry extends Authorization {
                         JOptionPane.WARNING_MESSAGE);
             }
         }
+
         getLoginField().setText(null);
         getPasswordField().setText(null);
     }

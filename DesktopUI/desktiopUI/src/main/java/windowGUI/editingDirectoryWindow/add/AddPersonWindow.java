@@ -8,7 +8,6 @@ import windowGUI.editingDirectoryWindow.EditingDirectoryWindow;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
-
 import static java.awt.GridBagConstraints.*;
 /*
  * Класс-редактор справочников, отвечающий за функциональную деятельность добавления личностей
@@ -44,7 +43,7 @@ public class AddPersonWindow extends EditingDirectoryWindow {
     public void saveEditing(ActionEvent actionEvent) {
         if(getNameField().getText() != null) {
             PersonsTable.addPerson(getNameField().getText(),getActive().isSelected());
-            if (getActive().isSelected()){
+            if(getActive().isSelected()){
                 KeyWordsDirectory.LIST_ADD_NAME_PERSONS.add(getNameField().getText());
                 DailyStatistic.LIST_ADD_NAME_PERSONS.add(getNameField().getText());
             }

@@ -48,7 +48,7 @@ public class AddSiteWindow extends EditingDirectoryWindow {
     public void saveEditing(ActionEvent actionEvent) {
         if(getNameField().getText() != null){
             SitesTable.addSite(getNameField().getText(), getUrlField().getText(),getActive().isSelected());
-            if (getActive().isSelected()){
+            if(getActive().isSelected()){
                 DailyStatistic.LIST_ADD_NAME_SITES.add(getNameField().getText());
                 GeneralStatistic.liLIST_ADD_NAME_SITES.add(getNameField().getText());
             }

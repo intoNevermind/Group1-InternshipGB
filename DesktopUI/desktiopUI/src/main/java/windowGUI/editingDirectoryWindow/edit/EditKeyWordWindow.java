@@ -16,7 +16,7 @@ public class EditKeyWordWindow extends EditingDirectoryWindow {
     private int keyWordID;
     private int personID;
 
-    public EditKeyWordWindow(String windowTitle, String nameKeyWords,int keyWordID, int personID) {
+    public EditKeyWordWindow(String windowTitle, String nameKeyWords, int keyWordID, int personID) {
         this.nameKeyWords = nameKeyWords;
         this.keyWordID = keyWordID;
         this.personID = personID;

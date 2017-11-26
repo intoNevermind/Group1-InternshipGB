@@ -1,7 +1,7 @@
 package windowGUI.component.workWithDB.tables;
 
-import windowGUI.component.workWithDB.restApi.PojoUsers;
-import windowGUI.component.workWithDB.restApi.RestApiForUsersTable;
+import windowGUI.component.workWithDB.restApi.pojo.PojoUsers;
+import windowGUI.component.workWithDB.restApi.QueriesForUsersTable;
 
 import okhttp3.ResponseBody;
 import retrofit2.Response;
@@ -12,11 +12,11 @@ import java.util.LinkedHashMap;
  * Класс-таблица, отвечающий за получение(отправку) данных из таблицы Users, в REST-сервер
  * */
 public class UsersTable extends ConnectServer{
-    private static final RestApiForUsersTable REST_API_FOR_USERS_TABLE = getRetrofit().create(RestApiForUsersTable.class);
+    private static final QueriesForUsersTable QUERIES_FOR_USERS_TABLE = getRetrofit().create(QueriesForUsersTable.class);
 
     private static final ArrayList<String> LIST_LOGIN = new ArrayList<>();
     private static final ArrayList<String> LIST_PASSWORD = new ArrayList<>();
-    private static final LinkedHashMap<String,String> LIST_LOGIN_AND_PASSWORD = new LinkedHashMap<>();
+    private static final LinkedHashMap<String, String> LIST_LOGIN_AND_PASSWORD = new LinkedHashMap<>();
 
     private static boolean authorized = false;
 
@@ -34,7 +34,7 @@ public class UsersTable extends ConnectServer{
         LIST_LOGIN_AND_PASSWORD.clear();
 
         try {
-            Response<ArrayList<PojoUsers>> response = REST_API_FOR_USERS_TABLE.getListAllUsers().execute();
+            Response<ArrayList<PojoUsers>> response = QUERIES_FOR_USERS_TABLE.getListAllUsers().execute();
 
             ArrayList<PojoUsers> list = response.body();
             for (int i = 0; i < list.size(); i++) {
@@ -58,21 +58,23 @@ public class UsersTable extends ConnectServer{
     /*
      * метод, отвечающий за авторизацию(фэйковая авторизация для имитации реальных действий)
      * */
-    public static boolean isAuthorized(String nameUser, String passwordUser){
-        if (nameUser == null || passwordUser == null) return false;
+    public static boolean isAuthorized(String loginUser, String passwordUser){
+        if (loginUser == null || passwordUser == null) return false;
 
         try {
-            Response<ResponseBody> response = REST_API_FOR_USERS_TABLE.authorized().execute();
+            Response<ResponseBody> response = QUERIES_FOR_USERS_TABLE.authorized().execute();
 
             for (int i = 0; i <LIST_LOGIN.size(); i++) {
-                if(response.isSuccessful() && nameUser.equals(LIST_LOGIN.get(i))
-                        && passwordUser.equals( LIST_LOGIN_AND_PASSWORD.get(nameUser))){
+                if(response.isSuccessful() && loginUser.equals(LIST_LOGIN.get(i))
+                        && passwordUser.equals(LIST_LOGIN_AND_PASSWORD.get(loginUser))){
                     authorized = true;
                 }
             }
+
             return authorized;
         } catch (IOException e) {
             e.printStackTrace();
+
             return authorized;
         }
     }
@@ -80,11 +82,11 @@ public class UsersTable extends ConnectServer{
     /*
      * метод, добавляющий пользователя
      * */
-    public static void addUser(String userLogin , boolean userAdmin, String userPassword, boolean userActive){
+    public static void addUser(String loginUser , boolean adminUser, String passwordUser, boolean activeUser){
         try {
-            Response<ResponseBody> response = REST_API_FOR_USERS_TABLE.addUser(userLogin, userAdmin,userPassword, userActive).execute();
+            Response<ResponseBody> response = QUERIES_FOR_USERS_TABLE.addUser(loginUser, adminUser, passwordUser, activeUser).execute();
 
-            if (response.isSuccessful())response.body().string();
+            if(response.isSuccessful()) response.body().string();
             else response.body().close();
         } catch (IOException e) {
             e.printStackTrace();

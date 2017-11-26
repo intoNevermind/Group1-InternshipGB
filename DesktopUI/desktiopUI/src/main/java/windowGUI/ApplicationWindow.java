@@ -53,6 +53,7 @@ public class ApplicationWindow {
         listComponent.add(LIST_OF_TABS);
         listComponent.add(HEAD_LINE_RESTART);
         listComponent.add(BTN_RESTART);
+
         return listComponent;
     }
 

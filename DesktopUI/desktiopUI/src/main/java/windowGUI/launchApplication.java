@@ -12,6 +12,7 @@ public class launchApplication {
         setStyleLookAndFeel();
         new AuthorizationWindow();
     }
+
     /*
      * метод, отвечающий за внешний вид приложения
      * */

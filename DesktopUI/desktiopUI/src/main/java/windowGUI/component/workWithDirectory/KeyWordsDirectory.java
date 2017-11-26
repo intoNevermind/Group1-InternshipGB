@@ -73,14 +73,14 @@ public class KeyWordsDirectory extends Directory implements ListPerson{
     @Override
     public void initDataTable(){
         dataTable = new JTable(getPKeyWordsT().getArrayFillTable(namePerson, NAME_COLUMNS.length), NAME_COLUMNS);
-        super.initDataTable();
+        super.addDataTable();
     }
 
-
+    @Override
     public void initSelectedRow(ListSelectionEvent selectionEvent){
         TableModel model = dataTable.getModel();
         Object value = model.getValueAt(dataTable.getSelectedRow(), 0);
-        nameKeyWord = (String) value;
+        nameKeyWord = (String)value;
     }
 
     /*
@@ -93,7 +93,7 @@ public class KeyWordsDirectory extends Directory implements ListPerson{
                     "Не инициализированы поля",
                     JOptionPane.WARNING_MESSAGE);
         }
-        refresh(actionEvent);
+        refreshAll(actionEvent);
     }
 
     @Override
@@ -103,7 +103,7 @@ public class KeyWordsDirectory extends Directory implements ListPerson{
                     "Для добавления ключевых слов необходимо выбрать \""  + getHeadLinePerson().getText() + "\" ",
                     "Не инициализированы поля",
                     JOptionPane.WARNING_MESSAGE);
-        }else{
+        }else {
             new AddKeyWordWindow(getBtnAdd().getText() + " новое ключевое слово для личности: " + namePerson,
                     getPPersonT().getIDPersonByNamePerson(namePerson));
         }
@@ -116,8 +116,10 @@ public class KeyWordsDirectory extends Directory implements ListPerson{
                     "Для удаления ключевого слова необходимо выбрать ключевое слово из списка",
                     "Не инициализированы поля",
                     JOptionPane.WARNING_MESSAGE);
-        }else{
-            new DelKeyWordWindow(getBtnDelete().getText() + " ключевое слово ", nameKeyWord, getPKeyWordsT().getIDKeyWordByNameKeyWord(nameKeyWord));
+        }else {
+            new DelKeyWordWindow(getBtnDelete().getText() + " ключевое слово ",
+                    nameKeyWord,
+                    getPKeyWordsT().getIDKeyWordByNameKeyWord(nameKeyWord));
             nameKeyWord = null;
         }
     }
@@ -129,7 +131,7 @@ public class KeyWordsDirectory extends Directory implements ListPerson{
                     "Для редактирования ключевого слова необходимо выбрать ключевое слово из списка",
                     "Не инициализированы поля",
                     JOptionPane.WARNING_MESSAGE);
-        }else{
+        }else {
             new EditKeyWordWindow(getBtnEdit().getText() + " ключевое слово ",
                     nameKeyWord,
                     getPKeyWordsT().getIDKeyWordByNameKeyWord(nameKeyWord),
@@ -139,10 +141,13 @@ public class KeyWordsDirectory extends Directory implements ListPerson{
     }
 
     @Override
-    public void refresh(ActionEvent actionEvent) {
-        getWorkWithDataTable().removeDataTable(dataScrollPane,getPanelDirectory());
-        initDataTable();
+    public void refreshAll(ActionEvent actionEvent) {
+        refreshDataTable();
 
-        CHANGE_ITEMS_J_COMBO_BOX.refreshList(LIST_ADD_NAME_PERSONS, LIST_DEL_NAME_PERSONS, LIST_BEFORE_NAME_PERSONS, LIST_AFTER_NAME_PERSONS, getListPersons());
+        CHANGE_ITEMS_J_COMBO_BOX.refreshList(LIST_ADD_NAME_PERSONS,
+                LIST_DEL_NAME_PERSONS,
+                LIST_BEFORE_NAME_PERSONS,
+                LIST_AFTER_NAME_PERSONS,
+                getListPersons());
     }
 }

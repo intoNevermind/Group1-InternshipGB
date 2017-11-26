@@ -1,7 +1,7 @@
 package windowGUI.component.workWithDB.tables;
 
-import windowGUI.component.workWithDB.restApi.PojoDailyStatistics;
-import windowGUI.component.workWithDB.restApi.RestApiForDailyStatistics;
+import windowGUI.component.workWithDB.restApi.pojo.PojoDailyStatistics;
+import windowGUI.component.workWithDB.restApi.QueriesForDailyStatistics;
 
 import retrofit2.Response;
 import java.io.IOException;
@@ -11,12 +11,12 @@ import java.util.LinkedHashMap;
 * Класс-таблица, отвечающий за получение данных из таблицы DailyStatistics, в REST-сервер
 * */
 public class DailyStatisticsTable extends ConnectServer{
-    private static final RestApiForDailyStatistics REST_API_FOR_DAILY_STATISTICS = getRetrofit().create(RestApiForDailyStatistics.class);
+    private static final QueriesForDailyStatistics QUERIES_FOR_DAILY_STATISTICS = getRetrofit().create(QueriesForDailyStatistics.class);
 
     private static final ArrayList<String> LIST_NAME = new ArrayList<>();
     private static final ArrayList<String> LIST_RANK_DATE = new ArrayList<>();
     private static final ArrayList<Integer> LIST_DAILY_RANK= new ArrayList<>();
-    private static final LinkedHashMap<String,Integer> LIST_DATE_AND_DAILY_RANK = new LinkedHashMap<>();
+    private static final LinkedHashMap<String, Integer> LIST_DATE_AND_DAILY_RANK = new LinkedHashMap<>();
 
     /*
      * <Получение>
@@ -29,7 +29,7 @@ public class DailyStatisticsTable extends ConnectServer{
         LIST_DATE_AND_DAILY_RANK.clear();
 
         try {
-            Response<ArrayList<PojoDailyStatistics>> response = REST_API_FOR_DAILY_STATISTICS.getListDailyStatistics(siteID,dateFrom,dateTo).execute();
+            Response<ArrayList<PojoDailyStatistics>> response = QUERIES_FOR_DAILY_STATISTICS.getListDailyStatistics(siteID,dateFrom,dateTo).execute();
 
             ArrayList<PojoDailyStatistics> list = response.body();
             for (int j = 0; j < list.size(); j++) {

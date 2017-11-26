@@ -1,4 +1,4 @@
-package windowGUI.component.workWithDB.restApi;
+package windowGUI.component.workWithDB.restApi.pojo;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

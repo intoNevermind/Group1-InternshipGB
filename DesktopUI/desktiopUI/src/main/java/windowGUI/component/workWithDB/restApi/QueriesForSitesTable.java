@@ -4,11 +4,13 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
+import windowGUI.component.workWithDB.restApi.pojo.PojoSites;
+
 import java.util.ArrayList;
 /*
  * Интерфейс для описания запросов для получения(отправки) данных из таблицы Sites, в REST-сервер
  * */
-public interface RestApiForSitesTable {
+public interface QueriesForSitesTable {
 /*
 * <Получение>
 * запросы с помощью которых, можно получить данные из БД

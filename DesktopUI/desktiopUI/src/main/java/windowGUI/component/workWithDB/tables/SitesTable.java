@@ -1,7 +1,7 @@
 package windowGUI.component.workWithDB.tables;
 
-import windowGUI.component.workWithDB.restApi.PojoSites;
-import windowGUI.component.workWithDB.restApi.RestApiForSitesTable;
+import windowGUI.component.workWithDB.restApi.pojo.PojoSites;
+import windowGUI.component.workWithDB.restApi.QueriesForSitesTable;
 
 import okhttp3.ResponseBody;
 import retrofit2.Response;
@@ -12,15 +12,15 @@ import java.util.LinkedHashMap;
  * Класс-таблица, отвечающий за получение(отправку) данных из таблицы Sites, в REST-сервер
  * */
 public class SitesTable extends ConnectServer {
-    private static final RestApiForSitesTable REST_API_FOR_SITES_TABLE = getRetrofit().create(RestApiForSitesTable.class);
+    private static final QueriesForSitesTable QUERIES_FOR_SITES_TABLE = getRetrofit().create(QueriesForSitesTable.class);
 
     private static final ArrayList<Integer> LIST_ID = new ArrayList<>();
     private static final ArrayList<String> LIST_NAME = new ArrayList<>();
     private static final ArrayList<String> LIST_URL = new ArrayList<>();
     private static final ArrayList<Boolean> LIST_ACTIVE = new ArrayList<>();
-    private static final LinkedHashMap<String,String> LIST_NAME_AND_URL = new LinkedHashMap<>();
-    private static final LinkedHashMap<String,Boolean> LIST_NAME_AND_ACTIVE = new LinkedHashMap<>();
-    private static final LinkedHashMap<Integer,String> LIST_ID_AND_NAME = new LinkedHashMap<>();
+    private static final LinkedHashMap<String, String> LIST_NAME_AND_URL = new LinkedHashMap<>();
+    private static final LinkedHashMap<String, Boolean> LIST_NAME_AND_ACTIVE = new LinkedHashMap<>();
+    private static final LinkedHashMap<Integer, String> LIST_ID_AND_NAME = new LinkedHashMap<>();
 
     /*
      * <Получение>
@@ -40,7 +40,7 @@ public class SitesTable extends ConnectServer {
         LIST_NAME_AND_ACTIVE.clear();
 
         try {
-            Response<ArrayList<PojoSites>> response = REST_API_FOR_SITES_TABLE.getListAllSites().execute();
+            Response<ArrayList<PojoSites>> response = QUERIES_FOR_SITES_TABLE.getListAllSites().execute();
 
             ArrayList<PojoSites> list = response.body();
             for (int i = 0; i < list.size(); i++) {
@@ -68,11 +68,11 @@ public class SitesTable extends ConnectServer {
     /*
      * метод, добавляющий сайт
      * */
-    public static void addSite(String siteName, String siteUrl, boolean siteActive){
+    public static void addSite(String nameSite, String urlSite, boolean activeSite){
         try {
-            Response<ResponseBody> response = REST_API_FOR_SITES_TABLE.addSite(siteName, siteUrl, siteActive).execute();
+            Response<ResponseBody> response = QUERIES_FOR_SITES_TABLE.addSite(nameSite, urlSite, activeSite).execute();
 
-            if (response.isSuccessful())response.body().string();
+            if(response.isSuccessful()) response.body().string();
             else response.body().close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -84,9 +84,9 @@ public class SitesTable extends ConnectServer {
      * */
     public static void delSite(int siteID){
         try {
-            Response<ResponseBody> response = REST_API_FOR_SITES_TABLE.delSite(siteID).execute();
+            Response<ResponseBody> response = QUERIES_FOR_SITES_TABLE.delSite(siteID).execute();
 
-            if (response.isSuccessful())response.body().string();
+            if(response.isSuccessful()) response.body().string();
             else response.body().close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -96,11 +96,11 @@ public class SitesTable extends ConnectServer {
     /*
      * метод, редактирующий сайт
      * */
-    public static void modifySite(int siteID, String siteName, String siteUrl, boolean siteActive){
+    public static void modifySite(int siteID, String nameSite, String urlSite, boolean activeSite){
         try {
-            Response<ResponseBody> response = REST_API_FOR_SITES_TABLE.modifySite(siteID, siteName, siteUrl, siteActive).execute();
-            System.out.println(response.raw());
-            if (response.isSuccessful())response.body().string();
+            Response<ResponseBody> response = QUERIES_FOR_SITES_TABLE.modifySite(siteID, nameSite, urlSite, activeSite).execute();
+
+            if(response.isSuccessful()) response.body().string();
             else response.body().close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -113,9 +113,6 @@ public class SitesTable extends ConnectServer {
     /*
      * <getters>
      * */
-    public static ArrayList<String> getListName(){
-        return LIST_NAME;
-    }
     public static ArrayList<Boolean> getListActive() {
         return LIST_ACTIVE;
     }

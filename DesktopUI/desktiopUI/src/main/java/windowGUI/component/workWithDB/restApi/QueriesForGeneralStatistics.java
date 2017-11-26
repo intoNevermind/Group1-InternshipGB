@@ -3,9 +3,11 @@ package windowGUI.component.workWithDB.restApi;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
+import windowGUI.component.workWithDB.restApi.pojo.PojoGeneralStatistics;
+
 import java.util.ArrayList;
 
-public interface RestApiForGeneralStatistics {
+public interface QueriesForGeneralStatistics {
 /*
 * <Получение>
 * запросы с помощью которых, можно получить данные из БД

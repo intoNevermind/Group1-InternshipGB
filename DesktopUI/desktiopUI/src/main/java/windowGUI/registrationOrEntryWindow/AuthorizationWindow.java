@@ -41,6 +41,7 @@ public class AuthorizationWindow {
     private ArrayList<Component> getListComponents(){
         ArrayList<Component> listComponent = new ArrayList<>();
         listComponent.add(LIST_OF_TABS);
+
         return listComponent;
     }
 

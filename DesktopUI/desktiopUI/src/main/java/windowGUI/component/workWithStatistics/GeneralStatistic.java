@@ -1,11 +1,9 @@
 package windowGUI.component.workWithStatistics;
 
 import windowGUI.component.ListSites;
-import windowGUI.component.ChangeItemsJComboBox;
 import windowGUI.component.workWithDB.processingData.ProcessingData;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
@@ -23,8 +21,6 @@ public class GeneralStatistic extends Statistics implements ListSites{
     public static final ArrayList<String> LIST_DEL_NAME_SITES = new ArrayList<>();
     public static final ArrayList<String> LIST_BEFORE_NAME_SITES = new ArrayList<>();
     public static final ArrayList<String> LIST_AFTER_NAME_SITES = new ArrayList<>();
-
-    private static final ChangeItemsJComboBox CHANGE_ITEMS_J_COMBO_BOX = new ChangeItemsJComboBox();
 
     public GeneralStatistic() {
         setTabName(NAME_TAB);
@@ -59,7 +55,7 @@ public class GeneralStatistic extends Statistics implements ListSites{
     @Override
     public void initDataTable() {
         dataTable = new JTable(getPGeneralStatisticsT().getArrayFillTable(nameSite, NAME_COLUMNS.length), NAME_COLUMNS);
-        super.initDataTable();
+        super.addDataTable();
     }
 
     @Override
@@ -70,14 +66,16 @@ public class GeneralStatistic extends Statistics implements ListSites{
                     getEmptyFields(),
                     JOptionPane.WARNING_MESSAGE);
         }
-        refresh(actionEvent);
+        refreshAll(actionEvent);
     }
 
     @Override
-    public void refresh(ActionEvent actionEvent) {
-        getWorkWithDataTable().removeDataTable(dataScrollPane, getPanelStat());
-        initDataTable();
+    public void refreshAll(ActionEvent actionEvent) {
+        refreshDataTable();
 
-        CHANGE_ITEMS_J_COMBO_BOX.refreshList(liLIST_ADD_NAME_SITES, LIST_DEL_NAME_SITES, LIST_BEFORE_NAME_SITES, LIST_AFTER_NAME_SITES, getListSites());
+        getChangeItemsJComboBox().refreshList(liLIST_ADD_NAME_SITES,
+                LIST_DEL_NAME_SITES,
+                LIST_BEFORE_NAME_SITES,
+                LIST_AFTER_NAME_SITES, getListSites());
     }
 }

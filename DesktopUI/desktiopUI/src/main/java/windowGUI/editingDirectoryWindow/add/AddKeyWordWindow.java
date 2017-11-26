@@ -46,5 +46,4 @@ public class AddKeyWordWindow extends EditingDirectoryWindow {
         getNameField().setText(null);
         getWindow().dispose();
     }
-
 }
