@@ -1,6 +1,5 @@
 package windowGUI.component.workWithDirectory;
 
-import windowGUI.component.WorkWithDataTable;
 import windowGUI.editingDirectoryWindow.add.AddSiteWindow;
 import windowGUI.editingDirectoryWindow.delete.DelSiteWindow;
 import windowGUI.editingDirectoryWindow.edit.EditSiteWindow;
@@ -8,7 +7,6 @@ import windowGUI.editingDirectoryWindow.edit.EditSiteWindow;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.TableModel;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import static java.awt.GridBagConstraints.REMAINDER;
 /*
@@ -33,14 +31,14 @@ public class SitesDirectory extends Directory{
     @Override
     public void initDataTable(){
         dataTable = new JTable(getPSitesT().getArrayFillTable(NAME_COLUMNS.length), NAME_COLUMNS);
-        super.initDataTable();
+        super.addDataTable();
     }
 
     @Override
     public void initSelectedRow(ListSelectionEvent selectionEvent){
         TableModel model = dataTable.getModel();
         Object value = model.getValueAt(dataTable.getSelectedRow(), 0);
-        nameSites = (String) value;
+        nameSites = (String)value;
     }
 
     @Override
@@ -81,9 +79,7 @@ public class SitesDirectory extends Directory{
     }
 
     @Override
-    public void refresh(ActionEvent actionEvent) {
-        getWorkWithDataTable().removeDataTable(dataScrollPane, getPanelDirectory());
-        initDataTable();
+    public void refreshAll(ActionEvent actionEvent) {
+        refreshDataTable();
     }
-
 }

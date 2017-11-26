@@ -14,11 +14,23 @@ public class ProcessingKeyWordsTable extends ProcessingData{
      * метод, возвращающий список имен ключевых слов по имени личности, преобразованный в двойной массив, для заполнения JTable класса KeyWordsDirectory строками
      * */
     @Override
-    public Object[][] getArrayFillTable(String namePerson, int numberColumn){
-        if(namePerson == null || numberColumn < 1) return super.getArrayFillTable(namePerson,numberColumn);
+    public Object[][] getArrayFillTable(String namePerson, int numberColumns){
+        if(namePerson == null || numberColumns < 1) return super.getArrayFillTable(namePerson,numberColumns);
 
         ArrayList<String> listNameKeyWordsByNamePerson = getListNameKeyWordsByNamePerson(namePerson);
-        return convertingListToArray(listNameKeyWordsByNamePerson,numberColumn);
+
+        return convertingListToArray(unionAllValues(listNameKeyWordsByNamePerson), listNameKeyWordsByNamePerson.size(), numberColumns);
+    }
+
+    /*
+     * метод, объеденяющий все возможные значения таблицы в один список(по порядку зазмещения в колонках)
+     * */
+    private ArrayList<Object> unionAllValues(ArrayList<String> list){
+        ArrayList<Object> listUnionAllValues = new ArrayList<>();
+
+        listUnionAllValues.addAll(list);
+
+        return listUnionAllValues;
     }
 
     /*
@@ -28,20 +40,20 @@ public class ProcessingKeyWordsTable extends ProcessingData{
         PersonsTable.infoAllPersons();
         KeyWordsTable.infoAllKeyWords();
 
-        LinkedHashMap<Integer,String> listIdAndNameFromPersons = PersonsTable.getListIDAndName();
+        LinkedHashMap<Integer, String> listIdAndNameFromPersons = PersonsTable.getListIDAndName();
         ArrayList<Integer> listPersonIdFromKeyWords = KeyWordsTable.getListPersonID();
-        ArrayList<String> listNameFromKeyWords = KeyWordsTable.getListName();
 
         ArrayList<String> listNameKeyWordsByNamePerson = new ArrayList<>();
         Object[] keysFromListIDAndNamePersons = listIdAndNameFromPersons.keySet().toArray();
 
         for (int i = 0; i < listPersonIdFromKeyWords.size(); i++) {
             for (int j = 0; j < listIdAndNameFromPersons.size(); j++) {
-                if (namePerson.equals(listIdAndNameFromPersons.get(keysFromListIDAndNamePersons[j]))
+                if(namePerson.equals(listIdAndNameFromPersons.get(keysFromListIDAndNamePersons[j]))
                         && keysFromListIDAndNamePersons[j] == listPersonIdFromKeyWords.get(i))
-                    listNameKeyWordsByNamePerson.add(listNameFromKeyWords.get(i));
+                    listNameKeyWordsByNamePerson.add(KeyWordsTable.getListName().get(i));
             }
         }
+
         return listNameKeyWordsByNamePerson;
     }
 
@@ -50,8 +62,7 @@ public class ProcessingKeyWordsTable extends ProcessingData{
      * */
     public int getIDKeyWordByNameKeyWord(String nameKeyWord){
         KeyWordsTable.infoAllKeyWords();
-        LinkedHashMap<Integer, String> listIdAndNameFromKeyWords = KeyWordsTable.getListIDAndName();
 
-        return getIDByName(nameKeyWord, listIdAndNameFromKeyWords);
+        return getIDByName(nameKeyWord, KeyWordsTable.getListIDAndName());
     }
 }

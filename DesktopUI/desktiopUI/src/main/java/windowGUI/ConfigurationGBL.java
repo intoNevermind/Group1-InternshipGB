@@ -19,6 +19,7 @@ public class ConfigurationGBL {
         gbc.gridwidth = gridWidth;
         gbc.anchor = anchor;
         gbc.fill = GridBagConstraints.BOTH;
+
         return gbc;
     }
 
@@ -31,6 +32,7 @@ public class ConfigurationGBL {
         gbc.gridwidth = gridWidth;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 1.0;
+
         return gbc;
     }
 }

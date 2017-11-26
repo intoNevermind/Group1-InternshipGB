@@ -14,7 +14,6 @@ import static java.awt.GridBagConstraints.WEST;
  * Класс-редактор справочников, отвечающий за функциональную деятельность редактирования сайтов
  * */
 public class EditSiteWindow extends EditingDirectoryWindow {
-
     private String nameSites;
     private String urlSites;
     private boolean activeKeyWord;
@@ -62,9 +61,10 @@ public class EditSiteWindow extends EditingDirectoryWindow {
     public void saveEditing(ActionEvent actionEvent) {
         if(getNameField().getText() != null &&  getUrlField().getText() != null){
             SitesTable.modifySite(sitesID, getNameField().getText(), getUrlField().getText(), getActive().isSelected());
-            if (getActive().isSelected()){
+            if(getActive().isSelected()){
                 DailyStatistic.LIST_BEFORE_NAME_SITES.add(nameSites);
                 DailyStatistic.LIST_AFTER_NAME_SITES.add(getNameField().getText());
+
                 GeneralStatistic.LIST_BEFORE_NAME_SITES.add(nameSites);
                 GeneralStatistic.LIST_AFTER_NAME_SITES.add(getNameField().getText());
             }else {

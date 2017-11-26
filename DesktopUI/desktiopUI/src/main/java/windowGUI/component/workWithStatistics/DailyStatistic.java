@@ -16,15 +16,13 @@ import static java.awt.GridBagConstraints.*;
  * */
 public class DailyStatistic extends Statistics implements ListSites, ListPerson, WorkWithCalendar {
     private static final String NAME_TAB = "Ежедневная статистика";
-    private static final String[] NAME_COLUMNS = new String[]{"Дата", "Количество новых страниц"};;
+    private static final String[] NAME_COLUMNS = new String[]{"Дата", "Количество новых страниц"};
     private static final String FORMAT = "yyyy-MM-dd";
 
     private static String nameSite;
     private static String namePerson;
     private static String startDate;
     private static String finishDate;
-
-
 
     public static final ArrayList<String> LIST_ADD_NAME_PERSONS = new ArrayList<>();
     public static final ArrayList<String> LIST_DEL_NAME_PERSONS = new ArrayList<>();
@@ -35,8 +33,6 @@ public class DailyStatistic extends Statistics implements ListSites, ListPerson,
     public static final ArrayList<String> LIST_DEL_NAME_SITES = new ArrayList<>();
     public static final ArrayList<String> LIST_BEFORE_NAME_SITES = new ArrayList<>();
     public static final ArrayList<String> LIST_AFTER_NAME_SITES = new ArrayList<>();
-
-    private static final ChangeItemsJComboBox CHANGE_ITEMS_J_COMBO_BOX = new ChangeItemsJComboBox();
 
     public DailyStatistic() {
         setTabName(NAME_TAB);
@@ -116,7 +112,7 @@ public class DailyStatistic extends Statistics implements ListSites, ListPerson,
     @Override
     public void initDataTable() {
        dataTable = new JTable(getPDailyStatisticsT().getArrayFillTable(nameSite, namePerson, startDate, finishDate, NAME_COLUMNS.length), NAME_COLUMNS);
-       super.initDataTable();
+       super.addDataTable();
     }
 
     @Override
@@ -132,16 +128,23 @@ public class DailyStatistic extends Statistics implements ListSites, ListPerson,
                     getEmptyFields(),
                     JOptionPane.WARNING_MESSAGE);
         }
-        refresh(actionEvent);
+        refreshAll(actionEvent);
     }
 
     @Override
-    public void refresh(ActionEvent actionEvent) {
-        getWorkWithDataTable().removeDataTable(dataScrollPane, getPanelStat());
-        initDataTable();
+    public void refreshAll(ActionEvent actionEvent) {
+        refreshDataTable();
 
-        CHANGE_ITEMS_J_COMBO_BOX.refreshList(LIST_ADD_NAME_SITES, LIST_DEL_NAME_SITES, LIST_BEFORE_NAME_SITES, LIST_AFTER_NAME_SITES, getListSites());
-        CHANGE_ITEMS_J_COMBO_BOX.refreshList(LIST_ADD_NAME_PERSONS, LIST_DEL_NAME_PERSONS, LIST_BEFORE_NAME_PERSONS, LIST_AFTER_NAME_PERSONS, getListPersons());
+        getChangeItemsJComboBox().refreshList(LIST_ADD_NAME_SITES,
+                LIST_DEL_NAME_SITES,
+                LIST_BEFORE_NAME_SITES,
+                LIST_AFTER_NAME_SITES,
+                getListSites());
+        getChangeItemsJComboBox().refreshList(LIST_ADD_NAME_PERSONS,
+                LIST_DEL_NAME_PERSONS,
+                LIST_BEFORE_NAME_PERSONS,
+                LIST_AFTER_NAME_PERSONS,
+                getListPersons());
 
         outTotalNumberPages();
     }
@@ -153,7 +156,5 @@ public class DailyStatistic extends Statistics implements ListSites, ListPerson,
         getNumberPagesTotal().setText("Общее количество новых страниц за выбранный период: " +
                 getPDailyStatisticsT().getNumberPagesTotal());
         getPanelStat().add(getNumberPagesTotal(), BorderLayout.SOUTH);
-        getNumberPagesTotal().setVisible(true);
-        getPanelStat().updateUI();
     }
 }

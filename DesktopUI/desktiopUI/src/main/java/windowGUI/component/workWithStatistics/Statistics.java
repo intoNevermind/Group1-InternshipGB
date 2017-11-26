@@ -3,6 +3,7 @@ package windowGUI.component.workWithStatistics;
 import windowGUI.ApplicationWindow;
 import windowGUI.MyStyle;
 import windowGUI.ConfigurationGBL;
+import windowGUI.component.ChangeItemsJComboBox;
 import windowGUI.component.MyCalendar;
 import windowGUI.component.WorkWithDataTable;
 import windowGUI.component.workWithDB.processingData.ProcessingDailyStatisticsTable;
@@ -53,9 +54,11 @@ public abstract class Statistics {
     private final JButton btnRefresh = new JButton("Обновить");
 
     JTable dataTable;
-    JScrollPane dataScrollPane;
+    private JScrollPane dataScrollPane;
 
+    private static final ChangeItemsJComboBox CHANGE_ITEMS_J_COMBO_BOX = new ChangeItemsJComboBox();
     private static final WorkWithDataTable WORK_WITH_DATA_TABLE = new WorkWithDataTable();
+
 
     Statistics() {
         MY_STYLE.setStyle(getListComponents());
@@ -95,9 +98,9 @@ public abstract class Statistics {
      * <абстрактные методы>
      * */
     public abstract void fillOptionsPanel();// заполняет панэль опций
-//    public abstract void initDataTable();// инициализирует таблицу данных
+    public abstract void initDataTable();// инициализирует таблицу данных
     public abstract void visibleDataTable(ActionEvent actionEvent);//показывает таблицу с данными
-    public abstract void refresh(ActionEvent actionEvent);//обновляет статистику
+    public abstract void refreshAll(ActionEvent actionEvent);//обновляет статистику
     /*
      * </абстрактные методы>
      * */
@@ -112,12 +115,23 @@ public abstract class Statistics {
      * */
     private void addActionListenerForBtn(){
         btnConfirm.addActionListener(this::visibleDataTable);
-        btnRefresh.addActionListener(this::refresh);
+        btnRefresh.addActionListener(this::refreshAll);
     }
 
-    public void initDataTable(){
+    /*
+     * метод, добавляющий таблицу данных на панэль статистики
+     * */
+    void addDataTable(){
         dataScrollPane = new JScrollPane(dataTable);
         panelStat.add(dataScrollPane, BorderLayout.CENTER);
+    }
+
+    /*
+     * метод, меняющий старую таблицу данных на новую
+     * */
+    void refreshDataTable(){
+        WORK_WITH_DATA_TABLE.removeDataTable(dataScrollPane, panelStat);
+        initDataTable();
     }
     /*
      * </общие методы>
@@ -194,8 +208,8 @@ public abstract class Statistics {
         return btnRefresh;
     }
 
-    static WorkWithDataTable getWorkWithDataTable() {
-        return WORK_WITH_DATA_TABLE;
+    ChangeItemsJComboBox getChangeItemsJComboBox() {
+        return CHANGE_ITEMS_J_COMBO_BOX;
     }
     /*
      * </getters and setters>

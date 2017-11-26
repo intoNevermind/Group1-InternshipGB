@@ -14,7 +14,6 @@ import static java.awt.GridBagConstraints.WEST;
  * Класс-редактор справочников, отвечающий за функциональную деятельность редактирования личностей
  * */
 public class EditPersonWindow extends EditingDirectoryWindow {
-
     private String namePerson;
     private boolean activePerson;
     private int personID;
@@ -53,10 +52,11 @@ public class EditPersonWindow extends EditingDirectoryWindow {
     @Override
     public void saveEditing(ActionEvent actionEvent) {
         if(getNameField().getText() != null) {
-            PersonsTable.modifyPerson(personID, getNameField().getText(),getActive().isSelected());
-            if (getActive().isSelected()){
+            PersonsTable.modifyPerson(personID, getNameField().getText(), getActive().isSelected());
+            if(getActive().isSelected()){
                 KeyWordsDirectory.LIST_BEFORE_NAME_PERSONS.add(namePerson);
                 KeyWordsDirectory.LIST_AFTER_NAME_PERSONS.add(getNameField().getText());
+
                 DailyStatistic.LIST_BEFORE_NAME_PERSONS.add(namePerson);
                 DailyStatistic.LIST_AFTER_NAME_PERSONS.add(getNameField().getText());
             }else {

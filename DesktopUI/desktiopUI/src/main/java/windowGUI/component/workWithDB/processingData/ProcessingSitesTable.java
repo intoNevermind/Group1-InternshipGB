@@ -14,28 +14,37 @@ public class ProcessingSitesTable extends ProcessingData{
      * */
     public String[] getArrayNameSites(){
         SitesTable.infoAllSites();
-        LinkedHashMap<String, Boolean> listNameAndActiveFromSites = SitesTable.getListNameAndActive();
-        ArrayList<String> listActiveNameSites = getListActiveItems(listNameAndActiveFromSites);
-        String[] nameSites = new String[listActiveNameSites.size()+1];
-        nameSites[0] = getNotChosen();
 
-        for (int i = 0; i < listActiveNameSites.size(); i++) {
-            nameSites[i+1] = listActiveNameSites.get(i);
-        }
-        return nameSites;
+        return super.getArrayItems(getListActiveItems(SitesTable.getListNameAndActive()));
     }
 
     /*
      * метод, возвращающий двумерный массив сайтов для заполнения JTable класса SitesDirectory строками
      * */
     @Override
-    public Object[][] getArrayFillTable(int numberColumn){
+    public Object[][] getArrayFillTable(int numberColumns){
         SitesTable.infoAllSites();
         LinkedHashMap<String, String> listNameAndUrlFromSites = SitesTable.getListNameAndURL();
-        ArrayList<Boolean> listActiveFromSites = SitesTable.getListActive();
-        if(numberColumn < 1) return super.getArrayFillTable(numberColumn);
 
-        return convertingListToArray(listNameAndUrlFromSites,listActiveFromSites, numberColumn);
+        if(numberColumns < 1) return super.getArrayFillTable(numberColumns);
+
+        return convertingListToArray(unionAllValues(listNameAndUrlFromSites, SitesTable.getListActive()), listNameAndUrlFromSites.size(), numberColumns);
+    }
+
+    /*
+     * метод, объеденяющий все возможные значения таблицы в один список(по порядку зазмещения в колонках)
+     * */
+    private ArrayList<Object> unionAllValues(LinkedHashMap<String, String> list, ArrayList<Boolean> active){
+        ArrayList<Object> listUnionAllValues = new ArrayList<>();
+
+        listUnionAllValues.addAll(list.keySet());
+        listUnionAllValues.addAll(list.values());
+        for (int i = 0; i < active.size(); i++) {
+            if(active.get(i)) listUnionAllValues.add("Активен");
+            else listUnionAllValues.add("Не активен");
+        }
+
+        return listUnionAllValues;
     }
 
     /*
@@ -43,9 +52,8 @@ public class ProcessingSitesTable extends ProcessingData{
      * */
     public int getIDSiteByNameSite(String nameSites){
         SitesTable.infoAllSites();
-        LinkedHashMap<Integer, String> listIdAndNameFromSites = SitesTable.getListIDAndName();
 
-        return getIDByName(nameSites, listIdAndNameFromSites);
+        return getIDByName(nameSites, SitesTable.getListIDAndName());
     }
 
     /*
@@ -55,15 +63,13 @@ public class ProcessingSitesTable extends ProcessingData{
         SitesTable.infoAllSites();
         LinkedHashMap<String, String> listNameAndUrlFromSites = SitesTable.getListNameAndURL();
 
-        if (nameSites == null || nameSites.equals(getNotChosen())) return "";
+        if(nameSites == null || nameSites.equals(getNotChosen())) return "";
 
         String URL = "";
         Object[] keysListNameAndURL = listNameAndUrlFromSites.keySet().toArray();
 
         for (int i = 0; i < listNameAndUrlFromSites.size(); i++) {
-            if(nameSites.equals(keysListNameAndURL[i])){
-                URL = listNameAndUrlFromSites.get(nameSites);
-            }
+            if(nameSites.equals(keysListNameAndURL[i])) URL = listNameAndUrlFromSites.get(nameSites);
         }
         return URL;
     }
@@ -73,8 +79,7 @@ public class ProcessingSitesTable extends ProcessingData{
      * */
     public boolean getActiveSiteByNameSite(String nameSites){
         SitesTable.infoAllSites();
-        LinkedHashMap<String, Boolean> listNameAndActiveFromSites = SitesTable.getListNameAndActive();
 
-        return getActiveByName(nameSites, listNameAndActiveFromSites);
+        return getActiveByName(nameSites, SitesTable.getListNameAndActive());
     }
 }

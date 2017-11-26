@@ -1,9 +1,9 @@
-package windowGUI.component.workWithDB.restApi;
+package windowGUI.component.workWithDB.restApi.pojo;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class PojoPersons {
+public class PojoGeneralStatistics {
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -12,9 +12,9 @@ public class PojoPersons {
     @Expose
     private String name;
 
-    @SerializedName("active")
+    @SerializedName("generalRank")
     @Expose
-    private Boolean active;
+    private Integer generalRank;
 
     public Integer getId() {
         return id;
@@ -22,8 +22,8 @@ public class PojoPersons {
     public String getName() {
         return name;
     }
-    public Boolean getActive() {
-        return active;
+    public Integer getGeneralRank() {
+        return generalRank;
     }
 
     public void setId(Integer id) {
@@ -32,7 +32,7 @@ public class PojoPersons {
     public void setName(String name) {
         this.name = name;
     }
-    public void setActive(Boolean active) {
-        this.active = active;
+    public void setGeneralRank(Integer generalRank) {
+        this.generalRank = generalRank;
     }
 }

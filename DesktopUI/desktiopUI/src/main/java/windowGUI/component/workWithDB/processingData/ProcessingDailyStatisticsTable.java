@@ -2,6 +2,7 @@ package windowGUI.component.workWithDB.processingData;
 
 import windowGUI.component.workWithDB.tables.DailyStatisticsTable;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 /*
  * Класс-обработчик, отвечающий за обработку данных таблицы ежедневной
@@ -14,13 +15,27 @@ public class ProcessingDailyStatisticsTable extends ProcessingData {
      * преобразованный в двойной массив, для заполнения JTable класса DailyStatistic строками
      * */
     @Override
-    public Object[][] getArrayFillTable(String nameSite, String namePerson, String startDate, String finishDate, int numberColumn){
-        if(nameSite == null || namePerson == null || startDate == null || finishDate == null || numberColumn < 1){
-            return super.getArrayFillTable(nameSite, namePerson, startDate, finishDate, numberColumn);
+    public Object[][] getArrayFillTable(String nameSite, String namePerson, String startDate, String finishDate, int numberColumns){
+        if(nameSite == null || namePerson == null || startDate == null || finishDate == null || numberColumns < 1){
+            return super.getArrayFillTable(nameSite, namePerson, startDate, finishDate, numberColumns);
         }
 
         DailyStatisticsTable.infoAllDailyStatistics(namePerson, P_SITES_T.getIDSiteByNameSite(nameSite),startDate,finishDate);
-        return convertingListToArray(DailyStatisticsTable.getListDateAndDailyRank(), numberColumn);
+        LinkedHashMap<String, Integer> listDateAndDailyRank = DailyStatisticsTable.getListDateAndDailyRank();
+
+        return convertingListToArray(unionAllValues(listDateAndDailyRank), listDateAndDailyRank.size(), numberColumns);
+    }
+
+    /*
+     * метод, объеденяющий все возможные значения таблицы в один список(по порядку зазмещения в колонках)
+     * */
+    private ArrayList<Object> unionAllValues(LinkedHashMap<String, Integer> list){
+        ArrayList<Object> listUnionAllValues = new ArrayList<>();
+
+        listUnionAllValues.addAll(list.keySet());
+        listUnionAllValues.addAll(list.values());
+
+        return listUnionAllValues;
     }
 
     /*
@@ -34,6 +49,7 @@ public class ProcessingDailyStatisticsTable extends ProcessingData {
         for (int i = 0; i < listDateAndNumberPages.size(); i++){
             numberPagesTotal += listDateAndNumberPages.get(keysListDateAndNumberPages[i]);
         }
+
         return numberPagesTotal;
     }
 }

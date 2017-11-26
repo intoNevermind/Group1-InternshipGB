@@ -32,14 +32,14 @@ public class PersonsDirectory extends Directory{
     @Override
     public void initDataTable(){
         dataTable = new JTable(getPPersonT().getArrayFillTable(NAME_COLUMNS.length), NAME_COLUMNS);
-        super.initDataTable();
+        super.addDataTable();
     }
 
     @Override
     public void initSelectedRow(ListSelectionEvent selectionEvent){
         TableModel model = dataTable.getModel();
         Object value = model.getValueAt(dataTable.getSelectedRow(), 0);
-        namePerson = (String) value;
+        namePerson = (String)value;
     }
 
     @Override
@@ -78,8 +78,7 @@ public class PersonsDirectory extends Directory{
     }
 
     @Override
-    public void refresh(ActionEvent actionEvent) {
-        getWorkWithDataTable().removeDataTable(dataScrollPane, getPanelDirectory());
-        initDataTable();
+    public void refreshAll(ActionEvent actionEvent) {
+        refreshDataTable();
     }
 }

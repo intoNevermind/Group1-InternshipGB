@@ -4,11 +4,13 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
+import windowGUI.component.workWithDB.restApi.pojo.PojoUsers;
+
 import java.util.ArrayList;
 /*
  * Интерфейс для описания запросов для получения(отправки) данных из таблицы Users, в REST-сервер
  * */
-public interface RestApiForUsersTable {
+public interface QueriesForUsersTable {
 /*
 * <Получение>
 * запросы с помощью которых, можно получить данные из БД

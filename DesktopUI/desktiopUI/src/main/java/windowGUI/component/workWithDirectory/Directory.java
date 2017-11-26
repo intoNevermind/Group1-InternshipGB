@@ -37,7 +37,6 @@ public abstract class Directory {
 
     private final JLabel headLinePerson = new JLabel("Личности");
 
-
     private final JComboBox<Object> listPersons = new JComboBox<>(P_PERSON_T.getArrayNamePersons());
 
     private final JButton btnConfirm = new JButton("Подтвердить");
@@ -47,7 +46,7 @@ public abstract class Directory {
     private final JButton btnEdit = new JButton("Редактировать");
 
     JTable dataTable;
-    JScrollPane dataScrollPane;
+    private JScrollPane dataScrollPane;
 
     private static final WorkWithDataTable WORK_WITH_DATA_TABLE = new WorkWithDataTable();
 
@@ -87,13 +86,14 @@ public abstract class Directory {
      * */
     public abstract void fillOptionsPanel();// заполняет панель опций
 
-
+    public abstract void initDataTable();// инициализирует таблицу данных
     public abstract void initSelectedRow(ListSelectionEvent selectionEvent);// инициализирует строку таблицы
 
     public abstract void visibleWindowAdd(ActionEvent actionEvent);// вызывает окно добавления элемента
     public abstract void visibleWindowDel(ActionEvent actionEvent);// вызывает окно удаления элемента
     public abstract void visibleWindowEdit(ActionEvent actionEvent);// вызывает окно редактирования элемента
-    public abstract void refresh(ActionEvent actionEvent);//обновляет справочник
+
+    public abstract void refreshAll(ActionEvent actionEvent);// обновляет справочник
     /*
      * </абстрактные методы>
      * */
@@ -116,16 +116,27 @@ public abstract class Directory {
      * метод, добавляющий листенеры для кнопок
      * */
     private void addActionListenerForBtn(){
-        btnRefresh.addActionListener(this::refresh);
+        btnRefresh.addActionListener(this::refreshAll);
         btnAdd.addActionListener(this::visibleWindowAdd);
         btnDelete.addActionListener(this::visibleWindowDel);
         btnEdit.addActionListener(this::visibleWindowEdit);
     }
 
-    public void initDataTable(){
+    /*
+     * метод, добавляющий таблицу на панэль справочника
+     * */
+    void addDataTable(){
         dataTable.getSelectionModel().addListSelectionListener(this::initSelectedRow);
         dataScrollPane = new JScrollPane(dataTable);
         panelDirectory.add(dataScrollPane, BorderLayout.CENTER);
+    }
+
+    /*
+     * метод, меняющий старую таблицу данных на новую
+     * */
+    void refreshDataTable(){
+        WORK_WITH_DATA_TABLE.removeDataTable(dataScrollPane, panelDirectory);
+        initDataTable();
     }
     /*
      * </общие методы>
@@ -188,11 +199,6 @@ public abstract class Directory {
     JButton getBtnEdit() {
         return btnEdit;
     }
-
-    WorkWithDataTable getWorkWithDataTable() {
-        return WORK_WITH_DATA_TABLE;
-    }
-
     /*
      * </getters and setters>
      * */

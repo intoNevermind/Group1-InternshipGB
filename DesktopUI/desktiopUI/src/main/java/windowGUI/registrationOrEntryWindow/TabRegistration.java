@@ -69,10 +69,9 @@ public class TabRegistration extends Authorization {
                     "Ошибка при входе",
                     JOptionPane.WARNING_MESSAGE);
             getEmailField().setText(getEmailField().getText());
-
-        }else{
+        }else {
             for (int i = 0; i < listLogin.size(); i++) {
-                if (getLoginField().getText().equals(listLogin.get(i))) {
+                if(getLoginField().getText().equals(listLogin.get(i))) {
                     userLogin = null;
                     userPassword = null;
                     break;
@@ -87,16 +86,19 @@ public class TabRegistration extends Authorization {
                         "Ваш аккаунт создан",
                         "Новый аккаунт",
                         JOptionPane.INFORMATION_MESSAGE);
+
                 new ApplicationWindow(userLogin);
+
                 getLoginField().setText(null);
                 getWINDOW().dispose();
-            }else{
+            }else {
                 JOptionPane.showMessageDialog(null,
                         "Такое имя пользователя уже зарегестрированно",
                         "Такой аккаунт уже существует",
                         JOptionPane.WARNING_MESSAGE);
             }
         }
+
         getEmailField().setText(null);
         getLoginField().setText(null);
         getPasswordField().setText(null);
