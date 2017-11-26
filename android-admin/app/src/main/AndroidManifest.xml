@@ -16,7 +16,8 @@
         </activity>
         <activity android:name=".activities.EditPersonKeywordsActivity"/>
         <activity android:name=".activities.AuthActivity"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

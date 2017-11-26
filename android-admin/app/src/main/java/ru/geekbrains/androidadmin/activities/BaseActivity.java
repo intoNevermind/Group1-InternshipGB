@@ -1,20 +1,16 @@
 package ru.geekbrains.androidadmin.activities;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
-import android.view.ContextThemeWrapper;
-import android.view.Gravity;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
 import java.io.IOException;
 
-import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 import ru.geekbrains.androidadmin.App;
@@ -46,6 +42,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void closeProgressDialog() {
         if (progressDialog != null)
             progressDialog.dismiss();
+        progressDialog = null;
     }
 
     protected void showErrorDialog(final String title, final String message) {
@@ -70,13 +67,17 @@ public class BaseActivity extends AppCompatActivity {
         showErrorDialog("Exception", String.format("%s\n%s", t.getClass().getSimpleName(), t.getMessage()));
     }
 
-    public void showUserDialog(User user) {}
+    public void showUserDialog(User user) {
+    }
 
-    public void showSiteDialog(Site site) {}
+    public void showSiteDialog(Site site) {
+    }
 
-    public void showPersonDialog(Person person) {}
+    public void showPersonDialog(Person person) {
+    }
 
-    public void showKeywordDialog(Keyword keyword) {}
+    public void showKeywordDialog(Keyword keyword) {
+    }
 
     public void showPopupMenu(View view, final Object data) {
         PopupMenu popupMenu = new PopupMenu(this, view);
@@ -138,5 +139,6 @@ public class BaseActivity extends AppCompatActivity {
         popupMenu.show();
     }
 
-    protected void updateData() {}
+    protected void updateData() {
+    }
 }

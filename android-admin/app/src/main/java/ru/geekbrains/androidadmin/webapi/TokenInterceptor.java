@@ -3,15 +3,11 @@ package ru.geekbrains.androidadmin.webapi;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 
 import java.io.IOException;
 
-import okhttp3.Headers;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -34,28 +30,15 @@ public class TokenInterceptor implements Interceptor {
     @Override
     public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
-        Log.d("LOGLOG", "request: " + request);
-        for (int i = 0; i < request.headers().size(); i++) {
-            String name = request.headers().name(i);
-            Log.d("LOGLOG", String.format("request header: %d, name: %s, value: %s", i, name, request.headers().get(name)));
-        }
-        Log.d("LOGLOG", "request header: " + request.header(WebApi.X_CSRF_TOKEN));
         Request modifiedRequest = request;
 
         if (token != null)
             modifiedRequest = request.newBuilder()
-                .addHeader(WebApi.X_CSRF_TOKEN, token)
-                .build();
-        Log.d("LOGLOG", "modifiedRequest header: " + modifiedRequest.header(WebApi.X_CSRF_TOKEN));
-
-
+                    .addHeader(WebApi.X_CSRF_TOKEN, token)
+                    .build();
         Response response = chain.proceed(modifiedRequest);
 
-        for (int i = 0; i < response.headers().size(); i++) {
-            String name = response.headers().name(i);
-            Log.d("LOGLOG", String.format("response header: %d, name: %s, value: %s", i, name, response.headers().get(name)));
-        }
-
+        // Если в ответ прилетел html документ, то парсим его и запоминаем токен
         if (("text/html;charset=UTF-8").equals(response.header("Content-Type"))) {
             String token = Jsoup
                     .parse(response.body().string())
@@ -63,8 +46,6 @@ public class TokenInterceptor implements Interceptor {
                     .selectFirst("input[name=_csrf]")
                     .attr("value");
             App.setToken(token);
-            Log.d("LOGLOG", "token from parsed html = " + token);
-            Log.d("LOGLOG", "usersResponse code = " + response.code());
             startAuthActivity();
             modifiedRequest.newBuilder().header("Content-Type", "application/json;charset=UTF-8");
             response = chain.proceed(modifiedRequest);
@@ -76,14 +57,3 @@ public class TokenInterceptor implements Interceptor {
         context.startActivity(new Intent(context, AuthActivity.class));
     }
 }
-
-/*
-        Headers headers = response.headers();
-        for (int i = 0; i < headers.size(); i++) {
-            String name = headers.name(i);
-            Log.d("LOGLOG", String.format("header: %d, name: %s, value: %s", i, name, headers.get(name)));
-        }
-
-        Log.d("LOGLOG", "usersResponse code = " + response.code());
-        Log.d("LOGLOG", "body: " + response.body().string());
- */

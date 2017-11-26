@@ -28,8 +28,8 @@ public class App extends Application {
                 .addInterceptor(tokenInterceptor);
 
         Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl("http://54.154.158.193/unauthorized/")
-                .baseUrl("http://54.154.158.193/")
+                .baseUrl("http://54.154.158.193/unauthorized/")
+//                .baseUrl("http://54.154.158.193/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient.build())
                 .build();
